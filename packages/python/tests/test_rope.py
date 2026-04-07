@@ -12,6 +12,7 @@ from hashrope import (
     rope_substr_hash,
     rope_len,
     rope_hash,
+    rope_height,
     rope_from_bytes,
     rope_to_bytes,
     validate_rope,
@@ -280,3 +281,44 @@ class TestValidateRope:
             leaf = Leaf(bytes([i % 256] * (i % 5 + 1)), h)
             node = rope_concat(node, leaf, h)
         validate_rope(node)
+
+
+class TestRopeHeight:
+    def test_none(self, h):
+        assert rope_height(None) == 0
+
+    def test_leaf(self, h):
+        assert rope_height(Leaf(b"hello", h)) == 0
+
+    def test_single_internal(self, h):
+        a = Leaf(b"a", h)
+        b = Leaf(b"b", h)
+        node = Internal(a, b, h)
+        assert rope_height(node) == 1
+
+    def test_repeat_node(self, h):
+        child = Leaf(b"abc", h)
+        rep = RepeatNode(child, 5, h)
+        assert rope_height(rep) == 1
+
+    def test_sequential_growth(self, h):
+        """Height should grow logarithmically with sequential insertions."""
+        node = None
+        for i in range(1000):
+            leaf = Leaf(bytes([i % 256]), h)
+            node = rope_concat(node, leaf, h)
+        height = rope_height(node)
+        # BB[2/7] bound: h <= log(w) / log(7/5) ≈ 2.06 * log2(w)
+        import math
+        bound = math.ceil(math.log(1000) / math.log(7 / 5))
+        assert height <= bound, f"height {height} exceeds bound {bound} for w=1000"
+
+    def test_matches_rust(self, h):
+        """100 sequential single-byte concats should match Rust's height."""
+        node = None
+        for i in range(100):
+            leaf = Leaf(bytes([i % 256]), h)
+            node = rope_concat(node, leaf, h)
+        height = rope_height(node)
+        # Rust E7 result: n=100 sequential -> height=8
+        assert height == 8, f"Expected height 8 (matching Rust), got {height}"

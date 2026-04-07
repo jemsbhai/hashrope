@@ -155,6 +155,18 @@ def rope_hash(node: Node) -> int:
     return 0 if node is None else node.hash_val
 
 
+def rope_height(node: Node) -> int:
+    """Height of the rope tree. Leaves have height 0, None has height 0."""
+    if node is None:
+        return 0
+    if isinstance(node, Leaf):
+        return 0
+    if isinstance(node, RepeatNode):
+        return 1 + rope_height(node.child)
+    # Internal
+    return 1 + max(rope_height(node.left), rope_height(node.right))
+
+
 def _weight(node: Node) -> int:
     return 0 if node is None else node.weight
 
