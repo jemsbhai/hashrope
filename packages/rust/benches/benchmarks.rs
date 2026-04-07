@@ -1,7 +1,6 @@
 use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
 use hashrope::{
-    rope_concat, rope_from_bytes, rope_hash, rope_repeat, rope_split, rope_substr_hash,
-    Node, PolynomialHash, SlidingWindow,
+    Arena, Node, PolynomialHash, SlidingWindow,
 };
 use hashrope::polynomial_hash::{phi, mersenne_mul, MERSENNE_61};
 
@@ -23,14 +22,13 @@ fn bench_rope_concat_sequential(c: &mut Criterion) {
     for n in [100, 1_000, 10_000, 100_000] {
         group.bench_with_input(BenchmarkId::from_parameter(n), &n, |b, &n| {
             b.iter(|| {
-                let ph = PolynomialHash::default_hash();
-                let mut h = PolynomialHash::default_hash();
+                let mut arena = Arena::new();
                 let mut node: Node = None;
                 for i in 0..n {
-                    let leaf = rope_from_bytes(&[i as u8], &ph);
-                    node = rope_concat(&node, &leaf, &mut h);
+                    let leaf = arena.from_bytes(&[i as u8]);
+                    node = arena.concat(node, leaf);
                 }
-                black_box(rope_hash(&node))
+                black_box(arena.hash(node))
             });
         });
     }
@@ -39,15 +37,14 @@ fn bench_rope_concat_sequential(c: &mut Criterion) {
 
 fn bench_repeat_vs_materialized(c: &mut Criterion) {
     let mut group = c.benchmark_group("repeat_vs_materialized");
-    let ph = PolynomialHash::default_hash();
-    let pattern = rope_from_bytes(b"abcdefgh", &ph);
 
     for q in [10, 100, 1_000, 10_000, 100_000, 1_000_000] {
         group.bench_with_input(BenchmarkId::new("repeat_node", q), &q, |b, &q| {
-            let mut h = PolynomialHash::default_hash();
             b.iter(|| {
-                let rep = rope_repeat(&pattern, black_box(q), &mut h);
-                black_box(rope_hash(&rep))
+                let mut arena = Arena::new();
+                let pattern = arena.from_bytes(b"abcdefgh");
+                let rep = arena.repeat(pattern, black_box(q));
+                black_box(arena.hash(rep))
             });
         });
 
@@ -65,40 +62,31 @@ fn bench_repeat_vs_materialized(c: &mut Criterion) {
 }
 
 fn bench_split_rejoin(c: &mut Criterion) {
-    let ph = PolynomialHash::default_hash();
-    let mut h = PolynomialHash::default_hash();
-
-    // Build a rope of 10K leaves
-    let mut node: Node = None;
-    for i in 0..10_000u16 {
-        let leaf = rope_from_bytes(&[i as u8], &ph);
-        node = rope_concat(&node, &leaf, &mut h);
-    }
-
     c.bench_function("split_rejoin_10k", |b| {
-        let mut h = PolynomialHash::default_hash();
         b.iter(|| {
-            let (left, right) = rope_split(&node, black_box(5000), &mut h);
-            let rejoined = rope_concat(&left, &right, &mut h);
-            black_box(rope_hash(&rejoined))
+            let mut arena = Arena::new();
+            let mut node: Node = None;
+            for i in 0..10_000u16 {
+                let leaf = arena.from_bytes(&[i as u8]);
+                node = arena.concat(node, leaf);
+            }
+            let (left, right) = arena.split(node, black_box(5000));
+            let rejoined = arena.concat(left, right);
+            black_box(arena.hash(rejoined))
         });
     });
 }
 
 fn bench_substr_hash(c: &mut Criterion) {
-    let ph = PolynomialHash::default_hash();
-    let mut h = PolynomialHash::default_hash();
-
-    let mut node: Node = None;
-    for i in 0..10_000u16 {
-        let leaf = rope_from_bytes(&[i as u8], &ph);
-        node = rope_concat(&node, &leaf, &mut h);
-    }
-
     c.bench_function("substr_hash_10k", |b| {
-        let mut h = PolynomialHash::default_hash();
         b.iter(|| {
-            black_box(rope_substr_hash(&node, black_box(2500), black_box(5000), &mut h))
+            let mut arena = Arena::new();
+            let mut node: Node = None;
+            for i in 0..10_000u16 {
+                let leaf = arena.from_bytes(&[i as u8]);
+                node = arena.concat(node, leaf);
+            }
+            black_box(arena.substr_hash(node, black_box(2500), black_box(5000)))
         });
     });
 }
@@ -110,7 +98,6 @@ fn bench_sliding_window(c: &mut Criterion) {
         group.bench_with_input(BenchmarkId::from_parameter(size), &data, |b, data| {
             b.iter(|| {
                 let mut sw = SlidingWindow::default_window();
-                // Feed in 64-byte chunks
                 for chunk in data.chunks(64) {
                     sw.append_bytes(chunk);
                 }

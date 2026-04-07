@@ -13,7 +13,7 @@
 //! window is O(log W) per byte due to rope operations. The question is
 //! how large the constant-factor gap is in practice.
 
-use hashrope::{mersenne_mod, mersenne_mul, PolynomialHash, MERSENNE_61};
+use hashrope::{mersenne_mod, mersenne_mul, MERSENNE_61};
 use hashrope::SlidingWindow;
 use std::time::Instant;
 

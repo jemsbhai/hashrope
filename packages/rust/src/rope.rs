@@ -693,7 +693,7 @@ pub fn validate_rope(arena: &Arena, node: Node) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use alloc::vec;
+    
 
     fn arena() -> Arena {
         Arena::new()

@@ -216,7 +216,7 @@ mod tests {
         let mut sw = SlidingWindow::new(8, 4, MERSENNE_61, 131);
         let data = b"the quick brown fox jumps over the lazy dog";
         let expected = {
-            let mut a = Arena::with_hash(MERSENNE_61, 131);
+            let a = Arena::with_hash(MERSENNE_61, 131);
             a.hash_bytes(data)
         };
         for &byte in data.iter() {
@@ -235,7 +235,7 @@ mod tests {
             full_data.extend_from_slice(&chunk);
         }
         let expected = {
-            let mut a = Arena::with_hash(MERSENNE_61, 131);
+            let a = Arena::with_hash(MERSENNE_61, 131);
             a.hash_bytes(&full_data)
         };
         assert_eq!(sw.current_hash(), expected);

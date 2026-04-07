@@ -8,18 +8,6 @@ fn bb27_height_bound(w: u64) -> u64 {
     bound.ceil() as u64
 }
 
-fn build_sequential(n: usize) -> Arena {
-    let mut a = Arena::new();
-    let mut rope = None;
-    for i in 0..n {
-        let leaf = a.from_bytes(&[(i % 256) as u8]);
-        rope = a.concat(rope, leaf);
-    }
-    // Store the final rope id somewhere — we'll return the arena
-    // and reconstruct. Actually let's just return (Arena, Node).
-    a
-}
-
 #[test]
 fn e7_sequential_insertion() {
     let sizes: Vec<usize> = vec![100, 1_000, 10_000, 100_000];

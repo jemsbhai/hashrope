@@ -15,7 +15,7 @@ const ITERS: u64 = 100_000;
 
 #[test]
 fn e4_phi_scaling() {
-    let ph = PolynomialHash::default_hash();
+    let _ph = PolynomialHash::default_hash();
     let alpha = 257u64; // typical base
     let p = MERSENNE_61;
 
