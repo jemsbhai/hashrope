@@ -3,7 +3,6 @@
 //! Provides a generic sliding window over a hash rope without any
 //! compression-format dependencies.
 
-use crate::polynomial_hash::PolynomialHash;
 use crate::rope::*;
 
 /// Bounded-memory sliding window over a hash rope.
@@ -11,7 +10,7 @@ use crate::rope::*;
 /// Maintains a window of at most `W = d_max + m_max` bytes as a rope,
 /// plus a prefix hash covering all evicted bytes.
 pub struct SlidingWindow {
-    h: PolynomialHash,
+    arena: Arena,
     d_max: u64,
     pub m_max: u64,
     w: u64,
@@ -30,7 +29,7 @@ impl SlidingWindow {
         assert!(d_max >= 1, "d_max must be >= 1, got {}", d_max);
         assert!(m_max >= 1, "m_max must be >= 1, got {}", m_max);
         Self {
-            h: PolynomialHash::new(prime, base),
+            arena: Arena::with_hash(prime, base),
             d_max,
             m_max,
             w: d_max + m_max,
@@ -46,10 +45,20 @@ impl SlidingWindow {
         Self::new(32768, 258, crate::polynomial_hash::MERSENNE_61, 131)
     }
 
+    /// Access the arena.
+    pub fn arena(&self) -> &Arena {
+        &self.arena
+    }
+
+    /// Mutable access to the arena.
+    pub fn arena_mut(&mut self) -> &mut Arena {
+        &mut self.arena
+    }
+
     /// Current window size in bytes.
     #[inline]
     pub fn window_len(&self) -> u64 {
-        rope_len(&self.r_window)
+        self.arena.len(self.r_window)
     }
 
     /// Total bytes ingested.
@@ -61,8 +70,8 @@ impl SlidingWindow {
     /// Compute `H(T[0..pos-1])` from sliding state.
     pub fn current_hash(&mut self) -> u64 {
         let wl = self.window_len();
-        let wh = rope_hash(&self.r_window);
-        self.h.hash_concat(self.h_prefix, wl, wh)
+        let wh = self.arena.hash(self.r_window);
+        self.arena.hasher_mut().hash_concat(self.h_prefix, wl, wh)
     }
 
     /// Alias for `current_hash()`.
@@ -75,8 +84,8 @@ impl SlidingWindow {
         if data.is_empty() {
             return;
         }
-        let leaf = rope_from_bytes(data, &self.h);
-        self.r_window = rope_concat(&self.r_window, &leaf, &mut self.h);
+        let leaf = self.arena.from_bytes(data);
+        self.r_window = self.arena.concat(self.r_window, leaf);
         self.pos += data.len() as u64;
         self.evict();
     }
@@ -106,29 +115,29 @@ impl SlidingWindow {
 
         if offset >= length {
             // Non-overlapping
-            let (_, tmp) = rope_split(&self.r_window, start, &mut self.h);
-            let (source, _) = rope_split(&tmp, length, &mut self.h);
-            self.r_window = rope_concat(&self.r_window, &source, &mut self.h);
+            let (_, tmp) = self.arena.split(self.r_window, start);
+            let (source, _) = self.arena.split(tmp, length);
+            self.r_window = self.arena.concat(self.r_window, source);
         } else {
             // Overlapping: extract pattern of length `offset`, repeat
-            let (_, tmp) = rope_split(&self.r_window, start, &mut self.h);
-            let (pattern, _) = rope_split(&tmp, offset, &mut self.h);
+            let (_, tmp) = self.arena.split(self.r_window, start);
+            let (pattern, _) = self.arena.split(tmp, offset);
 
             let q = length / offset;
             let r = length % offset;
 
             let mut rep = if q >= 1 {
-                rope_repeat(&pattern, q, &mut self.h)
+                self.arena.repeat(pattern, q)
             } else {
                 None
             };
 
             if r > 0 {
-                let (partial, _) = rope_split(&pattern, r, &mut self.h);
-                rep = rope_concat(&rep, &partial, &mut self.h);
+                let (partial, _) = self.arena.split(pattern, r);
+                rep = self.arena.concat(rep, partial);
             }
 
-            self.r_window = rope_concat(&self.r_window, &rep, &mut self.h);
+            self.r_window = self.arena.concat(self.r_window, rep);
         }
 
         self.pos += length;
@@ -136,17 +145,17 @@ impl SlidingWindow {
     }
 
     fn evict(&mut self) {
-        let win_len = rope_len(&self.r_window);
+        let win_len = self.arena.len(self.r_window);
         if win_len <= self.w {
             return;
         }
 
         let excess = win_len - self.d_max;
-        let (r_old, r_keep) = rope_split(&self.r_window, excess, &mut self.h);
+        let (r_old, r_keep) = self.arena.split(self.r_window, excess);
 
-        let old_len = rope_len(&r_old);
-        let old_hash = rope_hash(&r_old);
-        self.h_prefix = self.h.hash_concat(self.h_prefix, old_len, old_hash);
+        let old_len = self.arena.len(r_old);
+        let old_hash = self.arena.hash(r_old);
+        self.h_prefix = self.arena.hasher_mut().hash_concat(self.h_prefix, old_len, old_hash);
 
         self.l_prefix += excess;
         self.r_window = r_keep;
@@ -160,10 +169,6 @@ mod tests {
     use alloc::vec::Vec;
     use crate::polynomial_hash::MERSENNE_61;
 
-    fn ph() -> PolynomialHash {
-        PolynomialHash::default_hash()
-    }
-
     #[test]
     fn test_empty() {
         let mut sw = SlidingWindow::default_window();
@@ -173,53 +178,55 @@ mod tests {
 
     #[test]
     fn test_append_bytes() {
-        let ph = ph();
         let mut sw = SlidingWindow::default_window();
+        let expected = sw.arena().hash_bytes(b"hello");
         sw.append_bytes(b"hello");
-        assert_eq!(sw.current_hash(), ph.hash(b"hello"));
+        assert_eq!(sw.current_hash(), expected);
     }
 
     #[test]
     fn test_append_incremental() {
-        let ph = ph();
         let mut sw = SlidingWindow::default_window();
+        let expected = sw.arena().hash_bytes(b"hello world");
         sw.append_bytes(b"hello ");
         sw.append_bytes(b"world");
-        assert_eq!(sw.current_hash(), ph.hash(b"hello world"));
+        assert_eq!(sw.current_hash(), expected);
     }
 
     #[test]
     fn test_non_overlapping_copy() {
-        let ph = ph();
         let mut sw = SlidingWindow::default_window();
+        let expected = sw.arena().hash_bytes(b"hello worldworld");
         sw.append_bytes(b"hello world");
         sw.append_copy(5, 5);
-        assert_eq!(sw.current_hash(), ph.hash(b"hello worldworld"));
+        assert_eq!(sw.current_hash(), expected);
     }
 
     #[test]
     fn test_overlapping_copy() {
-        let ph = ph();
         let mut sw = SlidingWindow::default_window();
+        let expected = sw.arena().hash_bytes(b"abababab");
         sw.append_bytes(b"ab");
         sw.append_copy(2, 6);
-        assert_eq!(sw.current_hash(), ph.hash(b"abababab"));
+        assert_eq!(sw.current_hash(), expected);
     }
 
     #[test]
     fn test_eviction_preserves_hash() {
-        let ph = ph();
         let mut sw = SlidingWindow::new(8, 4, MERSENNE_61, 131);
         let data = b"the quick brown fox jumps over the lazy dog";
+        let expected = {
+            let mut a = Arena::with_hash(MERSENNE_61, 131);
+            a.hash_bytes(data)
+        };
         for &byte in data.iter() {
             sw.append_bytes(&[byte]);
         }
-        assert_eq!(sw.current_hash(), ph.hash(data));
+        assert_eq!(sw.current_hash(), expected);
     }
 
     #[test]
     fn test_large_stream() {
-        let ph = ph();
         let mut sw = SlidingWindow::new(32, 16, MERSENNE_61, 131);
         let mut full_data = Vec::new();
         for i in 0..50u8 {
@@ -227,9 +234,10 @@ mod tests {
             sw.append_bytes(&chunk);
             full_data.extend_from_slice(&chunk);
         }
-        assert_eq!(sw.current_hash(), ph.hash(&full_data));
+        let expected = {
+            let mut a = Arena::with_hash(MERSENNE_61, 131);
+            a.hash_bytes(&full_data)
+        };
+        assert_eq!(sw.current_hash(), expected);
     }
 }
-
-
-

@@ -5,6 +5,7 @@
 //!
 //! Zero dependencies. `no_std + alloc` compatible.
 //! All arithmetic uses Mersenne prime modular reduction.
+//! Nodes are stored in a contiguous arena for cache-friendly access.
 
 #![no_std]
 extern crate alloc;
@@ -15,7 +16,8 @@ pub mod sliding;
 
 pub use polynomial_hash::{mersenne_mod, mersenne_mul, phi, PolynomialHash, MERSENNE_61};
 pub use rope::{
-    rope_concat, rope_from_bytes, rope_hash, rope_height, rope_len, rope_repeat, rope_split,
-    rope_substr_hash, rope_to_bytes, validate_rope, Node,
+    Arena, Node, NodeId, NodeInner,
+    rope_concat, rope_from_bytes, rope_hash, rope_height, rope_len,
+    rope_repeat, rope_split, rope_substr_hash, rope_to_bytes, validate_rope,
 };
 pub use sliding::SlidingWindow;
