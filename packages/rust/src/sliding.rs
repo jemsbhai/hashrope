@@ -13,7 +13,7 @@ use crate::rope::*;
 pub struct SlidingWindow {
     h: PolynomialHash,
     d_max: u64,
-    m_max: u64,
+    pub m_max: u64,
     w: u64,
     h_prefix: u64,
     l_prefix: u64,
@@ -173,7 +173,7 @@ mod tests {
 
     #[test]
     fn test_append_bytes() {
-        let mut ph = ph();
+        let ph = ph();
         let mut sw = SlidingWindow::default_window();
         sw.append_bytes(b"hello");
         assert_eq!(sw.current_hash(), ph.hash(b"hello"));
@@ -181,7 +181,7 @@ mod tests {
 
     #[test]
     fn test_append_incremental() {
-        let mut ph = ph();
+        let ph = ph();
         let mut sw = SlidingWindow::default_window();
         sw.append_bytes(b"hello ");
         sw.append_bytes(b"world");
@@ -190,7 +190,7 @@ mod tests {
 
     #[test]
     fn test_non_overlapping_copy() {
-        let mut ph = ph();
+        let ph = ph();
         let mut sw = SlidingWindow::default_window();
         sw.append_bytes(b"hello world");
         sw.append_copy(5, 5);
@@ -199,7 +199,7 @@ mod tests {
 
     #[test]
     fn test_overlapping_copy() {
-        let mut ph = ph();
+        let ph = ph();
         let mut sw = SlidingWindow::default_window();
         sw.append_bytes(b"ab");
         sw.append_copy(2, 6);
@@ -208,7 +208,7 @@ mod tests {
 
     #[test]
     fn test_eviction_preserves_hash() {
-        let mut ph = ph();
+        let ph = ph();
         let mut sw = SlidingWindow::new(8, 4, MERSENNE_61, 131);
         let data = b"the quick brown fox jumps over the lazy dog";
         for &byte in data.iter() {
@@ -219,7 +219,7 @@ mod tests {
 
     #[test]
     fn test_large_stream() {
-        let mut ph = ph();
+        let ph = ph();
         let mut sw = SlidingWindow::new(32, 16, MERSENNE_61, 131);
         let mut full_data = Vec::new();
         for i in 0..50u8 {
@@ -230,4 +230,6 @@ mod tests {
         assert_eq!(sw.current_hash(), ph.hash(&full_data));
     }
 }
+
+
 

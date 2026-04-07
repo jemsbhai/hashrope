@@ -9,7 +9,6 @@
 //! sharing via `Arc`.
 
 use alloc::sync::Arc;
-use alloc::vec;
 use alloc::vec::Vec;
 
 use crate::polynomial_hash::{mersenne_mod, mersenne_mul, phi, PolynomialHash};
@@ -123,7 +122,7 @@ pub fn rope_hash(node: &Node) -> u64 {
 }
 
 #[inline]
-fn weight(node: &Node) -> u64 {
+pub fn weight(node: &Node) -> u64 {
     node.as_ref().map_or(0, |n| n.weight())
 }
 
@@ -526,6 +525,7 @@ fn validate_inner(node: &Arc<NodeInner>) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use alloc::vec;
 
     fn h() -> PolynomialHash {
         PolynomialHash::default_hash()
@@ -644,3 +644,6 @@ mod tests {
         assert_eq!(rope_hash(&ab_c), ph.hash(b"aaabbbccc"));
     }
 }
+
+
+
