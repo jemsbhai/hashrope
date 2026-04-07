@@ -126,6 +126,21 @@ pub fn weight(node: &Node) -> u64 {
     node.as_ref().map_or(0, |n| n.weight())
 }
 
+/// Height of the rope tree. Leaves have height 0, `None` has height 0.
+pub fn rope_height(node: &Node) -> u64 {
+    node.as_ref().map_or(0, |n| node_height(n))
+}
+
+fn node_height(node: &Arc<NodeInner>) -> u64 {
+    match node.as_ref() {
+        NodeInner::Leaf { .. } => 0,
+        NodeInner::Internal { left, right, .. } => {
+            1 + core::cmp::max(node_height(left), node_height(right))
+        }
+        NodeInner::Repeat { child, .. } => 1 + node_height(child),
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Balance helpers (Invariant I8)
 // ---------------------------------------------------------------------------
