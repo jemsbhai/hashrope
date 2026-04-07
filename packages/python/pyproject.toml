@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hashrope"
+version = "0.1.0"
+description = "Hash rope: a BB[2/7] balanced binary tree with polynomial hash metadata for O(log n) concat, split, substring hashing, and O(log q) repetition encoding."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Muntaser Syed", email = "muntaser@example.com"},
+]
+keywords = [
+    "hash",
+    "rope",
+    "data-structure",
+    "polynomial-hash",
+    "mersenne-prime",
+    "balanced-tree",
+    "content-addressing",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/jemsbhai/hashrope"
+Repository = "https://github.com/jemsbhai/hashrope"
+Issues = "https://github.com/jemsbhai/hashrope/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["hashrope"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

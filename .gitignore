@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+
+# Rust
+target/
+Cargo.lock
+
+# C/C++
+*.o
+*.so
+*.dylib
+*.dll
+*.a
+
+# Environment
+.env
+.env.local
+*.key
+*secrets*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
