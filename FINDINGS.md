@@ -257,3 +257,96 @@ plus the RepeatNode itself. At q=10⁸, this is **43.8 million× less memory**
 than materialization.
 
 ---
+
+
+## Criterion Benchmarks (Post-Arena, v0.2.1)
+
+**Date**: 2026-04-08
+**Method**: Criterion.rs 0.5, 100 samples per benchmark, `--release` (opt-level 3)
+**Arena version**: v0.2.1 — `Vec<NodeInner>` + `u32` indices, no Arc.
+**Setup isolation**: `iter_batched(BatchSize::SmallInput)` used for split/substr/repeat
+to exclude rope construction from timed region. `rope_concat_sequential` intentionally
+includes Arena::new() since incremental construction *is* the operation under test.
+
+### Primitives
+
+| Benchmark | Time | Notes |
+|-----------|------|-------|
+| `mersenne_mul` | 849 ps | Single modular multiply (2⁶¹−1) |
+
+### Phi accumulator — O(log q) confirmed
+
+| q | Time (ns) | log₂(q) |
+|---|-----------|---------|
+| 10 | 21.8 | 3.3 |
+| 100 | 42.4 | 6.6 |
+| 1,000 | 74.3 | 10.0 |
+| 10,000 | 88.7 | 13.3 |
+| 100,000 | 108.4 | 16.6 |
+| 1,000,000 | 130.0 | 20.0 |
+
+6× time increase over 5 orders of magnitude, consistent with O(log q).
+
+### RepeatNode vs materialized hashing
+
+| q | repeat_node (ns) | materialized (ns) | speedup |
+|---|-------------------|-------------------|---------|
+| 10 | 250 | 943 | 3.8× |
+| 100 | 270 | 4,364 | 16× |
+| 1,000 | 310 | 39,053 | 126× |
+| 10,000 | 350 | 388,110 | 1,109× |
+| 100,000 | 346 | — | — |
+| 1,000,000 | 365 | — | — |
+
+RepeatNode: 250→365 ns across 5 orders of magnitude (O(log q)).
+Materialized: linear growth (O(q·|B|)). At q=10⁴, repeat is 1,109× faster.
+
+### Rope concat (sequential single-byte leaves)
+
+| n | Time | Per-insert |
+|---|------|------------|
+| 100 | 10.8 µs | 108 ns |
+| 1,000 | 234.5 µs | 235 ns |
+| 10,000 | 7.00 ms | 700 ns |
+| 100,000 | 95.6 ms | 956 ns |
+
+Includes Arena::new(). Per-insert cost grows with O(log n) as expected.
+
+### Structural operations (10K single-byte leaves)
+
+| Benchmark | Time | Notes |
+|-----------|------|-------|
+| `split_rejoin_10k` | 725 µs | Split at midpoint + rejoin |
+| `substr_hash_10k` | 1.21 ms | Hash 5000-byte substring ⚠️ under investigation |
+
+`substr_hash_10k` is slower than expected for an O(log w) traversal — likely due
+to `.clone()` overhead in `hash_range` (clones `NodeInner` enum at each recursive
+step; Leaf variant clones `Vec<u8>`). Investigation pending.
+
+### Sliding window
+
+| Data size | Time | Throughput |
+|-----------|------|------------|
+| 1,000 B | 6.61 µs | ~151 MB/s |
+| 10,000 B | 73.2 µs | ~137 MB/s |
+| 100,000 B | 1.10 ms | ~91 MB/s |
+
+Post-arena sliding window is ~2× faster than pre-arena (pre-arena was ~0.9–1.9 MB/s
+with per-byte append; Criterion uses 64-byte chunk append, so throughput is higher).
+
+### Arena impact summary (vs pre-arena Criterion baselines)
+
+| Benchmark | Pre-arena | Post-arena | Change |
+|-----------|-----------|------------|--------|
+| rope_concat_sequential/100 | ~54 µs | 10.8 µs | **−80%** |
+| rope_concat_sequential/1000 | ~780 µs | 234.5 µs | **−70%** |
+| rope_concat_sequential/10000 | ~11.2 ms | 7.0 ms | **−37%** |
+| rope_concat_sequential/100000 | ~153 ms | 95.6 ms | **−37%** |
+| sliding_window/1000 | ~11.7 µs | 6.61 µs | **−44%** |
+| sliding_window/10000 | ~148 µs | 73.2 µs | **−51%** |
+| sliding_window/100000 | ~1.95 ms | 1.10 ms | **−44%** |
+
+Note: Pre-arena baselines are back-calculated from Criterion "change" percentages.
+The improvement is largest for small rope sizes where Arc overhead dominated.
+
+---
