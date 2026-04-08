@@ -40,6 +40,8 @@ fn bench_repeat_vs_materialized(c: &mut Criterion) {
 
     for q in [10, 100, 1_000, 10_000, 100_000, 1_000_000] {
         group.bench_with_input(BenchmarkId::new("repeat_node", q), &q, |b, &q| {
+            // Repeat arena is tiny (2 nodes) — no drop overhead issue.
+            // Do NOT return arena; returning it adds ~2KB memcpy of PolynomialHash cache.
             b.iter_batched(
                 || {
                     let mut arena = Arena::new();
@@ -79,27 +81,34 @@ fn build_10k_rope() -> (Arena, Node) {
 }
 
 fn bench_split_rejoin(c: &mut Criterion) {
+    // 10K-leaf arena is ~1.3MB — drop cost (~700µs) dominates the ~3µs operation.
+    // Return arena so its destructor runs outside the timing window.
     c.bench_function("split_rejoin_10k", |b| {
         b.iter_batched(
             build_10k_rope,
             |(mut arena, node)| {
                 let (left, right) = arena.split(node, black_box(5000));
                 let rejoined = arena.concat(left, right);
-                black_box(arena.hash(rejoined))
+                let h = arena.hash(rejoined);
+                let _ = black_box(h);
+                arena
             },
-            BatchSize::SmallInput,
+            BatchSize::PerIteration,
         );
     });
 }
 
 fn bench_substr_hash(c: &mut Criterion) {
+    // Same rationale: 10K-leaf arena drop cost dwarfs the ~3µs operation.
     c.bench_function("substr_hash_10k", |b| {
         b.iter_batched(
             build_10k_rope,
             |(mut arena, node)| {
-                black_box(arena.substr_hash(node, black_box(2500), black_box(5000)))
+                let h = arena.substr_hash(node, black_box(2500), black_box(5000));
+                let _ = black_box(h);
+                arena
             },
-            BatchSize::SmallInput,
+            BatchSize::PerIteration,
         );
     });
 }
