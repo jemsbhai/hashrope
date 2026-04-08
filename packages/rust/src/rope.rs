@@ -469,6 +469,13 @@ impl Arena {
     }
 
     fn hash_range(&mut self, id: NodeId, start: u64, length: u64) -> u64 {
+        // Full-node shortcut: if the entire node is within the requested range,
+        // return the precomputed hash in O(1). Without this, the traversal
+        // descends to every leaf in the range, degrading to O(range_size).
+        if start == 0 && length == self.node_len(id) {
+            return self.hash_val(id);
+        }
+
         let p = self.h.prime();
 
         match self.nodes[id as usize].clone() {
@@ -757,6 +764,109 @@ mod tests {
         assert_eq!(a.substr_hash(node, 0, 5), a.hash_bytes(b"hello"));
         assert_eq!(a.substr_hash(node, 6, 5), a.hash_bytes(b"world"));
         assert_eq!(a.substr_hash(node, 4, 4), a.hash_bytes(b"o wo"));
+    }
+
+    #[test]
+    fn test_substr_hash_full_node() {
+        // Tests the early-exit path: substr_hash over the entire node
+        // must equal the node's stored hash.
+        let mut a = arena();
+        let node = a.from_bytes(b"hello world");
+        assert_eq!(a.substr_hash(node, 0, 11), a.hash(node));
+    }
+
+    #[test]
+    fn test_substr_hash_multi_leaf_exhaustive() {
+        // Build a rope from many small leaves, then verify substr_hash
+        // for EVERY possible (start, length) against materialized hash.
+        let data = b"abcdefghijklmnop"; // 16 bytes
+        let mut a = arena();
+        // Build as 4 leaves of 4 bytes each
+        let l1 = a.from_bytes(b"abcd");
+        let l2 = a.from_bytes(b"efgh");
+        let l3 = a.from_bytes(b"ijkl");
+        let l4 = a.from_bytes(b"mnop");
+        let left = a.concat(l1, l2);
+        let right = a.concat(l3, l4);
+        let root = a.concat(left, right);
+
+        for start in 0..16u64 {
+            for length in 1..=(16 - start) {
+                let expected = a.hash_bytes(&data[start as usize..(start + length) as usize]);
+                let got = a.substr_hash(root, start, length);
+                assert_eq!(got, expected,
+                    "substr_hash mismatch at start={}, length={}", start, length);
+            }
+        }
+        // Also test zero-length
+        assert_eq!(a.substr_hash(root, 5, 0), 0);
+        // Full node
+        assert_eq!(a.substr_hash(root, 0, 16), a.hash(root));
+    }
+
+    #[test]
+    fn test_substr_hash_single_byte_leaves() {
+        // Worst-case tree: one byte per leaf. Exercises the early-exit
+        // on interior subtrees that are fully within the requested range.
+        let data: Vec<u8> = (0..100u8).collect();
+        let mut a = arena();
+        let mut node: Node = None;
+        for &b in &data {
+            let leaf = a.from_bytes(&[b]);
+            node = a.concat(node, leaf);
+        }
+        // Full range
+        assert_eq!(a.substr_hash(node, 0, 100), a.hash(node));
+        // Various sub-ranges
+        for &(s, l) in &[(0, 50), (25, 50), (50, 50), (10, 80), (0, 1), (99, 1), (0, 100)] {
+            let expected = a.hash_bytes(&data[s..s + l]);
+            let got = a.substr_hash(node, s as u64, l as u64);
+            assert_eq!(got, expected, "mismatch at start={}, length={}", s, l);
+        }
+    }
+
+    #[test]
+    fn test_substr_hash_repeat_node() {
+        // RepeatNode: "abcd" × 100 = 400 bytes
+        let mut a = arena();
+        let pattern = a.from_bytes(b"abcd");
+        let rep = a.repeat(pattern, 100);
+        let materialized: Vec<u8> = b"abcd".iter().copied().cycle().take(400).collect();
+
+        // Full range
+        assert_eq!(a.substr_hash(rep, 0, 400), a.hash_bytes(&materialized));
+        // Within one copy
+        assert_eq!(a.substr_hash(rep, 0, 3), a.hash_bytes(b"abc"));
+        // Spanning two copies
+        assert_eq!(a.substr_hash(rep, 2, 4), a.hash_bytes(b"cdab"));
+        // Spanning many copies
+        assert_eq!(a.substr_hash(rep, 1, 13), a.hash_bytes(&materialized[1..14]));
+        // Last byte
+        assert_eq!(a.substr_hash(rep, 399, 1), a.hash_bytes(b"d"));
+    }
+
+    #[test]
+    fn test_substr_hash_after_split_rejoin() {
+        // Verify substr_hash still works correctly on a rope that has been
+        // split and rejoined (different tree structure, same logical string).
+        let data = b"the quick brown fox jumps over the lazy dog";
+        let mut a = arena();
+        let original = a.from_bytes(data);
+        let (left, right) = a.split(original, 20);
+        let rejoined = a.concat(left, right);
+
+        // The rejoined rope has a different tree shape but represents
+        // the same string. All substr_hash queries must match.
+        for start in (0..data.len()).step_by(5) {
+            for length in [1, 3, 7, 10, data.len() - start] {
+                let length = length.min(data.len() - start);
+                if length == 0 { continue; }
+                let expected = a.hash_bytes(&data[start..start + length]);
+                let got = a.substr_hash(rejoined, start as u64, length as u64);
+                assert_eq!(got, expected,
+                    "mismatch on rejoined rope at start={}, length={}", start, length);
+            }
+        }
     }
 
     #[test]
