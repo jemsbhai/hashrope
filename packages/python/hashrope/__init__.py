@@ -9,7 +9,7 @@ All arithmetic is performed modulo a Mersenne prime using bit-shift
 reduction (no expensive division).
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 from hashrope.polynomial_hash import (
     PolynomialHash,

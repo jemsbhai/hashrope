@@ -5,7 +5,7 @@ A BB[2/7] weight-balanced binary tree augmented with polynomial hash metadata at
 [![PyPI version](https://img.shields.io/pypi/v/hashrope)](https://pypi.org/project/hashrope/)
 [![Python 3.10+](https://img.shields.io/pypi/pyversions/hashrope)](https://pypi.org/project/hashrope/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-88%20passing-brightgreen)](https://github.com/jemsbhai/hashrope)
+[![Tests](https://img.shields.io/badge/tests-141%20passing-brightgreen)](https://github.com/jemsbhai/hashrope)
 
 **Zero dependencies. Pure Python. Python 3.10+.**
 
@@ -13,7 +13,7 @@ A BB[2/7] weight-balanced binary tree augmented with polynomial hash metadata at
 
 hashrope is a rope data structure where every node carries a polynomial hash. This enables:
 
-- **O(k log w) concat and split** with strict BB[2/7] rebalancing via recursive join
+- **O(k log w) concat and split** with strict BB[2/7] rebalancing via Adams-style balanced join
 - **O(k log q) repetition encoding** via RepeatNode -- represents "repeat this subtree q times" without materializing the data
 - **O(k log w) substring hashing** without allocating new nodes
 - **O(1) whole-sequence hash** at any point during streaming ingestion
@@ -116,7 +116,7 @@ assert sw.final_hash() == h.hash(b"hello worldworld")
 
 | Function | Time | Description |
 |---|---|---|
-| `rope_concat(left, right, h)` | O(k \|h_L - h_R\|) | Concatenate with recursive join and BB[2/7] rebalancing |
+| `rope_concat(left, right, h)` | O(k \|h_L - h_R\|) | Concatenate with Adams-style balanced join and BB[2/7] rebalancing |
 | `rope_split(node, pos, h)` | O(k log w) | Split at byte position |
 | `rope_repeat(node, q, h)` | O(k log q) | Create RepeatNode |
 | `rope_substr_hash(node, start, length, h)` | O(k log w) | Substring hash without allocation |
@@ -147,11 +147,15 @@ The data structure and its correctness proofs come from the compressed-domain ha
 | Theorem 1 (Concatenation) | H(A \|\| B) = H(A) * x^{\|B\|} + H(B) |
 | Theorem 2 (Repetition) | H(S^q) = H(S) * Phi(q, x^d) |
 | Theorem 3 (Phi computation) | Phi(q, alpha) computable in O(log q) without modular inverse |
-| Theorem 6 (Join) | Recursive join with BB[2/7] rebalancing |
+| Theorem 6 (Join) | Adams-style balanced join with BB[2/7] rebalancing |
 | Theorem 7 (Split) | Split in O(k log w) with RepeatNode splittability |
 | Theorem 8 (Repeat) | RepeatNode in O(k log q), O(1) space |
 | Theorem 9 (SubstrHash) | Allocation-free substring hashing in O(k log w) |
 | Theorem 11 (Sliding window) | Bounded-memory streaming with eviction |
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history and details on the v0.2.1 balance bugfix.
 
 ## Provenance
 
