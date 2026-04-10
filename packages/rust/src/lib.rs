@@ -16,7 +16,7 @@ pub mod sliding;
 
 pub use polynomial_hash::{mersenne_mod, mersenne_mul, phi, PolynomialHash, MERSENNE_61};
 pub use rope::{
-    Arena, Node, NodeId, NodeInner,
+    Arena, Node, NodeId, NodeInner, LAZY_SENTINEL,
     rope_concat, rope_from_bytes, rope_hash, rope_height, rope_len,
     rope_repeat, rope_split, rope_substr_hash, rope_to_bytes, validate_rope,
 };

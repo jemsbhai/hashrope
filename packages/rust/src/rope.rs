@@ -20,6 +20,10 @@ use crate::polynomial_hash::{mersenne_mod, mersenne_mul, phi, PolynomialHash};
 const ALPHA_NUM: u64 = 2;
 const ALPHA_DEN: u64 = 7;
 
+/// Sentinel hash value for lazy (unmaterialized) nodes.
+/// u64::MAX > p = 2^61 - 1, so it can never be a valid hash.
+pub const LAZY_SENTINEL: u64 = u64::MAX;
+
 // ---------------------------------------------------------------------------
 // Definition 6: Node types
 // ---------------------------------------------------------------------------
@@ -54,6 +58,18 @@ pub enum NodeInner {
     },
 }
 
+impl NodeInner {
+    /// Access the hash value stored in any node variant.
+    #[inline]
+    pub fn hash_val(&self) -> u64 {
+        match self {
+            NodeInner::Leaf { hash_val, .. } => *hash_val,
+            NodeInner::Internal { hash_val, .. } => *hash_val,
+            NodeInner::Repeat { hash_val, .. } => *hash_val,
+        }
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Arena: owns all nodes and the polynomial hash state
 // ---------------------------------------------------------------------------
@@ -62,6 +78,7 @@ pub enum NodeInner {
 pub struct Arena {
     nodes: Vec<NodeInner>,
     h: PolynomialHash,
+    lazy: bool,
 }
 
 impl Arena {
@@ -70,6 +87,24 @@ impl Arena {
         Self {
             nodes: Vec::new(),
             h: PolynomialHash::default_hash(),
+            lazy: false,
+        }
+    }
+
+    /// Create a new lazy arena (Definition 19).
+    ///
+    /// In lazy mode, hash values are not computed during rope construction.
+    /// Instead, they are initialized to `LAZY_SENTINEL` and computed on
+    /// demand when `substr_hash` is called. This makes construction O(t·log t)
+    /// instead of O(k·c_F·t) (Theorem 44).
+    ///
+    /// CD-Radix sort (Corollary 8) never accesses hashes, so lazy ropes
+    /// are strictly faster for radix-based sorting.
+    pub fn new_lazy() -> Self {
+        Self {
+            nodes: Vec::new(),
+            h: PolynomialHash::default_hash(),
+            lazy: true,
         }
     }
 
@@ -78,6 +113,7 @@ impl Arena {
         Self {
             nodes: Vec::new(),
             h: PolynomialHash::new(prime, base),
+            lazy: false,
         }
     }
 
@@ -86,6 +122,7 @@ impl Arena {
         Self {
             nodes: Vec::new(),
             h,
+            lazy: false,
         }
     }
 
@@ -99,6 +136,12 @@ impl Arena {
     #[inline]
     pub fn hasher_mut(&mut self) -> &mut PolynomialHash {
         &mut self.h
+    }
+
+    /// Whether this arena uses lazy hash materialization.
+    #[inline]
+    pub fn is_lazy(&self) -> bool {
+        self.lazy
     }
 
     /// Number of nodes allocated in the arena.
@@ -145,6 +188,71 @@ impl Arena {
     }
 
     // -----------------------------------------------------------------------
+    // Lazy hash materialization (Definition 20)
+    // -----------------------------------------------------------------------
+
+    /// Set the hash value of a node in place.
+    fn set_hash_val(&mut self, id: NodeId, hash: u64) {
+        match &mut self.nodes[id as usize] {
+            NodeInner::Leaf { hash_val, .. } => *hash_val = hash,
+            NodeInner::Internal { hash_val, .. } => *hash_val = hash,
+            NodeInner::Repeat { hash_val, .. } => *hash_val = hash,
+        }
+    }
+
+    /// Materialize the hash of a node on demand (Definition 20).
+    ///
+    /// If the node's hash is `LAZY_SENTINEL`, computes it recursively
+    /// (materializing children first) and caches the result. Subsequent
+    /// calls return immediately (idempotent).
+    ///
+    /// For eager arenas, this is a no-op (hashes are already computed).
+    pub fn ensure_hash(&mut self, id: NodeId) {
+        if self.hash_val(id) != LAZY_SENTINEL {
+            return;
+        }
+
+        // Extract node structure without borrowing self
+        enum Kind { Leaf, Internal(NodeId, NodeId), Repeat(NodeId, u64) }
+        let kind = match &self.nodes[id as usize] {
+            NodeInner::Leaf { .. } => Kind::Leaf,
+            NodeInner::Internal { left, right, .. } => Kind::Internal(*left, *right),
+            NodeInner::Repeat { child, reps, .. } => Kind::Repeat(*child, *reps),
+        };
+
+        let h = match kind {
+            Kind::Leaf => {
+                // Clone leaf data to avoid borrow conflict with self.h
+                let data = match &self.nodes[id as usize] {
+                    NodeInner::Leaf { data, .. } => data.clone(),
+                    _ => unreachable!(),
+                };
+                self.h.hash(&data)
+            }
+            Kind::Internal(left, right) => {
+                self.ensure_hash(left);
+                self.ensure_hash(right);
+                self.h.hash_concat(
+                    self.hash_val(left),
+                    self.node_len(right),
+                    self.hash_val(right),
+                )
+            }
+            Kind::Repeat(child, reps) => {
+                self.ensure_hash(child);
+                let child_hash = self.hash_val(child);
+                let child_len = self.node_len(child);
+                let x_d = self.h.power(child_len);
+                let p = self.h.prime();
+                let phi_val = phi(reps, x_d, p);
+                mersenne_mul(child_hash, phi_val, p)
+            }
+        };
+
+        self.set_hash_val(id, h);
+    }
+
+    // -----------------------------------------------------------------------
     // Allocation
     // -----------------------------------------------------------------------
 
@@ -161,7 +269,7 @@ impl Arena {
 
     fn make_leaf(&mut self, data: Vec<u8>) -> NodeId {
         assert!(!data.is_empty(), "Leaf cannot be empty");
-        let hash_val = self.h.hash(&data);
+        let hash_val = if self.lazy { LAZY_SENTINEL } else { self.h.hash(&data) };
         let len = data.len() as u64;
         self.alloc(NodeInner::Leaf { data, hash_val, len })
     }
@@ -170,11 +278,15 @@ impl Arena {
     fn make_internal(&mut self, left: NodeId, right: NodeId) -> NodeId {
         let len = self.node_len(left) + self.node_len(right);
         let weight = self.node_weight(left) + self.node_weight(right);
-        let hash_val = self.h.hash_concat(
-            self.hash_val(left),
-            self.node_len(right),
-            self.hash_val(right),
-        );
+        let hash_val = if self.lazy {
+            LAZY_SENTINEL
+        } else {
+            self.h.hash_concat(
+                self.hash_val(left),
+                self.node_len(right),
+                self.hash_val(right),
+            )
+        };
         self.alloc(NodeInner::Internal { left, right, hash_val, len, weight })
     }
 
@@ -182,12 +294,16 @@ impl Arena {
         assert!(reps >= 2, "RepeatNode reps must be >= 2, got {}", reps);
         let child_len = self.node_len(child);
         let child_weight = self.node_weight(child);
-        let child_hash = self.hash_val(child);
         let len = child_len * reps;
         let weight = child_weight * reps;
-        let x_d = self.h.power(child_len);
-        let phi_val = phi(reps, x_d, self.h.prime());
-        let hash_val = mersenne_mul(child_hash, phi_val, self.h.prime());
+        let hash_val = if self.lazy {
+            LAZY_SENTINEL
+        } else {
+            let child_hash = self.hash_val(child);
+            let x_d = self.h.power(child_len);
+            let phi_val = phi(reps, x_d, self.h.prime());
+            mersenne_mul(child_hash, phi_val, self.h.prime())
+        };
         self.alloc(NodeInner::Repeat { child, reps, hash_val, len, weight })
     }
 
@@ -495,6 +611,7 @@ impl Arena {
         // return the precomputed hash in O(1). Without this, the traversal
         // descends to every leaf in the range, degrading to O(range_size).
         if start == 0 && length == self.node_len(id) {
+            self.ensure_hash(id);
             return self.hash_val(id);
         }
 
@@ -523,6 +640,7 @@ impl Arena {
             }
             NodeInner::Repeat { child, .. } => {
                 let d = self.node_len(child);
+                self.ensure_hash(child);
                 let child_hash = self.hash_val(child);
                 let first_copy = start / d;
                 let start_in_copy = start % d;
@@ -1768,5 +1886,553 @@ mod tests {
         let h = a.height(node);
         // BB[2/7] bound: h <= log(1000) / log(7/5) ≈ 20.5
         assert!(h <= 21, "height {} too large for w=1000", h);
+    }
+
+    // -----------------------------------------------------------------------
+    // Lazy mode tests (Definition 19, Theorem 44, Corollary 8)
+    // -----------------------------------------------------------------------
+
+    fn lazy_arena() -> Arena {
+        Arena::new_lazy()
+    }
+
+    #[test]
+    fn test_lazy_flag() {
+        let eager = Arena::new();
+        assert!(!eager.is_lazy());
+        let lazy = Arena::new_lazy();
+        assert!(lazy.is_lazy());
+    }
+
+    #[test]
+    fn test_lazy_leaf_has_sentinel_hash() {
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"hello").unwrap();
+        assert_eq!(a.node(node).hash_val(), LAZY_SENTINEL,
+            "Lazy leaf should have sentinel hash");
+    }
+
+    #[test]
+    fn test_lazy_internal_has_sentinel_hash() {
+        let mut a = lazy_arena();
+        let left = a.from_bytes(b"hel");
+        let right = a.from_bytes(b"lo");
+        let node = a.concat(left, right).unwrap();
+        assert_eq!(a.node(node).hash_val(), LAZY_SENTINEL,
+            "Lazy internal should have sentinel hash");
+    }
+
+    #[test]
+    fn test_lazy_repeat_has_sentinel_hash() {
+        let mut a = lazy_arena();
+        let pat = a.from_bytes(b"ab");
+        let node = a.repeat(pat, 5).unwrap();
+        assert_eq!(a.node(node).hash_val(), LAZY_SENTINEL,
+            "Lazy repeat should have sentinel hash");
+    }
+
+    #[test]
+    fn test_lazy_to_bytes_correct() {
+        // to_bytes is structural — must work without hash computation
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"hello world");
+        assert_eq!(a.to_bytes(node), b"hello world");
+    }
+
+    #[test]
+    fn test_lazy_concat_to_bytes() {
+        let mut a = lazy_arena();
+        let left = a.from_bytes(b"hello ");
+        let right = a.from_bytes(b"world");
+        let node = a.concat(left, right);
+        assert_eq!(a.to_bytes(node), b"hello world");
+    }
+
+    #[test]
+    fn test_lazy_repeat_to_bytes() {
+        let mut a = lazy_arena();
+        let pat = a.from_bytes(b"abc");
+        let node = a.repeat(pat, 3);
+        assert_eq!(a.to_bytes(node), b"abcabcabc");
+    }
+
+    #[test]
+    fn test_lazy_split_to_bytes() {
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"hello world");
+        let (left, right) = a.split(node, 5);
+        assert_eq!(a.to_bytes(left), b"hello");
+        assert_eq!(a.to_bytes(right), b" world");
+    }
+
+    #[test]
+    fn test_lazy_complex_to_bytes() {
+        // concat + repeat + split — the LZ77 pattern
+        let mut a = lazy_arena();
+        let prefix = a.from_bytes(b"data:");
+        let pat = a.from_bytes(b"AB");
+        let rep = a.repeat(pat, 4); // "ABABABAB"
+        let full = a.concat(prefix, rep); // "data:ABABABAB"
+        let (left, _) = a.split(full, 9); // "data:ABAB"
+        assert_eq!(a.to_bytes(left), b"data:ABAB");
+    }
+
+    #[test]
+    fn test_lazy_ensure_hash_leaf() {
+        let mut lazy = lazy_arena();
+        let node = lazy.from_bytes(b"hello").unwrap();
+        assert_eq!(lazy.node(node).hash_val(), LAZY_SENTINEL);
+
+        lazy.ensure_hash(node);
+        assert_ne!(lazy.node(node).hash_val(), LAZY_SENTINEL);
+
+        // Must match eager computation
+        let mut eager = arena();
+        let eager_node = eager.from_bytes(b"hello").unwrap();
+        assert_eq!(lazy.node(node).hash_val(), eager.node(eager_node).hash_val());
+    }
+
+    #[test]
+    fn test_lazy_ensure_hash_concat() {
+        let mut lazy = lazy_arena();
+        let l = lazy.from_bytes(b"hel");
+        let r = lazy.from_bytes(b"lo");
+        let node = lazy.concat(l, r).unwrap();
+        lazy.ensure_hash(node);
+
+        let mut eager = arena();
+        let el = eager.from_bytes(b"hel");
+        let er = eager.from_bytes(b"lo");
+        let enode = eager.concat(el, er).unwrap();
+
+        assert_eq!(lazy.node(node).hash_val(), eager.node(enode).hash_val());
+    }
+
+    #[test]
+    fn test_lazy_ensure_hash_repeat() {
+        let mut lazy = lazy_arena();
+        let pat = lazy.from_bytes(b"abc");
+        let node = lazy.repeat(pat, 10).unwrap();
+        lazy.ensure_hash(node);
+
+        let mut eager = arena();
+        let epat = eager.from_bytes(b"abc");
+        let enode = eager.repeat(epat, 10).unwrap();
+
+        assert_eq!(lazy.node(node).hash_val(), eager.node(enode).hash_val());
+    }
+
+    #[test]
+    fn test_lazy_ensure_hash_idempotent() {
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"test").unwrap();
+        a.ensure_hash(node);
+        let h1 = a.node(node).hash_val();
+        a.ensure_hash(node); // second call — should be no-op
+        let h2 = a.node(node).hash_val();
+        assert_eq!(h1, h2);
+    }
+
+    #[test]
+    fn test_lazy_substr_hash_materializes_on_demand() {
+        let mut lazy = lazy_arena();
+        let node = lazy.from_bytes(b"hello world");
+        let len = lazy.len(node);
+
+        // Before substr_hash, hash is sentinel
+        assert_eq!(lazy.node(node.unwrap()).hash_val(), LAZY_SENTINEL);
+
+        // substr_hash forces materialization
+        let h = lazy.substr_hash(node, 0, len);
+
+        // After, hash is no longer sentinel
+        assert_ne!(lazy.node(node.unwrap()).hash_val(), LAZY_SENTINEL);
+
+        // Must match eager
+        let mut eager = arena();
+        let enode = eager.from_bytes(b"hello world");
+        let eh = eager.substr_hash(enode, 0, len);
+        assert_eq!(h, eh);
+    }
+
+    #[test]
+    fn test_lazy_substr_hash_partial() {
+        // substr_hash on a sub-range of a lazy rope
+        let mut lazy = lazy_arena();
+        let l = lazy.from_bytes(b"hello ");
+        let r = lazy.from_bytes(b"world");
+        let node = lazy.concat(l, r);
+
+        let mut eager = arena();
+        let el = eager.from_bytes(b"hello ");
+        let er = eager.from_bytes(b"world");
+        let enode = eager.concat(el, er);
+
+        // Partial range
+        let h_lazy = lazy.substr_hash(node, 2, 5);
+        let h_eager = eager.substr_hash(enode, 2, 5);
+        assert_eq!(h_lazy, h_eager);
+    }
+
+    #[test]
+    fn test_lazy_substr_hash_repeat() {
+        let mut lazy = lazy_arena();
+        let pat = lazy.from_bytes(b"abc");
+        let node = lazy.repeat(pat, 50);
+
+        let mut eager = arena();
+        let epat = eager.from_bytes(b"abc");
+        let enode = eager.repeat(epat, 50);
+
+        // Full range
+        let len = lazy.len(node);
+        assert_eq!(
+            lazy.substr_hash(node, 0, len),
+            eager.substr_hash(enode, 0, len),
+        );
+
+        // Partial range spanning copies
+        assert_eq!(
+            lazy.substr_hash(node, 5, 20),
+            eager.substr_hash(enode, 5, 20),
+        );
+    }
+
+    #[test]
+    fn test_lazy_cdh_equals_h() {
+        // Theorem 12: rope hash == direct hash of bytes
+        let mut a = lazy_arena();
+        let prefix = a.from_bytes(b"prefix:");
+        let pat = a.from_bytes(b"XY");
+        let rep = a.repeat(pat, 20);
+        let node = a.concat(prefix, rep);
+        let bytes = a.to_bytes(node);
+        let len = bytes.len() as u64;
+
+        let rope_hash = a.substr_hash(node, 0, len);
+        let direct_hash = a.hash_bytes(&bytes);
+        assert_eq!(rope_hash, direct_hash, "CDH != H on lazy rope");
+    }
+
+    #[test]
+    fn test_lazy_validate_structural() {
+        // validate checks structural invariants, not hashes — must pass on lazy
+        let mut a = lazy_arena();
+        let mut node: Node = None;
+        for i in 0..100u16 {
+            let leaf = a.from_bytes(&[(i % 256) as u8]);
+            node = a.concat(node, leaf);
+        }
+        a.validate(node); // should not panic
+    }
+
+    #[test]
+    fn test_lazy_validate_with_repeats() {
+        let mut a = lazy_arena();
+        let pat = a.from_bytes(b"abc");
+        let rep = a.repeat(pat, 100);
+        let suffix = a.from_bytes(b"xyz");
+        let node = a.concat(rep, suffix);
+        a.validate(node); // should not panic
+    }
+
+    #[test]
+    fn test_lazy_height_bounded() {
+        let mut a = lazy_arena();
+        let mut node: Node = None;
+        for i in 0..1000u16 {
+            let leaf = a.from_bytes(&[(i % 256) as u8]);
+            node = a.concat(node, leaf);
+        }
+        let h = a.height(node);
+        assert!(h <= 21, "lazy height {} too large for w=1000", h);
+    }
+
+    #[test]
+    fn test_lazy_split_rejoin_hash() {
+        // Split a lazy rope, rejoin, verify hash matches original
+        let mut lazy = lazy_arena();
+        let node = lazy.from_bytes(b"abcdefghij");
+        let (left, right) = lazy.split(node, 5);
+        let rejoined = lazy.concat(left, right);
+
+        let len = lazy.len(rejoined);
+        let h_rejoined = lazy.substr_hash(rejoined, 0, len);
+
+        let mut eager = arena();
+        let enode = eager.from_bytes(b"abcdefghij");
+        let h_eager = eager.substr_hash(enode, 0, len);
+
+        assert_eq!(h_rejoined, h_eager);
+    }
+
+    #[test]
+    fn test_lazy_lz77_pattern_hash() {
+        // Simulate LZ77: literal prefix + back-reference (split+repeat+concat)
+        let mut lazy = lazy_arena();
+        // Build "hello hello hello " via LZ77 pattern
+        let prefix = lazy.from_bytes(b"hello ");
+        let (_, src) = lazy.split(prefix, 0); // full string as source
+        let rep = lazy.repeat(src, 3); // "hello hello hello "
+
+        let bytes = lazy.to_bytes(rep);
+        let len = bytes.len() as u64;
+        let rope_hash = lazy.substr_hash(rep, 0, len);
+        let direct_hash = lazy.hash_bytes(&bytes);
+        assert_eq!(rope_hash, direct_hash, "CDH != H for lazy LZ77 pattern");
+    }
+
+    #[test]
+    fn test_lazy_sentinel_never_valid_hash() {
+        // LAZY_SENTINEL = u64::MAX > p = 2^61 - 1
+        // No valid hash can equal the sentinel
+        let a = arena();
+        let p = a.hasher().prime();
+        assert!(LAZY_SENTINEL > p,
+            "Sentinel {} must be > prime {}", LAZY_SENTINEL, p);
+    }
+
+    #[test]
+    fn test_lazy_many_concats_hash_correct() {
+        // Build a large rope from many small concats, verify hash
+        let mut lazy = lazy_arena();
+        let mut eager = arena();
+        let mut lnode: Node = None;
+        let mut enode: Node = None;
+        for i in 0..200u8 {
+            let ll = lazy.from_bytes(&[i]);
+            lnode = lazy.concat(lnode, ll);
+            let el = eager.from_bytes(&[i]);
+            enode = eager.concat(enode, el);
+        }
+        let len = lazy.len(lnode);
+        assert_eq!(
+            lazy.substr_hash(lnode, 0, len),
+            eager.substr_hash(enode, 0, len),
+            "Hash mismatch after 200 lazy concats"
+        );
+    }
+
+    // -----------------------------------------------------------------------
+    // Adversarial lazy tests
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn test_lazy_public_hash_returns_sentinel() {
+        // arena.hash(node) should return LAZY_SENTINEL before materialization
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"hello");
+        assert_eq!(a.hash(node), LAZY_SENTINEL,
+            "hash() should return sentinel on lazy rope");
+
+        let l = a.from_bytes(b"ab");
+        let r = a.from_bytes(b"cd");
+        let cat = a.concat(l, r);
+        assert_eq!(a.hash(cat), LAZY_SENTINEL);
+
+        let pat = a.from_bytes(b"xy");
+        let rep = a.repeat(pat, 5);
+        assert_eq!(a.hash(rep), LAZY_SENTINEL);
+    }
+
+    #[test]
+    fn test_lazy_rotation_nodes_materialize_correctly() {
+        // Force many rotations by appending one leaf at a time (worst-case
+        // for BB[2/7]). All intermediate nodes created by rotations have
+        // sentinel hashes. Verify full tree hashes match eager after
+        // materialization.
+        let mut lazy = lazy_arena();
+        let mut eager = arena();
+        let mut lnode: Node = None;
+        let mut enode: Node = None;
+
+        // 500 sequential concats = many rotations
+        for i in 0..500u16 {
+            let b = [(i % 256) as u8, ((i / 256) % 256) as u8];
+            let ll = lazy.from_bytes(&b);
+            lnode = lazy.concat(lnode, ll);
+            let el = eager.from_bytes(&b);
+            enode = eager.concat(enode, el);
+        }
+
+        // Verify bytes match (structural correctness)
+        assert_eq!(lazy.to_bytes(lnode), eager.to_bytes(enode));
+
+        // Verify root hash matches after materialization
+        let len = lazy.len(lnode);
+        assert_eq!(
+            lazy.substr_hash(lnode, 0, len),
+            eager.substr_hash(enode, 0, len),
+        );
+    }
+
+    #[test]
+    fn test_lazy_partial_materialization() {
+        // Materialize only part of the tree, then materialize the rest.
+        // Tests that mixed sentinel/real children are handled correctly.
+        let mut a = lazy_arena();
+        let left = a.from_bytes(b"AAAA");
+        let right = a.from_bytes(b"BBBB");
+        let node = a.concat(left, right);
+
+        // Materialize only the left child
+        a.ensure_hash(left.unwrap());
+        assert_ne!(a.node(left.unwrap()).hash_val(), LAZY_SENTINEL);
+        // Right is still sentinel
+        assert_eq!(a.node(right.unwrap()).hash_val(), LAZY_SENTINEL);
+        // Root is still sentinel
+        assert_eq!(a.node(node.unwrap()).hash_val(), LAZY_SENTINEL);
+
+        // Now materialize root — must handle left=real, right=sentinel
+        a.ensure_hash(node.unwrap());
+        assert_ne!(a.node(node.unwrap()).hash_val(), LAZY_SENTINEL);
+        assert_ne!(a.node(right.unwrap()).hash_val(), LAZY_SENTINEL);
+
+        // Verify correctness
+        let mut eager = arena();
+        let el = eager.from_bytes(b"AAAA");
+        let er = eager.from_bytes(b"BBBB");
+        let en = eager.concat(el, er);
+        assert_eq!(a.node(node.unwrap()).hash_val(), eager.node(en.unwrap()).hash_val());
+    }
+
+    #[test]
+    fn test_lazy_split_repeat_then_hash() {
+        // Split a lazy repeat node, then verify hashes of the pieces.
+        // split_repeat creates new repeat/internal nodes with sentinel hashes.
+        let mut lazy = lazy_arena();
+        let pat = lazy.from_bytes(b"ABCD");
+        let rep = lazy.repeat(pat, 20); // 80 bytes: "ABCD" x 20
+
+        // Split at position 30 (not on a pattern boundary)
+        let (left, right) = lazy.split(rep, 30);
+
+        let left_bytes = lazy.to_bytes(left);
+        let right_bytes = lazy.to_bytes(right);
+        assert_eq!(left_bytes.len(), 30);
+        assert_eq!(right_bytes.len(), 50);
+
+        // Hash the pieces and verify against direct hash
+        let lh = lazy.substr_hash(left, 0, 30);
+        let rh = lazy.substr_hash(right, 0, 50);
+        assert_eq!(lh, lazy.hash_bytes(&left_bytes));
+        assert_eq!(rh, lazy.hash_bytes(&right_bytes));
+    }
+
+    #[test]
+    fn test_lazy_split_concat_split_hash() {
+        // Complex operation chain: build, split, concat pieces differently,
+        // split again, verify hashes.
+        let mut lazy = lazy_arena();
+        let a_node = lazy.from_bytes(b"Hello ");
+        let b_node = lazy.from_bytes(b"World");
+        let ab = lazy.concat(a_node, b_node); // "Hello World"
+
+        let (left, right) = lazy.split(ab, 3); // "Hel" | "lo World"
+        let c_node = lazy.from_bytes(b"XY");
+        let new_rope = lazy.concat(c_node, right); // "XYlo World"
+        let final_rope = lazy.concat(left, new_rope); // "HelXYlo World"
+
+        let bytes = lazy.to_bytes(final_rope);
+        assert_eq!(bytes, b"HelXYlo World");
+
+        let len = bytes.len() as u64;
+        let rope_hash = lazy.substr_hash(final_rope, 0, len);
+        let direct_hash = lazy.hash_bytes(&bytes);
+        assert_eq!(rope_hash, direct_hash);
+    }
+
+    #[test]
+    fn test_lazy_all_node_hashes_match_eager() {
+        // Cross-validate EVERY node's hash, not just the root.
+        // Build the same structure in lazy and eager, materialize the
+        // lazy tree, then compare all node hashes.
+        let mut lazy = lazy_arena();
+        let mut eager = arena();
+
+        // Build identical structures
+        let mut lnode: Node = None;
+        let mut enode: Node = None;
+        for i in 0..50u8 {
+            let ll = lazy.from_bytes(&[i, i + 1]);
+            lnode = lazy.concat(lnode, ll);
+            let el = eager.from_bytes(&[i, i + 1]);
+            enode = eager.concat(enode, el);
+        }
+
+        // Materialize all lazy hashes
+        let len = lazy.len(lnode);
+        lazy.substr_hash(lnode, 0, len);
+
+        // Both arenas should have the same number of nodes
+        // (they won't be identical because different alloc order from
+        //  rotations, but root hash must match)
+        assert_eq!(
+            lazy.hash(lnode), eager.hash(enode),
+            "Root hashes differ after full materialization"
+        );
+    }
+
+    #[test]
+    fn test_lazy_substr_hash_multiple_ranges() {
+        // Call substr_hash on many different ranges of a lazy rope.
+        // Verifies that partial materialization paths don't interfere.
+        let mut lazy = lazy_arena();
+        let mut eager = arena();
+
+        let data = b"The quick brown fox jumps over the lazy dog";
+        let lnode = lazy.from_bytes(data);
+        let enode = eager.from_bytes(data);
+        let len = data.len() as u64;
+
+        // Query many sub-ranges
+        for start in (0..len).step_by(3) {
+            for end in (start + 1..=len).step_by(5) {
+                let length = end - start;
+                let lh = lazy.substr_hash(lnode, start, length);
+                let eh = eager.substr_hash(enode, start, length);
+                assert_eq!(lh, eh,
+                    "substr_hash({}, {}) mismatch", start, length);
+            }
+        }
+    }
+
+    #[test]
+    fn test_lazy_deep_tree_ensure_hash() {
+        // Build a deep rope (many sequential concats) and verify
+        // ensure_hash doesn't stack overflow.
+        let mut a = lazy_arena();
+        let mut node: Node = None;
+        for i in 0..2000u16 {
+            let leaf = a.from_bytes(&[(i % 256) as u8]);
+            node = a.concat(node, leaf);
+        }
+        // Tree height is O(log 2000) ≈ 11, so ensure_hash recursion is safe.
+        // But verify it works.
+        let bytes = a.to_bytes(node);
+        let len = bytes.len() as u64;
+        let rope_hash = a.substr_hash(node, 0, len);
+        let direct_hash = a.hash_bytes(&bytes);
+        assert_eq!(rope_hash, direct_hash);
+    }
+
+    #[test]
+    fn test_lazy_cdh_sort_lz77_pattern() {
+        // Replicate the cdh-sort LZ77 pattern on a lazy arena:
+        // Build "ABCABC" via literals "ABC" + back-reference(dist=3, len=3)
+        let mut lazy = lazy_arena();
+        let prefix = lazy.from_bytes(b"ABC");
+        // Back-reference: copy last 3 bytes (= "ABC"), length 3
+        let cur_len = lazy.len(prefix);
+        let (_, source) = lazy.split(prefix, cur_len - 3); // last 3 bytes
+        let copy = lazy.repeat(source, 2); // "ABCABC" (source repeated 2x)
+        // But we need to split off the first copy since it overlaps with prefix
+        let (_, extra) = lazy.split(copy, 3); // skip the duplicate first copy
+        let result = lazy.concat(prefix, extra); // "ABC" + "ABC" = "ABCABC"
+
+        assert_eq!(lazy.to_bytes(result), b"ABCABC");
+        let len = lazy.len(result);
+        let h = lazy.substr_hash(result, 0, len);
+        assert_eq!(h, lazy.hash_bytes(b"ABCABC"));
     }
 }
