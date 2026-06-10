@@ -496,6 +496,14 @@ def _hash_range(
     """Recursive hash range query."""
     p = h.prime
 
+    # Theorem 9 fast path: a fully covered node answers from stored
+    # metadata (Invariants I1/I3/I6) in O(1). This realizes the
+    # O(k · log w) bound — the canonical decomposition of any range
+    # touches O(log w) fully covered nodes plus at most two partial
+    # leaves at the ends.
+    if start == 0 and length == node.len:
+        return node.hash_val
+
     if isinstance(node, Leaf):
         return h.hash(node.data[start:start + length])
 

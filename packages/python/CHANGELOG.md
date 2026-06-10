@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.2.2 — 2026-06-10
+
+**Performance fix: `rope_substr_hash` now realizes the Theorem 9 `O(k · log w)` bound.**
+
+`_hash_range` was descending into subtrees fully covered by the queried range and re-hashing every byte through `PolynomialHash.hash`, instead of reading the hash metadata stored at every node. The Invariant I3 values were written by all constructors but never consulted by range queries, making `rope_substr_hash` effectively O(length).
+
+### What was wrong
+
+The canonical-decomposition recursion had no early exit for full coverage. A range query decomposes into O(log w) fully covered subtrees plus at most two partial leaves at the ends — but each fully covered subtree was recursed to its leaves and re-hashed byte-by-byte. On a 500 KB rope (4 KB leaves), a half-range query cost ~120 ms and an LCP binary search over prefix hashes cost ~8 s.
+
+### What changed
+
+- **`_hash_range` fast path** — a node fully covered by the query (`start == 0 and length == node.len`) returns its stored `hash_val` in O(1). Eight lines added (guard + comment); nothing else touched.
+
+Measured on CPython 3.12 (Linux, x86-64): half-range query ~120 ms → ~1 ms; prefix-hash LCP ~8 s → ~28 ms, size-independent from 500 KB to 16 MB.
+
+### Correctness
+
+For a fully covered node, the stored `hash_val` equals the recomputed hash by Invariants I1/I3/I6, maintained by every constructor (structural induction). Verified against a byte-level oracle on 425+ randomized ranges, including spans across RepeatNode tail/full-copies/head decompositions.
+
+### Impact on existing users
+
+- **No API changes.** All public signatures are identical.
+- **Hash values are unchanged** for every input — bit-for-bit cross-language consistency with the Rust crate is preserved.
+- **Return values are unchanged** for all inputs, including out-of-contract ones (the guard requires exact full coverage).
+- The only observable difference is speed.
+
+### Testing
+
+146 tests pass (141 pre-existing with no regressions + 5 new in `tests/test_substr_hash_theorem9.py`):
+- Byte-oracle property tests over random ranges and boundary cases (empty, single byte, full range, leaf-boundary straddles)
+- RepeatNode span coverage (tail / full copies / head)
+- Deterministic `CountingHash` complexity guard asserting a query byte-rehashes at most the two partial end-leaves — fails on 0.2.1, passes on 0.2.2
+- Exact-LCP regression via prefix-hash binary search
+
 ## 0.2.1 — 2026-04-09
 
 **Critical bugfix: BB[2/7] balance violations in `_join` and `_rebalance`.**
