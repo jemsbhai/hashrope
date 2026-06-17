@@ -689,11 +689,34 @@ impl Arena {
 
     /// Create a rope from a byte slice. Returns `None` for empty.
     pub fn from_bytes(&mut self, data: &[u8]) -> Node {
+        const LEAF_CAP: usize = 512;
         if data.is_empty() {
-            None
-        } else {
-            Some(self.make_leaf(data.to_vec()))
+            return None;
         }
+        if data.len() <= LEAF_CAP {
+            return Some(self.make_leaf(data.to_vec()));
+        }
+        // Build bounded-size leaves and combine them bottom-up into a balanced tree so
+        // split/concat are O(log N). A single full-length leaf makes split O(leaf_len)=O(N).
+        let mut nodes: Vec<NodeId> = Vec::with_capacity((data.len() + LEAF_CAP - 1) / LEAF_CAP);
+        for chunk in data.chunks(LEAF_CAP) {
+            nodes.push(self.make_leaf(chunk.to_vec()));
+        }
+        while nodes.len() > 1 {
+            let mut next: Vec<NodeId> = Vec::with_capacity((nodes.len() + 1) / 2);
+            let mut i = 0;
+            while i < nodes.len() {
+                if i + 1 < nodes.len() {
+                    let combined = self.concat(Some(nodes[i]), Some(nodes[i + 1]));
+                    next.push(combined.expect("concat of two non-empty leaves is non-empty"));
+                } else {
+                    next.push(nodes[i]);
+                }
+                i += 2;
+            }
+            nodes = next;
+        }
+        Some(nodes[0])
     }
 
     /// Reconstruct the byte string from a rope.

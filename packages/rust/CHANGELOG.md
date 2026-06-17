@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.3.1 — 2026-06-17
+
+**Performance fix: `from_bytes` now builds bounded-size leaves.**
+
+`from_bytes` previously stored the entire input in a single leaf. Because splitting a leaf is O(leaf length), `split` (and therefore any edit built from `split`+`concat`) on a freshly constructed rope was O(N) until the buffer fragmented through editing — defeating the structure's O(log N) edit guarantee for the common "load a buffer, then edit it" pattern.
+
+`from_bytes` now chunks the input into leaves of at most 512 bytes and combines them bottom-up into a balanced tree via `concat`. Split and concat are O(log N) immediately after construction.
+
+### Behavior
+
+- **Correctness unchanged.** For identical content, `to_bytes` round-trips exactly and the maintained whole-buffer polynomial hash is identical to before (and equals `hash_bytes` of the same content). Verified by byte-identity-and-hash churn tests and by `repeat` over multi-node (chunked) bases.
+- **Tree shape changes** for inputs larger than 512 bytes: the root is now a balanced tree of bounded leaves rather than a single leaf, so `height` and `node_count` are larger (by design). Code that relied on `from_bytes` producing a single leaf will observe the new shape.
+- **No API changes.** Eager and lazy arenas, hashing, concat, split, repeat, and substring hashing are otherwise unaffected.
+
+### Provenance
+
+Discovered while benchmarking incremental edit throughput against Ropey: edit latency scaled ~O(N) rather than O(log N), root-caused to single-leaf `from_bytes`. The full existing test suite (107 tests) passes unchanged with the fix.
+
 ## 0.3.0 — 2026-04-10
 
 *(Entry backfilled 2026-06-10; this release shipped without changelog notes.)*
