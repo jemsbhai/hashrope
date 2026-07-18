@@ -89,6 +89,21 @@ assert sw.final_hash() == h.hash(b"hello worldworld")
 
 ## API reference
 
+### Byte-index contract
+
+Every index and length in this API (`rope_split` `pos`, `rope_substr_hash`
+`start`/`length`, `SlidingWindow` offsets) is a byte offset into the stored
+byte string. The library stores, splits, and hashes bytes; it has no notion
+of characters or encodings. When the bytes are UTF-8-encoded text, an
+arbitrary byte offset may fall inside a multibyte character's encoding. That
+split is still exact at the byte level: concatenating the two halves (or
+`rope_to_bytes` of each) reproduces the original bytes, and every hash is
+computed over bytes, so nothing is lost or corrupted. Only the two halves,
+viewed on their own, may not each be valid UTF-8. Callers who need splits on
+character boundaries must supply byte offsets that land on encoded character
+boundaries (for example `len(text[:k].encode("utf-8"))` for a split after
+the first `k` characters).
+
 ### Polynomial hash
 
 | Function / Class | Description |

@@ -362,6 +362,13 @@ def rope_split(
 
     Returns (left, right) where left has pos bytes, right has the rest.
     Time: O(k · log w).
+
+    pos is a byte offset. If the rope stores UTF-8-encoded text, a byte
+    offset may fall inside a multibyte character's encoding: the split is
+    still exact over bytes (concatenating the halves reproduces the
+    original bytes, and all hashes are over bytes), but each half on its
+    own may not be valid UTF-8. Character-boundary alignment is the
+    caller's responsibility. See the byte-index contract in the README.
     """
     if node is None:
         return None, None
@@ -481,6 +488,9 @@ def rope_substr_hash(
     Compute H(S[start..start+length-1]) without allocating nodes (Theorem 9).
 
     Time: O(k · log w). Space: O(log w) stack.
+
+    start and length are byte offsets/counts (see the byte-index contract
+    in the README).
     """
     if node is None or length == 0:
         return 0
@@ -599,7 +609,11 @@ def _collect_bytes(node: Leaf | Internal | RepeatNode, parts: list[bytes]) -> No
 
 
 def rope_from_bytes(data: bytes, h: PolynomialHash) -> Node:
-    """Create a rope from a byte string. Returns None for empty."""
+    """Create a rope from a byte string. Returns None for empty.
+
+    All rope operations index into these bytes by byte offset (see the
+    byte-index contract in the README).
+    """
     if len(data) == 0:
         return None
     return Leaf(data, h)

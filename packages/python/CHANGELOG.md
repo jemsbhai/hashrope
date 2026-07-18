@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+**Docs only: the byte-index contract is now stated explicitly.** README
+gains a "Byte-index contract" section; `rope_split`, `rope_substr_hash`,
+and `rope_from_bytes` docstrings state that all indices and lengths are
+byte offsets, and that splitting UTF-8 text bytes at an arbitrary offset is
+exact over bytes while character-boundary alignment is the caller's
+responsibility. No code changes; no API or behavior changes; hash values
+unchanged for every input.
+
 ## 0.2.2 — 2026-06-10
 
 **Performance fix: `rope_substr_hash` now realizes the Theorem 9 `O(k · log w)` bound.**
