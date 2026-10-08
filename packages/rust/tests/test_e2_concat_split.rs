@@ -13,7 +13,10 @@ fn e2_concat_vs_rehash() {
     let ph = PolynomialHash::default_hash();
 
     println!("\n=== CONCAT: rejoin two halves vs hash-from-scratch ===");
-    println!("{:<10} {:>14} {:>14} {:>10}", "n", "join_ns", "rehash_ns", "speedup");
+    println!(
+        "{:<10} {:>14} {:>14} {:>10}",
+        "n", "join_ns", "rehash_ns", "speedup"
+    );
     println!("{}", "-".repeat(54));
 
     for &n in &sizes {
@@ -53,11 +56,20 @@ fn e2_concat_vs_rehash() {
         let rejoined = a.concat(left, right);
         assert_eq!(a.hash(rejoined), ph.hash(&flat), "Hash mismatch at n={}", n);
 
-        println!("{:<10} {:>14.1} {:>14.1} {:>10.0}x", n, join_ns, rehash_ns, rehash_ns / join_ns);
+        println!(
+            "{:<10} {:>14.1} {:>14.1} {:>10.0}x",
+            n,
+            join_ns,
+            rehash_ns,
+            rehash_ns / join_ns
+        );
     }
 
     println!("\n=== SPLIT: split_at(n/2) vs rehash each half ===");
-    println!("{:<10} {:>14} {:>14} {:>10}", "n", "split_ns", "rehash_ns", "speedup");
+    println!(
+        "{:<10} {:>14} {:>14} {:>10}",
+        "n", "split_ns", "rehash_ns", "speedup"
+    );
     println!("{}", "-".repeat(54));
 
     for &n in &sizes {
@@ -94,9 +106,25 @@ fn e2_concat_vs_rehash() {
         let rehash_ns = start.elapsed().as_nanos() as f64 / iters as f64;
 
         let (l, r) = a.split(rope, mid as u64);
-        assert_eq!(a.hash(l), ph.hash(left_flat), "Left hash mismatch at n={}", n);
-        assert_eq!(a.hash(r), ph.hash(right_flat), "Right hash mismatch at n={}", n);
+        assert_eq!(
+            a.hash(l),
+            ph.hash(left_flat),
+            "Left hash mismatch at n={}",
+            n
+        );
+        assert_eq!(
+            a.hash(r),
+            ph.hash(right_flat),
+            "Right hash mismatch at n={}",
+            n
+        );
 
-        println!("{:<10} {:>14.1} {:>14.1} {:>10.0}x", n, split_ns, rehash_ns, rehash_ns / split_ns);
+        println!(
+            "{:<10} {:>14.1} {:>14.1} {:>10.0}x",
+            n,
+            split_ns,
+            rehash_ns,
+            rehash_ns / split_ns
+        );
     }
 }

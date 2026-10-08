@@ -23,9 +23,14 @@ fn diag_substr_hash_scaling() {
     let sizes = [100, 1_000, 10_000, 100_000, 1_000_000];
     let iterations = 10_000;
 
-    println!("\n=== substr_hash scaling (middle-half query, {} iters) ===", iterations);
-    println!("{:<12} {:>8} {:>12} {:>12} {:>10}",
-        "n", "height", "total_ms", "per_call_ns", "log2(n)");
+    println!(
+        "\n=== substr_hash scaling (middle-half query, {} iters) ===",
+        iterations
+    );
+    println!(
+        "{:<12} {:>8} {:>12} {:>12} {:>10}",
+        "n", "height", "total_ms", "per_call_ns", "log2(n)"
+    );
     println!("{}", "-".repeat(60));
 
     for &n in &sizes {
@@ -58,8 +63,10 @@ fn diag_substr_hash_scaling() {
         let per_call_ns = elapsed.as_nanos() as f64 / iterations as f64;
         let log2_n = (n as f64).log2();
 
-        println!("{:<12} {:>8} {:>12.3} {:>12.1} {:>10.1}",
-            n, h, total_ms, per_call_ns, log2_n);
+        println!(
+            "{:<12} {:>8} {:>12.3} {:>12.1} {:>10.1}",
+            n, h, total_ms, per_call_ns, log2_n
+        );
     }
 
     println!();

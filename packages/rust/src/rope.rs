@@ -81,6 +81,12 @@ pub struct Arena {
     lazy: bool,
 }
 
+impl Default for Arena {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Arena {
     /// Create a new arena with default polynomial hash parameters.
     pub fn new() -> Self {
@@ -213,7 +219,11 @@ impl Arena {
         }
 
         // Extract node structure without borrowing self
-        enum Kind { Leaf, Internal(NodeId, NodeId), Repeat(NodeId, u64) }
+        enum Kind {
+            Leaf,
+            Internal(NodeId, NodeId),
+            Repeat(NodeId, u64),
+        }
         let kind = match &self.nodes[id as usize] {
             NodeInner::Leaf { .. } => Kind::Leaf,
             NodeInner::Internal { left, right, .. } => Kind::Internal(*left, *right),
@@ -258,7 +268,7 @@ impl Arena {
 
     #[inline]
     fn alloc(&mut self, inner: NodeInner) -> NodeId {
-        let id = self.nodes.len() as u32;
+        let id = NodeId::try_from(self.nodes.len()).expect("Arena node count exceeds u32::MAX");
         self.nodes.push(inner);
         id
     }
@@ -269,15 +279,29 @@ impl Arena {
 
     fn make_leaf(&mut self, data: Vec<u8>) -> NodeId {
         assert!(!data.is_empty(), "Leaf cannot be empty");
-        let hash_val = if self.lazy { LAZY_SENTINEL } else { self.h.hash(&data) };
+        let hash_val = if self.lazy {
+            LAZY_SENTINEL
+        } else {
+            self.h.hash(&data)
+        };
         let len = data.len() as u64;
-        self.alloc(NodeInner::Leaf { data, hash_val, len })
+        self.alloc(NodeInner::Leaf {
+            data,
+            hash_val,
+            len,
+        })
     }
 
     #[inline]
     fn make_internal(&mut self, left: NodeId, right: NodeId) -> NodeId {
-        let len = self.node_len(left) + self.node_len(right);
-        let weight = self.node_weight(left) + self.node_weight(right);
+        let len = self
+            .node_len(left)
+            .checked_add(self.node_len(right))
+            .expect("Rope length exceeds u64::MAX");
+        let weight = self
+            .node_weight(left)
+            .checked_add(self.node_weight(right))
+            .expect("Rope weight exceeds u64::MAX");
         let hash_val = if self.lazy {
             LAZY_SENTINEL
         } else {
@@ -287,15 +311,25 @@ impl Arena {
                 self.hash_val(right),
             )
         };
-        self.alloc(NodeInner::Internal { left, right, hash_val, len, weight })
+        self.alloc(NodeInner::Internal {
+            left,
+            right,
+            hash_val,
+            len,
+            weight,
+        })
     }
 
     fn make_repeat_node(&mut self, child: NodeId, reps: u64) -> NodeId {
         assert!(reps >= 2, "RepeatNode reps must be >= 2, got {}", reps);
         let child_len = self.node_len(child);
         let child_weight = self.node_weight(child);
-        let len = child_len * reps;
-        let weight = child_weight * reps;
+        let len = child_len
+            .checked_mul(reps)
+            .expect("Rope length exceeds u64::MAX");
+        let weight = child_weight
+            .checked_mul(reps)
+            .expect("Rope weight exceeds u64::MAX");
         let hash_val = if self.lazy {
             LAZY_SENTINEL
         } else {
@@ -304,7 +338,13 @@ impl Arena {
             let phi_val = phi(reps, x_d, self.h.prime());
             mersenne_mul(child_hash, phi_val, self.h.prime())
         };
-        self.alloc(NodeInner::Repeat { child, reps, hash_val, len, weight })
+        self.alloc(NodeInner::Repeat {
+            child,
+            reps,
+            hash_val,
+            len,
+            weight,
+        })
     }
 
     fn make_repeat(&mut self, child: NodeId, reps: u64) -> Node {
@@ -364,11 +404,13 @@ impl Arena {
     /// Weight-only balance check (no node lookup needed).
     #[inline]
     fn is_balanced_wt(wl: u64, wr: u64) -> bool {
-        let total = wl + wr;
+        let wl = u128::from(wl);
+        let total = wl + u128::from(wr);
         if total <= 2 {
             return true;
         }
-        ALPHA_NUM * total <= ALPHA_DEN * wl && ALPHA_DEN * wl <= (ALPHA_DEN - ALPHA_NUM) * total
+        u128::from(ALPHA_NUM) * total <= u128::from(ALPHA_DEN) * wl
+            && u128::from(ALPHA_DEN) * wl <= u128::from(ALPHA_DEN - ALPHA_NUM) * total
     }
 
     /// Decompose a node into two children for rotation purposes.
@@ -393,7 +435,7 @@ impl Arena {
     fn balance(&mut self, left: NodeId, right: NodeId) -> NodeId {
         let wl = self.node_weight(left);
         let wr = self.node_weight(right);
-        let total = wl + wr;
+        let total = wl.checked_add(wr).expect("Rope weight exceeds u64::MAX");
 
         if total <= 2 {
             return self.make_internal(left, right);
@@ -403,16 +445,14 @@ impl Arena {
             return self.make_internal(left, right);
         }
 
-        if ALPHA_NUM * total > ALPHA_DEN * wl {
+        if u128::from(ALPHA_NUM) * u128::from(total) > u128::from(ALPHA_DEN) * u128::from(wl) {
             // Left too light (right too heavy) → rotate left
             let (rl, rr) = self.decompose(right);
             let wrl = self.node_weight(rl);
             let wrr = self.node_weight(rr);
             // Single rotation: inner=(left,rl), outer=(inner, rr)
             // Use single only if BOTH inner and outer would be balanced.
-            if Self::is_balanced_wt(wl, wrl)
-                && Self::is_balanced_wt(wl + wrl, wrr)
-            {
+            if Self::is_balanced_wt(wl, wrl) && Self::is_balanced_wt(wl + wrl, wrr) {
                 let new_left = self.make_internal(left, rl);
                 self.make_internal(new_left, rr)
             } else {
@@ -428,9 +468,7 @@ impl Arena {
             let wll = self.node_weight(ll);
             let wlr = self.node_weight(lr);
             // Single rotation: inner=(lr,right), outer=(ll, inner)
-            if Self::is_balanced_wt(wlr, wr)
-                && Self::is_balanced_wt(wll, wlr + wr)
-            {
+            if Self::is_balanced_wt(wlr, wr) && Self::is_balanced_wt(wll, wlr + wr) {
                 let new_right = self.make_internal(lr, right);
                 self.make_internal(ll, new_right)
             } else {
@@ -443,6 +481,7 @@ impl Arena {
         }
     }
 
+    #[cfg(test)]
     fn rebalance(&mut self, left: NodeId, right: NodeId) -> NodeId {
         self.balance(left, right)
     }
@@ -461,7 +500,11 @@ impl Arena {
 
         if wl > wr {
             match self.nodes[left as usize].clone() {
-                NodeInner::Internal { left: ll, right: lr, .. } => {
+                NodeInner::Internal {
+                    left: ll,
+                    right: lr,
+                    ..
+                } => {
                     let new_right = self.join(lr, right);
                     self.balance(ll, new_right)
                 }
@@ -478,7 +521,11 @@ impl Arena {
             }
         } else {
             match self.nodes[right as usize].clone() {
-                NodeInner::Internal { left: rl, right: rr, .. } => {
+                NodeInner::Internal {
+                    left: rl,
+                    right: rr,
+                    ..
+                } => {
                     let new_left = self.join(left, rl);
                     self.balance(new_left, rr)
                 }
@@ -500,11 +547,24 @@ impl Arena {
     // -----------------------------------------------------------------------
 
     /// Concatenate two ropes. Returns a balanced rope representing `left || right`.
+    ///
+    /// # Panics
+    /// Panics if the resulting length or weight exceeds `u64::MAX`, or if
+    /// the arena cannot represent another node with a `NodeId`.
     pub fn concat(&mut self, left: Node, right: Node) -> Node {
         match (left, right) {
             (None, _) => right,
             (_, None) => left,
-            (Some(l), Some(r)) => Some(self.join(l, r)),
+            (Some(l), Some(r)) => {
+                // Reject an unrepresentable result before join allocates any nodes.
+                self.node_len(l)
+                    .checked_add(self.node_len(r))
+                    .expect("Rope length exceeds u64::MAX");
+                self.node_weight(l)
+                    .checked_add(self.node_weight(r))
+                    .expect("Rope weight exceeds u64::MAX");
+                Some(self.join(l, r))
+            }
         }
     }
 
@@ -533,7 +593,7 @@ impl Arena {
     fn split_inner(&mut self, id: NodeId, pos: u64) -> (Node, Node) {
         match self.nodes[id as usize].clone() {
             NodeInner::Leaf { data, .. } => {
-                let pos = pos as usize;
+                let pos = usize::try_from(pos).expect("Leaf position exceeds usize::MAX");
                 let left = self.make_leaf(data[..pos].to_vec());
                 let right = self.make_leaf(data[pos..].to_vec());
                 (Some(left), Some(right))
@@ -553,9 +613,7 @@ impl Arena {
                     (rejoined, r2)
                 }
             }
-            NodeInner::Repeat { child, reps, .. } => {
-                self.split_repeat(child, reps, pos)
-            }
+            NodeInner::Repeat { child, reps, .. } => self.split_repeat(child, reps, pos),
         }
     }
 
@@ -586,6 +644,10 @@ impl Arena {
     // -----------------------------------------------------------------------
 
     /// Create a RepeatNode representing `node^q`.
+    ///
+    /// # Panics
+    /// Panics if the resulting length or weight exceeds `u64::MAX`, or if
+    /// the arena cannot represent another node with a `NodeId`.
     pub fn repeat(&mut self, node: Node, q: u64) -> Node {
         match node {
             None => None,
@@ -619,13 +681,19 @@ impl Arena {
 
         match self.nodes[id as usize].clone() {
             NodeInner::Leaf { data, .. } => {
-                let s = start as usize;
-                let e = s + length as usize;
+                let s = usize::try_from(start).expect("Leaf position exceeds usize::MAX");
+                let length = usize::try_from(length).expect("Leaf range exceeds usize::MAX");
+                let e = s
+                    .checked_add(length)
+                    .expect("Leaf range exceeds usize::MAX");
                 self.h.hash(&data[s..e])
             }
             NodeInner::Internal { left, right, .. } => {
                 let ll = self.node_len(left);
-                if start + length <= ll {
+                let end = start
+                    .checked_add(length)
+                    .expect("Substring range exceeds u64::MAX");
+                if end <= ll {
                     return self.hash_range(left, start, length);
                 }
                 if start >= ll {
@@ -644,7 +712,9 @@ impl Arena {
                 let child_hash = self.hash_val(child);
                 let first_copy = start / d;
                 let start_in_copy = start % d;
-                let end = start + length - 1;
+                let end = start
+                    .checked_add(length - 1)
+                    .expect("Substring range exceeds u64::MAX");
                 let last_copy = end / d;
                 let end_in_copy = end % d;
 
@@ -674,8 +744,8 @@ impl Arena {
                 let x_full_head = self.h.power(full_len + head_len);
                 let x_head = self.h.power(head_len);
                 mersenne_mod(
-                    x_full_head as u128 * h_tail as u128
-                        + x_head as u128 * h_full as u128
+                    mersenne_mul(x_full_head, h_tail, p) as u128
+                        + mersenne_mul(x_head, h_full, p) as u128
                         + h_head as u128,
                     p,
                 )
@@ -698,12 +768,12 @@ impl Arena {
         }
         // Build bounded-size leaves and combine them bottom-up into a balanced tree so
         // split/concat are O(log N). A single full-length leaf makes split O(leaf_len)=O(N).
-        let mut nodes: Vec<NodeId> = Vec::with_capacity((data.len() + LEAF_CAP - 1) / LEAF_CAP);
+        let mut nodes: Vec<NodeId> = Vec::with_capacity(data.chunks(LEAF_CAP).len());
         for chunk in data.chunks(LEAF_CAP) {
             nodes.push(self.make_leaf(chunk.to_vec()));
         }
         while nodes.len() > 1 {
-            let mut next: Vec<NodeId> = Vec::with_capacity((nodes.len() + 1) / 2);
+            let mut next: Vec<NodeId> = Vec::with_capacity(nodes.chunks(2).len());
             let mut i = 0;
             while i < nodes.len() {
                 if i + 1 < nodes.len() {
@@ -720,7 +790,15 @@ impl Arena {
     }
 
     /// Reconstruct the byte string from a rope.
+    ///
+    /// # Panics
+    /// Panics if the byte length exceeds the target's `Vec` address limit.
     pub fn to_bytes(&self, node: Node) -> Vec<u8> {
+        let len = usize::try_from(self.len(node)).expect("Rope byte length exceeds usize::MAX");
+        assert!(
+            len <= isize::MAX as usize,
+            "Rope byte length exceeds isize::MAX"
+        );
         let mut parts = Vec::new();
         if let Some(id) = node {
             self.collect_bytes(id, &mut parts);
@@ -759,27 +837,60 @@ impl Arena {
             NodeInner::Leaf { data, len, .. } => {
                 assert_eq!(*len, data.len() as u64, "Leaf len mismatch");
             }
-            NodeInner::Internal { left, right, len, weight, .. } => {
-                assert_eq!(*len, self.node_len(*left) + self.node_len(*right), "Internal len mismatch");
-                assert_eq!(*weight, self.node_weight(*left) + self.node_weight(*right), "Internal weight mismatch");
-                let total = *weight;
-                let wl = self.node_weight(*left);
+            NodeInner::Internal {
+                left,
+                right,
+                len,
+                weight,
+                ..
+            } => {
+                assert_eq!(
+                    Some(*len),
+                    self.node_len(*left).checked_add(self.node_len(*right)),
+                    "Internal len mismatch"
+                );
+                assert_eq!(
+                    Some(*weight),
+                    self.node_weight(*left)
+                        .checked_add(self.node_weight(*right)),
+                    "Internal weight mismatch"
+                );
+                let total = u128::from(*weight);
+                let wl = u128::from(self.node_weight(*left));
                 if total > 2 {
                     assert!(
-                        ALPHA_NUM * total <= ALPHA_DEN * wl,
-                        "Left child too light: {}/{}", wl, total
+                        u128::from(ALPHA_NUM) * total <= u128::from(ALPHA_DEN) * wl,
+                        "Left child too light: {}/{}",
+                        wl,
+                        total
                     );
                     assert!(
-                        ALPHA_DEN * wl <= (ALPHA_DEN - ALPHA_NUM) * total,
-                        "Left child too heavy: {}/{}", wl, total
+                        u128::from(ALPHA_DEN) * wl <= u128::from(ALPHA_DEN - ALPHA_NUM) * total,
+                        "Left child too heavy: {}/{}",
+                        wl,
+                        total
                     );
                 }
                 self.validate_inner(*left);
                 self.validate_inner(*right);
             }
-            NodeInner::Repeat { child, reps, len, weight, .. } => {
-                assert_eq!(*len, self.node_len(*child) * reps, "RepeatNode len mismatch");
-                assert_eq!(*weight, self.node_weight(*child) * reps, "RepeatNode weight mismatch");
+            NodeInner::Repeat {
+                child,
+                reps,
+                len,
+                weight,
+                ..
+            } => {
+                assert_eq!(
+                    Some(*len),
+                    self.node_len(*child).checked_mul(*reps),
+                    "RepeatNode len mismatch"
+                );
+                assert_eq!(
+                    Some(*weight),
+                    self.node_weight(*child).checked_mul(*reps),
+                    "RepeatNode weight mismatch"
+                );
                 assert!(*reps >= 2, "RepeatNode reps must be >= 2, got {}", reps);
                 self.validate_inner(*child);
             }
@@ -863,10 +974,93 @@ pub fn validate_rope(arena: &Arena, node: Node) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
 
     fn arena() -> Arena {
         Arena::new()
+    }
+
+    #[test]
+    fn test_maximum_length_compressed_rope() {
+        for lazy in [false, true] {
+            let mut a = if lazy { Arena::new_lazy() } else { arena() };
+            let leaf = a.from_bytes(b"a");
+            let left = a.repeat(leaf, u64::MAX / 2);
+            let right = a.repeat(leaf, u64::MAX / 2 + 1);
+            let node = a.concat(left, right);
+            assert_eq!(a.len(node), u64::MAX);
+            assert_eq!(a.weight(node), u64::MAX);
+            a.validate(node);
+            let expected = a.h.hash_repeat(98, 1, u64::MAX);
+            assert_eq!(a.substr_hash(node, 0, u64::MAX), expected);
+            assert_eq!(a.substr_hash(node, u64::MAX - 3, 3), a.hash_bytes(b"aaa"));
+        }
+    }
+
+    #[test]
+    fn test_split_and_rejoin_maximum_repeat() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"a");
+        let node = a.repeat(leaf, u64::MAX);
+        let expected = a.hash(node);
+        let (left, right) = a.split(node, u64::MAX - 3);
+        assert_eq!(a.len(left), u64::MAX - 3);
+        assert_eq!(a.to_bytes(right), b"aaa");
+        let joined = a.concat(left, right);
+        assert_eq!(a.len(joined), u64::MAX);
+        assert_eq!(a.hash(joined), expected);
+        a.validate(joined);
+    }
+
+    #[test]
+    fn test_balance_comparisons_use_full_width() {
+        assert!(Arena::is_balanced_wt(u64::MAX / 2, u64::MAX / 2 + 1));
+        assert!(!Arena::is_balanced_wt(1, u64::MAX - 1));
+        assert!(!Arena::is_balanced_wt(u64::MAX - 1, 1));
+    }
+
+    #[test]
+    fn test_repeat_substring_full_width_mersenne_modulus() {
+        // 2^64 - 1 is a Mersenne modulus (not prime), which the existing
+        // custom-parameter API accepts. Two unreduced products can exceed u128.
+        let mut a = Arena::with_hash(u64::MAX, u64::MAX - 2);
+        let leaf = a.from_bytes(b"abc");
+        let node = a.repeat(leaf, 5);
+        assert_eq!(a.substr_hash(node, 1, 11), a.hash_bytes(b"bcabcabcabc"));
+    }
+
+    #[test]
+    #[should_panic(expected = "Rope length exceeds u64::MAX")]
+    fn test_repeat_length_overflow_rejected() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"ab");
+        a.repeat(leaf, u64::MAX / 2 + 1);
+    }
+
+    #[test]
+    #[should_panic(expected = "Rope length exceeds u64::MAX")]
+    fn test_nested_repeat_length_overflow_rejected() {
+        let mut a = Arena::new_lazy();
+        let leaf = a.from_bytes(b"a");
+        let node = a.repeat(leaf, u64::MAX / 2 + 1);
+        a.repeat(node, 2);
+    }
+
+    #[test]
+    #[should_panic(expected = "Rope length exceeds u64::MAX")]
+    fn test_concat_length_overflow_rejected() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"a");
+        let node = a.repeat(leaf, u64::MAX);
+        a.concat(node, leaf);
+    }
+
+    #[test]
+    #[should_panic(expected = "Rope byte length exceeds")]
+    fn test_materialization_rejects_unaddressable_length() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"a");
+        let node = a.repeat(leaf, u64::MAX);
+        a.to_bytes(node);
     }
 
     #[test]
@@ -957,8 +1151,11 @@ mod tests {
             for length in 1..=(16 - start) {
                 let expected = a.hash_bytes(&data[start as usize..(start + length) as usize]);
                 let got = a.substr_hash(root, start, length);
-                assert_eq!(got, expected,
-                    "substr_hash mismatch at start={}, length={}", start, length);
+                assert_eq!(
+                    got, expected,
+                    "substr_hash mismatch at start={}, length={}",
+                    start, length
+                );
             }
         }
         // Also test zero-length
@@ -981,7 +1178,15 @@ mod tests {
         // Full range
         assert_eq!(a.substr_hash(node, 0, 100), a.hash(node));
         // Various sub-ranges
-        for &(s, l) in &[(0, 50), (25, 50), (50, 50), (10, 80), (0, 1), (99, 1), (0, 100)] {
+        for &(s, l) in &[
+            (0, 50),
+            (25, 50),
+            (50, 50),
+            (10, 80),
+            (0, 1),
+            (99, 1),
+            (0, 100),
+        ] {
             let expected = a.hash_bytes(&data[s..s + l]);
             let got = a.substr_hash(node, s as u64, l as u64);
             assert_eq!(got, expected, "mismatch at start={}, length={}", s, l);
@@ -1003,7 +1208,10 @@ mod tests {
         // Spanning two copies
         assert_eq!(a.substr_hash(rep, 2, 4), a.hash_bytes(b"cdab"));
         // Spanning many copies
-        assert_eq!(a.substr_hash(rep, 1, 13), a.hash_bytes(&materialized[1..14]));
+        assert_eq!(
+            a.substr_hash(rep, 1, 13),
+            a.hash_bytes(&materialized[1..14])
+        );
         // Last byte
         assert_eq!(a.substr_hash(rep, 399, 1), a.hash_bytes(b"d"));
     }
@@ -1023,11 +1231,16 @@ mod tests {
         for start in (0..data.len()).step_by(5) {
             for length in [1, 3, 7, 10, data.len() - start] {
                 let length = length.min(data.len() - start);
-                if length == 0 { continue; }
+                if length == 0 {
+                    continue;
+                }
                 let expected = a.hash_bytes(&data[start..start + length]);
                 let got = a.substr_hash(rejoined, start as u64, length as u64);
-                assert_eq!(got, expected,
-                    "mismatch on rejoined rope at start={}, length={}", start, length);
+                assert_eq!(
+                    got, expected,
+                    "mismatch on rejoined rope at start={}, length={}",
+                    start, length
+                );
             }
         }
     }
@@ -1207,8 +1420,12 @@ mod tests {
         match &a.nodes[id as usize] {
             NodeInner::Leaf { .. } => format!("Leaf(w={})", w),
             NodeInner::Internal { left, right, .. } => {
-                format!("Internal(w={}, L=w{}, R=w{})", w,
-                    a.node_weight(*left), a.node_weight(*right))
+                format!(
+                    "Internal(w={}, L=w{}, R=w{})",
+                    w,
+                    a.node_weight(*left),
+                    a.node_weight(*right)
+                )
             }
             NodeInner::Repeat { reps, .. } => format!("Repeat(w={}, reps={})", w, reps),
         }
@@ -1222,12 +1439,19 @@ mod tests {
             let wl = a.node_weight(*left);
             if total > 2 {
                 if ALPHA_NUM * total > ALPHA_DEN * wl {
-                    return Err(format!("Left too light: {}/{} (min {}/{})",
-                        wl, total, ALPHA_NUM, ALPHA_DEN));
+                    return Err(format!(
+                        "Left too light: {}/{} (min {}/{})",
+                        wl, total, ALPHA_NUM, ALPHA_DEN
+                    ));
                 }
                 if ALPHA_DEN * wl > (ALPHA_DEN - ALPHA_NUM) * total {
-                    return Err(format!("Left too heavy: {}/{} (max {}/{})",
-                        wl, total, ALPHA_DEN - ALPHA_NUM, ALPHA_DEN));
+                    return Err(format!(
+                        "Left too heavy: {}/{} (max {}/{})",
+                        wl,
+                        total,
+                        ALPHA_DEN - ALPHA_NUM,
+                        ALPHA_DEN
+                    ));
                 }
             }
         }
@@ -1269,25 +1493,31 @@ mod tests {
         use alloc::format;
         let max_w: u64 = 200;
 
+        // Keep this test compatible with compilers predating is_multiple_of.
+        #[allow(clippy::manual_is_multiple_of)]
         fn valid_splits(w: u64) -> Vec<(u64, u64)> {
             let mut s = Vec::new();
             // Internal: children satisfy BB[2/7]
             for a in 1..w {
                 let b = w - a;
                 let t = a + b;
-                if t <= 2 || (ALPHA_NUM * t <= ALPHA_DEN * a
-                    && ALPHA_DEN * a <= (ALPHA_DEN - ALPHA_NUM) * t) {
+                if t <= 2
+                    || (ALPHA_NUM * t <= ALPHA_DEN * a
+                        && ALPHA_DEN * a <= (ALPHA_DEN - ALPHA_NUM) * t)
+                {
                     s.push((a, b));
                 }
             }
             // Repeat: reps-halving
-            for c in 1..=w/2 {
+            for c in 1..=w / 2 {
                 if w % c == 0 {
                     let q = w / c;
                     if q >= 2 {
                         let a = c * (q / 2);
                         let b = c * (q - q / 2);
-                        if a >= 1 && b >= 1 { s.push((a, b)); }
+                        if a >= 1 && b >= 1 {
+                            s.push((a, b));
+                        }
                     }
                 }
             }
@@ -1304,29 +1534,42 @@ mod tests {
         for wr in 1..=max_w {
             for wl in 1..wr {
                 let total = wl + wr;
-                if total <= 2 { continue; }
+                if total <= 2 {
+                    continue;
+                }
                 // Check: is this pair unbalanced with left too light?
                 let bal = ALPHA_NUM * total <= ALPHA_DEN * wl
                     && ALPHA_DEN * wl <= (ALPHA_DEN - ALPHA_NUM) * total;
-                if bal { continue; }
-                if !(ALPHA_NUM * total > ALPHA_DEN * wl) { continue; }
+                if bal {
+                    continue;
+                }
+                if ALPHA_NUM * total <= ALPHA_DEN * wl {
+                    continue;
+                }
 
                 for &(wrl, wrr) in &valid_splits(wr) {
                     // Check single rotation
                     let inner_bal = {
                         let t = wl + wrl;
-                        t <= 2 || (ALPHA_NUM * t <= ALPHA_DEN * wl
-                            && ALPHA_DEN * wl <= (ALPHA_DEN - ALPHA_NUM) * t)
+                        t <= 2
+                            || (ALPHA_NUM * t <= ALPHA_DEN * wl
+                                && ALPHA_DEN * wl <= (ALPHA_DEN - ALPHA_NUM) * t)
                     };
                     let outer_bal = {
                         let t = wl + wrl + wrr;
                         let wl2 = wl + wrl;
-                        t <= 2 || (ALPHA_NUM * t <= ALPHA_DEN * wl2
-                            && ALPHA_DEN * wl2 <= (ALPHA_DEN - ALPHA_NUM) * t)
+                        t <= 2
+                            || (ALPHA_NUM * t <= ALPHA_DEN * wl2
+                                && ALPHA_DEN * wl2 <= (ALPHA_DEN - ALPHA_NUM) * t)
                     };
-                    if inner_bal && outer_bal { continue; }
+                    if inner_bal && outer_bal {
+                        continue;
+                    }
 
-                    if wrl < 2 { leaf_decompose_count += 1; continue; }
+                    if wrl < 2 {
+                        leaf_decompose_count += 1;
+                        continue;
+                    }
 
                     for &(wrll, wrlr) in &valid_splits(wrl) {
                         let max1 = core::cmp::max(wl, wrll);
@@ -1336,34 +1579,53 @@ mod tests {
                         let max3 = core::cmp::max(nl, nr);
 
                         if max1 >= wr {
-                            violations.push(format!("CALL1: bal({},{}) max {} >= {}", wl, wr, max1, wr));
+                            violations
+                                .push(format!("CALL1: bal({},{}) max {} >= {}", wl, wr, max1, wr));
                         }
                         if max2 >= wr {
-                            violations.push(format!("CALL2: bal({},{}) max {} >= {}", wl, wr, max2, wr));
+                            violations
+                                .push(format!("CALL2: bal({},{}) max {} >= {}", wl, wr, max2, wr));
                         }
                         if max3 >= wr {
-                            violations.push(format!("CALL3: bal({},{})→bal({},{}) max {} >= {}", wl, wr, nl, nr, max3, wr));
+                            violations.push(format!(
+                                "CALL3: bal({},{})→bal({},{}) max {} >= {}",
+                                wl, wr, nl, nr, max3, wr
+                            ));
                         }
 
                         let ratio = max3 as f64 / wr as f64;
-                        if ratio > worst_ratio { worst_ratio = ratio; }
+                        if ratio > worst_ratio {
+                            worst_ratio = ratio;
+                        }
                         verified += 1;
                     }
                 }
             }
         }
 
-        assert!(violations.is_empty(),
+        assert!(
+            violations.is_empty(),
             "Termination violated in {} of {} cases. First: {}",
-            violations.len(), verified,
-            violations.first().map(|s| s.as_str()).unwrap_or("none"));
-        assert_eq!(leaf_decompose_count, 0,
-            "decompose would be called on {} Leaf nodes", leaf_decompose_count);
-        assert!(worst_ratio < 1.0,
-            "Contraction ratio {} >= 1.0", worst_ratio);
+            violations.len(),
+            verified,
+            violations.first().map(|s| s.as_str()).unwrap_or("none")
+        );
+        assert_eq!(
+            leaf_decompose_count, 0,
+            "decompose would be called on {} Leaf nodes",
+            leaf_decompose_count
+        );
+        assert!(
+            worst_ratio < 1.0,
+            "Contraction ratio {} >= 1.0",
+            worst_ratio
+        );
         // Verify the analytical bound: worst case is 223/245 ≈ 0.9184
-        assert!(worst_ratio < 0.92,
-            "Contraction ratio {} exceeds 0.92", worst_ratio);
+        assert!(
+            worst_ratio < 0.92,
+            "Contraction ratio {} exceeds 0.92",
+            worst_ratio
+        );
     }
 
     // ===================================================================
@@ -1544,9 +1806,9 @@ mod tests {
         use alloc::format;
         let mut a = arena();
 
-        let child = a.make_leaf(Vec::from(b"y" as &[u8]));  // id=0, w=1
-        let rep9 = a.make_repeat_node(child, 9);             // id=1, w=9
-        let leaf = a.make_leaf(Vec::from(b"x" as &[u8]));   // id=2, w=1
+        let child = a.make_leaf(Vec::from(b"y" as &[u8])); // id=0, w=1
+        let rep9 = a.make_repeat_node(child, 9); // id=1, w=9
+        let leaf = a.make_leaf(Vec::from(b"x" as &[u8])); // id=2, w=1
 
         // join(rep9=w9, leaf=w1): wl=9 > wr=1, left is Repeat
         // Step 1: split rep9 at byte midpoint
@@ -1557,14 +1819,18 @@ mod tests {
 
         let trace1 = format!(
             "Step 1: split Repeat(w=9) at byte {} -> ll={}, lr={}",
-            mid, describe(&a, ll), describe(&a, lr)
+            mid,
+            describe(&a, ll),
+            describe(&a, lr)
         );
 
         // Step 2: new_right = join(lr, leaf)
         let new_right = a.join(lr, leaf);
         let trace2 = format!(
             "Step 2: join({}, {}) -> {}",
-            describe(&a, lr), describe(&a, leaf), describe(&a, new_right)
+            describe(&a, lr),
+            describe(&a, leaf),
+            describe(&a, new_right)
         );
         let violations_nr = find_all_violations(&a, new_right);
         let trace2v = format!("  violations in new_right: {:?}", violations_nr);
@@ -1573,7 +1839,9 @@ mod tests {
         let final_result = a.join(ll, new_right);
         let trace3 = format!(
             "Step 3: join({}, {}) -> {}",
-            describe(&a, ll), describe(&a, new_right), describe(&a, final_result)
+            describe(&a, ll),
+            describe(&a, new_right),
+            describe(&a, final_result)
         );
         let violations_final = find_all_violations(&a, final_result);
         let trace3v = format!("  violations in final: {:?}", violations_final);
@@ -1637,7 +1905,12 @@ mod tests {
                 panic!(
                     "Bug B minimal reproduction found at total={}.\nFirst violations:\n{}",
                     total,
-                    found.iter().take(10).cloned().collect::<Vec<_>>().join("\n")
+                    found
+                        .iter()
+                        .take(10)
+                        .cloned()
+                        .collect::<Vec<_>>()
+                        .join("\n")
                 );
             }
         }
@@ -1751,10 +2024,10 @@ mod tests {
 
         // Simulate several LZ77 back-references
         for &(offset, length, distance) in &[
-            (0u64, 4u64, 1u64),   // copy 4 bytes starting at offset 0, distance 1
+            (0u64, 4u64, 1u64), // copy 4 bytes starting at offset 0, distance 1
             (2, 6, 2),
             (0, 3, 3),
-            (1, 10, 1),           // distance=1 is the run-length trigger
+            (1, 10, 1), // distance=1 is the run-length trigger
         ] {
             // Extract the source pattern
             let (_left, _) = a.split(rope, offset + distance);
@@ -1765,7 +2038,7 @@ mod tests {
 
             if let Some(unit_id) = unit {
                 // Repeat to cover `length` bytes
-                let reps_needed = (length + distance - 1) / distance;
+                let reps_needed = 1 + (length - 1) / distance;
                 let repeated = a.repeat(Some(unit_id), reps_needed);
 
                 // Trim to exact length
@@ -1779,7 +2052,10 @@ mod tests {
 
         // Final validation
         a.validate(rope);
-        assert!(a.len(rope) > 8, "Rope should have grown from back-references");
+        assert!(
+            a.len(rope) > 8,
+            "Rope should have grown from back-references"
+        );
     }
 
     #[test]
@@ -1816,8 +2092,12 @@ mod tests {
             let (left, right) = a.split(rep, pos);
             let rejoined = a.concat(left, right);
             a.validate(rejoined);
-            assert_eq!(a.hash(rejoined), full_hash,
-                "Hash mismatch after split at pos={}", pos);
+            assert_eq!(
+                a.hash(rejoined),
+                full_hash,
+                "Hash mismatch after split at pos={}",
+                pos
+            );
         }
     }
 
@@ -1931,8 +2211,11 @@ mod tests {
     fn test_lazy_leaf_has_sentinel_hash() {
         let mut a = lazy_arena();
         let node = a.from_bytes(b"hello").unwrap();
-        assert_eq!(a.node(node).hash_val(), LAZY_SENTINEL,
-            "Lazy leaf should have sentinel hash");
+        assert_eq!(
+            a.node(node).hash_val(),
+            LAZY_SENTINEL,
+            "Lazy leaf should have sentinel hash"
+        );
     }
 
     #[test]
@@ -1941,8 +2224,11 @@ mod tests {
         let left = a.from_bytes(b"hel");
         let right = a.from_bytes(b"lo");
         let node = a.concat(left, right).unwrap();
-        assert_eq!(a.node(node).hash_val(), LAZY_SENTINEL,
-            "Lazy internal should have sentinel hash");
+        assert_eq!(
+            a.node(node).hash_val(),
+            LAZY_SENTINEL,
+            "Lazy internal should have sentinel hash"
+        );
     }
 
     #[test]
@@ -1950,8 +2236,11 @@ mod tests {
         let mut a = lazy_arena();
         let pat = a.from_bytes(b"ab");
         let node = a.repeat(pat, 5).unwrap();
-        assert_eq!(a.node(node).hash_val(), LAZY_SENTINEL,
-            "Lazy repeat should have sentinel hash");
+        assert_eq!(
+            a.node(node).hash_val(),
+            LAZY_SENTINEL,
+            "Lazy repeat should have sentinel hash"
+        );
     }
 
     #[test]
@@ -2012,7 +2301,10 @@ mod tests {
         // Must match eager computation
         let mut eager = arena();
         let eager_node = eager.from_bytes(b"hello").unwrap();
-        assert_eq!(lazy.node(node).hash_val(), eager.node(eager_node).hash_val());
+        assert_eq!(
+            lazy.node(node).hash_val(),
+            eager.node(eager_node).hash_val()
+        );
     }
 
     #[test]
@@ -2211,8 +2503,12 @@ mod tests {
         // No valid hash can equal the sentinel
         let a = arena();
         let p = a.hasher().prime();
-        assert!(LAZY_SENTINEL > p,
-            "Sentinel {} must be > prime {}", LAZY_SENTINEL, p);
+        assert!(
+            LAZY_SENTINEL > p,
+            "Sentinel {} must be > prime {}",
+            LAZY_SENTINEL,
+            p
+        );
     }
 
     #[test]
@@ -2245,8 +2541,11 @@ mod tests {
         // arena.hash(node) should return LAZY_SENTINEL before materialization
         let mut a = lazy_arena();
         let node = a.from_bytes(b"hello");
-        assert_eq!(a.hash(node), LAZY_SENTINEL,
-            "hash() should return sentinel on lazy rope");
+        assert_eq!(
+            a.hash(node),
+            LAZY_SENTINEL,
+            "hash() should return sentinel on lazy rope"
+        );
 
         let l = a.from_bytes(b"ab");
         let r = a.from_bytes(b"cd");
@@ -2316,7 +2615,10 @@ mod tests {
         let el = eager.from_bytes(b"AAAA");
         let er = eager.from_bytes(b"BBBB");
         let en = eager.concat(el, er);
-        assert_eq!(a.node(node.unwrap()).hash_val(), eager.node(en.unwrap()).hash_val());
+        assert_eq!(
+            a.node(node.unwrap()).hash_val(),
+            eager.node(en.unwrap()).hash_val()
+        );
     }
 
     #[test]
@@ -2391,7 +2693,8 @@ mod tests {
         // (they won't be identical because different alloc order from
         //  rotations, but root hash must match)
         assert_eq!(
-            lazy.hash(lnode), eager.hash(enode),
+            lazy.hash(lnode),
+            eager.hash(enode),
             "Root hashes differ after full materialization"
         );
     }
@@ -2414,8 +2717,7 @@ mod tests {
                 let length = end - start;
                 let lh = lazy.substr_hash(lnode, start, length);
                 let eh = eager.substr_hash(enode, start, length);
-                assert_eq!(lh, eh,
-                    "substr_hash({}, {}) mismatch", start, length);
+                assert_eq!(lh, eh, "substr_hash({}, {}) mismatch", start, length);
             }
         }
     }
@@ -2449,7 +2751,7 @@ mod tests {
         let cur_len = lazy.len(prefix);
         let (_, source) = lazy.split(prefix, cur_len - 3); // last 3 bytes
         let copy = lazy.repeat(source, 2); // "ABCABC" (source repeated 2x)
-        // But we need to split off the first copy since it overlaps with prefix
+                                           // But we need to split off the first copy since it overlaps with prefix
         let (_, extra) = lazy.split(copy, 3); // skip the duplicate first copy
         let result = lazy.concat(prefix, extra); // "ABC" + "ABC" = "ABCABC"
 

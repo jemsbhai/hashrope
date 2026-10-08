@@ -3,7 +3,9 @@
 use hashrope::Arena;
 
 fn bb27_height_bound(w: u64) -> u64 {
-    if w <= 1 { return 0; }
+    if w <= 1 {
+        return 0;
+    }
     let bound = (w as f64).ln() / (7.0_f64 / 5.0).ln();
     bound.ceil() as u64
 }
@@ -12,7 +14,10 @@ fn bb27_height_bound(w: u64) -> u64 {
 fn e7_sequential_insertion() {
     let sizes: Vec<usize> = vec![100, 1_000, 10_000, 100_000];
 
-    println!("\n{:<10} {:>8} {:>8} {:>10} {:>6}", "n", "weight", "height", "bound", "pass");
+    println!(
+        "\n{:<10} {:>8} {:>8} {:>10} {:>6}",
+        "n", "weight", "height", "bound", "pass"
+    );
     println!("{}", "-".repeat(50));
 
     for &n in &sizes {
@@ -28,10 +33,22 @@ fn e7_sequential_insertion() {
         let w = n as u64;
         let bound = bb27_height_bound(w);
 
-        println!("{:<10} {:>8} {:>8} {:>10} {:>6}",
-            n, w, h, bound, if h <= bound { "OK" } else { "FAIL" });
+        println!(
+            "{:<10} {:>8} {:>8} {:>10} {:>6}",
+            n,
+            w,
+            h,
+            bound,
+            if h <= bound { "OK" } else { "FAIL" }
+        );
 
-        assert!(h <= bound, "Height {} exceeds bound {} for n={}", h, bound, n);
+        assert!(
+            h <= bound,
+            "Height {} exceeds bound {} for n={}",
+            h,
+            bound,
+            n
+        );
     }
 }
 
@@ -40,7 +57,10 @@ fn e7_chunked_insertion() {
     let chunk_sizes = vec![1, 3, 7, 15, 31, 64, 128, 5, 11, 42];
     let sizes: Vec<usize> = vec![100, 1_000, 10_000, 100_000];
 
-    println!("\n{:<10} {:>8} {:>8} {:>10} {:>6}", "n", "weight", "height", "bound", "pass");
+    println!(
+        "\n{:<10} {:>8} {:>8} {:>10} {:>6}",
+        "n", "weight", "height", "bound", "pass"
+    );
     println!("{}", "-".repeat(50));
 
     for &n in &sizes {
@@ -63,9 +83,22 @@ fn e7_chunked_insertion() {
         let w = a.weight(rope);
         let bound = bb27_height_bound(w);
 
-        println!("{:<10} {:>8} {:>8} {:>10} {:>6}",
-            n, w, h, bound, if h <= bound { "OK" } else { "FAIL" });
+        println!(
+            "{:<10} {:>8} {:>8} {:>10} {:>6}",
+            n,
+            w,
+            h,
+            bound,
+            if h <= bound { "OK" } else { "FAIL" }
+        );
 
-        assert!(h <= bound, "Height {} exceeds bound {} for n={} (w={})", h, bound, n, w);
+        assert!(
+            h <= bound,
+            "Height {} exceeds bound {} for n={} (w={})",
+            h,
+            bound,
+            n,
+            w
+        );
     }
 }

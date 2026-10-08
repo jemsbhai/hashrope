@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.3.2 - 2026-10-08
+
+Compatible release within the existing `^0.3` dependency range.
+
+- Added opt-in `bigint` support for Python's 127-bit and arbitrary-width
+  Mersenne profiles, including compressed rope operations, arbitrary-size
+  lengths/counts, and sliding windows. Default builds remain dependency-free
+  and both feature configurations support `no_std + alloc`.
+- Preserved the existing `u64` API, `NodeInner` enum layout, 61-bit/base-131
+  defaults, byte semantics, and lazy hash sentinel contract.
+- Fixed full-width reduction for small Mersenne moduli, power-cache indexing
+  on 32-bit targets, and overflow in compressed rope metadata and balance
+  comparisons. Unrepresentable fixed-width operations panic deterministically.
+- Added `SlidingWindow::new_bounded` and `default_bounded_window` to reclaim
+  evicted arena storage without expanding repeats. Existing constructors keep
+  stable handles. Mutable arena access disables opt-in reclamation.
+- Added published-Python golden fixtures, an immutable published-Pollard JSONL
+  fixture, cross-profile regressions, downstream validation, and a feature/API
+  parity matrix in [PARITY.md](PARITY.md).
+- Applied standard Rust formatting to existing tests and benchmarks.
+
 ## 0.3.1 — 2026-06-17
 
 **Performance fix: `from_bytes` now builds bounded-size leaves.**
