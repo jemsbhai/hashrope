@@ -10,7 +10,6 @@
 //! with BTreeMap fallback for larger exponents. This is `no_std + alloc`
 //! compatible.
 
-
 use alloc::collections::BTreeMap;
 
 /// 2^61 - 1
@@ -26,16 +25,22 @@ const INLINE_CACHE_SIZE: usize = 256;
 /// Reduce a non-negative integer `a` modulo Mersenne prime `p = 2^k - 1`.
 ///
 /// Uses bit-shift reduction: `a mod (2^k - 1) = (a >> k) + (a & p)`
-/// with at most one conditional subtraction.
+/// repeated until the result fits, followed by one conditional subtraction.
+/// This handles the full `u128` input range, including small Mersenne moduli.
+///
+/// # Panics
+/// Panics if `p` is zero.
 #[inline]
 pub fn mersenne_mod(a: u128, p: u64) -> u64 {
+    assert!(p != 0, "Modulus must be nonzero");
     let k = 64 - p.leading_zeros(); // p.bit_length()
     let mask = p as u128;
 
-    // Fold
-    let mut v = (a >> k) + (a & mask);
-    // One more fold (handles overflow from first fold)
-    v = (v >> k) + (v & mask);
+    // Small moduli can need more than two folds for a full-width input.
+    let mut v = a;
+    while v > mask {
+        v = (v >> k) + (v & mask);
+    }
     // Conditional subtraction
     let r = v as u64;
     if r >= p {
@@ -88,10 +93,7 @@ pub fn phi(q: u64, alpha: u64, p: u64) -> u64 {
 
         // Odd step if bit is set: Phi(2k+1) = Phi(2k) * alpha + 1
         if (q >> i) & 1 == 1 {
-            phi_val = mersenne_mod(
-                mersenne_mul(phi_val, alpha, p) as u128 + 1,
-                p,
-            );
+            phi_val = mersenne_mod(mersenne_mul(phi_val, alpha, p) as u128 + 1, p);
             alpha_power = mersenne_mul(alpha_power, alpha, p);
         }
     }
@@ -163,7 +165,7 @@ impl PolynomialHash {
     /// O(1) for n < 256 (inline array), O(log n) for cache misses on larger n.
     #[inline]
     pub fn power(&mut self, n: u64) -> u64 {
-        if (n as usize) < INLINE_CACHE_SIZE {
+        if n < INLINE_CACHE_SIZE as u64 {
             return self.inline_cache[n as usize];
         }
         if let Some(&v) = self.overflow_cache.get(&n) {
@@ -253,10 +255,40 @@ mod tests {
     }
 
     #[test]
+    fn test_mersenne_mod_full_width_inputs_and_small_moduli() {
+        assert_eq!(mersenne_mod(256, 3), 1);
+        for bits in 1..=64 {
+            let p = ((1u128 << bits) - 1) as u64;
+            for a in [0, 1, 256, u64::MAX as u128, 1u128 << 127, u128::MAX] {
+                assert_eq!(mersenne_mod(a, p), (a % p as u128) as u64);
+            }
+        }
+    }
+
+    #[test]
+    #[should_panic(expected = "Modulus must be nonzero")]
+    fn test_mersenne_mod_rejects_zero_modulus() {
+        mersenne_mod(1, 0);
+    }
+
+    #[test]
+    fn test_small_mersenne_hash_matches_modular_reference() {
+        let h = PolynomialHash::new(3, 2);
+        let data = [0, 1, 255, 254, 255];
+        let expected = data
+            .iter()
+            .fold(0u64, |acc, &byte| (acc * 2 + byte as u64 + 1) % 3);
+        assert_eq!(h.hash(&data), expected);
+    }
+
+    #[test]
     fn test_mersenne_mul_commutative() {
         let a = 12345u64;
         let b = 67890u64;
-        assert_eq!(mersenne_mul(a, b, MERSENNE_61), mersenne_mul(b, a, MERSENNE_61));
+        assert_eq!(
+            mersenne_mul(a, b, MERSENNE_61),
+            mersenne_mul(b, a, MERSENNE_61)
+        );
     }
 
     #[test]
@@ -367,7 +399,9 @@ mod tests {
                 let mut e = n;
                 let p = h.prime();
                 while e > 0 {
-                    if e & 1 == 1 { r = mersenne_mul(r, b, p); }
+                    if e & 1 == 1 {
+                        r = mersenne_mul(r, b, p);
+                    }
                     b = mersenne_mul(b, b, p);
                     e >>= 1;
                 }
@@ -386,5 +420,19 @@ mod tests {
         assert_eq!(p1, p2);
         assert_ne!(p1, 0);
     }
-}
 
+    #[test]
+    fn test_power_exponents_do_not_truncate_to_pointer_width() {
+        // Python pow(131, n, 2**61 - 1). On wasm32, casting before the
+        // cache range check used to alias these exponents to indices 0/255.
+        let mut h = PolynomialHash::default_hash();
+        for (n, expected) in [
+            (1u64 << 32, 98_942_608_713_749_192),
+            ((1u64 << 32) + 255, 1_154_367_712_108_772_148),
+            (u64::MAX, 523_719_968_513_806_577),
+        ] {
+            assert_eq!(h.power(n), expected);
+            assert_eq!(h.power(n), expected);
+        }
+    }
+}

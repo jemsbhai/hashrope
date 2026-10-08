@@ -1,8 +1,6 @@
 use criterion::{black_box, criterion_group, criterion_main, BatchSize, BenchmarkId, Criterion};
-use hashrope::{
-    Arena, Node, PolynomialHash, SlidingWindow,
-};
-use hashrope::polynomial_hash::{phi, mersenne_mul, MERSENNE_61};
+use hashrope::polynomial_hash::{mersenne_mul, phi, MERSENNE_61};
+use hashrope::{Arena, Node, PolynomialHash, SlidingWindow};
 
 fn bench_phi(c: &mut Criterion) {
     let alpha = 131u64;
@@ -59,7 +57,12 @@ fn bench_repeat_vs_materialized(c: &mut Criterion) {
         if q <= 10_000 {
             group.bench_with_input(BenchmarkId::new("materialized", q), &q, |b, &q| {
                 b.iter(|| {
-                    let data: Vec<u8> = b"abcdefgh".iter().copied().cycle().take(8 * q as usize).collect();
+                    let data: Vec<u8> = b"abcdefgh"
+                        .iter()
+                        .copied()
+                        .cycle()
+                        .take(8 * q as usize)
+                        .collect();
                     let h = PolynomialHash::default_hash();
                     black_box(h.hash(&data))
                 });
@@ -132,9 +135,7 @@ fn bench_sliding_window(c: &mut Criterion) {
 
 fn bench_mersenne_mul(c: &mut Criterion) {
     c.bench_function("mersenne_mul", |b| {
-        b.iter(|| {
-            mersenne_mul(black_box(123456789), black_box(987654321), MERSENNE_61)
-        });
+        b.iter(|| mersenne_mul(black_box(123456789), black_box(987654321), MERSENNE_61));
     });
 }
 

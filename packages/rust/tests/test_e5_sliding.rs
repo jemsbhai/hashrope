@@ -13,8 +13,8 @@
 //! window is O(log W) per byte due to rope operations. The question is
 //! how large the constant-factor gap is in practice.
 
-use hashrope::{mersenne_mod, mersenne_mul, MERSENNE_61};
 use hashrope::SlidingWindow;
+use hashrope::{mersenne_mod, mersenne_mul, MERSENNE_61};
 use std::time::Instant;
 
 /// Simple Rabin-Karp rolling hash using same arithmetic as hashrope.
@@ -56,10 +56,7 @@ impl RabinKarp {
 
         if self.pos < self.w {
             // Still filling the window
-            self.hash = mersenne_mod(
-                self.hash as u128 * self.base as u128 + byte as u128,
-                p,
-            );
+            self.hash = mersenne_mod(self.hash as u128 * self.base as u128 + byte as u128, p);
         } else {
             // Remove old_byte * base^w, shift, add new byte
             let remove = mersenne_mul(old_byte as u64, self.base_pow_w, p);
@@ -68,10 +65,7 @@ impl RabinKarp {
             } else {
                 self.hash + p - remove
             };
-            self.hash = mersenne_mod(
-                shifted as u128 * self.base as u128 + byte as u128,
-                p,
-            );
+            self.hash = mersenne_mod(shifted as u128 * self.base as u128 + byte as u128, p);
         }
         self.pos += 1;
     }
@@ -82,7 +76,9 @@ fn gen_random_bytes(n: usize, seed: u64) -> Vec<u8> {
     let mut buf = vec![0u8; n];
     let mut state = seed;
     for byte in buf.iter_mut() {
-        state = state.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+        state = state
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
         *byte = (state >> 56) as u8;
     }
     buf
@@ -93,10 +89,14 @@ fn e5_sliding_window_throughput() {
     let window_sizes: Vec<usize> = vec![32, 64, 128, 256, 1024];
     let data_sizes: Vec<usize> = vec![1_024, 10_240, 102_400, 1_048_576];
 
-    println!("\n{:<10} {:<8} {:>14} {:>14} {:>10}",
-        "data", "window", "hashrope", "rabin_karp", "ratio");
-    println!("{:<10} {:<8} {:>14} {:>14} {:>10}",
-        "", "", "(MB/s)", "(MB/s)", "(rk/hr)");
+    println!(
+        "\n{:<10} {:<8} {:>14} {:>14} {:>10}",
+        "data", "window", "hashrope", "rabin_karp", "ratio"
+    );
+    println!(
+        "{:<10} {:<8} {:>14} {:>14} {:>10}",
+        "", "", "(MB/s)", "(MB/s)", "(rk/hr)"
+    );
     println!("{}", "-".repeat(62));
 
     for &data_size in &data_sizes {
@@ -136,8 +136,14 @@ fn e5_sliding_window_throughput() {
                 format!("{} KB", data_size / 1_024)
             };
 
-            println!("{:<10} {:<8} {:>14.1} {:>14.1} {:>10.1}x",
-                label, w, hr_mbps, rk_mbps, rk_mbps / hr_mbps);
+            println!(
+                "{:<10} {:<8} {:>14.1} {:>14.1} {:>10.1}x",
+                label,
+                w,
+                hr_mbps,
+                rk_mbps,
+                rk_mbps / hr_mbps
+            );
         }
     }
 }

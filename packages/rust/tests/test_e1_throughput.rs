@@ -12,7 +12,7 @@
 //! power cache). All hashers process the same byte slices.
 
 use hashrope::PolynomialHash;
-use sha2::{Sha256, Digest};
+use sha2::{Digest, Sha256};
 use std::time::Instant;
 
 /// Generate deterministic pseudo-random bytes (simple LCG, not for crypto).
@@ -21,7 +21,9 @@ fn gen_random_bytes(n: usize, seed: u64) -> Vec<u8> {
     let mut state = seed;
     for byte in buf.iter_mut() {
         // LCG parameters from Numerical Recipes
-        state = state.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+        state = state
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
         *byte = (state >> 56) as u8;
     }
     buf
@@ -88,18 +90,22 @@ fn throughput_mbps(bytes: usize, secs: f64) -> f64 {
 #[test]
 fn e1_sequential_throughput() {
     let sizes: Vec<usize> = vec![
-        1_024,          // 1 KB
-        10_240,         // 10 KB
-        102_400,        // 100 KB
-        1_048_576,      // 1 MB
-        10_485_760,     // 10 MB
-        104_857_600,    // 100 MB
+        1_024,       // 1 KB
+        10_240,      // 10 KB
+        102_400,     // 100 KB
+        1_048_576,   // 1 MB
+        10_485_760,  // 10 MB
+        104_857_600, // 100 MB
     ];
 
-    println!("\n{:<12} {:>12} {:>12} {:>12} {:>12}",
-        "size", "hashrope", "blake3", "sha256", "xxh3");
-    println!("{:<12} {:>12} {:>12} {:>12} {:>12}",
-        "", "(MB/s)", "(MB/s)", "(MB/s)", "(MB/s)");
+    println!(
+        "\n{:<12} {:>12} {:>12} {:>12} {:>12}",
+        "size", "hashrope", "blake3", "sha256", "xxh3"
+    );
+    println!(
+        "{:<12} {:>12} {:>12} {:>12} {:>12}",
+        "", "(MB/s)", "(MB/s)", "(MB/s)", "(MB/s)"
+    );
     println!("{}", "-".repeat(64));
 
     for &size in &sizes {
@@ -119,11 +125,13 @@ fn e1_sequential_throughput() {
             format!("{} KB", size / 1_024)
         };
 
-        println!("{:<12} {:>12.1} {:>12.1} {:>12.1} {:>12.1}",
+        println!(
+            "{:<12} {:>12.1} {:>12.1} {:>12.1} {:>12.1}",
             label,
             throughput_mbps(size, t_hr),
             throughput_mbps(size, t_b3),
             throughput_mbps(size, t_sha),
-            throughput_mbps(size, t_xx));
+            throughput_mbps(size, t_xx)
+        );
     }
 }
