@@ -6,10 +6,12 @@ on:
     paths:
       - 'packages/rust/**'
       - '.github/workflows/rust.yml'
+      - '.gitmodules'
   pull_request:
     paths:
       - 'packages/rust/**'
       - '.github/workflows/rust.yml'
+      - '.gitmodules'
 
 permissions:
   contents: read

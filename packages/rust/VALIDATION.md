@@ -79,6 +79,10 @@ reference test dependencies only; Rust never executes Python at runtime.
   and 22 filtered sorting benchmark smoke cases pass. An unfiltered benchmark
   smoke run was interrupted during its large workloads; no exhaustive
   downstream performance claim is made.
+  The release gate also exports that exact commit with `git archive`, ignoring
+  working-tree edits, and passes 167 unit + 17 integration + 9 property tests,
+  all-target compilation, and four lazy-construction benchmark smoke cases.
+  See [DOWNSTREAM_TESTING.md](DOWNSTREAM_TESTING.md) for the portable harness.
 - **hashrope-bio**: source revision
   `206d1af783ca4c34626cfe1f9ce9a7bd7d4275cb` tested unchanged with an isolated
   candidate-dependency harness. Ten library tests pass and six binaries

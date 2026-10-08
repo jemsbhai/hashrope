@@ -191,6 +191,7 @@ def verify_cdh(source: Path, candidate: Path, version: str, output: Path, cargo:
     if len(resolved) != 1 or Path(resolved[0]["manifest_path"]).resolve() != candidate / "Cargo.toml":
         raise AuditError("cdh-sort did not resolve the local candidate Hashrope crate")
     (output / "cdh-resolved-candidate.json").write_text(json.dumps(resolved[0], indent=2) + "\n", encoding="utf-8")
+    shutil.copyfile(source / "Cargo.lock", output / "cdh-Cargo.lock")
 
 
 def verify_bio(source: Path, candidate: Path, output: Path, cargo: str, offline: bool) -> None:
@@ -211,6 +212,7 @@ def verify_bio(source: Path, candidate: Path, output: Path, cargo: str, offline:
     (harness / "Cargo.toml").write_text("\n".join(manifest), encoding="utf-8")
     shutil.copyfile(harness / "Cargo.toml", output / "bio-harness-Cargo.toml")
     run(cargo_command(cargo, "test", "--all-targets", offline=offline), harness, output / "bio-tests.log")
+    shutil.copyfile(harness / "Cargo.lock", output / "bio-Cargo.lock")
 
 
 def main() -> int:
@@ -232,7 +234,9 @@ def main() -> int:
             raise AuditError(f"Not a Hashrope crate directory: {candidate}")
         version = package_version(candidate / "Cargo.toml")
         fingerprint = candidate_fingerprint(candidate)
-        report.update(candidate=str(candidate), candidate_version=version, candidate_files_sha256=fingerprint)
+        cargo_version = subprocess.run([args.cargo, "--version"], check=True, capture_output=True, text=True).stdout.strip()
+        report.update(candidate=str(candidate), candidate_version=version, candidate_files_sha256=fingerprint,
+                      cargo_version=cargo_version, python_version=sys.version, platform=sys.platform)
         selected = list(PINS) if args.consumer == "all" else [args.consumer]
         with tempfile.TemporaryDirectory(prefix="hashrope-downstream-") as temporary:
             work = Path(temporary).resolve()

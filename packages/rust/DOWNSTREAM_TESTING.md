@@ -78,8 +78,10 @@ It does not modify the example or treat that existing issue as a new regression.
 ## Evidence and failure behavior
 
 `report.json` records source commits, archive checksums, individual source-file
-checksums, the candidate version and source hashes, consumer results, and known
-limitations. Cargo output is streamed to the console and saved in separate logs.
+checksums, the candidate version and source hashes, toolchain versions, consumer
+results, and known limitations. Resolved Cargo lockfiles are retained alongside
+the report. Sources are pinned; when an upstream lockfile is absent, Cargo resolves
+the declared dependency ranges for that run. Cargo output is streamed to the console and saved in separate logs.
 Every Cargo command must succeed. Changes to the candidate manifest or Rust source
 during a run invalidate the result and require a rerun. Failed downloads, missing
 pinned commits, wrong dependency resolution, and test failures return a nonzero
