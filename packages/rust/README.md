@@ -5,8 +5,8 @@ A BB[2/7] weight-balanced binary tree augmented with polynomial hash metadata at
 **Zero dependencies by default. `no_std + alloc` compatible. Rust 2021 edition.**
 
 The optional `bigint` feature adds Python-compatible arbitrary-precision hashes
-and compressed rope lengths. The additions described below are unreleased;
-use this source checkout until a new crate release is published. See
+and compressed rope lengths in Rust 0.3.2. The compatible 0.3 release line
+retains existing consumers' dependency requirements. See
 [PARITY.md](PARITY.md) for the Python API matrix, exact fixture provenance,
 downstream compatibility checks, and remaining adoption limitations.
 
@@ -26,7 +26,7 @@ The default u64 API uses Mersenne modular reduction by bit folding. The optional
 
 ```toml
 [dependencies]
-hashrope = "0.3"
+hashrope = "0.3.2"
 ```
 
 ## Quick start
@@ -108,11 +108,11 @@ constructors when stable arena handles are required.
 
 ## Arbitrary precision
 
-Enable `bigint` on the source dependency:
+Enable `bigint` on the dependency:
 
 ```toml
 [dependencies]
-hashrope = { path = "path/to/hashrope/packages/rust", features = ["bigint"] }
+hashrope = { version = "0.3.2", features = ["bigint"] }
 ```
 
 ```rust
@@ -162,7 +162,7 @@ The hash function is a polynomial rolling hash over GF(2⁶¹ − 1):
 
 - **Homomorphic under concatenation**: `H(A‖B) = H(A)·x^|B| + H(B)`
 - **Homomorphic under repetition**: `H(s^q) = H(s)·Φ(q, x^|s|)` where Φ is computed in O(log q)
-- **Collision probability**: ≤ n/p per query for strings of length n, where p = 2⁶¹ − 1
+- **Collision behavior**: fixed-base polynomial fingerprints can collide; equal hashes do not prove byte equality.
 
 ## Benchmarks
 

@@ -1,0 +1,154 @@
+name: Rust
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'packages/rust/**'
+      - '.github/workflows/rust.yml'
+  pull_request:
+    paths:
+      - 'packages/rust/**'
+      - '.github/workflows/rust.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rust-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+  RUST_BACKTRACE: '1'
+  RUSTUP_TOOLCHAIN: '1.94.0'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  native:
+    name: Native (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: packages/rust
+    steps:
+      - name: Preserve byte-exact fixtures
+        working-directory: .
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install Rust
+        run: rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal --component rustfmt --component clippy
+      - name: Format and lint every feature and target
+        run: |
+          cargo fmt --all --check
+          cargo clippy --all-features --all-targets -- -D warnings
+      - name: Default-feature debug contracts
+        run: cargo test --lib --test python_conformance --test downstream_contracts
+      - name: Explicit no-default-feature debug contracts
+        run: cargo test --no-default-features --lib --test python_conformance --test downstream_contracts
+      - name: Bigint debug contracts
+        run: cargo test --all-features --lib --test python_conformance --test downstream_contracts
+      - name: Complete release suite, including experiments and doctests
+        run: cargo test --all-features --release
+      - name: Documentation in both feature modes
+        env:
+          RUSTDOCFLAGS: -D warnings
+        run: |
+          cargo test --doc
+          cargo test --doc --all-features
+          cargo doc --no-deps
+          cargo doc --no-deps --all-features
+      - name: Build and verify distributable crates in both feature modes
+        run: |
+          cargo package
+          cargo package --all-features
+
+  wasm:
+    name: Wasm32 no_std and numeric runtime
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: packages/rust
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Install Rust and wasm32 target
+        run: rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
+      - name: Build both no_std library configurations
+        run: |
+          cargo build --lib --no-default-features --target wasm32-unknown-unknown
+          cargo build --lib --all-features --target wasm32-unknown-unknown
+      - name: Execute actual 32-bit numeric and overflow regressions
+        run: |
+          rustc --crate-type cdylib --edition 2021 --target wasm32-unknown-unknown scripts/wasm_numeric_probe.rs -o target/numeric_probe.wasm
+          node scripts/verify_wasm.cjs target/numeric_probe.wasm
+
+  references:
+    name: Published Python and Pollard golden references
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: packages/rust
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.12'
+      - name: Download and install exact checksum-verified reference wheels
+        run: |
+          mkdir -p target/reference-wheels
+          cat > target/reference-wheels/requirements.txt <<'REQUIREMENTS'
+          hashrope==0.2.2 --hash=sha256:710112e3aa14a991918a15331c1f418ce9d1c9d93c34a9da09e22be33c68a2d2
+          pollard==1.6.0 --hash=sha256:569fb5f130a82c9be327b8dcbd285e3be063200bd9773ca15c5d6bb62edd627f
+          REQUIREMENTS
+          python -m pip download --require-hashes --only-binary=:all: --no-deps --dest target/reference-wheels -r target/reference-wheels/requirements.txt
+          python -m pip install --require-hashes --no-index --find-links target/reference-wheels --no-deps -r target/reference-wheels/requirements.txt
+          python -m pip check
+      - name: Reproduce published Python hashes and retained Pollard bytes
+        run: |
+          python scripts/generate_python_vectors.py --wheel target/reference-wheels/hashrope-0.2.2-py3-none-any.whl --check
+          python scripts/verify_pollard_fixture.py --hashrope-wheel target/reference-wheels/hashrope-0.2.2-py3-none-any.whl --pollard-wheel target/reference-wheels/pollard-1.6.0-py3-none-any.whl
+
+  downstream:
+    name: Hashrope-bio (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - name: Preserve byte-exact fixtures
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.12'
+      - name: Install Rust
+        run: rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal
+      # Private cdh-sort is tested locally from its pinned commit. The native
+      # matrix checks its public enum and lazy-hash contract without that source.
+      - name: Test public downstream at its pinned revision
+        run: python packages/rust/scripts/verify_downstream.py --consumer hashrope-bio --output-dir "$RUNNER_TEMP/hashrope-downstream"

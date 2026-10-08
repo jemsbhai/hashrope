@@ -3,7 +3,7 @@
 Audit baseline: repository commit `100749d1cef9603465f4600b814c76d2ad6e9a6e`
 (verified current `master` on 2026-10-08), PyPI `hashrope 0.2.2`, and crates.io
 `hashrope 0.3.1`. Version numbers alone were not used as evidence of parity.
-This is an unreleased source candidate; no package was published.
+This document records the compatible Rust 0.3.2 release against those baselines.
 
 The default Rust API keeps its existing types and default-profile byte hashes. Arbitrary
 precision is additive through `features = ["bigint"]` and the `bigint` module.
@@ -104,7 +104,8 @@ the optional graph-copy reclamation step.
 ## Validation and limits
 
 Validation commands and final outcomes are recorded in `VALIDATION.md`.
-No remote CI, package publishing, or downstream source modification was done.
+Cross-platform release gates and the publication process are separate from
+the recorded baseline audit; no downstream source modification is required.
 Adoption by hashrope-bio requires a separate authorized dependency correction.
 Rust allocator/platform capacity and u32 arena node counts remain finite even
 when logical lengths and hashes use arbitrary-precision integers.

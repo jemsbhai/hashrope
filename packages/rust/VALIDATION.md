@@ -2,9 +2,9 @@
 
 Executed locally on Windows x86_64 with Cargo/Rust 1.94.0, including actual
 wasm32 execution under Node. Branch `codex/rust-python-parity`, based on
-`100749d1cef9603465f4600b814c76d2ad6e9a6e`. The package version remains `0.3.1`
-in this unreleased source candidate; publishing and release version selection
-are separate steps.
+`100749d1cef9603465f4600b814c76d2ad6e9a6e`. The compatible release version is
+`0.3.2`, preserving existing `^0.3` consumers. The baseline local checks below
+began on the implementation snapshot before the release version was assigned.
 
 ## Crate checks
 
@@ -95,7 +95,9 @@ reference test dependencies only; Rust never executes Python at runtime.
   was not performed. No unverified third-party framework runtime is claimed.
 
 The existing modified biology submodule and consumer working trees were
-preserved. No npm/Python implementation, credentials, published artifact,
-remote branch, or external release was modified. Linux/macOS/native 32-bit
-runtime tests and remote CI remain unrun; wasm32 supplies concrete 32-bit
-numeric regression coverage.
+preserved. No npm/Python implementation or credentials were modified. The
+`Rust` CI workflow runs library/package tests on Linux, macOS and Windows,
+alongside published-wheel conformance and public downstream checks, for code
+pushes and pull requests. Native 32-bit runtime tests are not claimed; wasm32
+supplies concrete 32-bit numeric regression coverage. The final release PR
+records exact checked commit IDs and gate outcomes before merge/publication.

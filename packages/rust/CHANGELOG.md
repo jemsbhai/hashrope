@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased - Python parity and compatibility
+## 0.3.2 - 2026-10-08
+
+Compatible release within the existing `^0.3` dependency range.
 
 - Added opt-in `bigint` support for Python's 127-bit and arbitrary-width
   Mersenne profiles, including compressed rope operations, arbitrary-size
