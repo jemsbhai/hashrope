@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python",
+    "releases/0.3.4/validation/verify-python-registry.py"
+  ],
+  "script_sha256": "ab4cebba72b67a1f7064228b4739b23d1650a650713c0bfed4c6631fcc244100",
+  "returncode": 1,
+  "failure": "Public canonical hashrope 0.3.4 JSON returned 404 through all four bounded attempts; no installation environment was created. Later canonical and cache-bypass probes both returned 200. No republish and no verifier source change.",
+  "attempts_sha256": "d09793e67431b207c5b1a159ff6d14bc50ae9430a1c93f069b6a242ee5ecbb15"
+}

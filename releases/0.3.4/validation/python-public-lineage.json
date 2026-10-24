@@ -1,0 +1,46 @@
+{
+  "verified_utc": "2026-10-24T21:33:11.208843+00:00",
+  "status": "published and publicly verified",
+  "original_verifier_unchanged": true,
+  "attempts": [
+    {
+      "phase": "metadata",
+      "outcome": "bounded canonical JSON 404 propagation failure",
+      "environment_created": false
+    },
+    {
+      "phase": "first normal installation",
+      "outcome": "core 0.3.4 absent from ordinary pip index view",
+      "environment": ".release/0.3.4/public-python"
+    },
+    {
+      "phase": "second normal installation",
+      "outcome": "core resolved; biology 0.3.4 absent from ordinary pip index view",
+      "environment": ".release/0.3.4/public-python-final"
+    },
+    {
+      "phase": "confirmed normal installation",
+      "outcome": "pip check, installed origins, exact release gate and 244 tests pass",
+      "environment": ".release/0.3.4/public-python-confirmed"
+    }
+  ],
+  "cache_bypass_probes_diagnostic_only": true,
+  "ordinary_pinned_empty_cache_install": true,
+  "all_four_public_hashes_match": true,
+  "files_sha256": {
+    "verify-python-registry.py": "ab4cebba72b67a1f7064228b4739b23d1650a650713c0bfed4c6631fcc244100",
+    "verify-python-registry-final.py": "1f9cc8faab7d396c016868f378c740e2c6dc2954f13802e8531d46c064493328",
+    "verify-python-registry-confirmed.py": "9f74729478707dae0e22d5b675265072543cb5bddc95b77c0756be934a7be4b1",
+    "python-public-attempts.json": "d09793e67431b207c5b1a159ff6d14bc50ae9430a1c93f069b6a242ee5ecbb15",
+    "python-public-initial-failure.json": "7d63a4603b3d5399687eac66a50bf24eb2b7408515ac28800039875dac2049b2",
+    "python-propagation-probe.json": "cbac209dd0a2b473dc550d943a9d6497d54edf01d57b2ca2e4d2df33090f16ae",
+    "python-public-install-initial.log": "ff36a196ea4a33863a2142fbc092129bd337f1fc6f711b53f893ab2bc0d64c75",
+    "python-public-index-failure.json": "efa63e534d67cbe73a5ca8035ca9bc0b65faa7ab9bf04f36d12b454eb464ed24",
+    "python-public-install-second.log": "f68e8b3effd0e8bff003d133387d0bd84c263d4f20a7ad27f85f9eec909469f4",
+    "python-public-second-index-failure.json": "9ff733bf02630545a90a3832658a7ef66d69917659010655df5ac0930270cd1d",
+    "python-simple-index-probe.json": "036a01ed039921d4e49074f87bdd628500831219d143fe87db4894808a309a9e",
+    "python-resolver-propagation.json": "0a286262968539da9d10b6856f711ffa52aca697558dd92e0d55a3c82e5404c1",
+    "python-public-install.json": "2f0de66dd613b2136b664282248d3f2780e0c8e58c90716244219291111122d1",
+    "python-public-install.log": "bdff96806bec90a97ddbc58ca188a490eaf664741949d09eb531da479bc936ac"
+  }
+}

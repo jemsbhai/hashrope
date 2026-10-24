@@ -1,0 +1,44 @@
+{
+  "package": "hashrope-bio",
+  "version": "0.3.4",
+  "started_utc": "2026-10-24T21:26:15.000878+00:00",
+  "source_commit": "8e07e641af532849a629bbb595c18afcfd7ab6ab",
+  "commands": [
+    {
+      "arguments": [
+        "cargo",
+        "package",
+        "--all-features"
+      ],
+      "returncode": 0,
+      "log": "package.log",
+      "sha256": "c01c0467b7049ba79aa0358413d0edfbe8f05125faf04bf41f020db37a0ff6c5"
+    },
+    {
+      "arguments": [
+        "cargo",
+        "publish",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "log": "dry-run.log",
+      "sha256": "3605a929329c8e83011ab78d52b304eb55dfdc7406323b643a0e40ba5b02d365"
+    },
+    {
+      "arguments": [
+        "cargo",
+        "publish"
+      ],
+      "returncode": 0,
+      "log": "publish.log",
+      "sha256": "43a6560573afdf1651edf37c9c54f51d74fbc068e835adca23edeaadb89d7191"
+    }
+  ],
+  "published": true,
+  "reviewed_archive_sha256": "beeae45eafa54b6e2856bd66839c4521159a1ac0e88f890290c3a2317a406e11",
+  "upload_archive_sha256": "beeae45eafa54b6e2856bd66839c4521159a1ac0e88f890290c3a2317a406e11",
+  "public_url": "https://static.crates.io/crates/hashrope-bio/hashrope-bio-0.3.4.crate",
+  "public_archive_sha256": "beeae45eafa54b6e2856bd66839c4521159a1ac0e88f890290c3a2317a406e11",
+  "public_archive_matches_reviewed": true,
+  "finished_utc": "2026-10-24T21:26:30.192128+00:00"
+}

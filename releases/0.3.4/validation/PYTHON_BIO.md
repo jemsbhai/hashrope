@@ -1,7 +1,7 @@
 # Python and biology release preparation
 
-Version **0.3.4** is built and verified locally. These records do not claim
-publication. The biology source commit is
+Version **0.3.4** is published and verified from public PyPI for both Python
+packages. The preparation source commit for biology is
 `8e07e641af532849a629bbb595c18afcfd7ab6ab`, pushed on `codex/release-0.3.4`.
 
 Both Python wheels were built from their source distributions. Strict Twine
@@ -31,7 +31,20 @@ languages or remove the unresolved core comparison costs documented in the
 Artifacts are retained under the ignored `.release/0.3.4/python-dist` directory;
 their exact paths, sizes and SHA-256 values are recorded above. Standard PyPI
 credentials are available through the existing user configuration; only
-availability booleans are recorded, never secret values. Publication must use
-the reviewed artifacts after the coordinated release gates pass. The public
-verification driver then checks registry byte hashes, creates a fresh PyPI-only
-installation, and reruns the exact gate and combined installed test suite.
+availability booleans are recorded, never secret values. The reviewed artifacts
+were uploaded after all coordinated release gates and source merges passed.
+
+All four canonical public downloads match the reviewed hashes. A new empty
+environment installed `hashrope==0.3.4` and `hashrope-bio==0.3.4` through the
+ordinary PyPI index with isolated pip configuration and no cache. `pip check`,
+installed origin/version assertions, the exact gate and **244 tests** passed
+(34.99 seconds for the test suite). See the [public result](python-public-install.json),
+[log](python-public-install.log) and [publication record](python-publication.json).
+
+Initial canonical metadata requests returned 404 during propagation, followed
+by two ordinary pip resolver attempts that could not yet see one or both new
+versions. All failed logs and environments remain preserved. Cache-bypass
+requests were diagnostic only; they did not supply the final installation.
+The verifier's logic stayed byte-identical, with wrappers choosing new empty
+environment paths. The [attempt lineage](python-public-lineage.json) binds the
+failures, probes, wrapper sources and final successful result by SHA-256.

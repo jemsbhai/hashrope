@@ -1,0 +1,97 @@
+{
+  "status": "passed",
+  "release": "0.3.4",
+  "scope": "Independent read-only audit of retained Rust publication artifacts, logs, registry-consumer evidence and local/remote source tags. No new publication, build, test or artifact download was performed by this audit.",
+  "packages": [
+    {
+      "name": "hashrope",
+      "version": "0.3.4",
+      "source_commit": "3f730fc13ff882822d91d3277736f7bde12d487c",
+      "tag": "v0.3.4",
+      "annotated_tag_object": "5cc7a0666f79063c7ab647f052931febb4d0c795",
+      "local_and_remote_tag_peel_matches_source_commit": true,
+      "cargo_vcs_info_matches_source_commit": true,
+      "cargo_vcs_dirty": false,
+      "path_in_vcs": "packages/rust",
+      "public_url": "https://static.crates.io/crates/hashrope/hashrope-0.3.4.crate",
+      "reviewed_upload_public_and_registry_consumer_sha256": "2c9b71b750b9f9bdf9ec291bb5a5d614e7a6df1d1f39d13f10f9f171864053a3",
+      "reviewed_and_public_archive_bytes_rehashed": true,
+      "publication_commands_with_verified_zero_exit_and_log_hashes": 3,
+      "payload_files_byte_identical_to_tagged_git_blobs": 36,
+      "payload_files_with_only_crlf_lf_difference_from_tagged_git_blobs": [
+        "tests/test_exact_optimization_round2.rs"
+      ],
+      "all_37_compared_payloads_byte_identical_to_validated_checkout": true
+    },
+    {
+      "name": "hashrope-bio",
+      "version": "0.3.4",
+      "source_commit": "8e07e641af532849a629bbb595c18afcfd7ab6ab",
+      "tag": "v0.3.4",
+      "annotated_tag_object": "246aed8e5c7f9eeb702dcbb492c6274a99e7150e",
+      "local_and_remote_tag_peel_matches_source_commit": true,
+      "cargo_vcs_info_matches_source_commit": true,
+      "cargo_vcs_dirty": false,
+      "path_in_vcs": "rust",
+      "public_url": "https://static.crates.io/crates/hashrope-bio/hashrope-bio-0.3.4.crate",
+      "reviewed_upload_public_and_registry_consumer_sha256": "beeae45eafa54b6e2856bd66839c4521159a1ac0e88f890290c3a2317a406e11",
+      "reviewed_and_public_archive_bytes_rehashed": true,
+      "publication_commands_with_verified_zero_exit_and_log_hashes": 3,
+      "payload_files_byte_identical_to_tagged_git_blobs": 13,
+      "payload_files_with_only_crlf_lf_difference_from_tagged_git_blobs": [
+        "Cargo.toml.orig",
+        "README.md",
+        "src/bin/bench_mutation_g3.rs"
+      ],
+      "all_16_compared_payloads_byte_identical_to_validated_checkout": true
+    }
+  ],
+  "archive_source_comparison": {
+    "method": "Compare each retained public .crate payload with git show <source_commit>:<path_in_vcs>/<path> and the validated checkout. Cargo.toml.orig maps to source Cargo.toml. For unequal Git bytes, require equality after CRLF-to-LF normalization; no other normalization is permitted.",
+    "excluded_from_direct_git_payload_comparison": [
+      ".cargo_vcs_info.json",
+      "Cargo.toml",
+      "Cargo.lock"
+    ],
+    "exclusion_reason": "Cargo generates normalized package metadata/lockfiles; .cargo_vcs_info.json was separately parsed and checked against the source commit and path. Full reviewed/public archive digests include all three files.",
+    "eol_caveat": "The four named payloads contain only CRLF/LF differences relative to Git blobs. All compared payloads exactly match validated checkout bytes. Do not claim every archive file is byte-identical to its Git blob. Reviewed, upload and public artifact hash identity is unaffected."
+  },
+  "registry_consumer_evidence": {
+    "directory": "rust-public-registry",
+    "passed": true,
+    "all_dependency_sources": "registry+https://github.com/rust-lang/crates.io-index",
+    "both_hashrope_packages_resolved_at": "0.3.4",
+    "downloaded_crate_hashes_match_publication_evidence": true,
+    "commands_with_verified_zero_exit_and_log_hashes": 4,
+    "verified_consumer_input_hashes": [
+      "Cargo.toml",
+      "src/lib.rs",
+      "verify.py"
+    ],
+    "cargo_lock_sha256": "61bf84ee9c8062ef91d1b9e2536a9a5a790ff8e3ca7b3f3d10d2ca7579e41e49",
+    "cargo_lock_hash_rechecked": true,
+    "default_tests": {
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    "all_feature_tests": {
+      "passed": 7,
+      "failed": 0,
+      "ignored": 0
+    },
+    "test_counts_checked_from_retained_logs_not_rerun": true
+  },
+  "evidence_reviewed": [
+    "rust-clean-package.json",
+    "source-release.json",
+    "rust-core-publication/results.json",
+    "rust-core-publication/reviewed.crate",
+    "rust-core-publication/public.crate",
+    "rust-bio-publication/results.json",
+    "rust-bio-publication/reviewed.crate",
+    "rust-bio-publication/public.crate",
+    "rust-public-registry/evidence.json"
+  ],
+  "blockers": []
+}
