@@ -1,0 +1,171 @@
+{
+  "status": "built and verified locally; not published",
+  "version": "0.3.4",
+  "artifacts": [
+    {
+      "filename": "hashrope-0.3.4-py3-none-any.whl",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope-0.3.4-py3-none-any.whl",
+      "bytes": 21275,
+      "sha256": "bcce68fef301f309587a0380c9907dc6a2a66c8ae5411c1600e1c63fb321d9eb"
+    },
+    {
+      "filename": "hashrope-0.3.4.tar.gz",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope-0.3.4.tar.gz",
+      "bytes": 39500,
+      "sha256": "b44f853abc99c41bf1ca143c3030d2132b08e31ae6dce3121730922ce472b417"
+    },
+    {
+      "filename": "hashrope_bio-0.3.4-py3-none-any.whl",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope_bio-0.3.4-py3-none-any.whl",
+      "bytes": 20152,
+      "sha256": "a1940acc126022597d7cb91123565330150b54ba97241dc7b7a5d70942fffc9f"
+    },
+    {
+      "filename": "hashrope_bio-0.3.4.tar.gz",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope_bio-0.3.4.tar.gz",
+      "bytes": 21581,
+      "sha256": "65c4e5c1495c315cda7e49ea7802ca327459a85911c7480a5b9898872d7fa477"
+    }
+  ],
+  "installed_tests": 244,
+  "exact_collision_profile_repeat_gate": "pass",
+  "metadata_check": "all four pass",
+  "scope": "Wheels built from source distributions; fresh isolated site-packages imports. No algorithm change from 0.3.3; __version__ metadata only.",
+  "source_sha256": {
+    "packages/python/hashrope/__init__.py": "d5d1f8924cab7d14c6aef6a3e064ad656d09e647f76c41d714ee9bf3946834c6",
+    "packages/python/hashrope/polynomial_hash.py": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5",
+    "packages/python/hashrope/rope.py": "d1de00805fa37fe286dae50b87675c82aa2fb388b66c66329983d34440b6a4b2",
+    "packages/python/hashrope/sliding.py": "6c1dccfb44370e735168ce00c1791e776f1f209f8292e9c9b4e0eb9027f22076",
+    "usecases/computational-biology/code/src/hashrope_bio/__init__.py": "19259bd93f6643596dd5122d5b74c479c1a6d132f9180de1976bfa7e385251ee",
+    "usecases/computational-biology/code/src/hashrope_bio/cheminformatics/__init__.py": "ba3b1c27c8cd6ad2e5f8f29aeaeec8741aa4832eac116d498b543a27aea4a9b1",
+    "usecases/computational-biology/code/src/hashrope_bio/cheminformatics/compounds.py": "00a5c07c8821fbefac31b8e191d859b45e175689aa64430347756113325aa96e",
+    "usecases/computational-biology/code/src/hashrope_bio/cheminformatics/resistance.py": "351f7e0551b260fdd07ad3778ea4685355c15c0e780fede4b232144f3db44130",
+    "usecases/computational-biology/code/src/hashrope_bio/genomics/__init__.py": "afa27a83647d313e21d4974ebdc9e10dec25005994cf4eb6da2ff31b87550df7",
+    "usecases/computational-biology/code/src/hashrope_bio/genomics/fasta.py": "cdd9728872f693b2ed5e753c9fc9f4da62ee65efb12240c31b3b6fbbc68eff1c",
+    "usecases/computational-biology/code/src/hashrope_bio/genomics/gene_diff.py": "1d92d6b57269efc2096ab63a0714d71653ff80922a8c938b2d1761eec45539b2",
+    "usecases/computational-biology/code/src/hashrope_bio/genomics/mutation.py": "cceac56285149cfdc03705e954c9ea3d5d012046e8ee0d1d2cff8dff792d0331",
+    "usecases/computational-biology/code/src/hashrope_bio/genomics/region_query.py": "34b93df77fc2827a888e2635d051e5751b50c7642961ca8680899a3d9f559982",
+    "usecases/computational-biology/code/src/hashrope_bio/genomics/repeats.py": "2a0791d34b650c737bb310eb766d0a4c35d240626af4e02af3cae22e509e8b73",
+    "usecases/computational-biology/code/src/hashrope_bio/proteomics/__init__.py": "58853e5e8b2f21ffc334997a6883e01e2b1df4e8c0419614496c176cb23e7e1b",
+    "usecases/computational-biology/code/src/hashrope_bio/proteomics/trajectory.py": "39d127c5e60d364b6f24f8cb80105356de3e5e46e2381b97d25f177bac667005",
+    "usecases/computational-biology/code/src/hashrope_bio/result_output.py": "5983d422f978f05f15bb304980dafa0f62cb504377bdbe681e3379da5dd0d78d"
+  },
+  "commands": [
+    {
+      "arguments": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-m",
+        "build",
+        "--outdir",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\python"
+      ],
+      "cwd": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope",
+      "returncode": 0,
+      "log": "python-core-build.log",
+      "log_sha256": "6fabfd0bb5ddfd9ef9a268ff30de943fdca01ca2512db7840de80a925f359ae4"
+    },
+    {
+      "arguments": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-m",
+        "build",
+        "--outdir",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\usecases\\computational-biology\\code"
+      ],
+      "cwd": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope",
+      "returncode": 0,
+      "log": "python-bio-build.log",
+      "log_sha256": "edf57a3223a82c3fe08a2b3800df563fc234c2797f551a7aae0f95444a90be26"
+    },
+    {
+      "arguments": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-m",
+        "twine",
+        "check",
+        "--strict",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope-0.3.4-py3-none-any.whl",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope-0.3.4.tar.gz",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope_bio-0.3.4-py3-none-any.whl",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope_bio-0.3.4.tar.gz"
+      ],
+      "cwd": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope",
+      "returncode": 0,
+      "log": "python-twine-check.log",
+      "log_sha256": "4490a5bcb0438e193c8a3b45d28bdfbc0b1baa5e6d53bcf3d1c8f896b3ef3b41"
+    },
+    {
+      "arguments": [
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "--no-cache-dir",
+        "--index-url",
+        "https://pypi.org/simple",
+        "pytest",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope-0.3.4-py3-none-any.whl",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope_bio-0.3.4-py3-none-any.whl"
+      ],
+      "cwd": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed",
+      "returncode": 0,
+      "log": "python-wheel-install.log",
+      "log_sha256": "e03985516a1781d2be7eb87c492f01a34b5725201be56a30199f369d3ef39479"
+    },
+    {
+      "arguments": [
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "cwd": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed",
+      "returncode": 0,
+      "log": "python-pip-check.log",
+      "log_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "arguments": [
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed\\Scripts\\python.exe",
+        "-I",
+        "-c",
+        "import hashrope,hashrope_bio,sys,importlib.metadata; from pathlib import Path; assert hashrope.__version__==hashrope_bio.__version__=='0.3.4'; assert all(Path(m.__file__).resolve().is_relative_to(Path(sys.prefix).resolve()) for m in (hashrope,hashrope_bio)); print(hashrope.__file__,hashrope_bio.__file__); print(importlib.metadata.version('hashrope'),importlib.metadata.version('hashrope-bio'))"
+      ],
+      "cwd": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed",
+      "returncode": 0,
+      "log": "python-installed-origin.log",
+      "log_sha256": "f53d3f62b18e7e90fbcb1f5c2ec9bc179f723f3a5b4e1906eade44b9e56df7a8"
+    },
+    {
+      "arguments": [
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed\\Scripts\\python.exe",
+        "-I",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\python\\scripts\\verify_release.py"
+      ],
+      "cwd": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed",
+      "returncode": 0,
+      "log": "python-final-gate.log",
+      "log_sha256": "e4cbc79722876ceba1ae3f1a493c178ddd1dc5c10b96c448b7664dc06bdf0fd5"
+    },
+    {
+      "arguments": [
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed\\Scripts\\python.exe",
+        "-I",
+        "-m",
+        "pytest",
+        "--import-mode=importlib",
+        "--rootdir",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\python\\tests",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\usecases\\computational-biology\\code\\tests",
+        "-q"
+      ],
+      "cwd": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-installed",
+      "returncode": 0,
+      "log": "python-final-installed-tests.log",
+      "log_sha256": "3592b796839969606ce1c2ad91439f3bb31f19cb2cbc2d54c4efe22661f7f9ba"
+    }
+  ]
+}

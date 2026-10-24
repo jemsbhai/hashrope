@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.4 — 2026-10-24
+
+- Synchronize the six published packages at 0.3.4. Python runtime algorithms,
+  exact APIs, fingerprint values and defaults are unchanged from 0.3.3.
+- Update the installed-artifact release gate and installation guidance.
+- Preserve the distinction between API/correctness parity and performance:
+  independent equal content may require a full scan, and recent Rust studies
+  retain unresolved workload-dependent costs. See the
+  [release scope and caveats](https://github.com/jemsbhai/hashrope/blob/master/releases/0.3.4/README.md).
+
 ## 0.3.3 — 2026-10-24
 
 **Exact content comparisons and hash-profile provenance; fingerprint values and

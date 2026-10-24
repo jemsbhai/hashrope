@@ -1,0 +1,24 @@
+{
+  "archive_sha256": "8ea8a139f4b2a0de823266c4b3fd29138466e9d584426985264d417352783c26",
+  "scope": "Instrumented core sources, actual probe main/Cargo manifest/Cargo lock; no binaries or timing evidence",
+  "files": {
+    "baseline/hashrope/packages/rust/Cargo.toml": "5b4b2c1ec93946e8fd4fd62f876f2265ac3f47b689309f747993e3e5955e485a",
+    "baseline/hashrope/packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+    "baseline/hashrope/packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+    "baseline/hashrope/packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+    "baseline/hashrope/packages/rust/src/rope.rs": "a1223da9f1e561068d5bbc840913162f9b2b7e66b375231350bbfc60ed60b57a",
+    "baseline/hashrope/packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130",
+    "baseline/probe/src/main.rs": "95bf334aeb267fa71822809243745b400a2c86607e156d1abd5df962626dbab1",
+    "baseline/probe/Cargo.toml": "0d49a897954824302a56858af71ad70e0dbb04ccf9fecd41b23581e5dd4cb503",
+    "baseline/probe/Cargo.lock": "1fb10dc129f9dfbb0f45c5655671cc226f36c39f15cdd7e434cd275b903350b5",
+    "candidate/hashrope/packages/rust/Cargo.toml": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+    "candidate/hashrope/packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+    "candidate/hashrope/packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+    "candidate/hashrope/packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+    "candidate/hashrope/packages/rust/src/rope.rs": "b4e70b8e45a92a6a81625a1a33e966066371d1ecae023a224b6cc28e249b5758",
+    "candidate/hashrope/packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130",
+    "candidate/probe/src/main.rs": "95bf334aeb267fa71822809243745b400a2c86607e156d1abd5df962626dbab1",
+    "candidate/probe/Cargo.toml": "0d49a897954824302a56858af71ad70e0dbb04ccf9fecd41b23581e5dd4cb503",
+    "candidate/probe/Cargo.lock": "1fb10dc129f9dfbb0f45c5655671cc226f36c39f15cdd7e434cd275b903350b5"
+  }
+}

@@ -1,0 +1,330 @@
+   Compiling hashrope v0.3.3 (C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\packages\rust)
+    Finished `release` profile [optimized] target(s) in 3.82s
+     Running unittests src\lib.rs (target\release\deps\hashrope-8ce5c37a7ade9ea0.exe)
+
+running 146 tests
+test bigint::tests::invalid_substring_does_not_synthesize_repeat_bytes - should panic ... ok
+test bigint::tests::python_127_and_521_bit_vectors ... ok
+test bigint::tests::impossible_materialization_fails_before_expansion - should panic ... ok
+test polynomial_hash::tests::test_hash_different_data ... ok
+test polynomial_hash::tests::test_inline_cache_correctness ... ok
+test bigint::tests::mutable_arena_disables_reclamation_to_preserve_handles ... ok
+test polynomial_hash::tests::test_hash_empty ... ok
+test bigint::tests::non_mersenne_profile_is_rejected_in_new_api - should panic ... ok
+test bigint::tests::unicode_remains_utf8_bytes_and_byte_offsets ... ok
+test polynomial_hash::tests::test_hash_deterministic ... ok
+test polynomial_hash::tests::test_hash_concat_theorem1 ... ok
+test polynomial_hash::tests::test_hash_overlap_theorem5 ... ok
+test polynomial_hash::tests::test_hash_repeat_theorem2 ... ok
+test polynomial_hash::tests::test_mersenne_mod_full_width_inputs_and_small_moduli ... ok
+test polynomial_hash::tests::test_mersenne_mul_commutative ... ok
+test polynomial_hash::tests::test_overflow_cache ... ok
+test polynomial_hash::tests::test_mersenne_mod_rejects_zero_modulus - should panic ... ok
+test polynomial_hash::tests::test_phi_base_cases ... ok
+test polynomial_hash::tests::test_mersenne_mod_large ... ok
+test polynomial_hash::tests::test_phi_degenerate_alpha_one ... ok
+test bigint::tests::modular_arithmetic_and_inverse_free_phi ... ok
+test polynomial_hash::tests::test_small_mersenne_hash_matches_modular_reference ... ok
+test polynomial_hash::tests::test_mersenne_mod_basic ... ok
+test rope::exact_fast_path_tests::aligned_same_arena_budget_exhaustion_preserves_verified_prefix ... ok
+test bigint::tests::default_profile_preserves_legacy_bytes ... ok
+test polynomial_hash::tests::test_power_exponents_do_not_truncate_to_pointer_width ... ok
+test polynomial_hash::tests::test_python_cross_validation ... ok
+test polynomial_hash::tests::test_phi_large_q ... ok
+test polynomial_hash::tests::test_phi_two ... ok
+test bigint::tests::invalid_split_is_rejected - should panic ... ok
+test rope::exact_fast_path_tests::equal_period_unit_proofs_leave_general_cache_empty ... ok
+test bigint::tests::overlap_matches_literal_bytes ... ok
+test rope::exact_fast_path_tests::fast_budget_counts_every_normalization_descent ... ok
+test rope::exact_fast_path_tests::fast_budget_fallback_resumes_after_verified_nonzero_prefix ... ok
+test rope::exact_fast_path_tests::fast_compact_dag_stops_at_budget_before_logical_expansion ... ok
+test rope::exact_fast_path_tests::fast_repeat_transition_preserves_prefix_and_late_mismatch ... ok
+test bigint::tests::sliding_huge_copy_is_compressed_and_reclaimed ... ok
+test rope::exact_fast_path_tests::frontier_depth_limit_falls_back_before_expansion_and_after_shared_prefix ... ok
+test rope::exact_fast_path_tests::frontier_budget_includes_both_nodes_and_resumes_verified_ranges ... ok
+test rope::exact_fast_path_tests::frontier_repeat_fallback_preserves_a_verified_nonzero_prefix ... ok
+test rope::tests::test_associativity ... ok
+test rope::tests::test_balance_comparisons_use_full_width ... ok
+test rope::tests::test_bug_a_leaf_concat_repeat ... ok
+test rope::tests::test_bug_a_repeat_concat_leaf ... ok
+test rope::tests::test_bug_a_repeat_concat_repeat ... ok
+test rope::tests::test_bug_b_rotation_unbalanced_children ... ok
+test rope::tests::test_bug_a_multi_leaf_concat_repeat ... ok
+test rope::tests::test_bug_a_sweep_repeat_weights ... ok
+test rope::tests::test_cdh_sort_lz77_pattern ... ok
+test rope::tests::test_bug_b_split_then_concat_internals ... ok
+test rope::tests::test_concat_length_overflow_rejected - should panic ... ok
+test rope::tests::test_concat_none ... ok
+test rope::tests::test_cdh_sort_distance_1_intensive ... ok
+test rope::tests::test_concat_two_leaves ... ok
+test rope::tests::test_bug_b_varied_weight_ratios ... ok
+test rope::tests::test_cross_validation_hello_world ... ok
+test rope::tests::test_diag_trace_join_repeat9_leaf1 ... ok
+test rope::tests::test_lazy_cdh_equals_h ... ok
+test rope::tests::test_height_leaf ... ok
+test rope::tests::test_diag_rebalance_internal_internal ... ok
+test rope::tests::test_lazy_concat_to_bytes ... ok
+test rope::tests::test_lazy_cdh_sort_lz77_pattern ... ok
+test rope::tests::test_lazy_complex_to_bytes ... ok
+test rope::tests::test_lazy_all_node_hashes_match_eager ... ok
+test rope::tests::test_lazy_ensure_hash_concat ... ok
+test rope::tests::test_lazy_ensure_hash_idempotent ... ok
+test rope::tests::test_lazy_ensure_hash_leaf ... ok
+test rope::tests::test_diag_rebalance_repeat_leaf ... ok
+test rope::tests::test_lazy_flag ... ok
+test rope::tests::test_height_grows_log ... ok
+test rope::tests::test_lazy_internal_has_sentinel_hash ... ok
+test rope::tests::test_diag_rebalance_repeat_repeat ... ok
+test rope::tests::test_lazy_leaf_has_sentinel_hash ... ok
+test rope::tests::test_lazy_height_bounded ... ok
+test rope::tests::test_lazy_ensure_hash_repeat ... ok
+test rope::tests::test_lazy_partial_materialization ... ok
+test rope::tests::test_lazy_split_repeat_then_hash ... ok
+test rope::tests::test_lazy_public_hash_returns_sentinel ... ok
+test rope::tests::test_lazy_repeat_has_sentinel_hash ... ok
+test rope::tests::test_lazy_split_concat_split_hash ... ok
+test rope::tests::test_diag_rebalance_repeat_internal ... ok
+test rope::tests::test_lazy_split_rejoin_hash ... ok
+test rope::tests::test_lazy_split_to_bytes ... ok
+test rope::tests::test_lazy_lz77_pattern_hash ... ok
+test rope::tests::test_lazy_substr_hash_materializes_on_demand ... ok
+test rope::tests::test_lazy_substr_hash_repeat ... ok
+test rope::tests::test_lazy_to_bytes_correct ... ok
+test rope::tests::test_lazy_many_concats_hash_correct ... ok
+test rope::tests::test_lazy_sentinel_never_valid_hash ... ok
+test rope::tests::test_lazy_repeat_to_bytes ... ok
+test rope::tests::test_lazy_validate_structural ... ok
+test rope::tests::test_lazy_validate_with_repeats ... ok
+test rope::tests::test_lazy_substr_hash_multiple_ranges ... ok
+test rope::tests::test_lazy_substr_hash_partial ... ok
+test rope::tests::test_diag_bug_b_minimal_reproduction ... ok
+test rope::tests::test_leaf_basic ... ok
+test rope::tests::test_lazy_deep_tree_ensure_hash ... ok
+test rope::tests::test_lazy_rotation_nodes_materialize_correctly ... ok
+test rope::tests::test_many_concats_balanced ... ok
+test rope::tests::test_materialization_rejects_unaddressable_length - should panic ... ok
+test rope::tests::test_maximum_length_compressed_rope ... ok
+test rope::tests::test_many_small_repeats_accumulated ... ok
+test rope::tests::test_nested_repeat_length_overflow_rejected - should panic ... ok
+test rope::tests::test_repeat_hash ... ok
+test rope::tests::test_nested_repeat_of_concat ... ok
+test rope::tests::test_repeat_length_overflow_rejected - should panic ... ok
+test rope::tests::test_split_and_rejoin_maximum_repeat ... ok
+test rope::tests::test_repeat_substring_full_width_mersenne_modulus ... ok
+test rope::tests::test_stack_overflow_large_repeat_join ... ok
+test rope::tests::test_split_repeat_on_boundary ... ok
+test rope::tests::test_split_repeat_rejoin_sweep ... ok
+test rope::tests::test_split_preserves_hash ... ok
+test rope::tests::test_split_repeat_within ... ok
+test rope::tests::test_substr_hash ... ok
+test rope::tests::test_substr_hash_full_node ... ok
+test rope::tests::test_substr_hash_after_split_rejoin ... ok
+test rope::tests::test_substr_hash_multi_leaf_exhaustive ... ok
+test rope::tests::test_substr_hash_repeat_node ... ok
+test sliding::tests::test_append_bytes ... ok
+test rope::tests::test_to_bytes_roundtrip ... ok
+test sliding::tests::test_append_incremental ... ok
+test rope::tests::test_substr_hash_single_byte_leaves ... ok
+test sliding::tests::test_bounded_compaction_preserves_shared_internal_nodes ... ok
+test sliding::tests::test_bounded_compaction_keeps_large_repeats_compressed ... ok
+test sliding::tests::test_copy_position_overflow - should panic ... ok
+test sliding::tests::test_empty ... ok
+test sliding::tests::test_empty_copies_do_not_accumulate_split_nodes ... ok
+test sliding::tests::test_large_stream ... ok
+test sliding::tests::test_empty_copy_still_validates_offset - should panic ... ok
+test sliding::tests::test_legacy_constructor_preserves_observed_node_ids ... ok
+test sliding::tests::test_eviction_preserves_hash ... ok
+test sliding::tests::test_literal_position_overflow - should panic ... ok
+test sliding::tests::test_non_overlapping_copy ... ok
+test sliding::tests::test_window_size_overflow - should panic ... ok
+test sliding::tests::test_mutable_arena_access_preserves_retained_handles ... ok
+test sliding::tests::test_bounded_large_literal_releases_evicted_data ... ok
+test sliding::tests::test_overlapping_copy ... ok
+test sliding::tests::test_bounded_literal_stream_reclaims_nodes ... ok
+test bigint::tests::exhaustive_repeat_split_substrings_and_rejoin ... ok
+test bigint::tests::extreme_weight_ratios_and_nested_repeats_remain_balanced ... ok
+test sliding::tests::test_bounded_mixed_stream_matches_rebuilt_bytes ... ok
+test bigint::tests::sliding_matches_rebuilt_stream_across_evictions ... ok
+test bigint::tests::repetitions_positions_and_lengths_above_u64_stay_compressed ... ok
+test rope::tests::test_termination_max_weight_decreases ... ok
+test bigint::tests::thousand_bit_repeat_traversals_use_heap_frames ... ok
+test bigint::tests::repeated_concats_and_persistent_versions ... ok
+
+test result: ok. 146 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
+
+     Running tests\diag_substr_scaling.rs (target\release\deps\diag_substr_scaling-2de919e212d39304.exe)
+
+running 1 test
+test diag_substr_hash_scaling ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.10s
+
+     Running tests\downstream_contracts.rs (target\release\deps\downstream_contracts-347b20fba688a957.exe)
+
+running 3 tests
+test lazy_nodes_remain_inspectable_before_hash_materialization ... ok
+test legacy_sliding_window_preserves_observed_and_caller_allocated_handles ... ok
+test public_types_and_free_functions_remain_source_compatible ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\python_conformance.rs (target\release\deps\python_conformance-5756f09c8269366a.exe)
+
+running 6 tests
+test published_pollard_jsonl_remains_byte_and_hash_stable ... ok
+test lazy_default_profile_preserves_sentinel_and_materializes_python_hashes ... ok
+test published_python_streams_legacy_and_bounded ... ok
+test published_python_valid_byte_contract_u64 ... ok
+test wide::published_python_arbitrary_precision_streams ... ok
+test wide::published_python_arbitrary_precision_contract ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests\test_bigint_exact_comparison.rs (target\release\deps\test_bigint_exact_comparison-38c2260a32203eb4.exe)
+
+running 12 tests
+test cross_profile_and_cross_arena_ids_are_not_identity ... ok
+test default_byte_and_token_collisions_do_not_decide_equality ... ok
+test sliding_profile_replacement_cannot_corrupt_prefix_or_window ... ok
+test empty_and_identity_shortcuts_still_check_wide_bounds ... ok
+test profile_replacement_fails_before_metadata_or_structure_changes ... ok
+test different_shapes_and_all_small_ranges_match_plain_bytes ... ok
+test periodic_witness_checks_its_last_byte_and_independent_phases ... ok
+test thousand_bit_repeats_and_shifted_ranges_remain_symbolic ... ok
+test repeat_against_internal_and_huge_late_edit_do_not_expand ... ok
+test unequal_leaf_word_and_tail_positions_and_offsets_are_exact ... ok
+test independent_self_concat_dags_and_partial_ranges_keep_wide_lengths ... ok
+test deep_split_dags_use_heap_frames_and_verified_ranges ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests\test_e1_throughput.rs (target\release\deps\test_e1_throughput-337ac78e91c88870.exe)
+
+running 1 test
+test e1_sequential_throughput ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.33s
+
+     Running tests\test_e2_concat_split.rs (target\release\deps\test_e2_concat_split-469845dbe34a6aa3.exe)
+
+running 1 test
+test e2_concat_vs_rehash ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+
+     Running tests\test_e3_repeat.rs (target\release\deps\test_e3_repeat-61e13f51ec710318.exe)
+
+running 1 test
+test e3_repeat_node_scaling ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 15.67s
+
+     Running tests\test_e4_phi.rs (target\release\deps\test_e4_phi-eec7638c8962e4f3.exe)
+
+running 1 test
+test e4_phi_scaling ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests\test_e5_sliding.rs (target\release\deps\test_e5_sliding-70cb8c09892349b1.exe)
+
+running 1 test
+test e5_sliding_window_throughput has been running for over 60 seconds
+test e5_sliding_window_throughput ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 76.19s
+
+     Running tests\test_e6_memory.rs (target\release\deps\test_e6_memory-98aebffcc68a8b1b.exe)
+
+running 3 tests
+test e6_memory_repeat_node ... ok
+test e6_memory_chunked_rope ... ok
+test e6_memory_sequential_rope ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.58s
+
+     Running tests\test_e7_tree_height.rs (target\release\deps\test_e7_tree_height-3cb489760f7a5373.exe)
+
+running 2 tests
+test e7_chunked_insertion ... ok
+test e7_sequential_insertion ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests\test_edit_optimization.rs (target\release\deps\test_edit_optimization-9ea797901744443a.exe)
+
+running 7 tests
+test accepted_custom_profile_retains_structure_sensitive_published_hashes ... ok
+test identity_empty_and_clamped_edit_edges_keep_their_behavior ... ok
+test zero_modulus_preserves_published_rejection - should panic ... ok
+test reduction_matches_frozen_scalar_for_full_u128_domain_boundaries ... ok
+test editing_preserves_baseline_fingerprints_nodes_and_lazy_materialization ... ok
+test default_hash_long_buffers_and_maximum_block_carries_match_scalar ... ok
+test hash_matches_frozen_scalar_arithmetic_at_all_block_boundaries ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+     Running tests\test_exact_comparison.rs (target\release\deps\test_exact_comparison-bdae2b83e197d5fc.exe)
+
+running 13 tests
+test cross_arena_identity_and_profile_do_not_determine_content ... ok
+test collisions_and_encoded_tokens_are_not_equal ... ok
+test huge_repeats_split_across_internal_nodes_and_shifted_phases ... ok
+test huge_repeats_compare_symbolically_across_patterns_shapes_and_profiles ... ok
+test exact_ranges_validate_bounds_and_compare_phases_without_nodes ... ok
+test sliding_hash_profile_replacement_is_rejected_before_state_changes ... ok
+test independently_allocated_shared_dags_use_verified_range_cache ... ok
+test maximum_u64_lengths_remain_exact_without_materialization ... ok
+test hash_profile_replacement_is_detected_before_composition ... ok
+test shared_edited_prefix_skips_immutable_ranges ... ok
+test periodic_comparison_checks_the_last_byte_of_its_witness ... ok
+test independent_shapes_and_prefix_lengths_match_bytes ... ok
+test nested_repeats_and_period_offsets_match_an_independent_byte_model ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\test_exact_optimization.rs (target\release\deps\test_exact_optimization-1293b8077b4f8a9f.exe)
+
+running 5 tests
+test same_identity_fast_paths_still_reject_invalid_ranges ... ok
+test huge_nonadjacent_shared_dags_and_shifted_ranges_remain_compressed ... ok
+test symbolic_ranges_near_u64_limit_do_not_wrap_offsets_or_bounds ... ok
+test huge_repeat_witnesses_can_themselves_be_independent_shared_dags ... ok
+test seeded_independent_shared_and_range_comparisons_match_bytes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests\test_exact_optimization_round2.rs (target\release\deps\test_exact_optimization_round2-ab249056a7a390e9.exe)
+
+running 10 tests
+test late_edit_breaks_only_the_edited_dag_range ... ok
+test equal_fingerprints_do_not_define_structural_periods ... ok
+test doubled_dags_keep_nonzero_phases_and_cross_profile_ranges_exact ... ok
+test accepted_custom_profile_hash_inequality_does_not_reject_equal_bytes ... ok
+test direct_child_traversal_can_fall_back_after_a_nonzero_prefix ... ok
+test structurally_periodic_witness_checks_its_last_byte ... ok
+test compressed_leaf_mismatch_localization_matches_the_plain_byte_oracle ... ok
+test uneven_child_boundaries_and_clipped_ranges_match_byte_oracles ... ok
+test long_uneven_frontiers_keep_clipped_ranges_and_late_mismatches_exact ... ok
+test every_leaf_mismatch_position_and_bit_has_the_correct_byte_index ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests\test_lcp_performance.rs (target\release\deps\test_lcp_performance-b87e80dc0aa7ebee.exe)
+
+running 5 tests
+test equal_period_proof_checks_the_last_witness_byte_after_wrapping ... ok
+test aligned_shared_prefix_preserves_repeat_fallback_and_distinct_periods ... ok
+test three_phase_pieces_keep_large_nonperiodic_units_compressed ... ok
+test equal_period_proofs_preserve_all_phases_and_short_ranges ... ok
+test aligned_and_mismatched_tree_shapes_match_plain_range_oracles ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+   Doc-tests hashrope
+
+running 1 test
+test src\bigint.rs - bigint (line 15) ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.59s
+

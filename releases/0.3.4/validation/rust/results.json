@@ -1,0 +1,134 @@
+{
+  "started_utc": "2026-10-24T21:09:57.013449+00:00",
+  "driver_sha256": "2728d3b547d5c616ccf34dae99461fc9854c828f216df0f1f6a221f39c74bef8",
+  "source_sha256": {
+    "packages/rust/Cargo.toml": "3b7beb79e51b926c0bf5afdc80376de951f5e0ae3c80956dac4d63daa60bcea6",
+    "packages/rust/Cargo.lock": "67c2149366d81eadf627bb43b9e322dab4a50838dd71f742155576ee22d105f9",
+    "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+    "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+    "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+    "packages/rust/src/rope.rs": "50d9441b03d5e6f4acba329bcd449fe5dbc4354b6f09c2d9c28fb54cc916d4e7",
+    "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130",
+    "packages/rust/tests/diag_substr_scaling.rs": "f5b11f35033194ee099ad540dd127f26d9c038c6c59e32c90c3215522270331f",
+    "packages/rust/tests/downstream_contracts.rs": "91c8a090db08c2700046c778fdad16abe88d47f9cafbf3d957c4a4f34795d98f",
+    "packages/rust/tests/fixtures/pollard-1.6.0-hashrope-0.2.2.jsonl": "45174ce9b17341c5bd9efb800a403308d148ce799b60862896341c248a37e623",
+    "packages/rust/tests/fixtures/python-0.2.2.json": "4dee4bc115f6f2419ef15a8da8c2b6d15e51e28f027b29f25d877aa5e485220a",
+    "packages/rust/tests/python_conformance.rs": "d94f90b3e29af8aae6381e250419bfb127239238a66383379ff85cdad8de785d",
+    "packages/rust/tests/test_bigint_exact_comparison.rs": "109f1de5d46f606dd501e58ebebd0b91f7b00135f5ae713845fba167144a0457",
+    "packages/rust/tests/test_e1_throughput.rs": "b0e4cf80961d9ba10861e441c5047abd59ccdf1bd91f27199f26f37ed8432d01",
+    "packages/rust/tests/test_e2_concat_split.rs": "f9492c3f987bb79227ed9a49318c76b9d961a2bd0297b5e13948cb564273cb5c",
+    "packages/rust/tests/test_e3_repeat.rs": "74ca6502c64bebef5a15fcc8a4eef69c89ac018322b539c7a2f73ef82b25c746",
+    "packages/rust/tests/test_e4_phi.rs": "6f8aa34790f3746803aec117d3cd5e118fd9d5ebfc04d951e342fbb70b9fa8c1",
+    "packages/rust/tests/test_e5_sliding.rs": "0b8c538abb2680dbf6112fd2a235b8daa834b9dd256ea93a6d4e49662a899715",
+    "packages/rust/tests/test_e6_memory.rs": "135d34d099ee4cbd8a26533bea65b0c6dba3db2b14af5285ebe8b468d27a1a69",
+    "packages/rust/tests/test_e7_tree_height.rs": "fc3ca39c38109c4aee3525846c922b88f9c82b3be5f4dc5ae3637cbe0a1f00d1",
+    "packages/rust/tests/test_edit_optimization.rs": "b9ac3ac068a08e764f3c222ac1e9eecf0f332688df7e6c8776bf7cbcbe00cf2d",
+    "packages/rust/tests/test_exact_comparison.rs": "62664c6e5130801a3512faff732f850ed5309a2bac95e8d310b23c977a0881fa",
+    "packages/rust/tests/test_exact_optimization.rs": "d861662df0c815b9bea5b6807c0f11c775f9931ccdae42d66b57e2657b6e2f44",
+    "packages/rust/tests/test_exact_optimization_round2.rs": "a8928bb6beddfa5650f25ca17c7e9b60a2c71e381545d33d58c06b152798f3bf",
+    "packages/rust/tests/test_lcp_performance.rs": "afc3151b283c81a04b7900a5b73cdd551eab4c9648ebe3464ceba433aa59da3a"
+  },
+  "source_archive_sha256": "cdb11b99cd618a386768a58aae0ee215fdac34bb518654208b47ba71fbd8a69f",
+  "commands": [
+    {
+      "arguments": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/rust/00.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "clippy",
+        "--all-features",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/rust/01.log",
+      "sha256": "b107a6c96a3fc65d593bf096d66972f0a458bda5155b54272c30e0b7d53b0643",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "test",
+        "--all-features",
+        "--release"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/rust/02.log",
+      "sha256": "5c5772f415b3fdebffcefb8a65959255a64e21a7c11738f21d98d91102b23e7b",
+      "passed_tests": 221
+    },
+    {
+      "arguments": [
+        "cargo",
+        "test",
+        "--doc"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/rust/03.log",
+      "sha256": "15c8970768cd640b8c9c8e051fd647a52cab874da342c3fc78389147e56ae9e5",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "check",
+        "--lib",
+        "--no-default-features",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/rust/04.log",
+      "sha256": "e1e20e8ccd2d72e6a923a76bce2c2deeb29e65b7f4d0cde5a79eb779c1eb7fef",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "check",
+        "--lib",
+        "--all-features",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/rust/05.log",
+      "sha256": "2834725833182fad8ddbd495dd49704aa8da6090e9a67ed69d3a838dd18d0653",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "doc",
+        "--no-deps",
+        "--all-features"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/rust/06.log",
+      "sha256": "d9988062621052e148d07639c5dd6404863030642fd8ff4f3fb70006be3105c2",
+      "passed_tests": 0
+    }
+  ],
+  "finished_utc": "2026-10-24T21:13:17.123394+00:00",
+  "source_unchanged": false,
+  "success": false
+}

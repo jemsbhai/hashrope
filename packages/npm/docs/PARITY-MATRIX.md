@@ -51,7 +51,7 @@ The primary expected-value source is the independently downloaded, SHA-256-pinne
 | Python name | JavaScript mapping | Contract |
 |---|---|---|
 | `hashrope.__version__` | `PYTHON_VERSION` | Pinned reference version `"0.2.2"` |
-| Package release version | `VERSION` and package.json `version` | JavaScript release currently `"0.3.3"`; separate ecosystem release identity |
+| Package release version | `VERSION` and package.json `version` | JavaScript release currently `"0.3.4"`; separate ecosystem release identity |
 | `hashrope.rope.ALPHA_NUM` | `ALPHA_NUM` | BigInt `2n` |
 | `hashrope.rope.ALPHA_DEN` | `ALPHA_DEN` | BigInt `7n` |
 

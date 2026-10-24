@@ -42,8 +42,8 @@ def build(data: bytes, h: PolynomialHash):
 def main() -> int:
     print(f"hashrope {hashrope.__version__} "
           f"loaded from: {os.path.dirname(hashrope.__file__)}")
-    if hashrope.__version__ != "0.3.3":
-        raise AssertionError("release gate requires hashrope 0.3.3")
+    if hashrope.__version__ != "0.3.4":
+        raise AssertionError("release gate requires hashrope 0.3.4")
 
     # Installed-artifact checks: collisions must remain compatible but cannot
     # decide exact equality, including ranges and independent hash profiles.

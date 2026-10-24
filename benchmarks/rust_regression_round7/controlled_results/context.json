@@ -1,0 +1,227 @@
+{
+  "freeze_sha256": "17506c187dd2a99b474190799cb15051b0af8b9ca40ed91dc431d43da470be88",
+  "build_sha256": "0764a3dbba28168aede53092620f0ec6e5e9b22d6293ce01e27f876a046881b7",
+  "python": "3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024, 21:26:36) [MSC v.1937 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "initial_affinity_mask": 4294967295,
+  "system_affinity_mask": 4294967295,
+  "pinned_mask": 1,
+  "schedule": [
+    {
+      "seed": 1,
+      "churn_seed": 1,
+      "affinity_mode": "unpinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 1,
+      "churn_seed": 1,
+      "affinity_mode": "unpinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 1,
+      "churn_seed": 1,
+      "affinity_mode": "unpinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 1,
+      "churn_seed": 1,
+      "affinity_mode": "pinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 1,
+      "churn_seed": 1,
+      "affinity_mode": "pinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 1,
+      "churn_seed": 1,
+      "affinity_mode": "pinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 2,
+      "churn_seed": 2,
+      "affinity_mode": "pinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 2,
+      "churn_seed": 2,
+      "affinity_mode": "pinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 2,
+      "churn_seed": 2,
+      "affinity_mode": "pinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 2,
+      "churn_seed": 2,
+      "affinity_mode": "unpinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 2,
+      "churn_seed": 2,
+      "affinity_mode": "unpinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 2,
+      "churn_seed": 2,
+      "affinity_mode": "unpinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 3,
+      "churn_seed": 3,
+      "affinity_mode": "unpinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 3,
+      "churn_seed": 3,
+      "affinity_mode": "unpinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 3,
+      "churn_seed": 3,
+      "affinity_mode": "unpinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 3,
+      "churn_seed": 3,
+      "affinity_mode": "pinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 3,
+      "churn_seed": 3,
+      "affinity_mode": "pinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 3,
+      "churn_seed": 3,
+      "affinity_mode": "pinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 4,
+      "churn_seed": 1,
+      "affinity_mode": "pinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 4,
+      "churn_seed": 1,
+      "affinity_mode": "pinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 4,
+      "churn_seed": 1,
+      "affinity_mode": "pinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 4,
+      "churn_seed": 1,
+      "affinity_mode": "unpinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 4,
+      "churn_seed": 1,
+      "affinity_mode": "unpinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 4,
+      "churn_seed": 1,
+      "affinity_mode": "unpinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 5,
+      "churn_seed": 2,
+      "affinity_mode": "unpinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 5,
+      "churn_seed": 2,
+      "affinity_mode": "unpinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 5,
+      "churn_seed": 2,
+      "affinity_mode": "unpinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 5,
+      "churn_seed": 2,
+      "affinity_mode": "pinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 5,
+      "churn_seed": 2,
+      "affinity_mode": "pinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 5,
+      "churn_seed": 2,
+      "affinity_mode": "pinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 6,
+      "churn_seed": 3,
+      "affinity_mode": "pinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 6,
+      "churn_seed": 3,
+      "affinity_mode": "pinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 6,
+      "churn_seed": 3,
+      "affinity_mode": "pinned",
+      "build": "current_current"
+    },
+    {
+      "seed": 6,
+      "churn_seed": 3,
+      "affinity_mode": "unpinned",
+      "build": "current_prior"
+    },
+    {
+      "seed": 6,
+      "churn_seed": 3,
+      "affinity_mode": "unpinned",
+      "build": "prior_current"
+    },
+    {
+      "seed": 6,
+      "churn_seed": 3,
+      "affinity_mode": "unpinned",
+      "build": "current_current"
+    }
+  ]
+}

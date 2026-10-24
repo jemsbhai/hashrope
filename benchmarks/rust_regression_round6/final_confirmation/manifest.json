@@ -1,0 +1,60 @@
+{
+  "declared_utc": "2026-10-24T20:06:15.482587+00:00",
+  "labels": {
+    "baseline": "frozen round-five optimization",
+    "candidate": "reviewed round-six optimization; unchanged final binaries"
+  },
+  "reference_artifacts": {
+    "baseline.zip": "c79883e17f6162a7d2044f71276bf67c87ac0a7b62fb2341cc1279c82145bdd3",
+    "candidate.zip": "1fa5fdf834179d9ee397343df085b262cb007343bb4fc96cdf9bfa6243f4c7f7",
+    "drivers.zip": "fe3cb931403a9530a04b79f35debdd7fb1075bfcefb712d25e85210ba9d6a56c",
+    "manifest.json": "b52e8d2e1df1f13bcedb009cbe7bc590208b7f66155a9de17152b8f85d21d5c9",
+    "build.json": "b963f82c73e7cb091eb2fb31dec262009c60170f4727f34c22e479a025da166f",
+    "binaries.zip": "d0edf137d2e6f7dbe0627fb61e8de4de0631c0b01762fe78551c98f5d68042e9",
+    "run.py": "257e39a3f2de2b2532e63bfb84f358d4ae52683eb0a04cf68b76c3aa0230a5b1",
+    "results.json": "c30350ce6a7d13681a2615bc8759e27c3e8694c72300d70aa3882f9442593c69",
+    "summary.json": "a61621f257a976a9856cee83241076ec1e5fa28df26b546c8c26d83c646f2abc"
+  },
+  "drivers": {
+    "PLAN.md": "43c23221db51585155afedf55ab5ecfc6981d85a366b49d9dd9922d028379f26",
+    "run.py": "ad56e70df89bd3be5bff29c3799eb56ede7f32f28b83674cd915f655fbeecdd4"
+  },
+  "protocol": {
+    "orders": [
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ]
+    ],
+    "churn_seeds": [
+      1,
+      2,
+      3,
+      1,
+      2,
+      3
+    ],
+    "invocation": 0,
+    "pairs_per_cohort": 6
+  }
+}

@@ -157,3 +157,7 @@ jobs:
       # matrix checks its public enum and lazy-hash contract without that source.
       - name: Test public downstream at its pinned revision
         run: python packages/rust/scripts/verify_downstream.py --consumer hashrope-bio --output-dir "$RUNNER_TEMP/hashrope-downstream"
+      - name: Test the current release biology consumer
+        run: |
+          git submodule update --init --depth 1 -- usecases/computational-biology/code
+          cargo test --manifest-path usecases/computational-biology/code/rust/Cargo.toml

@@ -1,0 +1,214 @@
+--- round5-baseline/rope.rs
++++ concat-final/rope.rs
+@@ -305,22 +305,37 @@
+ 
+     #[inline]
+     fn make_internal(&mut self, left: NodeId, right: NodeId) -> NodeId {
+-        let len = self
+-            .node_len(left)
+-            .checked_add(self.node_len(right))
++        let left_len = self.node_len(left);
++        let right_len = self.node_len(right);
++        let len = left_len
++            .checked_add(right_len)
+             .expect("Rope length exceeds u64::MAX");
+         let weight = self
+             .node_weight(left)
+             .checked_add(self.node_weight(right))
+             .expect("Rope weight exceeds u64::MAX");
++        self.make_internal_prechecked(left, right, len, weight, right_len)
++    }
++
++    // Callers have checked both sums before reaching this allocation. Retaining
++    // those values lets public concat avoid checking the same metadata again
++    // when its two roots can be joined without rebalancing.
++    // Inline this shared tail so existing make_internal callers do not gain
++    // another function call merely because public concat can reuse its sums.
++    #[inline(always)]
++    fn make_internal_prechecked(
++        &mut self,
++        left: NodeId,
++        right: NodeId,
++        len: u64,
++        weight: u64,
++        right_len: u64,
++    ) -> NodeId {
+         let hash_val = if self.lazy {
+             LAZY_SENTINEL
+         } else {
+-            self.h.hash_concat(
+-                self.hash_val(left),
+-                self.node_len(right),
+-                self.hash_val(right),
+-            )
++            self.h
++                .hash_concat(self.hash_val(left), right_len, self.hash_val(right))
+         };
+         self.alloc(NodeInner::Internal {
+             left,
+@@ -527,11 +542,6 @@
+     // Balance helpers (Invariant I8)
+     // -----------------------------------------------------------------------
+ 
+-    #[inline]
+-    fn is_balanced(&self, left: NodeId, right: NodeId) -> bool {
+-        Self::is_balanced_wt(self.node_weight(left), self.node_weight(right))
+-    }
+-
+     /// Weight-only balance check (no node lookup needed).
+     #[inline]
+     fn is_balanced_wt(wl: u64, wr: u64) -> bool {
+@@ -622,13 +632,20 @@
+     // -----------------------------------------------------------------------
+ 
+     fn join(&mut self, left: NodeId, right: NodeId) -> NodeId {
+-        if self.is_balanced(left, right) {
+-            return self.make_internal(left, right);
+-        }
+-
+         let wl = self.node_weight(left);
+         let wr = self.node_weight(right);
+-
++        if Self::is_balanced_wt(wl, wr) {
++            return self.make_internal(left, right);
++        }
++
++        self.join_unbalanced(left, right)
++    }
++
++    // Pass only node IDs so join can tail-call this branch on the Windows x64
++    // ABI. Passing both weights would add a stack argument and an extra call.
++    fn join_unbalanced(&mut self, left: NodeId, right: NodeId) -> NodeId {
++        let wl = self.node_weight(left);
++        let wr = self.node_weight(right);
+         if wl > wr {
+             match self.nodes[left as usize].clone() {
+                 NodeInner::Internal {
+@@ -689,13 +706,19 @@
+             (_, None) => left,
+             (Some(l), Some(r)) => {
+                 // Reject an unrepresentable result before join allocates any nodes.
+-                self.node_len(l)
+-                    .checked_add(self.node_len(r))
++                let left_len = self.node_len(l);
++                let right_len = self.node_len(r);
++                let len = left_len
++                    .checked_add(right_len)
+                     .expect("Rope length exceeds u64::MAX");
+-                self.node_weight(l)
+-                    .checked_add(self.node_weight(r))
+-                    .expect("Rope weight exceeds u64::MAX");
+-                Some(self.join(l, r))
++                let wl = self.node_weight(l);
++                let wr = self.node_weight(r);
++                let weight = wl.checked_add(wr).expect("Rope weight exceeds u64::MAX");
++                Some(if Self::is_balanced_wt(wl, wr) {
++                    self.make_internal_prechecked(l, r, len, weight, right_len)
++                } else {
++                    self.join_unbalanced(l, r)
++                })
+             }
+         }
+     }
+@@ -1814,6 +1837,101 @@
+     }
+ 
+     #[test]
++    fn test_prechecked_concat_preserves_join_node_sequence() {
++        for (prime, base) in [((1 << 61) - 1, 131), (17, 2), (31, 3)] {
++            for lazy in [false, true] {
++                for (left_count, right_count) in [
++                    (1, 1),
++                    (2, 5),
++                    (5, 2),
++                    (2, 6),
++                    (6, 2),
++                    (1, 64),
++                    (64, 1),
++                    (63, 64),
++                    (64, 63),
++                    (64, 64),
++                ] {
++                    for repeats in [false, true] {
++                        let mut actual = Arena::with_hash(prime, base);
++                        actual.lazy = lazy;
++                        let (left, right) = if repeats {
++                            let a = actual.from_bytes(b"abc");
++                            let b = actual.from_bytes(b"\0\xff\r");
++                            (actual.repeat(a, left_count), actual.repeat(b, right_count))
++                        } else {
++                            (
++                                actual.from_bytes(&alloc::vec![b'a'; left_count as usize * 512]),
++                                actual.from_bytes(&alloc::vec![b'b'; right_count as usize * 512]),
++                            )
++                        };
++                        let mut reference = Arena::with_hash(prime, base);
++                        reference.lazy = lazy;
++                        reference.nodes = actual.nodes.clone();
++                        // Keep the pre-existing recursive join path as a direct
++                        // structural oracle for the new public balanced shortcut.
++                        let expected = Some(reference.join(left.unwrap(), right.unwrap()));
++                        let joined = actual.concat(left, right);
++                        assert_eq!(joined, expected);
++                        assert_eq!(
++                            alloc::format!("{:?}", actual.nodes),
++                            alloc::format!("{:?}", reference.nodes)
++                        );
++                        actual.ensure_hash(joined.unwrap());
++                        reference.ensure_hash(expected.unwrap());
++                        assert_eq!(
++                            alloc::format!("{:?}", actual.nodes),
++                            alloc::format!("{:?}", reference.nodes)
++                        );
++                    }
++                }
++            }
++        }
++    }
++
++    #[test]
++    fn test_prechecked_concat_rejects_before_allocation() {
++        extern crate std;
++        use std::panic::{catch_unwind, AssertUnwindSafe};
++        for lazy in [false, true] {
++            for length_overflow in [false, true] {
++                let mut a = if lazy { Arena::new_lazy() } else { arena() };
++                let leaf = a.from_bytes(b"a").unwrap();
++                let huge = a.repeat(Some(leaf), u64::MAX).unwrap();
++                if !length_overflow {
++                    // Weight overflow is otherwise preceded by length overflow
++                    // for valid nodes. Exercise its independent preflight with
++                    // private test metadata and no byte traversal.
++                    if let NodeInner::Repeat { len, .. } = &mut a.nodes[huge as usize] {
++                        *len = 1;
++                    }
++                }
++                let before = alloc::format!("{:?}", a.nodes);
++                let failure = catch_unwind(AssertUnwindSafe(|| a.concat(Some(huge), Some(leaf))))
++                    .expect_err("overflow must be rejected");
++                let message = failure
++                    .downcast_ref::<&str>()
++                    .copied()
++                    .or_else(|| {
++                        failure
++                            .downcast_ref::<alloc::string::String>()
++                            .map(|s| s.as_str())
++                    })
++                    .unwrap();
++                assert_eq!(
++                    message,
++                    if length_overflow {
++                        "Rope length exceeds u64::MAX"
++                    } else {
++                        "Rope weight exceeds u64::MAX"
++                    }
++                );
++                assert_eq!(alloc::format!("{:?}", a.nodes), before);
++            }
++        }
++    }
++
++    #[test]
+     fn test_maximum_length_compressed_rope() {
+         for lazy in [false, true] {
+             let mut a = if lazy { Arena::new_lazy() } else { arena() };

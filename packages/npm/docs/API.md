@@ -88,4 +88,4 @@ Mutable Python slots map to `h`, `dMax`, `mMax`, `W`, `hPrefix`, `lPrefix`, `rWi
 
 ## Constants and representation
 
-`VERSION` is the npm implementation version; `PYTHON_VERSION` names the pinned compatibility target (`0.3.3` and `0.2.2`, respectively). `ALPHA_NUM=2n`, `ALPHA_DEN=7n` describe the balance condition. Python snake_case is mapped to camelCase; no accidental snake_case aliases are claimed. JSON cannot encode bigint directly: use an explicit decimal-string schema when serializing metadata.
+`VERSION` is the npm implementation version; `PYTHON_VERSION` names the pinned compatibility target (`0.3.4` and `0.2.2`, respectively). `ALPHA_NUM=2n`, `ALPHA_DEN=7n` describe the balance condition. Python snake_case is mapped to camelCase; no accidental snake_case aliases are claimed. JSON cannot encode bigint directly: use an explicit decimal-string schema when serializing metadata.

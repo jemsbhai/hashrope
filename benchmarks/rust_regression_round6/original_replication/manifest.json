@@ -1,0 +1,62 @@
+{
+  "declared_utc": "2026-10-24T19:46:16.781331+00:00",
+  "labels": {
+    "baseline": "published 0.3.3",
+    "candidate": "round-five LCP optimization"
+  },
+  "reference_artifacts": {
+    "baseline.zip": "31b66a0640a8094c2fc1c660d11b9d1c4773c39a812863331420bf1ed00b55e2",
+    "candidate.zip": "c79883e17f6162a7d2044f71276bf67c87ac0a7b62fb2341cc1279c82145bdd3",
+    "drivers.zip": "8a07a0e9d8887b548026af2a5fd222e05c27c8bebe85c081a6e34e26497417e9",
+    "manifest.json": "d3da2a15afaccaa92d9be5905da8a35aa2fa6838e718f0bebdb3263b171b4e91",
+    "build.json": "51992594915d06f190b7b0de0bf952f07268b161112f443eb4aa36b33272a70e",
+    "binaries.zip": "cae412b6ce61fa0eadd0c9451791d260963e60867fd36ccec501fff793a1f8f7",
+    "run.py": "599e4516193eb6682c71ff04c7cce2b6ecbadcef3f58d41586e18187e87db1c3",
+    "results.json": "8b213c4fa16d79b867c28f27ecdd5bcc2a192bd68e95059df3f5ca6e480b6c2e",
+    "summary.json": "4b550fac810c5ba4c4b161b05716a15ade682508d55335e993b523dfdf318209",
+    "confirmation/results.json": "80e647c5ea7e2ecb1ebbbeb8c6401150d8f2f2d2ccef4d0c1843a5e3c7fa9673",
+    "confirmation/summary.json": "3411be7c16fd693c2b26e69d320b58b22a1d983db3f94165aa436e151998ebea"
+  },
+  "drivers": {
+    "PLAN.md": "7e9a8f3a7f733bb33c4ac96cb21fff3d8088b3f4cefdec76ca9152a4389cb552",
+    "run.py": "8b56eddb4866da182f6ee416eaae16ddce74b05c391656ca7b5ef9055f6408da"
+  },
+  "protocol": {
+    "orders": [
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ]
+    ],
+    "churn_seeds": [
+      1,
+      2,
+      3,
+      1,
+      2,
+      3
+    ],
+    "invocation": 0,
+    "pairs_per_cohort": 6
+  }
+}

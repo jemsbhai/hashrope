@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "versions": {
+    "packages/python/pyproject.toml": "0.3.4",
+    "packages/rust/Cargo.toml": "0.3.4",
+    "usecases/computational-biology/code/pyproject.toml": "0.3.4",
+    "usecases/computational-biology/code/rust/Cargo.toml": "0.3.4",
+    "packages/python/hashrope/__init__.py": "0.3.4",
+    "usecases/computational-biology/code/src/hashrope_bio/__init__.py": "0.3.4",
+    "packages/npm/package.json": "0.3.4",
+    "packages/npm/package-lock.json": "0.3.4",
+    "packages/npm/src/index.ts": "0.3.4"
+  },
+  "rust_validation_checks": 7,
+  "rust_tests": 221,
+  "rust_current_source_and_fixture_files": 25,
+  "changes_from_accepted_source": [
+    "packages/rust/Cargo.toml",
+    "packages/rust/Cargo.lock"
+  ],
+  "retained_rope_sha256": "50d9441b03d5e6f4acba329bcd449fe5dbc4354b6f09c2d9c28fb54cc916d4e7",
+  "rejected_direction_trial_absent": true,
+  "initial_lock_update_guard_failure_preserved": true,
+  "npm_runtime_payloads_identical": 36,
+  "npm_version_only_payloads": 7,
+  "release_notes_sha256": "56e477bc603834418bcc4ffd43b94bcbc8ff3b99df8e373be959d81ce60de8a7",
+  "scope": "Core Python/Rust/npm and biology metadata plus Rust accepted-source/gate identity; Java audited separately by its release owner. No publication, builds or timings."
+}

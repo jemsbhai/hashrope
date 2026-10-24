@@ -1,0 +1,165 @@
+{
+  "script_sha256": "7d95afcc6ff9a3fe613cb38286c66230d072e943b2fe726db3c43a116538a069",
+  "build_manifest_sha256": "51992594915d06f190b7b0de0bf952f07268b161112f443eb4aa36b33272a70e",
+  "dumpbin": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\dumpbin.exe",
+  "dumpbin_sha256": "22f0834029ca0dd4edefb7fce08280fcc039c6d8a1505cf30ef86d60faff20b3",
+  "inputs": {
+    "micro.baseline": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\baseline_micro\\target\\release\\hashrope-comparison-benchmark.exe",
+      "binary_sha256": "4f0c6488e9b8f4470f77584ca71b382f5d826f3e58481c27a4da66816766b089",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\baseline_micro\\target\\release\\deps\\libhashrope-5b8de813efc153ca.rlib",
+      "rlib_sha256": "482149a65ba69d00bea70f52f98ca49a9d5f776dfae8a90e4382687973c27177",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DISASM:NOBYTES",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\baseline_micro\\target\\release\\deps\\libhashrope-5b8de813efc153ca.rlib"
+      ],
+      "dump_sha256": "6508f32baa54e556c43c9c5ba265d246e2e5ff1530733cc2011764bbccab937e",
+      "stderr": ""
+    },
+    "micro.candidate": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\candidate_micro\\target\\release\\hashrope-comparison-benchmark.exe",
+      "binary_sha256": "d01437355c1e503bf170eb4adeeb6ac43ff729043e494efef9ad3d488420a18c",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\candidate_micro\\target\\release\\deps\\libhashrope-2d59a44dd1c7353b.rlib",
+      "rlib_sha256": "6a6f66625130ce23508b1594be8e386fa93a23b4833180562e83d4ff90b58fcc",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DISASM:NOBYTES",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\candidate_micro\\target\\release\\deps\\libhashrope-2d59a44dd1c7353b.rlib"
+      ],
+      "dump_sha256": "3a37c3b195bd1cc9b76846e9bdbfd2f333041de777b9837a1b6b8aac494a5bda",
+      "stderr": ""
+    },
+    "churn.baseline": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\baseline_churn\\target\\release\\exact-edit-comparison.exe",
+      "binary_sha256": "9a71ddc1120b976909f9aaa25b90b869f57e83894d4c00ddd12dd8ea26124f62",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\baseline_churn\\target\\release\\deps\\libhashrope-5b8de813efc153ca.rlib",
+      "rlib_sha256": "482149a65ba69d00bea70f52f98ca49a9d5f776dfae8a90e4382687973c27177",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DISASM:NOBYTES",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\baseline_churn\\target\\release\\deps\\libhashrope-5b8de813efc153ca.rlib"
+      ],
+      "dump_sha256": "5053cc7d6585c61f531ff5f36b3195edb47270ac4750491a95aaf2b8b0c1e005",
+      "stderr": ""
+    },
+    "churn.candidate": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\candidate_churn\\target\\release\\exact-edit-comparison.exe",
+      "binary_sha256": "93289f68763368a66616818038df058b7f979581e5e815d62882e8c5a247018c",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\candidate_churn\\target\\release\\deps\\libhashrope-2d59a44dd1c7353b.rlib",
+      "rlib_sha256": "6a6f66625130ce23508b1594be8e386fa93a23b4833180562e83d4ff90b58fcc",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DISASM:NOBYTES",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_lcp_round5\\.cache\\build\\candidate_churn\\target\\release\\deps\\libhashrope-2d59a44dd1c7353b.rlib"
+      ],
+      "dump_sha256": "824a443b59ddac17226d57cbeebc6a6ae519b3ca5959e309bed85e14799450bf",
+      "stderr": ""
+    }
+  },
+  "comparisons": {
+    "micro": {
+      "Arena6concat": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 90,
+        "candidate_lines": 90,
+        "baseline_sha256": "594bc5e35745898162a02d33e4bda7df74a149e8549727d193a8770f026204d4",
+        "candidate_sha256": "594bc5e35745898162a02d33e4bda7df74a149e8549727d193a8770f026204d4"
+      },
+      "Arena4join": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 310,
+        "candidate_lines": 310,
+        "baseline_sha256": "bae5d38156b6992a4b5121edb2b8ae72e3fa043430d19bf705579cb2bf5a05f7",
+        "candidate_sha256": "bae5d38156b6992a4b5121edb2b8ae72e3fa043430d19bf705579cb2bf5a05f7"
+      },
+      "Arena13make_internal": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 151,
+        "candidate_lines": 151,
+        "baseline_sha256": "b92b26bfb9042c38f8b236aec94ab21c53e377af4e6c3f482a1454d469b39b03",
+        "candidate_sha256": "b92b26bfb9042c38f8b236aec94ab21c53e377af4e6c3f482a1454d469b39b03"
+      },
+      "ExactFrontier6expand": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 69,
+        "candidate_lines": 69,
+        "baseline_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc",
+        "candidate_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc"
+      },
+      "rope9exact_lcp": {
+        "same_normalized_instructions": false,
+        "baseline_lines": 490,
+        "candidate_lines": 507,
+        "baseline_sha256": "aa75fb4f8632f34684bc0a6786c353a18e9a06d986ea2c5eaa9260192ee9e1f2",
+        "candidate_sha256": "56a8a13c8edae838110fcb6d33024f11840b9d2c3fb87b33647928ba47761d9e"
+      },
+      "FastComparison13lcp_recursive": {
+        "same_normalized_instructions": false,
+        "baseline_lines": 409,
+        "candidate_lines": 546,
+        "baseline_sha256": "d4bd29bc2e5296e0a38e0ee5bf28461307e7ccab035c85bd988d03ae1c10d738",
+        "candidate_sha256": "12778f646989ecd8ae1ecac8682226c717402a35d6d6ce8c0a74abceb601634a"
+      },
+      "Arena11split_inner": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 263,
+        "candidate_lines": 263,
+        "baseline_sha256": "d10d532bac9d879b3e2aa52cd8f78d0f1867a61d2db9f47af7f42e95dbe045eb",
+        "candidate_sha256": "d10d532bac9d879b3e2aa52cd8f78d0f1867a61d2db9f47af7f42e95dbe045eb"
+      }
+    },
+    "churn": {
+      "Arena6concat": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 90,
+        "candidate_lines": 90,
+        "baseline_sha256": "594bc5e35745898162a02d33e4bda7df74a149e8549727d193a8770f026204d4",
+        "candidate_sha256": "594bc5e35745898162a02d33e4bda7df74a149e8549727d193a8770f026204d4"
+      },
+      "Arena4join": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 310,
+        "candidate_lines": 310,
+        "baseline_sha256": "bae5d38156b6992a4b5121edb2b8ae72e3fa043430d19bf705579cb2bf5a05f7",
+        "candidate_sha256": "bae5d38156b6992a4b5121edb2b8ae72e3fa043430d19bf705579cb2bf5a05f7"
+      },
+      "Arena13make_internal": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 151,
+        "candidate_lines": 151,
+        "baseline_sha256": "b92b26bfb9042c38f8b236aec94ab21c53e377af4e6c3f482a1454d469b39b03",
+        "candidate_sha256": "b92b26bfb9042c38f8b236aec94ab21c53e377af4e6c3f482a1454d469b39b03"
+      },
+      "ExactFrontier6expand": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 69,
+        "candidate_lines": 69,
+        "baseline_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc",
+        "candidate_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc"
+      },
+      "rope9exact_lcp": {
+        "same_normalized_instructions": false,
+        "baseline_lines": 490,
+        "candidate_lines": 507,
+        "baseline_sha256": "aa75fb4f8632f34684bc0a6786c353a18e9a06d986ea2c5eaa9260192ee9e1f2",
+        "candidate_sha256": "56a8a13c8edae838110fcb6d33024f11840b9d2c3fb87b33647928ba47761d9e"
+      },
+      "FastComparison13lcp_recursive": {
+        "same_normalized_instructions": false,
+        "baseline_lines": 409,
+        "candidate_lines": 546,
+        "baseline_sha256": "d4bd29bc2e5296e0a38e0ee5bf28461307e7ccab035c85bd988d03ae1c10d738",
+        "candidate_sha256": "12778f646989ecd8ae1ecac8682226c717402a35d6d6ce8c0a74abceb601634a"
+      },
+      "Arena11split_inner": {
+        "same_normalized_instructions": true,
+        "baseline_lines": 263,
+        "candidate_lines": 263,
+        "baseline_sha256": "d10d532bac9d879b3e2aa52cd8f78d0f1867a61d2db9f47af7f42e95dbe045eb",
+        "candidate_sha256": "d10d532bac9d879b3e2aa52cd8f78d0f1867a61d2db9f47af7f42e95dbe045eb"
+      }
+    }
+  },
+  "limits": "Disassemble retained round-five rlibs; no builds or benchmark execution.\n\nNormalization keeps instruction offsets, branch targets and registers. It only\nremoves Rust/LLVM symbol hash suffixes and anonymous data symbol identifiers.\nThis establishes instruction equality, not data-target or linked-layout equality.\n"
+}

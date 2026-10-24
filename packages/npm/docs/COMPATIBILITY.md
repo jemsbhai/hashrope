@@ -1,6 +1,6 @@
 # Compatibility and exact-comparison contracts
 
-Version 0.3.3 extends published npm 0.2.2 while retaining its Python **hashrope 0.2.2** arithmetic oracle. The JavaScript API uses camelCase names, `bigint` integer results and `Uint8Array` bytes. Compatibility means the documented numerical, persistent-rope and streaming contracts below; it does not mean identical dynamic-language behavior, exceptions or resource limits. The [parity matrix](PARITY-MATRIX.md) audits every Python export and public member.
+Version 0.3.4 retains the runtime behavior of npm 0.3.3, which extends published npm 0.2.2 while retaining its Python **hashrope 0.2.2** arithmetic oracle. The JavaScript API uses camelCase names, `bigint` integer results and `Uint8Array` bytes. Compatibility means the documented numerical, persistent-rope and streaming contracts below; it does not mean identical dynamic-language behavior, exceptions or resource limits. The [parity matrix](PARITY-MATRIX.md) audits every Python export and public member.
 
 ## Reference and provenance
 
@@ -10,7 +10,7 @@ The primary oracle is the independently downloaded PyPI wheel `hashrope-0.2.2-py
 710112e3aa14a991918a15331c1f418ce9d1c9d93c34a9da09e22be33c68a2d2
 ```
 
-The fixture generator verifies that digest and imports the wheel itself. It does not import the original Python checkout or obtain expected results from this TypeScript implementation. [PyPI metadata](https://pypi.org/pypi/hashrope/json) identified 0.2.2 as the latest stable release during this task's registry check on 2026-10-23. `PYTHON_VERSION` identifies that reference and `VERSION` identifies this package release; `PYTHON_VERSION` remains `"0.2.2"`; `VERSION` is `"0.3.3"`.
+The fixture generator verifies that digest and imports the wheel itself. It does not import the original Python checkout or obtain expected results from this TypeScript implementation. [PyPI metadata](https://pypi.org/pypi/hashrope/json) identified 0.2.2 as the latest stable release during this task's registry check on 2026-10-23. `PYTHON_VERSION` identifies that reference and `VERSION` identifies this package release; `PYTHON_VERSION` remains `"0.2.2"`; `VERSION` is `"0.3.4"`.
 
 The upstream [Java parity matrix](https://github.com/jemsbhai/hashrope-java/blob/main/docs/PARITY-MATRIX.md) and [Java compatibility notes](https://github.com/jemsbhai/hashrope-java/blob/main/docs/COMPATIBILITY.md) are supporting research, not the independent oracle. MIT licensing and the upstream copyright notice are preserved in [LICENSE](../LICENSE). This port adds no claim that the paper's theoretical statements cover every host-language allocation or malformed input.
 

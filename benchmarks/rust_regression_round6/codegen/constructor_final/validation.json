@@ -1,0 +1,61 @@
+{
+  "source_sha256": "e8d2ed6def201ef2ee5157b3398297565d65c7d091c34a2c10daea5fef5f020e",
+  "rlib_sha256": "f843fbb9ca6df988b3b50719553bbe2e1262a3b3eda1a8007c9d41e5f0bb5986",
+  "selected_release_passed": 42,
+  "selected_debug_passed": 9,
+  "source_note": "same executable production statements as ABI three_args copy; added explanatory comment only",
+  "functions": {
+    "Arena6concat": {
+      "instructions": 226,
+      "same_normalized_as_round5": false,
+      "call_edges": [
+        "00000000000002B9: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ]
+    },
+    "Arena4join": {
+      "instructions": 82,
+      "same_normalized_as_round5": false,
+      "call_edges": [
+        "00000000000000DD: jmp         _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "00000000000000EC: jmp         _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ]
+    },
+    "Arena15join_unbalanced": {
+      "instructions": 247,
+      "same_normalized_as_round5": null,
+      "call_edges": [
+        "00000000000000B0: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000000D3: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000000F3: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "0000000000000108: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000017A: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "000000000000019D: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000001B8: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "00000000000001CE: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000025D: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "0000000000000272: call        _ZN8hashrope4rope5Arena7balance17hHASHE",
+        "000000000000028A: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000029F: call        _ZN8hashrope4rope5Arena7balance17hHASHE",
+        "00000000000002CB: call        _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "00000000000002F7: call        _ZN8hashrope4rope5Arena13make_internal17hHASHE"
+      ]
+    },
+    "Arena13make_internal": {
+      "instructions": 151,
+      "same_normalized_as_round5": false,
+      "call_edges": []
+    }
+  },
+  "files_sha256": {
+    "Arena13make_internal.asm.txt": "8668cced08455191c064ace38f439e4652188d9332ff27170310fa76b63c927f",
+    "Arena15join_unbalanced.asm.txt": "3e9b6f42408ec2c0f50fc777937f536f8deecfce6f95602e580967246f69ffaa",
+    "Arena4join.asm.txt": "31ae0507236a64b8c2136d03c91dd27410e3f64210ddc8e5b46a6c51cfe54900",
+    "Arena6concat.asm.txt": "46250c3795632c447cdd0ab4160e794735ff4e0958acd708b6b6d66f9bd38aa6",
+    "concat-final-debug.log": "f0f6bc32bcb72d6080958db5c6937a06368b2ab108780dd431f11765066e0373",
+    "concat-final-release.log": "4a38a71b7cd2e1bcdb4c72bd0b47149609245f4fc2760fae8f5a3de4f5bcba5f",
+    "core.dump.txt": "b2ed2bb993a09ea728b549c403dc6a76d543fdb721e2531e1c9626b3f3eb814a",
+    "edit-final-debug.log": "f7459c1dced3134a591ad461355ad474916652bead1ea18dd84bcdf57c8a0d7a",
+    "regression-final-release.log": "942f3ce85a1109e7c1b5345a350d8a909443342864698bb2b4cf508b633bcfbc",
+    "rope.rs.txt": "e8d2ed6def201ef2ee5157b3398297565d65c7d091c34a2c10daea5fef5f020e"
+  }
+}

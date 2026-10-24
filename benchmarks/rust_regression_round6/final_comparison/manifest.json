@@ -1,0 +1,99 @@
+{
+  "frozen_utc": "2026-10-24T20:00:32.163387+00:00",
+  "labels": {
+    "baseline": "frozen round-five optimization",
+    "candidate": "round-six optimization; version unchanged"
+  },
+  "parent_manifest_sha256": "6a69e8537077f8ed2dd0da06648f97644be5944a5f74dbff02f35cbcc22e4cc0",
+  "imported_builder_sha256": "599e4516193eb6682c71ff04c7cce2b6ecbadcef3f58d41586e18187e87db1c3",
+  "archives": {
+    "baseline.zip": "c79883e17f6162a7d2044f71276bf67c87ac0a7b62fb2341cc1279c82145bdd3",
+    "candidate.zip": "1fa5fdf834179d9ee397343df085b262cb007343bb4fc96cdf9bfa6243f4c7f7",
+    "drivers.zip": "fe3cb931403a9530a04b79f35debdd7fb1075bfcefb712d25e85210ba9d6a56c"
+  },
+  "sources": {
+    "baseline": {
+      "packages/rust/Cargo.toml": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+      "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+      "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+      "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+      "packages/rust/src/rope.rs": "8439fe38d04bde7a79ac5981ce3a4c6f5a5b4f727d9eeeaa278e2d286608b222",
+      "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130"
+    },
+    "candidate": {
+      "packages/rust/Cargo.toml": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+      "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+      "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+      "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+      "packages/rust/src/rope.rs": "50d9441b03d5e6f4acba329bcd449fe5dbc4354b6f09c2d9c28fb54cc916d4e7",
+      "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130"
+    }
+  },
+  "normalized_changed_source_files": [
+    "packages/rust/src/rope.rs"
+  ],
+  "drivers": {
+    "PLAN.md": "95c74ceaa1424aed0aac07861c86ed0cb8c5d5fa4f9bb169133b543e90ac692d",
+    "run.py": "257e39a3f2de2b2532e63bfb84f358d4ae52683eb0a04cf68b76c3aa0230a5b1",
+    "workloads/bench_rust.py": "f14e06ecf535bc075eff402b8c83b033215ea5402f8afb76e1b6f7825d510d84",
+    "workloads/bench_rust.rs": "7f0fcf1c0c9da53767eb116973f92bf605e6c860fee80895c845e6f166e63a70",
+    "workloads/churn.Cargo.lock": "7a1f87d149fbc438704c27e9a3e95821d179636a818348e6054cc432715b6a20",
+    "workloads/edit_compare.Cargo.lock": "55d7ccdcc404ad7bbc906c25078410ba83657a9fecd6478fc4fb3149a46abff4",
+    "workloads/edit_compare.py": "f630ce4b02f9815a4a21f8949508c578234cbb15aabc304f472e08b85d0f0ff9",
+    "workloads/edit_compare.rs": "5e1db225b95ff3199801a8c23aafe39e5c58af5370613e867692b0a43378f756",
+    "workloads/micro.Cargo.lock": "7031aa7f048b677a7dc75627da49d4a36afa84d6379f8e29165a49c81cb6bfdb"
+  },
+  "protocol": {
+    "orders": [
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ]
+    ],
+    "churn_seeds": [
+      1,
+      2,
+      3,
+      1,
+      2,
+      3,
+      1,
+      2,
+      3
+    ],
+    "invocation": 0,
+    "pairs_per_cohort": 9
+  }
+}

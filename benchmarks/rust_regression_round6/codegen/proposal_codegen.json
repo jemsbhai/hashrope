@@ -1,0 +1,125 @@
+{
+  "unchanged": {
+    "rope9exact_lcp": {
+      "outlined_symbol": true,
+      "instructions": 507,
+      "stack_reservations": [
+        "6F8h"
+      ]
+    },
+    "FastComparison12frontier_lcp": {
+      "outlined_symbol": false
+    }
+  },
+  "outlined": {
+    "rope9exact_lcp": {
+      "outlined_symbol": true,
+      "instructions": 135,
+      "stack_reservations": [
+        "98h"
+      ]
+    },
+    "FastComparison12frontier_lcp": {
+      "outlined_symbol": true,
+      "instructions": 480,
+      "stack_reservations": [
+        "698h"
+      ]
+    }
+  },
+  "concat_candidate": {
+    "Arena6concat": {
+      "outlined_symbol": true,
+      "instructions": 133,
+      "calls": [
+        "000000000000014C: call        _ZN8hashrope4rope5Arena24make_internal_prechecked17hHASHE.llvm.HASH",
+        "0000000000000151: jmp         000000000000016B",
+        "0000000000000156: jmp         0000000000000173",
+        "0000000000000166: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE.llvm.HASH",
+        "000000000000019A: call        _ZN4core9panicking9panic_fmt17hHASHE",
+        "00000000000001B2: call        _ZN4core6option13expect_failed17hHASHE",
+        "00000000000001CA: call        _ZN4core6option13expect_failed17hHASHE",
+        "00000000000001DC: call        _ZN4core9panicking18panic_bounds_check17hHASHE",
+        "00000000000001EE: call        _ZN4core9panicking18panic_bounds_check17hHASHE"
+      ]
+    },
+    "Arena4join": {
+      "outlined_symbol": true,
+      "instructions": 92,
+      "calls": [
+        "0000000000000054: jmp         000000000000007B",
+        "0000000000000071: call        _ZN4core9panicking18panic_bounds_check17hHASHE",
+        "00000000000000E9: jmp         _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "00000000000000F3: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE.llvm.HASH",
+        "0000000000000113: call        _ZN4core9panicking18panic_bounds_check17hHASHE"
+      ]
+    },
+    "Arena15join_unbalanced": {
+      "outlined_symbol": true,
+      "instructions": 241,
+      "calls": [
+        "0000000000000089: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000000AC: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000000C7: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "00000000000000DD: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "00000000000000E2: jmp         00000000000002E0",
+        "0000000000000143: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "0000000000000166: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "0000000000000186: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000019B: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "00000000000001A0: jmp         00000000000002E0",
+        "00000000000001BC: call        _RNvCs5QKde7ScR4H_7___rustc35___rust_no_alloc_shim_is_unstable_v2",
+        "00000000000001C9: call        _RNvCs5QKde7ScR4H_7___rustc12___rust_alloc",
+        "00000000000001DA: jmp         0000000000000276",
+        "00000000000001F6: call        _RNvCs5QKde7ScR4H_7___rustc35___rust_no_alloc_shim_is_unstable_v2",
+        "0000000000000203: call        _RNvCs5QKde7ScR4H_7___rustc12___rust_alloc",
+        "0000000000000214: jmp         00000000000002A2",
+        "0000000000000227: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000023C: call        _ZN8hashrope4rope5Arena7balance17hHASHE",
+        "0000000000000241: jmp         00000000000002E0",
+        "0000000000000254: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "0000000000000269: call        _ZN8hashrope4rope5Arena7balance17hHASHE",
+        "000000000000026E: jmp         00000000000002E0",
+        "000000000000027F: call        memcpy",
+        "0000000000000295: call        _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "000000000000029A: jmp         00000000000002C6",
+        "00000000000002AB: call        memcpy",
+        "00000000000002C1: call        _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "00000000000002D9: call        _RNvCs5QKde7ScR4H_7___rustc14___rust_dealloc",
+        "0000000000000300: call        _ZN4core6option13unwrap_failed17hHASHE",
+        "0000000000000305: jmp         0000000000000347",
+        "0000000000000316: call        _ZN4core6option13unwrap_failed17hHASHE",
+        "000000000000031B: jmp         0000000000000347",
+        "000000000000032C: call        _ZN4core6option13unwrap_failed17hHASHE",
+        "0000000000000331: jmp         0000000000000347",
+        "0000000000000342: call        _ZN4core6option13unwrap_failed17hHASHE",
+        "0000000000000353: call        _ZN4core9panicking18panic_bounds_check17hHASHE",
+        "0000000000000362: call        _ZN4core9panicking18panic_bounds_check17hHASHE",
+        "000000000000036F: call        _ZN5alloc7raw_vec12handle_error17hHASHE"
+      ]
+    },
+    "Arena13make_internal": {
+      "outlined_symbol": true,
+      "instructions": 68,
+      "calls": [
+        "000000000000008F: call        _ZN8hashrope4rope5Arena24make_internal_prechecked17hHASHE.llvm.HASH",
+        "00000000000000B2: call        _ZN4core6option13expect_failed17hHASHE",
+        "00000000000000CA: call        _ZN4core6option13expect_failed17hHASHE",
+        "00000000000000DC: call        _ZN4core9panicking18panic_bounds_check17hHASHE",
+        "00000000000000EE: call        _ZN4core9panicking18panic_bounds_check17hHASHE"
+      ]
+    },
+    "Arena24make_internal_prechecked": {
+      "outlined_symbol": true,
+      "instructions": 121,
+      "calls": [
+        "0000000000000094: call        _ZN8hashrope15polynomial_hash14PolynomialHash5power17hHASHE.llvm.HASH",
+        "0000000000000126: call        _ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$8grow_one17hHASHE",
+        "0000000000000195: call        _ZN4core6result13unwrap_failed17hHASHE",
+        "00000000000001AD: call        _ZN4core9panicking9panic_fmt17hHASHE",
+        "00000000000001BC: call        _ZN4core9panicking18panic_bounds_check17hHASHE",
+        "00000000000001C8: call        _ZN4core9panicking18panic_bounds_check17hHASHE"
+      ]
+    }
+  }
+}

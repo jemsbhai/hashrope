@@ -1,0 +1,21 @@
+{
+  "audit": "Independent final cohort raw/provenance/statistical verification; no builds or timings.",
+  "script_sha256": "8484e192ce522ecd269120e12337016d62da4535bf067361965dfabb7678697a",
+  "summary_sha256": "a61621f257a976a9856cee83241076ec1e5fa28df26b546c8c26d83c646f2abc",
+  "verified": {
+    "processes": 36,
+    "samples": 6588,
+    "paired_vectors": 66,
+    "csv_rows": 66,
+    "archived_executables": 4,
+    "source_files_per_core": 6
+  },
+  "working_source_matches_candidate": {
+    "packages/rust/Cargo.toml": true,
+    "packages/rust/src/bigint.rs": true,
+    "packages/rust/src/lib.rs": true,
+    "packages/rust/src/polynomial_hash.rs": true,
+    "packages/rust/src/rope.rs": true,
+    "packages/rust/src/sliding.rs": true
+  }
+}

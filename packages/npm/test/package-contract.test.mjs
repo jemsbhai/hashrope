@@ -5,7 +5,7 @@ const root = new URL('../', import.meta.url);
 test('npm manifest is dual-mode, pinned, dependency-free, and allowlisted', () => {
   const p = JSON.parse(readFileSync(new URL('package.json', root), 'utf8'));
   assert.equal(p.name, 'hashrope');
-  assert.equal(p.version, '0.3.3');
+  assert.equal(p.version, '0.3.4');
   assert.equal(p.type, 'module');
   assert.equal(p.license, 'MIT');
   assert.equal(p.engines.node, '>=20.11.1');

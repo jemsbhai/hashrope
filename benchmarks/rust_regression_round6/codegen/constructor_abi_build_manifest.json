@@ -1,0 +1,42 @@
+{
+  "script_sha256": "cc574d6c5d9acc3c39ad6d8d3713b142c90e132f0113e2cf10624c9d628336e4",
+  "workload_sha256": "5e1db225b95ff3199801a8c23aafe39e5c58af5370613e867692b0a43378f756",
+  "dumpbin_sha256": "22f0834029ca0dd4edefb7fce08280fcc039c6d8a1505cf30ef86d60faff20b3",
+  "rope_snapshot_sha256": "06277bd20ba837a076a29f982d341161b7258470897cce311b5c2cc6ca09d5b4",
+  "arms": {
+    "five_args": {
+      "rope_sha256": "06277bd20ba837a076a29f982d341161b7258470897cce311b5c2cc6ca09d5b4",
+      "cargo_manifest_sha256": "abb32f180307086df0f8c61c2546fa6c5b49994eef5dcd68c8ac5f404f28c3a2",
+      "cargo_lock_sha256": "7a1f87d149fbc438704c27e9a3e95821d179636a818348e6054cc432715b6a20",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\lcp-round6-codegen\\concat-abi-build\\five_args\\Cargo.toml"
+      ],
+      "binary_sha256": "7fea124508be556fd37827e8e89061036de596e050839463a132185efee86e68",
+      "rlib_sha256": "def34feef54d5a863bcf6084cff2d9d906559f37f582582e61eef6b596dfd2aa",
+      "dump_sha256": "dbce5484af8585ef161180bb6f19657a9a11a575a5cc66cd5a8bd4fb5f5f86f3"
+    },
+    "three_args": {
+      "rope_sha256": "5556e3db732ee0c61c3cde02c3d3f0fd9ff92763cc14a9fd5e495443d889efc0",
+      "cargo_manifest_sha256": "abb32f180307086df0f8c61c2546fa6c5b49994eef5dcd68c8ac5f404f28c3a2",
+      "cargo_lock_sha256": "7a1f87d149fbc438704c27e9a3e95821d179636a818348e6054cc432715b6a20",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\lcp-round6-codegen\\concat-abi-build\\three_args\\Cargo.toml"
+      ],
+      "binary_sha256": "2b2f25a382efa04b2f9f10d2d1c39bb234ea4d88e52519b7d41928ebc44b4a91",
+      "rlib_sha256": "491ddd567ca99c81a6cfd4fc1e50dd68c88864cac0a2197170ab13739bcb9f13",
+      "dump_sha256": "db63d8d61cbd383a62ee8973995b05706829010f6b61df18924bbb8a5f63a05c"
+    }
+  }
+}

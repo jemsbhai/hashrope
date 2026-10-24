@@ -1,0 +1,217 @@
+{
+  "kind": "churn",
+  "pair": 7,
+  "label": "baseline",
+  "order": [
+    "candidate",
+    "baseline"
+  ],
+  "seed": 2,
+  "arguments": [
+    "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round7\\final_comparison\\.cache\\build\\baseline_churn\\target\\release\\exact-edit-comparison.exe",
+    "2",
+    "0"
+  ],
+  "started_utc": "2026-10-24T20:30:55.279199+00:00",
+  "finished_utc": "2026-10-24T20:30:56.266730+00:00",
+  "returncode": 0,
+  "timed_out": false,
+  "raw": "raw/churn_7_baseline.tsv",
+  "raw_sha256": "d578a4611460a2fd1c45b912cd1ae8d5c9ba54f4973ec453fa8415f3d76ad3a7",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "binary_sha256": "b771fc17c445b43446db62acb491f3804a8f02f3e2ec3c39039193704f25703b",
+  "cells": {
+    "10000/false/ropey_exact": {
+      "samples_ms": [
+        0.0019340000000000002,
+        0.001194,
+        0.001068
+      ],
+      "median_ms": 0.001194
+    },
+    "10000/false/ropey_rehash_candidate": {
+      "samples_ms": [
+        0.004662,
+        0.005292,
+        0.004326
+      ],
+      "median_ms": 0.004662
+    },
+    "10000/false/hashrope_exact": {
+      "samples_ms": [
+        0.004654,
+        0.0054020000000000006,
+        0.004436
+      ],
+      "median_ms": 0.004654
+    },
+    "10000/false/hashrope_candidate": {
+      "samples_ms": [
+        0.00234,
+        0.0022240000000000003,
+        0.002108
+      ],
+      "median_ms": 0.0022240000000000003
+    },
+    "10000/true/ropey_exact": {
+      "samples_ms": [
+        0.0019,
+        0.0012180000000000001,
+        0.000902
+      ],
+      "median_ms": 0.0012180000000000001
+    },
+    "10000/true/ropey_rehash_candidate": {
+      "samples_ms": [
+        0.005958,
+        0.00426,
+        0.0041140000000000005
+      ],
+      "median_ms": 0.00426
+    },
+    "10000/true/hashrope_exact": {
+      "samples_ms": [
+        0.0036959999999999996,
+        0.0035499999999999998,
+        0.0035499999999999998
+      ],
+      "median_ms": 0.0035499999999999998
+    },
+    "10000/true/hashrope_candidate": {
+      "samples_ms": [
+        0.004202,
+        0.0021939999999999998,
+        0.0020280000000000003
+      ],
+      "median_ms": 0.0021939999999999998
+    },
+    "100000/false/ropey_exact": {
+      "samples_ms": [
+        0.009832,
+        0.011842000000000002,
+        0.010858000000000001
+      ],
+      "median_ms": 0.010858000000000001
+    },
+    "100000/false/ropey_rehash_candidate": {
+      "samples_ms": [
+        0.039298,
+        0.038592,
+        0.04026
+      ],
+      "median_ms": 0.039298
+    },
+    "100000/false/hashrope_exact": {
+      "samples_ms": [
+        0.018278000000000003,
+        0.02,
+        0.021652
+      ],
+      "median_ms": 0.02
+    },
+    "100000/false/hashrope_candidate": {
+      "samples_ms": [
+        0.003588,
+        0.00374,
+        0.003498
+      ],
+      "median_ms": 0.003588
+    },
+    "100000/true/ropey_exact": {
+      "samples_ms": [
+        0.005778,
+        0.0057540000000000004,
+        0.004748
+      ],
+      "median_ms": 0.0057540000000000004
+    },
+    "100000/true/ropey_rehash_candidate": {
+      "samples_ms": [
+        0.039814,
+        0.039518,
+        0.038417999999999994
+      ],
+      "median_ms": 0.039518
+    },
+    "100000/true/hashrope_exact": {
+      "samples_ms": [
+        0.008044,
+        0.007994,
+        0.008140000000000001
+      ],
+      "median_ms": 0.008044
+    },
+    "100000/true/hashrope_candidate": {
+      "samples_ms": [
+        0.004514000000000001,
+        0.005601999999999999,
+        0.0035159999999999996
+      ],
+      "median_ms": 0.004514000000000001
+    },
+    "1000000/false/ropey_exact": {
+      "samples_ms": [
+        0.11363200000000001,
+        0.111194,
+        0.12527
+      ],
+      "median_ms": 0.11363200000000001
+    },
+    "1000000/false/ropey_rehash_candidate": {
+      "samples_ms": [
+        0.44951599999999997,
+        0.417994,
+        0.39439799999999997
+      ],
+      "median_ms": 0.417994
+    },
+    "1000000/false/hashrope_exact": {
+      "samples_ms": [
+        0.14453000000000002,
+        0.146762,
+        0.153718
+      ],
+      "median_ms": 0.146762
+    },
+    "1000000/false/hashrope_candidate": {
+      "samples_ms": [
+        0.006750000000000001,
+        0.005966,
+        0.0069440000000000005
+      ],
+      "median_ms": 0.006750000000000001
+    },
+    "1000000/true/ropey_exact": {
+      "samples_ms": [
+        0.048838,
+        0.046998,
+        0.033382
+      ],
+      "median_ms": 0.046998
+    },
+    "1000000/true/ropey_rehash_candidate": {
+      "samples_ms": [
+        0.40210799999999997,
+        0.41497600000000007,
+        0.398168
+      ],
+      "median_ms": 0.40210799999999997
+    },
+    "1000000/true/hashrope_exact": {
+      "samples_ms": [
+        0.042497999999999994,
+        0.00913,
+        0.008036
+      ],
+      "median_ms": 0.00913
+    },
+    "1000000/true/hashrope_candidate": {
+      "samples_ms": [
+        0.003526,
+        0.003346,
+        0.003552
+      ],
+      "median_ms": 0.003526
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "declared_utc": "2026-10-24T19:33:05.374040+00:00",
+  "parent_artifacts": {
+    "baseline.zip": "31b66a0640a8094c2fc1c660d11b9d1c4773c39a812863331420bf1ed00b55e2",
+    "candidate.zip": "c79883e17f6162a7d2044f71276bf67c87ac0a7b62fb2341cc1279c82145bdd3",
+    "drivers.zip": "8a07a0e9d8887b548026af2a5fd222e05c27c8bebe85c081a6e34e26497417e9",
+    "manifest.json": "d3da2a15afaccaa92d9be5905da8a35aa2fa6838e718f0bebdb3263b171b4e91",
+    "build.json": "51992594915d06f190b7b0de0bf952f07268b161112f443eb4aa36b33272a70e",
+    "binaries.zip": "cae412b6ce61fa0eadd0c9451791d260963e60867fd36ccec501fff793a1f8f7",
+    "results.json": "8b213c4fa16d79b867c28f27ecdd5bcc2a192bd68e95059df3f5ca6e480b6c2e",
+    "summary.json": "4b550fac810c5ba4c4b161b05716a15ade682508d55335e993b523dfdf318209",
+    "run.py": "599e4516193eb6682c71ff04c7cce2b6ecbadcef3f58d41586e18187e87db1c3",
+    "summarize.py": "e6a1f5ec2770ec3d3f2014b2b6722e60a00429b4bd9e8b32d3875d0e13b78b42"
+  },
+  "drivers": {
+    "PLAN.md": "9b67e76b0129b7b7f9c9d17fc27bd69f99846759b2a7a59eba8502116979a727",
+    "confirm.py": "51b5d8f3863d888ff689bbd7f70dd0f5ebe0186615bb9ff33a2b2fcb49e7b015",
+    "summarize_confirmation.py": "a445cc76c16e3c47568b4e5708f0345dd7a9cc7a07a37beba6b3a131f404ebc1"
+  },
+  "drivers_archive_sha256": "094e03afa3e024a00c88fa0d89d50675e1db1f6a41664d29489e76ad740b7c60",
+  "protocol": {
+    "pairs_per_cohort": 6,
+    "global_pairs": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "order": [
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ]
+    ],
+    "churn_seed_invocations": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ]
+  }
+}

@@ -1,0 +1,403 @@
+{
+  "verifiedAt": "2026-10-24T21:15:26.879784+00:00",
+  "passed": true,
+  "version": "0.3.4",
+  "pythonOracleVersion": "0.2.2",
+  "artifact": {
+    "path": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\npm\\artifacts\\0.3.4\\hashrope-0.3.4.tgz",
+    "sha256": "be10002475ccdb22738ff4430380130f30176a60d01a37eae71d4cae5b9ac580",
+    "bytes": 68195,
+    "files": 53
+  },
+  "librarySuites": [
+    {
+      "node": "v20.11.1",
+      "counts": {
+        "tests": 27636,
+        "suites": 0,
+        "pass": 27636,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "node": "v24.22.1",
+      "counts": {
+        "tests": 27636,
+        "suites": 0,
+        "pass": 27636,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "cleanConsumers": [
+    {
+      "node": "v20.11.1",
+      "checks": 14,
+      "installedOracleTestsPerEntry": 27565,
+      "installedExactTestsPerEntry": 11,
+      "browserVersion": "155.0.8059.85"
+    },
+    {
+      "node": "v24.22.1",
+      "checks": 14,
+      "installedOracleTestsPerEntry": 27565,
+      "installedExactTestsPerEntry": 11,
+      "browserVersion": "155.0.8059.85"
+    }
+  ],
+  "sourceSha256": {
+    "src/comparison.ts": "8d4a1152ac6d28a043ebd173f221592e2f4a732b4a06ad78c8da2cdb4e82adec",
+    "src/index.ts": "a903e6205a183b40014fc3fcc770378b2282ea2588cc9f0953a42c4777b1d4fa",
+    "src/nodes.ts": "dd4dd8ad1fee617a8314e4107a3a4e981ff016ff9f3295251669c3a1cbafec57",
+    "src/polynomial.ts": "834539b41cf15f58b4b4b744d05ea971f8127cf6bc23955845e4abaf9505acc5",
+    "src/rope.ts": "869051b38ce986889907d002ae58f298d155b68d8df69008bebb6be57c717a7e",
+    "src/sliding.ts": "850cdce0cc27e68a0dcff1820a9088861e743e1680d424d35c4c138554e2313b",
+    "test/edits-equality.test.mjs": "45559fff23fe950a46253ddbb2b484b1d9f6049de52ab7a3935ecea1c71fd4ab",
+    "test/exact.test.mjs": "537eb85f35afb7aa4eb357d616641290f103a27f09a3dea144ff140f1112aeab",
+    "test/nodes.test.mjs": "36d5a2316fc675b9c51eb703836c0d771e445a87661622374d6815d21bd48a91",
+    "test/oracle.test.mjs": "2f1c4b7e3d668148b8da8e34e524c71f33981200844ba02ad90ddef2d489e648",
+    "test/package-contract.test.mjs": "b36b88bc3d3b421bb6f2c0ea79dd4f01e12c5f87255ca63cbe7583af5af1eae3",
+    "test/polynomial.test.mjs": "31a6669d7cd3430bac83dce30f3fce290707ed5faa793bffdfa8cdef11b06c2a",
+    "test/review.test.mjs": "8f34092b6d611067c9918613541cb6a72c21f0d720bac3f59eac4a91cc701046",
+    "test/rope-query.test.mjs": "c70e5ab6c46d5c3292c3800f0f547e36ac4b04731d5f58bb44870b00a8dcb5a3",
+    "test/rope.test.mjs": "acbe8d7a1a58aaa5dd032e9fd1a26f81fc386bf748a1ba7132359226b9ea418c",
+    "test/sliding.test.mjs": "8622ea24e157832fe15914418e545f3ec783fde3b936aac52787017da962d856"
+  },
+  "upstreamPreservation": {
+    "upstream_unchanged": true,
+    "checked_files": 50,
+    "oracle_corpus_unchanged": true,
+    "runtime_source_sha256": {
+      "src/comparison.ts": "8d4a1152ac6d28a043ebd173f221592e2f4a732b4a06ad78c8da2cdb4e82adec",
+      "src/index.ts": "a903e6205a183b40014fc3fcc770378b2282ea2588cc9f0953a42c4777b1d4fa",
+      "src/nodes.ts": "dd4dd8ad1fee617a8314e4107a3a4e981ff016ff9f3295251669c3a1cbafec57",
+      "src/polynomial.ts": "834539b41cf15f58b4b4b744d05ea971f8127cf6bc23955845e4abaf9505acc5",
+      "src/rope.ts": "869051b38ce986889907d002ae58f298d155b68d8df69008bebb6be57c717a7e",
+      "src/sliding.ts": "850cdce0cc27e68a0dcff1820a9088861e743e1680d424d35c4c138554e2313b"
+    }
+  },
+  "retainedArithmeticFunctions": 13,
+  "runtimePreservation": {
+    "passed": true,
+    "version": "0.3.4",
+    "baselineVersion": "0.3.3",
+    "baselineArtifact": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\npm\\artifacts\\hashrope-0.3.3.tgz",
+    "baselineArtifactSha256": "a6e279f45a3665c6f5366a317affadf5ee4a54f41e8b6de2c2f7dc55dd29bc1c",
+    "files": [
+      {
+        "path": "dist/cjs/comparison.d.ts",
+        "baselineSha256": "3fe13e7965850076f70f384c5b3e185326b1bfe370b5fd66f554bcf8d08b6596",
+        "currentSha256": "3fe13e7965850076f70f384c5b3e185326b1bfe370b5fd66f554bcf8d08b6596",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/comparison.js",
+        "baselineSha256": "1b7bbc246f2ee3ed88dbc1a2a92971b41df19f50d52d731b7543c20a7abf4c18",
+        "currentSha256": "1b7bbc246f2ee3ed88dbc1a2a92971b41df19f50d52d731b7543c20a7abf4c18",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/comparison.js.map",
+        "baselineSha256": "bad6a4278ebf5f4babfe5c79591554d0248aa8364e0ef236cc72ccbe3565b28d",
+        "currentSha256": "bad6a4278ebf5f4babfe5c79591554d0248aa8364e0ef236cc72ccbe3565b28d",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/index.d.ts",
+        "baselineSha256": "16971ccb8c62c004b9631fa2c09c7feecbaabd6a9a0ef09bcf9e597260016aee",
+        "currentSha256": "3e97f0f8b6e7fc2789f62dcff5cbd5fb4f897397044b6a912fe98bc2015b25e8",
+        "identical": false,
+        "onlyVersionLiteralChanged": true
+      },
+      {
+        "path": "dist/cjs/index.js",
+        "baselineSha256": "8017c68437746931109283e53954fba5bcaaec94757e448affc93f9fb47dbd4f",
+        "currentSha256": "f3ee449139d2a617ae9c3c012c67867046707ab79d55d369341cfbaa14c04eec",
+        "identical": false,
+        "onlyVersionLiteralChanged": true
+      },
+      {
+        "path": "dist/cjs/index.js.map",
+        "baselineSha256": "b84461d78e8a76ef09a4a904ca99c3309b431d2d91aa17bd5c8838a511ba4603",
+        "currentSha256": "fb2d264a5e2ae83df50ef6903194dbab5f932e6e8eaedb099897778ae490062e",
+        "identical": false,
+        "onlyVersionLiteralChanged": true
+      },
+      {
+        "path": "dist/cjs/nodes.d.ts",
+        "baselineSha256": "a212cb7b39227bbd3e1779ca1bc7c040c1bcc841bc3ad7d4c213376ea2c67842",
+        "currentSha256": "a212cb7b39227bbd3e1779ca1bc7c040c1bcc841bc3ad7d4c213376ea2c67842",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/nodes.js",
+        "baselineSha256": "e9b172e4b7ade397ccf9ab3bb4647cdcba8ff0d3f0d768c560e5f8b11a5b7e85",
+        "currentSha256": "e9b172e4b7ade397ccf9ab3bb4647cdcba8ff0d3f0d768c560e5f8b11a5b7e85",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/nodes.js.map",
+        "baselineSha256": "89c7b39a1a28780bd87b9ebcbc9d21e40f84f85d3fc6ce1f40712e002c173588",
+        "currentSha256": "89c7b39a1a28780bd87b9ebcbc9d21e40f84f85d3fc6ce1f40712e002c173588",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/package.json",
+        "baselineSha256": "dbf8353f77358bc12169b7bb7301e1978d5b503e002ee927229a8993672818fc",
+        "currentSha256": "dbf8353f77358bc12169b7bb7301e1978d5b503e002ee927229a8993672818fc",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/polynomial.d.ts",
+        "baselineSha256": "50de1f47b620c6836e1b464e3d23b9dce9af154abbc6447dfee886b626f666e2",
+        "currentSha256": "50de1f47b620c6836e1b464e3d23b9dce9af154abbc6447dfee886b626f666e2",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/polynomial.js",
+        "baselineSha256": "cc863b446ceff9bbd52030adb93186c48b3a9a2b6fc1ebbfc0bd75d04665196c",
+        "currentSha256": "cc863b446ceff9bbd52030adb93186c48b3a9a2b6fc1ebbfc0bd75d04665196c",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/polynomial.js.map",
+        "baselineSha256": "d79d502fd3a8de04fefed0a0022f4bab444b6e44a0dd508827ed6f23a6015572",
+        "currentSha256": "d79d502fd3a8de04fefed0a0022f4bab444b6e44a0dd508827ed6f23a6015572",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/rope.d.ts",
+        "baselineSha256": "10366aafe036d22a1b122e455eff6b71c09e9cfe7db8d72fbe1390b944bfac26",
+        "currentSha256": "10366aafe036d22a1b122e455eff6b71c09e9cfe7db8d72fbe1390b944bfac26",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/rope.js",
+        "baselineSha256": "eb9ad77294f5e415bbec81fea7c1366128ae644df3094cf2e37a4893a4d87bd1",
+        "currentSha256": "eb9ad77294f5e415bbec81fea7c1366128ae644df3094cf2e37a4893a4d87bd1",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/rope.js.map",
+        "baselineSha256": "bfd291de9629cac25d16f41f2df0efada26901cdd914f5a8b2de7a2d700da2e2",
+        "currentSha256": "bfd291de9629cac25d16f41f2df0efada26901cdd914f5a8b2de7a2d700da2e2",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/sliding.d.ts",
+        "baselineSha256": "f71d41d28dab6a013e18bd45df8d68ec64544d4e2b49d2ec848488fc69b55040",
+        "currentSha256": "f71d41d28dab6a013e18bd45df8d68ec64544d4e2b49d2ec848488fc69b55040",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/sliding.js",
+        "baselineSha256": "4d955acf02b65ebbba5eed2ef13093b7f3e847ecb5b3b8addd0829c808078ecf",
+        "currentSha256": "4d955acf02b65ebbba5eed2ef13093b7f3e847ecb5b3b8addd0829c808078ecf",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/cjs/sliding.js.map",
+        "baselineSha256": "beb3476c5d17395ca77739bffe93e06f8297825f46c887bec0c8b5412c26fb02",
+        "currentSha256": "beb3476c5d17395ca77739bffe93e06f8297825f46c887bec0c8b5412c26fb02",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/comparison.d.ts",
+        "baselineSha256": "3fe13e7965850076f70f384c5b3e185326b1bfe370b5fd66f554bcf8d08b6596",
+        "currentSha256": "3fe13e7965850076f70f384c5b3e185326b1bfe370b5fd66f554bcf8d08b6596",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/comparison.js",
+        "baselineSha256": "96837f98795b43ce41c4787b9ba24a06262a1c56403d31a6834877b3f05c5952",
+        "currentSha256": "96837f98795b43ce41c4787b9ba24a06262a1c56403d31a6834877b3f05c5952",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/comparison.js.map",
+        "baselineSha256": "5099efb90570239d7ad583efd246e86d388f84449a951e6e2f9b571289d58aea",
+        "currentSha256": "5099efb90570239d7ad583efd246e86d388f84449a951e6e2f9b571289d58aea",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/index.d.ts",
+        "baselineSha256": "16971ccb8c62c004b9631fa2c09c7feecbaabd6a9a0ef09bcf9e597260016aee",
+        "currentSha256": "3e97f0f8b6e7fc2789f62dcff5cbd5fb4f897397044b6a912fe98bc2015b25e8",
+        "identical": false,
+        "onlyVersionLiteralChanged": true
+      },
+      {
+        "path": "dist/esm/index.js",
+        "baselineSha256": "9ebdf13a39054a6ee9fda5fbc89c7add920ad01426acfe5c8bad357609147e7e",
+        "currentSha256": "bd0673ba8d3ce3b22756d839bcb5730c581229f5455f48677e69b58867d2db5f",
+        "identical": false,
+        "onlyVersionLiteralChanged": true
+      },
+      {
+        "path": "dist/esm/index.js.map",
+        "baselineSha256": "9b75095c5ee4abe0f8b0e30cba2b4afde05ad1d5d32109245174a9ce5a8f40b7",
+        "currentSha256": "9c9241037fe0ba20564e42fbd3adbd440c0f37d158c17c3495938b685d8754f7",
+        "identical": false,
+        "onlyVersionLiteralChanged": true
+      },
+      {
+        "path": "dist/esm/nodes.d.ts",
+        "baselineSha256": "a212cb7b39227bbd3e1779ca1bc7c040c1bcc841bc3ad7d4c213376ea2c67842",
+        "currentSha256": "a212cb7b39227bbd3e1779ca1bc7c040c1bcc841bc3ad7d4c213376ea2c67842",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/nodes.js",
+        "baselineSha256": "e0c03cdabb166df4d9a01de2becd6b0ad784b47b7fc45d0c32d686d91e227380",
+        "currentSha256": "e0c03cdabb166df4d9a01de2becd6b0ad784b47b7fc45d0c32d686d91e227380",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/nodes.js.map",
+        "baselineSha256": "1dcaf06dbc48849ab7ff2a7a27cb8c3eac86c01b4e92a1bbd90d28647adfddc7",
+        "currentSha256": "1dcaf06dbc48849ab7ff2a7a27cb8c3eac86c01b4e92a1bbd90d28647adfddc7",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/polynomial.d.ts",
+        "baselineSha256": "50de1f47b620c6836e1b464e3d23b9dce9af154abbc6447dfee886b626f666e2",
+        "currentSha256": "50de1f47b620c6836e1b464e3d23b9dce9af154abbc6447dfee886b626f666e2",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/polynomial.js",
+        "baselineSha256": "a2ad4108a9753895b9503fcc3d758b6441d63f6f3232c6b8999c0e957777fc71",
+        "currentSha256": "a2ad4108a9753895b9503fcc3d758b6441d63f6f3232c6b8999c0e957777fc71",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/polynomial.js.map",
+        "baselineSha256": "c2bbdef30ee431ca0b94e3400874feb55568f6a3d67f9f0b37c4ee97a2a1f969",
+        "currentSha256": "c2bbdef30ee431ca0b94e3400874feb55568f6a3d67f9f0b37c4ee97a2a1f969",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/rope.d.ts",
+        "baselineSha256": "10366aafe036d22a1b122e455eff6b71c09e9cfe7db8d72fbe1390b944bfac26",
+        "currentSha256": "10366aafe036d22a1b122e455eff6b71c09e9cfe7db8d72fbe1390b944bfac26",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/rope.js",
+        "baselineSha256": "514e3437b8284257d678cd4c6fe77276ec3c98253a8ecaead638a332b8b194ba",
+        "currentSha256": "514e3437b8284257d678cd4c6fe77276ec3c98253a8ecaead638a332b8b194ba",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/rope.js.map",
+        "baselineSha256": "8fa645cda7d92da1b0761405f460a881f172d065073f56d382a97723752b9f71",
+        "currentSha256": "8fa645cda7d92da1b0761405f460a881f172d065073f56d382a97723752b9f71",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/sliding.d.ts",
+        "baselineSha256": "f71d41d28dab6a013e18bd45df8d68ec64544d4e2b49d2ec848488fc69b55040",
+        "currentSha256": "f71d41d28dab6a013e18bd45df8d68ec64544d4e2b49d2ec848488fc69b55040",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/sliding.js",
+        "baselineSha256": "cf71af55448bd19dd7e9d99d380777af69609a647f05a7be881b91e8b7a42040",
+        "currentSha256": "cf71af55448bd19dd7e9d99d380777af69609a647f05a7be881b91e8b7a42040",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "dist/esm/sliding.js.map",
+        "baselineSha256": "0335185c8f98320b213c428802ff5b995aa4b09c68a2f01693a13f54c738b5ef",
+        "currentSha256": "0335185c8f98320b213c428802ff5b995aa4b09c68a2f01693a13f54c738b5ef",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "src/comparison.ts",
+        "baselineSha256": "8d4a1152ac6d28a043ebd173f221592e2f4a732b4a06ad78c8da2cdb4e82adec",
+        "currentSha256": "8d4a1152ac6d28a043ebd173f221592e2f4a732b4a06ad78c8da2cdb4e82adec",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "src/index.ts",
+        "baselineSha256": "32a770d46eec7a2d569734f2a6ab897937aff0555244a06ec90b2c7c19cad7f1",
+        "currentSha256": "a903e6205a183b40014fc3fcc770378b2282ea2588cc9f0953a42c4777b1d4fa",
+        "identical": false,
+        "onlyVersionLiteralChanged": true
+      },
+      {
+        "path": "src/nodes.ts",
+        "baselineSha256": "dd4dd8ad1fee617a8314e4107a3a4e981ff016ff9f3295251669c3a1cbafec57",
+        "currentSha256": "dd4dd8ad1fee617a8314e4107a3a4e981ff016ff9f3295251669c3a1cbafec57",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "src/polynomial.ts",
+        "baselineSha256": "834539b41cf15f58b4b4b744d05ea971f8127cf6bc23955845e4abaf9505acc5",
+        "currentSha256": "834539b41cf15f58b4b4b744d05ea971f8127cf6bc23955845e4abaf9505acc5",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "src/rope.ts",
+        "baselineSha256": "869051b38ce986889907d002ae58f298d155b68d8df69008bebb6be57c717a7e",
+        "currentSha256": "869051b38ce986889907d002ae58f298d155b68d8df69008bebb6be57c717a7e",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      },
+      {
+        "path": "src/sliding.ts",
+        "baselineSha256": "850cdce0cc27e68a0dcff1820a9088861e743e1680d424d35c4c138554e2313b",
+        "currentSha256": "850cdce0cc27e68a0dcff1820a9088861e743e1680d424d35c4c138554e2313b",
+        "identical": true,
+        "onlyVersionLiteralChanged": false
+      }
+    ],
+    "runtimeBehaviorUnchangedExceptVersionMetadata": true,
+    "oracleCorpusAndManifestUnchanged": true,
+    "historicalTimedRuntimeMatchesBaseline": true,
+    "newPerformanceMeasurements": false
+  },
+  "newPerformanceMeasurements": false,
+  "publicationAttemptedByIntegration": false,
+  "publicationStatus": "Owned by coordinated release process; this report only validates local artifact"
+}

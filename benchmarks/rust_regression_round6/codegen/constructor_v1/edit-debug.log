@@ -1,0 +1,15 @@
+   Compiling hashrope v0.3.3 (C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\packages\rust)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.29s
+     Running tests\test_edit_optimization.rs (packages\rust\target\debug\deps\test_edit_optimization-3682f9b3a54ba6ed.exe)
+
+running 7 tests
+test accepted_custom_profile_retains_structure_sensitive_published_hashes ... ok
+test zero_modulus_preserves_published_rejection - should panic ... ok
+test identity_empty_and_clamped_edit_edges_keep_their_behavior ... ok
+test reduction_matches_frozen_scalar_for_full_u128_domain_boundaries ... ok
+test editing_preserves_baseline_fingerprints_nodes_and_lazy_materialization ... ok
+test default_hash_long_buffers_and_maximum_block_carries_match_scalar ... ok
+test hash_matches_frozen_scalar_arithmetic_at_all_block_boundaries ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s
+

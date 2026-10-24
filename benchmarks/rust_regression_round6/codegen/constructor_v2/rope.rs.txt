@@ -1,0 +1,4124 @@
+//! Hash rope data structure with arena-based allocation.
+//!
+//! Implements Part III of the framework:
+//! - Definition 6: Leaf, Internal, RepeatNode
+//! - Definition 7: Invariants I1-I9 (BB[2/7] weight balance)
+//! - Theorems 6-10: Join, Split, Repeat, SubstrHash, Concat
+//!
+//! Nodes are stored in a contiguous arena (`Vec<NodeInner>`) and referenced
+//! by `u32` indices. No reference counting, no atomic operations.
+//! Structural sharing works via shared indices. The arena is dropped as a unit.
+
+use alloc::collections::BTreeSet;
+use alloc::vec::Vec;
+
+use crate::polynomial_hash::{mersenne_mod, mersenne_mul, phi, PolynomialHash};
+
+// ---------------------------------------------------------------------------
+// Balance parameter (Definition 7, Invariant I8)
+// ---------------------------------------------------------------------------
+
+const ALPHA_NUM: u64 = 2;
+const ALPHA_DEN: u64 = 7;
+
+/// Sentinel hash value for lazy (unmaterialized) nodes.
+/// u64::MAX > p = 2^61 - 1, so it can never be a valid hash.
+pub const LAZY_SENTINEL: u64 = u64::MAX;
+
+// ---------------------------------------------------------------------------
+// Definition 6: Node types
+// ---------------------------------------------------------------------------
+
+/// Index into the arena. Max ~4 billion nodes.
+pub type NodeId = u32;
+
+/// A node reference. `None` represents the empty rope.
+pub type Node = Option<NodeId>;
+
+/// Inner node variants stored in the arena.
+#[derive(Debug, Clone)]
+pub enum NodeInner {
+    Leaf {
+        data: Vec<u8>,
+        hash_val: u64,
+        len: u64,
+    },
+    Internal {
+        left: NodeId,
+        right: NodeId,
+        hash_val: u64,
+        len: u64,
+        weight: u64,
+    },
+    Repeat {
+        child: NodeId,
+        reps: u64,
+        hash_val: u64,
+        len: u64,
+        weight: u64,
+    },
+}
+
+impl NodeInner {
+    /// Access the hash value stored in any node variant.
+    #[inline]
+    pub fn hash_val(&self) -> u64 {
+        match self {
+            NodeInner::Leaf { hash_val, .. } => *hash_val,
+            NodeInner::Internal { hash_val, .. } => *hash_val,
+            NodeInner::Repeat { hash_val, .. } => *hash_val,
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Arena: owns all nodes and the polynomial hash state
+// ---------------------------------------------------------------------------
+
+/// Arena-based rope storage. All nodes live here.
+pub struct Arena {
+    nodes: Vec<NodeInner>,
+    h: PolynomialHash,
+    hash_profile: (u64, u64),
+    lazy: bool,
+}
+
+impl Default for Arena {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl Arena {
+    /// Create a new arena with default polynomial hash parameters.
+    pub fn new() -> Self {
+        Self::with_hasher(PolynomialHash::default_hash())
+    }
+
+    /// Create a new lazy arena (Definition 19).
+    ///
+    /// In lazy mode, hash values are not computed during rope construction.
+    /// Instead, they are initialized to `LAZY_SENTINEL` and computed on
+    /// demand when `substr_hash` is called. This makes construction O(t·log t)
+    /// instead of O(k·c_F·t) (Theorem 44).
+    ///
+    /// CD-Radix sort (Corollary 8) never accesses hashes, so lazy ropes
+    /// are strictly faster for radix-based sorting.
+    pub fn new_lazy() -> Self {
+        let mut arena = Self::new();
+        arena.lazy = true;
+        arena
+    }
+
+    /// Create an arena with custom hash parameters.
+    pub fn with_hash(prime: u64, base: u64) -> Self {
+        Self::with_hasher(PolynomialHash::new(prime, base))
+    }
+
+    /// Create an arena with a specific PolynomialHash instance.
+    pub fn with_hasher(h: PolynomialHash) -> Self {
+        Self {
+            nodes: Vec::new(),
+            hash_profile: (h.prime(), h.base()),
+            h,
+            lazy: false,
+        }
+    }
+
+    /// Access the polynomial hash state.
+    #[inline]
+    pub fn hasher(&self) -> &PolynomialHash {
+        self.assert_hash_profile();
+        &self.h
+    }
+
+    /// Mutable access to the polynomial hash state, for example its power cache.
+    ///
+    /// Replacing it with different prime/base parameters invalidates the arena's
+    /// fingerprint context. Subsequent hashing, construction, editing and
+    /// validation panic before using those parameters. Create a new arena to
+    /// change profiles. Content comparison and byte/length access remain valid.
+    #[inline]
+    pub fn hasher_mut(&mut self) -> &mut PolynomialHash {
+        &mut self.h
+    }
+
+    #[inline]
+    pub(crate) fn assert_hash_profile(&self) {
+        assert!(
+            self.hash_profile == (self.h.prime(), self.h.base()),
+            "Arena hash parameters changed; create a new arena to use a different profile"
+        );
+    }
+
+    /// Whether this arena uses lazy hash materialization.
+    #[inline]
+    pub fn is_lazy(&self) -> bool {
+        self.lazy
+    }
+
+    /// Number of nodes allocated in the arena.
+    #[inline]
+    pub fn node_count(&self) -> usize {
+        self.nodes.len()
+    }
+
+    /// Access a node by id.
+    #[inline]
+    pub fn node(&self, id: NodeId) -> &NodeInner {
+        &self.nodes[id as usize]
+    }
+
+    // -----------------------------------------------------------------------
+    // Node accessors
+    // -----------------------------------------------------------------------
+
+    #[inline]
+    fn hash_val(&self, id: NodeId) -> u64 {
+        match &self.nodes[id as usize] {
+            NodeInner::Leaf { hash_val, .. } => *hash_val,
+            NodeInner::Internal { hash_val, .. } => *hash_val,
+            NodeInner::Repeat { hash_val, .. } => *hash_val,
+        }
+    }
+
+    #[inline]
+    fn node_len(&self, id: NodeId) -> u64 {
+        match &self.nodes[id as usize] {
+            NodeInner::Leaf { len, .. } => *len,
+            NodeInner::Internal { len, .. } => *len,
+            NodeInner::Repeat { len, .. } => *len,
+        }
+    }
+
+    #[inline]
+    fn node_weight(&self, id: NodeId) -> u64 {
+        match &self.nodes[id as usize] {
+            NodeInner::Leaf { .. } => 1,
+            NodeInner::Internal { weight, .. } => *weight,
+            NodeInner::Repeat { weight, .. } => *weight,
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Lazy hash materialization (Definition 20)
+    // -----------------------------------------------------------------------
+
+    /// Set the hash value of a node in place.
+    fn set_hash_val(&mut self, id: NodeId, hash: u64) {
+        match &mut self.nodes[id as usize] {
+            NodeInner::Leaf { hash_val, .. } => *hash_val = hash,
+            NodeInner::Internal { hash_val, .. } => *hash_val = hash,
+            NodeInner::Repeat { hash_val, .. } => *hash_val = hash,
+        }
+    }
+
+    /// Materialize the hash of a node on demand (Definition 20).
+    ///
+    /// If the node's hash is `LAZY_SENTINEL`, computes it recursively
+    /// (materializing children first) and caches the result. Subsequent
+    /// calls return immediately (idempotent).
+    ///
+    /// For eager arenas, this is a no-op (hashes are already computed).
+    pub fn ensure_hash(&mut self, id: NodeId) {
+        self.assert_hash_profile();
+        self.ensure_hash_inner(id);
+    }
+
+    fn ensure_hash_inner(&mut self, id: NodeId) {
+        if self.hash_val(id) != LAZY_SENTINEL {
+            return;
+        }
+
+        // Extract node structure without borrowing self
+        enum Kind {
+            Leaf,
+            Internal(NodeId, NodeId),
+            Repeat(NodeId, u64),
+        }
+        let kind = match &self.nodes[id as usize] {
+            NodeInner::Leaf { .. } => Kind::Leaf,
+            NodeInner::Internal { left, right, .. } => Kind::Internal(*left, *right),
+            NodeInner::Repeat { child, reps, .. } => Kind::Repeat(*child, *reps),
+        };
+
+        let h = match kind {
+            Kind::Leaf => {
+                let data = match &self.nodes[id as usize] {
+                    NodeInner::Leaf { data, .. } => data,
+                    _ => unreachable!(),
+                };
+                self.h.hash(data)
+            }
+            Kind::Internal(left, right) => {
+                self.ensure_hash_inner(left);
+                self.ensure_hash_inner(right);
+                self.h.hash_concat(
+                    self.hash_val(left),
+                    self.node_len(right),
+                    self.hash_val(right),
+                )
+            }
+            Kind::Repeat(child, reps) => {
+                self.ensure_hash_inner(child);
+                let child_hash = self.hash_val(child);
+                let child_len = self.node_len(child);
+                let x_d = self.h.power(child_len);
+                let p = self.h.prime();
+                let phi_val = phi(reps, x_d, p);
+                mersenne_mul(child_hash, phi_val, p)
+            }
+        };
+
+        self.set_hash_val(id, h);
+    }
+
+    // -----------------------------------------------------------------------
+    // Allocation
+    // -----------------------------------------------------------------------
+
+    #[inline]
+    fn alloc(&mut self, inner: NodeInner) -> NodeId {
+        let id = NodeId::try_from(self.nodes.len()).expect("Arena node count exceeds u32::MAX");
+        self.nodes.push(inner);
+        id
+    }
+
+    // -----------------------------------------------------------------------
+    // Node constructors (enforce invariants)
+    // -----------------------------------------------------------------------
+
+    fn make_leaf(&mut self, data: Vec<u8>) -> NodeId {
+        assert!(!data.is_empty(), "Leaf cannot be empty");
+        let hash_val = if self.lazy {
+            LAZY_SENTINEL
+        } else {
+            self.h.hash(&data)
+        };
+        let len = data.len() as u64;
+        self.alloc(NodeInner::Leaf {
+            data,
+            hash_val,
+            len,
+        })
+    }
+
+    #[inline]
+    fn make_internal(&mut self, left: NodeId, right: NodeId) -> NodeId {
+        let left_len = self.node_len(left);
+        let right_len = self.node_len(right);
+        let len = left_len
+            .checked_add(right_len)
+            .expect("Rope length exceeds u64::MAX");
+        let weight = self
+            .node_weight(left)
+            .checked_add(self.node_weight(right))
+            .expect("Rope weight exceeds u64::MAX");
+        self.make_internal_prechecked(left, right, len, weight, right_len)
+    }
+
+    // Callers have checked both sums before reaching this allocation. Retaining
+    // those values lets public concat avoid checking the same metadata again
+    // when its two roots can be joined without rebalancing.
+    // Inline this shared tail so existing make_internal callers do not gain
+    // another function call merely because public concat can reuse its sums.
+    #[inline(always)]
+    fn make_internal_prechecked(
+        &mut self,
+        left: NodeId,
+        right: NodeId,
+        len: u64,
+        weight: u64,
+        right_len: u64,
+    ) -> NodeId {
+        let hash_val = if self.lazy {
+            LAZY_SENTINEL
+        } else {
+            self.h
+                .hash_concat(self.hash_val(left), right_len, self.hash_val(right))
+        };
+        self.alloc(NodeInner::Internal {
+            left,
+            right,
+            hash_val,
+            len,
+            weight,
+        })
+    }
+
+    fn make_repeat_node(&mut self, child: NodeId, reps: u64) -> NodeId {
+        assert!(reps >= 2, "RepeatNode reps must be >= 2, got {}", reps);
+        let child_len = self.node_len(child);
+        let child_weight = self.node_weight(child);
+        let len = child_len
+            .checked_mul(reps)
+            .expect("Rope length exceeds u64::MAX");
+        let weight = child_weight
+            .checked_mul(reps)
+            .expect("Rope weight exceeds u64::MAX");
+        let hash_val = if self.lazy {
+            LAZY_SENTINEL
+        } else {
+            let child_hash = self.hash_val(child);
+            let x_d = self.h.power(child_len);
+            let phi_val = phi(reps, x_d, self.h.prime());
+            mersenne_mul(child_hash, phi_val, self.h.prime())
+        };
+        self.alloc(NodeInner::Repeat {
+            child,
+            reps,
+            hash_val,
+            len,
+            weight,
+        })
+    }
+
+    fn make_repeat(&mut self, child: NodeId, reps: u64) -> Node {
+        match reps {
+            0 => None,
+            1 => Some(child),
+            _ => Some(self.make_repeat_node(child, reps)),
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Public accessors
+    // -----------------------------------------------------------------------
+
+    /// Total byte length of the string represented by the node.
+    #[inline]
+    pub fn len(&self, node: Node) -> u64 {
+        node.map_or(0, |id| self.node_len(id))
+    }
+
+    /// Stored noncryptographic fingerprint of the string represented by the node.
+    ///
+    /// Matching fingerprints do not prove byte equality; use [`Self::equal`].
+    /// In a lazy arena this returns [`LAZY_SENTINEL`] until materialized.
+    #[inline]
+    pub fn hash(&self, node: Node) -> u64 {
+        self.assert_hash_profile();
+        node.map_or(0, |id| self.hash_val(id))
+    }
+
+    /// Exact byte equality, independent of tree shape and fingerprints.
+    ///
+    /// Shared immutable ranges and proven equal repeat periods are skipped,
+    /// including periods established by identical-child concatenation chains.
+    /// Otherwise comparison may require work proportional to expanded content;
+    /// no flattened byte buffer or new rope nodes are allocated. Ordinary trees
+    /// use a bounded traversal without a cache; compressed cases fall back to a
+    /// per-call cache using space proportional to the ranges proved equal.
+    /// Lazy hashes are neither read nor materialized.
+    pub fn equal(&self, a: Node, b: Node) -> bool {
+        self.equal_across(a, self, b)
+    }
+
+    /// Exact longest common prefix length, in bytes. See [`Self::equal`] for costs.
+    pub fn lcp(&self, a: Node, b: Node) -> u64 {
+        self.lcp_across(a, self, b)
+    }
+
+    /// Exact equality across arenas, including different fingerprint profiles.
+    /// Each node ID must belong to its corresponding arena.
+    pub fn equal_across(&self, a: Node, other: &Arena, b: Node) -> bool {
+        let length = self.len(a);
+        length == other.len(b) && self.lcp_across(a, other, b) == length
+    }
+
+    /// Exact byte LCP across arenas, including eager/lazy or different profiles.
+    /// Node IDs are arena-local; matching numeric IDs in different arenas are
+    /// not treated as shared content.
+    pub fn lcp_across(&self, a: Node, other: &Arena, b: Node) -> u64 {
+        match (a, b) {
+            (Some(left), Some(right)) => {
+                let length = self.node_len(left).min(other.node_len(right));
+                if core::ptr::eq(self, other) && left == right {
+                    return length;
+                }
+                exact_lcp(
+                    self,
+                    other,
+                    RangeStart {
+                        node: left,
+                        offset: 0,
+                    },
+                    RangeStart {
+                        node: right,
+                        offset: 0,
+                    },
+                    length,
+                )
+            }
+            _ => 0,
+        }
+    }
+
+    /// Exact equality of two byte ranges of the same length, without splitting.
+    /// Panics if either range exceeds its rope, including integer overflow.
+    pub fn equal_range(&self, a: Node, a_start: u64, b: Node, b_start: u64, length: u64) -> bool {
+        self.lcp_range(a, a_start, b, b_start, length) == length
+    }
+
+    /// Exact LCP of two byte ranges, bounded by `length`. See [`Self::equal_range`].
+    pub fn lcp_range(&self, a: Node, a_start: u64, b: Node, b_start: u64, length: u64) -> u64 {
+        self.lcp_range_across(a, a_start, self, b, b_start, length)
+    }
+
+    /// Exact equal-length range comparison across arenas and fingerprint profiles.
+    pub fn equal_range_across(
+        &self,
+        a: Node,
+        a_start: u64,
+        other: &Arena,
+        b: Node,
+        b_start: u64,
+        length: u64,
+    ) -> bool {
+        self.lcp_range_across(a, a_start, other, b, b_start, length) == length
+    }
+
+    /// Exact LCP of equal-length ranges across arenas; does not allocate rope nodes.
+    /// Panics on an out-of-bounds range. Empty ranges at the end are valid.
+    pub fn lcp_range_across(
+        &self,
+        a: Node,
+        a_start: u64,
+        other: &Arena,
+        b: Node,
+        b_start: u64,
+        length: u64,
+    ) -> u64 {
+        let a_len = self.len(a);
+        let b_len = other.len(b);
+        assert!(
+            a_start <= a_len && length <= a_len - a_start,
+            "Left comparison range out of bounds"
+        );
+        assert!(
+            b_start <= b_len && length <= b_len - b_start,
+            "Right comparison range out of bounds"
+        );
+        if length == 0 || (core::ptr::eq(self, other) && a == b && a_start == b_start) {
+            return length;
+        }
+        exact_lcp(
+            self,
+            other,
+            RangeStart {
+                node: a.unwrap(),
+                offset: a_start,
+            },
+            RangeStart {
+                node: b.unwrap(),
+                offset: b_start,
+            },
+            length,
+        )
+    }
+
+    /// Weight (number of leaves) of the rope.
+    #[inline]
+    pub fn weight(&self, node: Node) -> u64 {
+        node.map_or(0, |id| self.node_weight(id))
+    }
+
+    /// Height of the rope tree. Leaves have height 0, `None` has height 0.
+    pub fn height(&self, node: Node) -> u64 {
+        node.map_or(0, |id| self.node_height(id))
+    }
+
+    fn node_height(&self, id: NodeId) -> u64 {
+        match &self.nodes[id as usize] {
+            NodeInner::Leaf { .. } => 0,
+            NodeInner::Internal { left, right, .. } => {
+                1 + core::cmp::max(self.node_height(*left), self.node_height(*right))
+            }
+            NodeInner::Repeat { child, .. } => 1 + self.node_height(*child),
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Balance helpers (Invariant I8)
+    // -----------------------------------------------------------------------
+
+    /// Weight-only balance check (no node lookup needed).
+    #[inline]
+    fn is_balanced_wt(wl: u64, wr: u64) -> bool {
+        let wl = u128::from(wl);
+        let total = wl + u128::from(wr);
+        if total <= 2 {
+            return true;
+        }
+        u128::from(ALPHA_NUM) * total <= u128::from(ALPHA_DEN) * wl
+            && u128::from(ALPHA_DEN) * wl <= u128::from(ALPHA_DEN - ALPHA_NUM) * total
+    }
+
+    /// Decompose a node into two children for rotation purposes.
+    /// Internal → its children. Repeat → split by reps. Leaf → panic.
+    fn decompose(&mut self, id: NodeId) -> (NodeId, NodeId) {
+        match self.nodes[id as usize].clone() {
+            NodeInner::Internal { left, right, .. } => (left, right),
+            NodeInner::Repeat { child, reps, .. } => {
+                let half = reps / 2;
+                let left = self.make_repeat(child, half).unwrap();
+                let right = self.make_repeat(child, reps - half).unwrap();
+                (left, right)
+            }
+            NodeInner::Leaf { .. } => unreachable!("Cannot decompose Leaf in balance"),
+        }
+    }
+
+    /// Adams-style balance with checked rotations.
+    /// Handles RepeatNode via decompose. Single rotation is used only when
+    /// BOTH the inner node AND the outer pairing are balanced; otherwise
+    /// double rotation decomposes further (bounded by subtree height).
+    fn balance(&mut self, left: NodeId, right: NodeId) -> NodeId {
+        let wl = self.node_weight(left);
+        let wr = self.node_weight(right);
+        let total = wl.checked_add(wr).expect("Rope weight exceeds u64::MAX");
+
+        if total <= 2 {
+            return self.make_internal(left, right);
+        }
+
+        if Self::is_balanced_wt(wl, wr) {
+            return self.make_internal(left, right);
+        }
+
+        if u128::from(ALPHA_NUM) * u128::from(total) > u128::from(ALPHA_DEN) * u128::from(wl) {
+            // Left too light (right too heavy) → rotate left
+            let (rl, rr) = self.decompose(right);
+            let wrl = self.node_weight(rl);
+            let wrr = self.node_weight(rr);
+            // Single rotation: inner=(left,rl), outer=(inner, rr)
+            // Use single only if BOTH inner and outer would be balanced.
+            if Self::is_balanced_wt(wl, wrl) && Self::is_balanced_wt(wl + wrl, wrr) {
+                let new_left = self.make_internal(left, rl);
+                self.make_internal(new_left, rr)
+            } else {
+                // Double rotation: decompose rl, balance all parts
+                let (rll, rlr) = self.decompose(rl);
+                let new_left = self.balance(left, rll);
+                let new_right = self.balance(rlr, rr);
+                self.balance(new_left, new_right)
+            }
+        } else {
+            // Left too heavy (right too light) → rotate right
+            let (ll, lr) = self.decompose(left);
+            let wll = self.node_weight(ll);
+            let wlr = self.node_weight(lr);
+            // Single rotation: inner=(lr,right), outer=(ll, inner)
+            if Self::is_balanced_wt(wlr, wr) && Self::is_balanced_wt(wll, wlr + wr) {
+                let new_right = self.make_internal(lr, right);
+                self.make_internal(ll, new_right)
+            } else {
+                // Double rotation: decompose lr, balance all parts
+                let (lrl, lrr) = self.decompose(lr);
+                let new_left = self.balance(ll, lrl);
+                let new_right = self.balance(lrr, right);
+                self.balance(new_left, new_right)
+            }
+        }
+    }
+
+    #[cfg(test)]
+    fn rebalance(&mut self, left: NodeId, right: NodeId) -> NodeId {
+        self.balance(left, right)
+    }
+
+    // -----------------------------------------------------------------------
+    // Theorem 6 / Lemma 8: Recursive Join
+    // -----------------------------------------------------------------------
+
+    fn join(&mut self, left: NodeId, right: NodeId) -> NodeId {
+        let wl = self.node_weight(left);
+        let wr = self.node_weight(right);
+        if Self::is_balanced_wt(wl, wr) {
+            return self.make_internal(left, right);
+        }
+
+        self.join_unbalanced(left, right, wl, wr)
+    }
+
+    fn join_unbalanced(&mut self, left: NodeId, right: NodeId, wl: u64, wr: u64) -> NodeId {
+        if wl > wr {
+            match self.nodes[left as usize].clone() {
+                NodeInner::Internal {
+                    left: ll,
+                    right: lr,
+                    ..
+                } => {
+                    let new_right = self.join(lr, right);
+                    self.balance(ll, new_right)
+                }
+                NodeInner::Repeat { child, reps, .. } => {
+                    // Fix 2: split by reps count, not byte position.
+                    // Halving reps gives O(log q) recursion depth.
+                    let half = reps / 2;
+                    let ll = self.make_repeat(child, half).unwrap();
+                    let lr = self.make_repeat(child, reps - half).unwrap();
+                    let new_right = self.join(lr, right);
+                    self.join(ll, new_right)
+                }
+                NodeInner::Leaf { .. } => self.make_internal(left, right),
+            }
+        } else {
+            match self.nodes[right as usize].clone() {
+                NodeInner::Internal {
+                    left: rl,
+                    right: rr,
+                    ..
+                } => {
+                    let new_left = self.join(left, rl);
+                    self.balance(new_left, rr)
+                }
+                NodeInner::Repeat { child, reps, .. } => {
+                    // Fix 2: split by reps count, not byte position.
+                    let half = reps / 2;
+                    let rl = self.make_repeat(child, half).unwrap();
+                    let rr = self.make_repeat(child, reps - half).unwrap();
+                    let new_left = self.join(left, rl);
+                    self.join(new_left, rr)
+                }
+                NodeInner::Leaf { .. } => self.make_internal(left, right),
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Theorem 10: Concat = Join
+    // -----------------------------------------------------------------------
+
+    /// Concatenate two ropes. Returns a balanced rope representing `left || right`.
+    ///
+    /// # Panics
+    /// Panics if the resulting length or weight exceeds `u64::MAX`, or if
+    /// the arena cannot represent another node with a `NodeId`.
+    pub fn concat(&mut self, left: Node, right: Node) -> Node {
+        self.assert_hash_profile();
+        match (left, right) {
+            (None, _) => right,
+            (_, None) => left,
+            (Some(l), Some(r)) => {
+                // Reject an unrepresentable result before join allocates any nodes.
+                let left_len = self.node_len(l);
+                let right_len = self.node_len(r);
+                let len = left_len
+                    .checked_add(right_len)
+                    .expect("Rope length exceeds u64::MAX");
+                let wl = self.node_weight(l);
+                let wr = self.node_weight(r);
+                let weight = wl.checked_add(wr).expect("Rope weight exceeds u64::MAX");
+                Some(if Self::is_balanced_wt(wl, wr) {
+                    self.make_internal_prechecked(l, r, len, weight, right_len)
+                } else {
+                    self.join_unbalanced(l, r, wl, wr)
+                })
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Theorem 7: Split
+    // -----------------------------------------------------------------------
+
+    /// Split a rope at byte position `pos`.
+    ///
+    /// Returns `(left, right)` where left has `pos` bytes, right has the rest.
+    pub fn split(&mut self, node: Node, pos: u64) -> (Node, Node) {
+        self.assert_hash_profile();
+        match node {
+            None => (None, None),
+            Some(id) => {
+                if pos == 0 {
+                    return (None, Some(id));
+                }
+                if pos >= self.node_len(id) {
+                    return (Some(id), None);
+                }
+                self.split_inner(id, pos)
+            }
+        }
+    }
+
+    fn split_inner(&mut self, id: NodeId, pos: u64) -> (Node, Node) {
+        match &self.nodes[id as usize] {
+            NodeInner::Leaf { data, .. } => {
+                let pos = usize::try_from(pos).expect("Leaf position exceeds usize::MAX");
+                // Copy just the two output slices before mutating the arena.
+                // The original leaf remains shared and immutable.
+                let left_data = data[..pos].to_vec();
+                let right_data = data[pos..].to_vec();
+                let left = self.make_leaf(left_data);
+                let right = self.make_leaf(right_data);
+                (Some(left), Some(right))
+            }
+            NodeInner::Internal { left, right, .. } => {
+                let (left, right) = (*left, *right);
+                let ll = self.node_len(left);
+                if pos == ll {
+                    return (Some(left), Some(right));
+                }
+                if pos < ll {
+                    let (l1, l2) = self.split_inner(left, pos);
+                    let rejoined = self.concat(l2, Some(right));
+                    (l1, rejoined)
+                } else {
+                    let (r1, r2) = self.split_inner(right, pos - ll);
+                    let rejoined = self.concat(Some(left), r1);
+                    (rejoined, r2)
+                }
+            }
+            NodeInner::Repeat { child, reps, .. } => self.split_repeat(*child, *reps, pos),
+        }
+    }
+
+    fn split_repeat(&mut self, child: NodeId, reps: u64, pos: u64) -> (Node, Node) {
+        let d = self.node_len(child);
+        let m = pos / d;
+        let r = pos % d;
+
+        if r == 0 {
+            let left = self.make_repeat(child, m);
+            let right = self.make_repeat(child, reps - m);
+            (left, right)
+        } else {
+            let (child_left, child_right) = self.split_inner(child, r);
+
+            let left_rep = self.make_repeat(child, m);
+            let left = self.concat(left_rep, child_left);
+
+            let right_rep = self.make_repeat(child, reps - m - 1);
+            let right = self.concat(child_right, right_rep);
+
+            (left, right)
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Theorem 8: Repeat
+    // -----------------------------------------------------------------------
+
+    /// Create a RepeatNode representing `node^q`.
+    ///
+    /// # Panics
+    /// Panics if the resulting length or weight exceeds `u64::MAX`, or if
+    /// the arena cannot represent another node with a `NodeId`.
+    pub fn repeat(&mut self, node: Node, q: u64) -> Node {
+        self.assert_hash_profile();
+        match node {
+            None => None,
+            Some(id) => self.make_repeat(id, q),
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Theorem 9: SubstrHash (allocation-free)
+    // -----------------------------------------------------------------------
+
+    /// Compute `H(S[start..start+length-1])` without allocating new nodes.
+    pub fn substr_hash(&mut self, node: Node, start: u64, length: u64) -> u64 {
+        self.assert_hash_profile();
+        match node {
+            None => 0,
+            Some(_) if length == 0 => 0,
+            Some(id) => self.hash_range(id, start, length),
+        }
+    }
+
+    fn hash_range(&mut self, id: NodeId, start: u64, length: u64) -> u64 {
+        // Full-node shortcut: if the entire node is within the requested range,
+        // return the precomputed hash in O(1). Without this, the traversal
+        // descends to every leaf in the range, degrading to O(range_size).
+        if start == 0 && length == self.node_len(id) {
+            self.ensure_hash_inner(id);
+            return self.hash_val(id);
+        }
+
+        let p = self.h.prime();
+
+        match &self.nodes[id as usize] {
+            NodeInner::Leaf { data, .. } => {
+                let s = usize::try_from(start).expect("Leaf position exceeds usize::MAX");
+                let length = usize::try_from(length).expect("Leaf range exceeds usize::MAX");
+                let e = s
+                    .checked_add(length)
+                    .expect("Leaf range exceeds usize::MAX");
+                self.h.hash(&data[s..e])
+            }
+            NodeInner::Internal { left, right, .. } => {
+                let (left, right) = (*left, *right);
+                let ll = self.node_len(left);
+                let end = start
+                    .checked_add(length)
+                    .expect("Substring range exceeds u64::MAX");
+                if end <= ll {
+                    return self.hash_range(left, start, length);
+                }
+                if start >= ll {
+                    return self.hash_range(right, start - ll, length);
+                }
+                // Spanning
+                let l_len = ll - start;
+                let r_len = length - l_len;
+                let h_l = self.hash_range(left, start, l_len);
+                let h_r = self.hash_range(right, 0, r_len);
+                self.h.hash_concat(h_l, r_len, h_r)
+            }
+            NodeInner::Repeat { child, .. } => {
+                let child = *child;
+                let d = self.node_len(child);
+                self.ensure_hash_inner(child);
+                let child_hash = self.hash_val(child);
+                let first_copy = start / d;
+                let start_in_copy = start % d;
+                let end = start
+                    .checked_add(length - 1)
+                    .expect("Substring range exceeds u64::MAX");
+                let last_copy = end / d;
+                let end_in_copy = end % d;
+
+                if first_copy == last_copy {
+                    return self.hash_range(child, start_in_copy, length);
+                }
+
+                // Tail of first copy
+                let tail_len = d - start_in_copy;
+                let h_tail = self.hash_range(child, start_in_copy, tail_len);
+
+                // Full copies in the middle
+                let full_copies = last_copy - first_copy - 1;
+                let (h_full, full_len) = if full_copies > 0 {
+                    let x_d = self.h.power(d);
+                    let phi_val = phi(full_copies, x_d, p);
+                    (mersenne_mul(child_hash, phi_val, p), full_copies * d)
+                } else {
+                    (0u64, 0u64)
+                };
+
+                // Head of last copy
+                let head_len = end_in_copy + 1;
+                let h_head = self.hash_range(child, 0, head_len);
+
+                // Combine
+                let x_full_head = self.h.power(full_len + head_len);
+                let x_head = self.h.power(head_len);
+                mersenne_mod(
+                    mersenne_mul(x_full_head, h_tail, p) as u128
+                        + mersenne_mul(x_head, h_full, p) as u128
+                        + h_head as u128,
+                    p,
+                )
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Construction and reconstruction
+    // -----------------------------------------------------------------------
+
+    /// Create a rope from a byte slice. Returns `None` for empty.
+    pub fn from_bytes(&mut self, data: &[u8]) -> Node {
+        self.assert_hash_profile();
+        const LEAF_CAP: usize = 512;
+        if data.is_empty() {
+            return None;
+        }
+        if data.len() <= LEAF_CAP {
+            return Some(self.make_leaf(data.to_vec()));
+        }
+        // Build bounded-size leaves and combine them bottom-up into a balanced tree so
+        // split/concat are O(log N). A single full-length leaf makes split O(leaf_len)=O(N).
+        let mut nodes: Vec<NodeId> = Vec::with_capacity(data.chunks(LEAF_CAP).len());
+        for chunk in data.chunks(LEAF_CAP) {
+            nodes.push(self.make_leaf(chunk.to_vec()));
+        }
+        while nodes.len() > 1 {
+            let mut next: Vec<NodeId> = Vec::with_capacity(nodes.chunks(2).len());
+            let mut i = 0;
+            while i < nodes.len() {
+                if i + 1 < nodes.len() {
+                    let combined = self.concat(Some(nodes[i]), Some(nodes[i + 1]));
+                    next.push(combined.expect("concat of two non-empty leaves is non-empty"));
+                } else {
+                    next.push(nodes[i]);
+                }
+                i += 2;
+            }
+            nodes = next;
+        }
+        Some(nodes[0])
+    }
+
+    /// Reconstruct the byte string from a rope.
+    ///
+    /// # Panics
+    /// Panics if the byte length exceeds the target's `Vec` address limit.
+    pub fn to_bytes(&self, node: Node) -> Vec<u8> {
+        let len = usize::try_from(self.len(node)).expect("Rope byte length exceeds usize::MAX");
+        assert!(
+            len <= isize::MAX as usize,
+            "Rope byte length exceeds isize::MAX"
+        );
+        let mut parts = Vec::new();
+        if let Some(id) = node {
+            self.collect_bytes(id, &mut parts);
+        }
+        parts
+    }
+
+    fn collect_bytes(&self, id: NodeId, parts: &mut Vec<u8>) {
+        match &self.nodes[id as usize] {
+            NodeInner::Leaf { data, .. } => parts.extend_from_slice(data),
+            NodeInner::Internal { left, right, .. } => {
+                self.collect_bytes(*left, parts);
+                self.collect_bytes(*right, parts);
+            }
+            NodeInner::Repeat { child, reps, .. } => {
+                for _ in 0..*reps {
+                    self.collect_bytes(*child, parts);
+                }
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Validation
+    // -----------------------------------------------------------------------
+
+    /// Validate structural invariants and the arena's unchanged hash profile.
+    /// Does not recompute cached fingerprints. Panics on violation.
+    pub fn validate(&self, node: Node) {
+        self.assert_hash_profile();
+        if let Some(id) = node {
+            self.validate_inner(id);
+        }
+    }
+
+    fn validate_inner(&self, id: NodeId) {
+        match &self.nodes[id as usize] {
+            NodeInner::Leaf { data, len, .. } => {
+                assert_eq!(*len, data.len() as u64, "Leaf len mismatch");
+            }
+            NodeInner::Internal {
+                left,
+                right,
+                len,
+                weight,
+                ..
+            } => {
+                assert_eq!(
+                    Some(*len),
+                    self.node_len(*left).checked_add(self.node_len(*right)),
+                    "Internal len mismatch"
+                );
+                assert_eq!(
+                    Some(*weight),
+                    self.node_weight(*left)
+                        .checked_add(self.node_weight(*right)),
+                    "Internal weight mismatch"
+                );
+                let total = u128::from(*weight);
+                let wl = u128::from(self.node_weight(*left));
+                if total > 2 {
+                    assert!(
+                        u128::from(ALPHA_NUM) * total <= u128::from(ALPHA_DEN) * wl,
+                        "Left child too light: {}/{}",
+                        wl,
+                        total
+                    );
+                    assert!(
+                        u128::from(ALPHA_DEN) * wl <= u128::from(ALPHA_DEN - ALPHA_NUM) * total,
+                        "Left child too heavy: {}/{}",
+                        wl,
+                        total
+                    );
+                }
+                self.validate_inner(*left);
+                self.validate_inner(*right);
+            }
+            NodeInner::Repeat {
+                child,
+                reps,
+                len,
+                weight,
+                ..
+            } => {
+                assert_eq!(
+                    Some(*len),
+                    self.node_len(*child).checked_mul(*reps),
+                    "RepeatNode len mismatch"
+                );
+                assert_eq!(
+                    Some(*weight),
+                    self.node_weight(*child).checked_mul(*reps),
+                    "RepeatNode weight mismatch"
+                );
+                assert!(*reps >= 2, "RepeatNode reps must be >= 2, got {}", reps);
+                self.validate_inner(*child);
+            }
+        }
+    }
+
+    /// Hash a raw byte slice using this arena's polynomial hash.
+    pub fn hash_bytes(&self, data: &[u8]) -> u64 {
+        self.assert_hash_profile();
+        self.h.hash(data)
+    }
+}
+
+// Exact comparison only reads immutable structure and bytes. Its two arenas are
+// fixed for one call, so IDs in cache keys cannot be confused across arenas.
+#[derive(Clone, Copy)]
+struct RangeStart {
+    node: NodeId,
+    offset: u64,
+}
+
+type EqualRange = (NodeId, u64, NodeId, u64, u64);
+
+// Ordinary independent trees have no reusable range proofs. Avoid allocating
+// and maintaining an ordered cache for them, but never expand a compact DAG
+// without a bound: normalization and frontier node examinations spend visits.
+// The budget depends on stored nodes, not expanded leaves or logical bytes.
+fn exact_lcp(left: &Arena, right: &Arena, a: RangeStart, b: RangeStart, length: u64) -> u64 {
+    let stored_nodes = left.nodes.len().saturating_add(right.nodes.len());
+    // Obvious compression can go straight to the memoized engine. This is only
+    // a cost shortcut: the visit budget also catches less obvious shared DAGs.
+    if left.node_weight(a.node) <= stored_nodes as u64
+        && right.node_weight(b.node) <= stored_nodes as u64
+    {
+        let mut fast = FastComparison {
+            left,
+            right,
+            same_arena: core::ptr::eq(left, right),
+            visits_left: stored_nodes.saturating_mul(8),
+        };
+        match fast.lcp(a, b, length) {
+            Ok(common) => return common,
+            Err(matched) => {
+                // Resume at the first unverified byte; the proven prefix need
+                // not be scanned again when the work budget or a Repeat ends
+                // the fast traversal.
+                return matched
+                    + ExactComparison::new(left, right).lcp(
+                        RangeStart {
+                            offset: a.offset + matched,
+                            ..a
+                        },
+                        RangeStart {
+                            offset: b.offset + matched,
+                            ..b
+                        },
+                        length - matched,
+                    );
+            }
+        }
+    }
+    ExactComparison::new(left, right).lcp(a, b, length)
+}
+
+struct FastComparison<'a> {
+    left: &'a Arena,
+    right: &'a Arena,
+    same_arena: bool,
+    visits_left: usize,
+}
+
+impl FastComparison<'_> {
+    fn normalize(
+        arena: &Arena,
+        mut range: RangeStart,
+        length: u64,
+        visits_left: &mut usize,
+    ) -> Option<RangeStart> {
+        loop {
+            *visits_left = visits_left.checked_sub(1)?;
+            match &arena.nodes[range.node as usize] {
+                NodeInner::Leaf { .. } => return Some(range),
+                NodeInner::Internal { left, right, .. } => {
+                    let left_len = arena.node_len(*left);
+                    if range.offset >= left_len {
+                        range.node = *right;
+                        range.offset -= left_len;
+                    } else if length <= left_len - range.offset {
+                        range.node = *left;
+                    } else {
+                        return Some(range);
+                    }
+                }
+                // Keep periodic witnesses and canonical phases in the proven
+                // memoized engine, rather than enumerating repeat copies.
+                NodeInner::Repeat { .. } => return None,
+            }
+        }
+    }
+
+    // Ok: exact LCP (possibly the full range); Err: verified prefix at fallback.
+    fn lcp(&mut self, a: RangeStart, b: RangeStart, length: u64) -> Result<u64, u64> {
+        // Different arenas cannot share node identity. Keep their long scans
+        // on explicit frontiers so differently shaped trees visit each branch
+        // once. Recursive ranges remain cheaper for small/shared comparisons.
+        if !self.same_arena && length >= 8192 {
+            self.frontier_lcp(a, b, length)
+        } else {
+            self.lcp_recursive(a, b, length)
+        }
+    }
+
+    fn lcp_recursive(
+        &mut self,
+        mut a: RangeStart,
+        mut b: RangeStart,
+        length: u64,
+    ) -> Result<u64, u64> {
+        let mut matched = 0;
+        while matched < length {
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                return Ok(length);
+            }
+            let remaining = length - matched;
+            // Independently built trees often have matching branch boundaries.
+            // Their complete left children can be compared directly, without
+            // normalizing both parents and then looking up the same boundaries
+            // again. This is a structural shortcut only: every child still goes
+            // through exact comparison, and both parent visits spend budget.
+            if a.offset == 0 && b.offset == 0 {
+                if let (
+                    NodeInner::Internal {
+                        left: al,
+                        right: ar,
+                        ..
+                    },
+                    NodeInner::Internal {
+                        left: bl,
+                        right: br,
+                        ..
+                    },
+                ) = (
+                    &self.left.nodes[a.node as usize],
+                    &self.right.nodes[b.node as usize],
+                ) {
+                    let piece = self.left.node_len(*al);
+                    if piece < remaining && piece == self.right.node_len(*bl) {
+                        self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+                        self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+                        let (al, ar, bl, br) = (*al, *ar, *bl, *br);
+                        match self.lcp_recursive(
+                            RangeStart {
+                                node: al,
+                                offset: 0,
+                            },
+                            RangeStart {
+                                node: bl,
+                                offset: 0,
+                            },
+                            piece,
+                        ) {
+                            Ok(common) if common == piece => {}
+                            Ok(common) => return Ok(matched + common),
+                            Err(common) => return Err(matched + common),
+                        }
+                        a = RangeStart {
+                            node: ar,
+                            offset: 0,
+                        };
+                        b = RangeStart {
+                            node: br,
+                            offset: 0,
+                        };
+                        matched += piece;
+                        continue;
+                    }
+                }
+            }
+            a = Self::normalize(self.left, a, remaining, &mut self.visits_left).ok_or(matched)?;
+            b = Self::normalize(self.right, b, remaining, &mut self.visits_left).ok_or(matched)?;
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                return Ok(length);
+            }
+            if let (NodeInner::Leaf { data: x, .. }, NodeInner::Leaf { data: y, .. }) = (
+                &self.left.nodes[a.node as usize],
+                &self.right.nodes[b.node as usize],
+            ) {
+                let x = &x[a.offset as usize..][..remaining as usize];
+                let y = &y[b.offset as usize..][..remaining as usize];
+                return Ok(if x == y {
+                    length
+                } else {
+                    matched + first_different_byte(x, y) as u64
+                });
+            }
+            // Normalized non-leaf ranges cross an Internal boundary. Leaf
+            // boundaries equal remaining, so taking the minimum reveals at
+            // least one smaller child and the recursive prefix is shorter.
+            let a_boundary = ExactComparison::boundary(self.left, a);
+            let b_boundary = ExactComparison::boundary(self.right, b);
+            let piece = a_boundary.min(b_boundary).min(remaining);
+            debug_assert!(piece > 0 && piece < remaining);
+            // The prefix lies in each Internal's left child. Enter that child
+            // directly rather than inspecting the same parent again during
+            // recursive normalization. Leaf views already cover the prefix.
+            let prefix_a = match &self.left.nodes[a.node as usize] {
+                NodeInner::Internal { left, .. } => RangeStart {
+                    node: *left,
+                    offset: a.offset,
+                },
+                _ => a,
+            };
+            let prefix_b = match &self.right.nodes[b.node as usize] {
+                NodeInner::Internal { left, .. } => RangeStart {
+                    node: *left,
+                    offset: b.offset,
+                },
+                _ => b,
+            };
+            match self.lcp_recursive(prefix_a, prefix_b, piece) {
+                Ok(common) if common == piece => {}
+                Ok(common) => return Ok(matched + common),
+                Err(common) => return Err(matched + common),
+            }
+            a = match &self.left.nodes[a.node as usize] {
+                NodeInner::Internal { right, .. } if piece == a_boundary => RangeStart {
+                    node: *right,
+                    offset: 0,
+                },
+                _ => RangeStart {
+                    offset: a.offset + piece,
+                    ..a
+                },
+            };
+            b = match &self.right.nodes[b.node as usize] {
+                NodeInner::Internal { right, .. } if piece == b_boundary => RangeStart {
+                    node: *right,
+                    offset: 0,
+                },
+                _ => RangeStart {
+                    offset: b.offset + piece,
+                    ..b
+                },
+            };
+            matched += piece;
+        }
+        Ok(length)
+    }
+}
+
+// Fixed-stack frontiers hold the unverified suffix in byte order. They use
+// 1,600 bytes of frontier storage in total on 64-bit targets (excluding other
+// locals), with no heap or arena allocation. Excess depth, exhausted visits,
+// and Repeat nodes return to the
+// general exact engine at the first unverified byte.
+#[derive(Clone, Copy)]
+struct ExactPart {
+    range: RangeStart,
+    length: u64,
+}
+struct ExactFrontier {
+    part: ExactPart,
+    stack: [ExactPart; 32],
+    depth: usize,
+}
+impl ExactFrontier {
+    fn new(range: RangeStart, length: u64) -> Self {
+        Self {
+            part: ExactPart { range, length },
+            stack: [ExactPart {
+                range: RangeStart { node: 0, offset: 0 },
+                length: 0,
+            }; 32],
+            depth: 0,
+        }
+    }
+    fn expand(&mut self, arena: &Arena) -> bool {
+        let (left, right) = match arena.nodes[self.part.range.node as usize] {
+            NodeInner::Internal { left, right, .. } => (left, right),
+            _ => unreachable!(),
+        };
+        let left_len = arena.node_len(left);
+        if self.part.range.offset >= left_len {
+            self.part.range.node = right;
+            self.part.range.offset -= left_len;
+        } else {
+            let head = left_len - self.part.range.offset;
+            if self.part.length > head {
+                if self.depth == self.stack.len() {
+                    return false;
+                }
+                self.stack[self.depth] = ExactPart {
+                    range: RangeStart {
+                        node: right,
+                        offset: 0,
+                    },
+                    length: self.part.length - head,
+                };
+                self.depth += 1;
+                self.part.length = head;
+            }
+            self.part.range.node = left;
+        }
+        true
+    }
+    fn consume(&mut self, length: u64) {
+        if length == self.part.length {
+            if self.depth > 0 {
+                self.depth -= 1;
+                self.part = self.stack[self.depth];
+            } else {
+                self.part.length = 0;
+            }
+        } else {
+            self.part.range.offset += length;
+            self.part.length -= length;
+        }
+    }
+}
+
+impl FastComparison<'_> {
+    fn frontier_lcp(&mut self, a: RangeStart, b: RangeStart, length: u64) -> Result<u64, u64> {
+        let mut left = ExactFrontier::new(a, length);
+        let mut right = ExactFrontier::new(b, length);
+        let mut matched = 0;
+        while matched < length {
+            let a = left.part.range;
+            let b = right.part.range;
+            let common = left.part.length.min(right.part.length);
+            debug_assert!(common > 0);
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                left.consume(common);
+                right.consume(common);
+                matched += common;
+                continue;
+            }
+            self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+            self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+            match (
+                &self.left.nodes[a.node as usize],
+                &self.right.nodes[b.node as usize],
+            ) {
+                (NodeInner::Leaf { data: x, .. }, NodeInner::Leaf { data: y, .. }) => {
+                    let x = &x[a.offset as usize..][..common as usize];
+                    let y = &y[b.offset as usize..][..common as usize];
+                    if x != y {
+                        return Ok(matched + first_different_byte(x, y) as u64);
+                    }
+                    left.consume(common);
+                    right.consume(common);
+                    matched += common;
+                }
+                (NodeInner::Repeat { .. }, _) | (_, NodeInner::Repeat { .. }) => {
+                    return Err(matched)
+                }
+                (NodeInner::Internal { .. }, NodeInner::Internal { .. }) => {
+                    let left_len = left.part.length;
+                    let right_len = right.part.length;
+                    if left_len >= right_len && !left.expand(self.left) {
+                        return Err(matched);
+                    }
+                    if right_len >= left_len && !right.expand(self.right) {
+                        return Err(matched);
+                    }
+                }
+                (NodeInner::Internal { .. }, _) => {
+                    if !left.expand(self.left) {
+                        return Err(matched);
+                    }
+                }
+                (_, NodeInner::Internal { .. }) => {
+                    if !right.expand(self.right) {
+                        return Err(matched);
+                    }
+                }
+            }
+        }
+        Ok(length)
+    }
+}
+
+// Both slices have equal length and the caller has already proved inequality.
+// Safe fixed-width loads locate the first differing byte without a scalar
+// second pass through a long equal prefix. Little-endian conversion makes the
+// trailing-zero byte index portable to every target.
+fn first_different_byte(left: &[u8], right: &[u8]) -> usize {
+    let mut offset = 0;
+    while left.len() - offset >= 8 {
+        let a = u64::from_le_bytes(left[offset..offset + 8].try_into().unwrap());
+        let b = u64::from_le_bytes(right[offset..offset + 8].try_into().unwrap());
+        let different = a ^ b;
+        if different != 0 {
+            return offset + (different.trailing_zeros() / 8) as usize;
+        }
+        offset += 8;
+    }
+    offset
+        + left[offset..]
+            .iter()
+            .zip(&right[offset..])
+            .position(|(a, b)| a != b)
+            .unwrap()
+}
+
+struct ExactComparison<'a> {
+    left: &'a Arena,
+    right: &'a Arena,
+    same_arena: bool,
+    equal_ranges: BTreeSet<EqualRange>,
+}
+
+impl<'a> ExactComparison<'a> {
+    fn new(left: &'a Arena, right: &'a Arena) -> Self {
+        Self {
+            left,
+            right,
+            same_arena: core::ptr::eq(left, right),
+            equal_ranges: BTreeSet::new(),
+        }
+    }
+
+    // A repeated child is a structural proof of periodicity, including a
+    // self-concatenation DAG that has no explicit Repeat nodes. Follow only
+    // those proven edges; ordinary Internal nodes are never assumed periodic.
+    // Reducing nested powers avoids proving each doubling separately in the
+    // range cache. Any substring keeps this period, regardless of its phase.
+    fn structural_period_root(arena: &Arena, mut node: NodeId) -> Option<NodeId> {
+        let mut repeated = false;
+        loop {
+            match &arena.nodes[node as usize] {
+                NodeInner::Repeat { child, .. } => node = *child,
+                NodeInner::Internal { left, right, .. } if left == right => node = *left,
+                _ => return repeated.then_some(node),
+            }
+            repeated = true;
+        }
+    }
+
+    // Descend while the requested range fits in one child. A repeat range
+    // crossing a copy boundary retains its Repeat node but uses a canonical
+    // phase offset, making verified ranges reusable across subsequent copies.
+    fn normalize(arena: &Arena, mut range: RangeStart, length: u64) -> RangeStart {
+        loop {
+            match &arena.nodes[range.node as usize] {
+                NodeInner::Leaf { .. } => return range,
+                NodeInner::Internal { left, right, .. } => {
+                    let left_len = arena.node_len(*left);
+                    if range.offset >= left_len {
+                        range.node = *right;
+                        range.offset -= left_len;
+                    } else if length <= left_len - range.offset {
+                        range.node = *left;
+                    } else {
+                        return range;
+                    }
+                }
+                NodeInner::Repeat { child, .. } => {
+                    let period = arena.node_len(*child);
+                    range.offset %= period;
+                    if length <= period - range.offset {
+                        range.node = *child;
+                    } else {
+                        return range;
+                    }
+                }
+            }
+        }
+    }
+
+    fn boundary(arena: &Arena, range: RangeStart) -> u64 {
+        match &arena.nodes[range.node as usize] {
+            NodeInner::Leaf { len, .. } => len - range.offset,
+            NodeInner::Internal { left, .. } => arena.node_len(*left) - range.offset,
+            NodeInner::Repeat { child, .. } => arena.node_len(*child) - range.offset,
+        }
+    }
+
+    fn key(a: RangeStart, b: RangeStart, length: u64) -> EqualRange {
+        (a.node, a.offset, b.node, b.offset, length)
+    }
+
+    fn lcp(&mut self, a: RangeStart, b: RangeStart, length: u64) -> u64 {
+        // Reduce a whole periodic query once. Doing this at every recursive
+        // boundary would repeatedly walk the same chains on a late mismatch.
+        // The general engine below retains its memoized subrange proofs.
+        let repeated = |arena: &Arena, node: NodeId| {
+            matches!(&arena.nodes[node as usize], NodeInner::Repeat { .. })
+                || matches!(
+                    &arena.nodes[node as usize],
+                    NodeInner::Internal { left, right, .. } if left == right
+                )
+        };
+        if length > 0 && repeated(self.left, a.node) && repeated(self.right, b.node) {
+            let left_unit = Self::structural_period_root(self.left, a.node).unwrap();
+            let right_unit = Self::structural_period_root(self.right, b.node).unwrap();
+            let p = self.left.node_len(left_unit);
+            let q = self.right.node_len(right_unit);
+            let witness = p.saturating_add(q - gcd(p, q));
+            if witness < length {
+                let common = if p == q {
+                    // One complete period proves these two phased sequences.
+                    // Compare valid slices of the period roots directly, rather
+                    // than walking both repetition chains again from the roots.
+                    // Each phase wraps at most once, so there are at most three
+                    // pieces, regardless of the expanded query length.
+                    self.equal_period_lcp(left_unit, a.offset % p, right_unit, b.offset % p, p)
+                } else {
+                    // Distinct periods retain the general Fine-Wilf witness.
+                    self.lcp_inner(a, b, witness)
+                };
+                return if common == witness { length } else { common };
+            }
+        }
+        self.lcp_inner(a, b, length)
+    }
+
+    fn equal_period_lcp(
+        &mut self,
+        left_unit: NodeId,
+        mut left_phase: u64,
+        right_unit: NodeId,
+        mut right_phase: u64,
+        period: u64,
+    ) -> u64 {
+        // Compressed units can reuse proofs between the phase pieces. Ordinary
+        // units use the bounded cache-free path; a compact unit retains this
+        // comparison's memo table rather than starting up to three new tables.
+        let stored_nodes = self.left.nodes.len().saturating_add(self.right.nodes.len());
+        let compressed = self.left.node_weight(left_unit) > stored_nodes as u64
+            || self.right.node_weight(right_unit) > stored_nodes as u64;
+        let mut matched = 0;
+        while matched < period {
+            let piece = (period - matched)
+                .min(period - left_phase)
+                .min(period - right_phase);
+            let a = RangeStart {
+                node: left_unit,
+                offset: left_phase,
+            };
+            let b = RangeStart {
+                node: right_unit,
+                offset: right_phase,
+            };
+            let common = if compressed {
+                self.lcp_inner(a, b, piece)
+            } else {
+                exact_lcp(self.left, self.right, a, b, piece)
+            };
+            matched += common;
+            if common < piece {
+                return matched;
+            }
+            left_phase += piece;
+            right_phase += piece;
+            if left_phase == period {
+                left_phase = 0;
+            }
+            if right_phase == period {
+                right_phase = 0;
+            }
+        }
+        period
+    }
+
+    fn lcp_inner(&mut self, a: RangeStart, b: RangeStart, length: u64) -> u64 {
+        if length == 0 {
+            return 0;
+        }
+        let mut a = Self::normalize(self.left, a, length);
+        let mut b = Self::normalize(self.right, b, length);
+        let original = Self::key(a, b, length);
+        let mut matched = 0;
+
+        // Process the remainder iteratively so crossing many leaf/repeat
+        // boundaries does not grow the call stack with expanded byte length.
+        while matched < length {
+            let remaining = length - matched;
+            a = Self::normalize(self.left, a, remaining);
+            b = Self::normalize(self.right, b, remaining);
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                break;
+            }
+            let key = Self::key(a, b, remaining);
+            if self.equal_ranges.contains(&key) {
+                break;
+            }
+
+            match (
+                &self.left.nodes[a.node as usize],
+                &self.right.nodes[b.node as usize],
+            ) {
+                (NodeInner::Leaf { data: x, .. }, NodeInner::Leaf { data: y, .. }) => {
+                    // A leaf's length fits usize because it owns a Vec<u8>.
+                    let x = &x[a.offset as usize..][..remaining as usize];
+                    let y = &y[b.offset as usize..][..remaining as usize];
+                    if x != y {
+                        let first = first_different_byte(x, y);
+                        return matched + first as u64;
+                    }
+                    self.equal_ranges.insert(key);
+                    break;
+                }
+                (NodeInner::Repeat { child: x, .. }, NodeInner::Repeat { child: y, .. }) => {
+                    let p = self.left.node_len(*x);
+                    let q = self.right.node_len(*y);
+                    // Fine-Wilf: two periodic sequences agreeing on p+q-gcd(p,q)
+                    // bytes agree everywhere. Phase offsets do not change their
+                    // periods. Prove actual range bytes (including their phases)
+                    // before skipping copies, including unequal period sizes.
+                    let witness = p.saturating_add(q - gcd(p, q));
+                    if witness < remaining {
+                        let common = self.lcp_inner(a, b, witness);
+                        if common < witness {
+                            return matched + common;
+                        }
+                        self.equal_ranges.insert(key);
+                        break;
+                    }
+                }
+                _ => {}
+            }
+
+            // Reveal an Internal's large child before cutting a Repeat into
+            // individual copies. Otherwise Repeat vs concat(Repeat, Repeat)
+            // would visit every period even when both large children match.
+            let left_boundary = Self::boundary(self.left, a);
+            let right_boundary = Self::boundary(self.right, b);
+            let piece = match (
+                matches!(self.left.nodes[a.node as usize], NodeInner::Internal { .. }),
+                matches!(
+                    self.right.nodes[b.node as usize],
+                    NodeInner::Internal { .. }
+                ),
+            ) {
+                (true, false) => left_boundary,
+                (false, true) => right_boundary,
+                _ => left_boundary.min(right_boundary),
+            }
+            .min(remaining);
+            // Normalization and the leaf case ensure at least one node crosses
+            // a boundary. The recursive prefix is therefore strictly shorter.
+            debug_assert!(piece > 0 && piece < remaining);
+            let common = self.lcp_inner(a, b, piece);
+            if common < piece {
+                return matched + common;
+            }
+            a.offset += piece;
+            b.offset += piece;
+            matched += piece;
+        }
+
+        self.equal_ranges.insert(original);
+        length
+    }
+}
+
+fn gcd(mut a: u64, mut b: u64) -> u64 {
+    while b != 0 {
+        (a, b) = (b, a % b);
+    }
+    a
+}
+
+// ---------------------------------------------------------------------------
+// Free-function wrappers for backward compatibility
+// ---------------------------------------------------------------------------
+
+/// Total byte length of the string represented by the node.
+#[inline]
+pub fn rope_len(arena: &Arena, node: Node) -> u64 {
+    arena.len(node)
+}
+
+/// Hash of the string represented by the node.
+#[inline]
+pub fn rope_hash(arena: &Arena, node: Node) -> u64 {
+    arena.hash(node)
+}
+
+/// Exact byte equality in one arena. See [`Arena::equal`] for costs.
+#[inline]
+pub fn rope_equal(arena: &Arena, a: Node, b: Node) -> bool {
+    arena.equal(a, b)
+}
+
+/// Exact longest common prefix length in bytes. See [`Arena::lcp`].
+#[inline]
+pub fn rope_lcp(arena: &Arena, a: Node, b: Node) -> u64 {
+    arena.lcp(a, b)
+}
+
+/// Exact equality of equal-length byte ranges; see [`Arena::equal_range`].
+#[inline]
+pub fn rope_range_equal(
+    arena: &Arena,
+    a: Node,
+    a_start: u64,
+    b: Node,
+    b_start: u64,
+    length: u64,
+) -> bool {
+    arena.equal_range(a, a_start, b, b_start, length)
+}
+
+/// Exact LCP of equal-length byte ranges; see [`Arena::lcp_range`].
+#[inline]
+pub fn rope_range_lcp(
+    arena: &Arena,
+    a: Node,
+    a_start: u64,
+    b: Node,
+    b_start: u64,
+    length: u64,
+) -> u64 {
+    arena.lcp_range(a, a_start, b, b_start, length)
+}
+
+/// Height of the rope tree.
+#[inline]
+pub fn rope_height(arena: &Arena, node: Node) -> u64 {
+    arena.height(node)
+}
+
+/// Concatenate two ropes.
+#[inline]
+pub fn rope_concat(arena: &mut Arena, left: Node, right: Node) -> Node {
+    arena.concat(left, right)
+}
+
+/// Split a rope at byte position `pos`.
+#[inline]
+pub fn rope_split(arena: &mut Arena, node: Node, pos: u64) -> (Node, Node) {
+    arena.split(node, pos)
+}
+
+/// Create a RepeatNode representing `node^q`.
+#[inline]
+pub fn rope_repeat(arena: &mut Arena, node: Node, q: u64) -> Node {
+    arena.repeat(node, q)
+}
+
+/// Compute substring hash without allocating new nodes.
+#[inline]
+pub fn rope_substr_hash(arena: &mut Arena, node: Node, start: u64, length: u64) -> u64 {
+    arena.substr_hash(node, start, length)
+}
+
+/// Create a rope from a byte slice.
+#[inline]
+pub fn rope_from_bytes(arena: &mut Arena, data: &[u8]) -> Node {
+    arena.from_bytes(data)
+}
+
+/// Reconstruct the byte string from a rope.
+#[inline]
+pub fn rope_to_bytes(arena: &Arena, node: Node) -> Vec<u8> {
+    arena.to_bytes(node)
+}
+
+/// Validate structural invariants and unchanged arena parameters, without rehashing.
+#[inline]
+pub fn validate_rope(arena: &Arena, node: Node) {
+    arena.validate(node)
+}
+
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn arena() -> Arena {
+        Arena::new()
+    }
+
+    #[test]
+    fn test_prechecked_concat_preserves_join_node_sequence() {
+        for (prime, base) in [((1 << 61) - 1, 131), (17, 2), (31, 3)] {
+            for lazy in [false, true] {
+                for (left_count, right_count) in [
+                    (1, 1),
+                    (2, 5),
+                    (5, 2),
+                    (2, 6),
+                    (6, 2),
+                    (1, 64),
+                    (64, 1),
+                    (63, 64),
+                    (64, 63),
+                    (64, 64),
+                ] {
+                    for repeats in [false, true] {
+                        let mut actual = Arena::with_hash(prime, base);
+                        actual.lazy = lazy;
+                        let (left, right) = if repeats {
+                            let a = actual.from_bytes(b"abc");
+                            let b = actual.from_bytes(b"\0\xff\r");
+                            (actual.repeat(a, left_count), actual.repeat(b, right_count))
+                        } else {
+                            (
+                                actual.from_bytes(&alloc::vec![b'a'; left_count as usize * 512]),
+                                actual.from_bytes(&alloc::vec![b'b'; right_count as usize * 512]),
+                            )
+                        };
+                        let mut reference = Arena::with_hash(prime, base);
+                        reference.lazy = lazy;
+                        reference.nodes = actual.nodes.clone();
+                        // Keep the pre-existing recursive join path as a direct
+                        // structural oracle for the new public balanced shortcut.
+                        let expected = Some(reference.join(left.unwrap(), right.unwrap()));
+                        let joined = actual.concat(left, right);
+                        assert_eq!(joined, expected);
+                        assert_eq!(
+                            alloc::format!("{:?}", actual.nodes),
+                            alloc::format!("{:?}", reference.nodes)
+                        );
+                        actual.ensure_hash(joined.unwrap());
+                        reference.ensure_hash(expected.unwrap());
+                        assert_eq!(
+                            alloc::format!("{:?}", actual.nodes),
+                            alloc::format!("{:?}", reference.nodes)
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_prechecked_concat_rejects_before_allocation() {
+        extern crate std;
+        use std::panic::{catch_unwind, AssertUnwindSafe};
+        for lazy in [false, true] {
+            for length_overflow in [false, true] {
+                let mut a = if lazy { Arena::new_lazy() } else { arena() };
+                let leaf = a.from_bytes(b"a").unwrap();
+                let huge = a.repeat(Some(leaf), u64::MAX).unwrap();
+                if !length_overflow {
+                    // Weight overflow is otherwise preceded by length overflow
+                    // for valid nodes. Exercise its independent preflight with
+                    // private test metadata and no byte traversal.
+                    if let NodeInner::Repeat { len, .. } = &mut a.nodes[huge as usize] {
+                        *len = 1;
+                    }
+                }
+                let before = alloc::format!("{:?}", a.nodes);
+                let failure = catch_unwind(AssertUnwindSafe(|| a.concat(Some(huge), Some(leaf))))
+                    .expect_err("overflow must be rejected");
+                let message = failure
+                    .downcast_ref::<&str>()
+                    .copied()
+                    .or_else(|| {
+                        failure
+                            .downcast_ref::<alloc::string::String>()
+                            .map(|s| s.as_str())
+                    })
+                    .unwrap();
+                assert_eq!(
+                    message,
+                    if length_overflow {
+                        "Rope length exceeds u64::MAX"
+                    } else {
+                        "Rope weight exceeds u64::MAX"
+                    }
+                );
+                assert_eq!(alloc::format!("{:?}", a.nodes), before);
+            }
+        }
+    }
+
+    #[test]
+    fn test_maximum_length_compressed_rope() {
+        for lazy in [false, true] {
+            let mut a = if lazy { Arena::new_lazy() } else { arena() };
+            let leaf = a.from_bytes(b"a");
+            let left = a.repeat(leaf, u64::MAX / 2);
+            let right = a.repeat(leaf, u64::MAX / 2 + 1);
+            let node = a.concat(left, right);
+            assert_eq!(a.len(node), u64::MAX);
+            assert_eq!(a.weight(node), u64::MAX);
+            a.validate(node);
+            let expected = a.h.hash_repeat(98, 1, u64::MAX);
+            assert_eq!(a.substr_hash(node, 0, u64::MAX), expected);
+            assert_eq!(a.substr_hash(node, u64::MAX - 3, 3), a.hash_bytes(b"aaa"));
+        }
+    }
+
+    #[test]
+    fn test_split_and_rejoin_maximum_repeat() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"a");
+        let node = a.repeat(leaf, u64::MAX);
+        let expected = a.hash(node);
+        let (left, right) = a.split(node, u64::MAX - 3);
+        assert_eq!(a.len(left), u64::MAX - 3);
+        assert_eq!(a.to_bytes(right), b"aaa");
+        let joined = a.concat(left, right);
+        assert_eq!(a.len(joined), u64::MAX);
+        assert_eq!(a.hash(joined), expected);
+        a.validate(joined);
+    }
+
+    #[test]
+    fn test_balance_comparisons_use_full_width() {
+        assert!(Arena::is_balanced_wt(u64::MAX / 2, u64::MAX / 2 + 1));
+        assert!(!Arena::is_balanced_wt(1, u64::MAX - 1));
+        assert!(!Arena::is_balanced_wt(u64::MAX - 1, 1));
+    }
+
+    #[test]
+    fn test_repeat_substring_full_width_mersenne_modulus() {
+        // 2^64 - 1 is a Mersenne modulus (not prime), which the existing
+        // custom-parameter API accepts. Two unreduced products can exceed u128.
+        let mut a = Arena::with_hash(u64::MAX, u64::MAX - 2);
+        let leaf = a.from_bytes(b"abc");
+        let node = a.repeat(leaf, 5);
+        assert_eq!(a.substr_hash(node, 1, 11), a.hash_bytes(b"bcabcabcabc"));
+    }
+
+    #[test]
+    #[should_panic(expected = "Rope length exceeds u64::MAX")]
+    fn test_repeat_length_overflow_rejected() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"ab");
+        a.repeat(leaf, u64::MAX / 2 + 1);
+    }
+
+    #[test]
+    #[should_panic(expected = "Rope length exceeds u64::MAX")]
+    fn test_nested_repeat_length_overflow_rejected() {
+        let mut a = Arena::new_lazy();
+        let leaf = a.from_bytes(b"a");
+        let node = a.repeat(leaf, u64::MAX / 2 + 1);
+        a.repeat(node, 2);
+    }
+
+    #[test]
+    #[should_panic(expected = "Rope length exceeds u64::MAX")]
+    fn test_concat_length_overflow_rejected() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"a");
+        let node = a.repeat(leaf, u64::MAX);
+        a.concat(node, leaf);
+    }
+
+    #[test]
+    #[should_panic(expected = "Rope byte length exceeds")]
+    fn test_materialization_rejects_unaddressable_length() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"a");
+        let node = a.repeat(leaf, u64::MAX);
+        a.to_bytes(node);
+    }
+
+    #[test]
+    fn test_leaf_basic() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"hello").unwrap();
+        assert_eq!(a.node_len(leaf), 5);
+        assert_eq!(a.node_weight(leaf), 1);
+        assert_eq!(a.hash_val(leaf), a.h.hash(b"hello"));
+    }
+
+    #[test]
+    fn test_concat_two_leaves() {
+        let mut a = arena();
+        let l = a.from_bytes(b"hello ");
+        let r = a.from_bytes(b"world");
+        let lr = a.concat(l, r);
+        assert_eq!(a.len(lr), 11);
+        assert_eq!(a.hash(lr), a.hash_bytes(b"hello world"));
+    }
+
+    #[test]
+    fn test_concat_none() {
+        let mut a = arena();
+        let n = a.from_bytes(b"test");
+        assert!(a.concat(None, n).is_some());
+        assert!(a.concat(n, None).is_some());
+        assert!(a.concat(None, None).is_none());
+    }
+
+    #[test]
+    fn test_split_preserves_hash() {
+        let mut a = arena();
+        let data = b"the quick brown fox";
+        let expected = a.hash_bytes(data);
+        let node = a.from_bytes(data);
+        for pos in 0..=data.len() as u64 {
+            let (left, right) = a.split(node, pos);
+            let rejoined = a.concat(left, right);
+            assert_eq!(a.hash(rejoined), expected, "Failed at pos={}", pos);
+        }
+    }
+
+    #[test]
+    fn test_repeat_hash() {
+        let mut a = arena();
+        let node = a.from_bytes(b"ab");
+        let repeated = a.repeat(node, 100);
+        let expected: Vec<u8> = b"ab".iter().copied().cycle().take(200).collect();
+        assert_eq!(a.hash(repeated), a.hash_bytes(&expected));
+        assert_eq!(a.len(repeated), 200);
+    }
+
+    #[test]
+    fn test_substr_hash() {
+        let mut a = arena();
+        let node = a.from_bytes(b"hello world");
+        assert_eq!(a.substr_hash(node, 0, 5), a.hash_bytes(b"hello"));
+        assert_eq!(a.substr_hash(node, 6, 5), a.hash_bytes(b"world"));
+        assert_eq!(a.substr_hash(node, 4, 4), a.hash_bytes(b"o wo"));
+    }
+
+    #[test]
+    fn test_substr_hash_full_node() {
+        // Tests the early-exit path: substr_hash over the entire node
+        // must equal the node's stored hash.
+        let mut a = arena();
+        let node = a.from_bytes(b"hello world");
+        assert_eq!(a.substr_hash(node, 0, 11), a.hash(node));
+    }
+
+    #[test]
+    fn test_substr_hash_multi_leaf_exhaustive() {
+        // Build a rope from many small leaves, then verify substr_hash
+        // for EVERY possible (start, length) against materialized hash.
+        let data = b"abcdefghijklmnop"; // 16 bytes
+        let mut a = arena();
+        // Build as 4 leaves of 4 bytes each
+        let l1 = a.from_bytes(b"abcd");
+        let l2 = a.from_bytes(b"efgh");
+        let l3 = a.from_bytes(b"ijkl");
+        let l4 = a.from_bytes(b"mnop");
+        let left = a.concat(l1, l2);
+        let right = a.concat(l3, l4);
+        let root = a.concat(left, right);
+
+        for start in 0..16u64 {
+            for length in 1..=(16 - start) {
+                let expected = a.hash_bytes(&data[start as usize..(start + length) as usize]);
+                let got = a.substr_hash(root, start, length);
+                assert_eq!(
+                    got, expected,
+                    "substr_hash mismatch at start={}, length={}",
+                    start, length
+                );
+            }
+        }
+        // Also test zero-length
+        assert_eq!(a.substr_hash(root, 5, 0), 0);
+        // Full node
+        assert_eq!(a.substr_hash(root, 0, 16), a.hash(root));
+    }
+
+    #[test]
+    fn test_substr_hash_single_byte_leaves() {
+        // Worst-case tree: one byte per leaf. Exercises the early-exit
+        // on interior subtrees that are fully within the requested range.
+        let data: Vec<u8> = (0..100u8).collect();
+        let mut a = arena();
+        let mut node: Node = None;
+        for &b in &data {
+            let leaf = a.from_bytes(&[b]);
+            node = a.concat(node, leaf);
+        }
+        // Full range
+        assert_eq!(a.substr_hash(node, 0, 100), a.hash(node));
+        // Various sub-ranges
+        for &(s, l) in &[
+            (0, 50),
+            (25, 50),
+            (50, 50),
+            (10, 80),
+            (0, 1),
+            (99, 1),
+            (0, 100),
+        ] {
+            let expected = a.hash_bytes(&data[s..s + l]);
+            let got = a.substr_hash(node, s as u64, l as u64);
+            assert_eq!(got, expected, "mismatch at start={}, length={}", s, l);
+        }
+    }
+
+    #[test]
+    fn test_substr_hash_repeat_node() {
+        // RepeatNode: "abcd" × 100 = 400 bytes
+        let mut a = arena();
+        let pattern = a.from_bytes(b"abcd");
+        let rep = a.repeat(pattern, 100);
+        let materialized: Vec<u8> = b"abcd".iter().copied().cycle().take(400).collect();
+
+        // Full range
+        assert_eq!(a.substr_hash(rep, 0, 400), a.hash_bytes(&materialized));
+        // Within one copy
+        assert_eq!(a.substr_hash(rep, 0, 3), a.hash_bytes(b"abc"));
+        // Spanning two copies
+        assert_eq!(a.substr_hash(rep, 2, 4), a.hash_bytes(b"cdab"));
+        // Spanning many copies
+        assert_eq!(
+            a.substr_hash(rep, 1, 13),
+            a.hash_bytes(&materialized[1..14])
+        );
+        // Last byte
+        assert_eq!(a.substr_hash(rep, 399, 1), a.hash_bytes(b"d"));
+    }
+
+    #[test]
+    fn test_substr_hash_after_split_rejoin() {
+        // Verify substr_hash still works correctly on a rope that has been
+        // split and rejoined (different tree structure, same logical string).
+        let data = b"the quick brown fox jumps over the lazy dog";
+        let mut a = arena();
+        let original = a.from_bytes(data);
+        let (left, right) = a.split(original, 20);
+        let rejoined = a.concat(left, right);
+
+        // The rejoined rope has a different tree shape but represents
+        // the same string. All substr_hash queries must match.
+        for start in (0..data.len()).step_by(5) {
+            for length in [1, 3, 7, 10, data.len() - start] {
+                let length = length.min(data.len() - start);
+                if length == 0 {
+                    continue;
+                }
+                let expected = a.hash_bytes(&data[start..start + length]);
+                let got = a.substr_hash(rejoined, start as u64, length as u64);
+                assert_eq!(
+                    got, expected,
+                    "mismatch on rejoined rope at start={}, length={}",
+                    start, length
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn test_to_bytes_roundtrip() {
+        let mut a = arena();
+        let data = b"round trip test";
+        let node = a.from_bytes(data);
+        assert_eq!(a.to_bytes(node), data);
+    }
+
+    #[test]
+    fn test_many_concats_balanced() {
+        let mut a = arena();
+        let mut node: Node = None;
+        for i in 0..100u8 {
+            let leaf = a.from_bytes(&[i]);
+            node = a.concat(node, leaf);
+        }
+        a.validate(node);
+        assert_eq!(a.len(node), 100);
+    }
+
+    #[test]
+    fn test_split_repeat_on_boundary() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"abc");
+        let rep = a.repeat(leaf, 4); // "abcabcabcabc"
+        let (left, right) = a.split(rep, 6);
+        assert_eq!(a.to_bytes(left), b"abcabc");
+        assert_eq!(a.to_bytes(right), b"abcabc");
+    }
+
+    #[test]
+    fn test_split_repeat_within() {
+        let mut a = arena();
+        let leaf = a.from_bytes(b"abcd");
+        let rep = a.repeat(leaf, 3); // "abcdabcdabcd"
+        let (left, right) = a.split(rep, 5);
+        assert_eq!(a.to_bytes(left), b"abcda");
+        assert_eq!(a.to_bytes(right), b"bcdabcd");
+    }
+
+    #[test]
+    fn test_associativity() {
+        let mut a = arena();
+        let x = a.from_bytes(b"aaa");
+        let y = a.from_bytes(b"bbb");
+        let z = a.from_bytes(b"ccc");
+        let xy = a.concat(x, y);
+        let xy_z = a.concat(xy, z);
+        let yz = a.concat(y, z);
+        let x_yz = a.concat(x, yz);
+        assert_eq!(a.hash(xy_z), a.hash(x_yz));
+        assert_eq!(a.hash(xy_z), a.hash_bytes(b"aaabbbccc"));
+    }
+
+    #[test]
+    fn test_cross_validation_hello_world() {
+        let mut a = arena();
+        let node = a.from_bytes(b"hello world");
+        // Known value from Python/Rust cross-validation
+        assert_eq!(a.hash(node), 430229793999670395);
+    }
+
+    #[test]
+    fn test_height_leaf() {
+        let mut a = arena();
+        assert_eq!(a.height(None), 0);
+        let leaf = a.from_bytes(b"x");
+        assert_eq!(a.height(leaf), 0);
+    }
+
+    // ===================================================================
+    // Bug verification tests (from balance bug analysis)
+    // ===================================================================
+
+    #[test]
+    fn test_bug_a_leaf_concat_repeat() {
+        // Bug A: rebalance cannot handle RepeatNode.
+        // concat(Leaf_w1, Repeat(child_w1, 9)) → join sees right-heavy,
+        // enters RepeatNode branch, after reassembly rebalance is called
+        // with a RepeatNode child. The `if let Internal` pattern fails
+        // → falls through to make_internal → unbalanced node.
+        let mut a = arena();
+        let leaf = a.from_bytes(b"x");
+        let child = a.from_bytes(b"y");
+        let rep = a.repeat(child, 9);
+        let result = a.concat(leaf, rep);
+        a.validate(result);
+    }
+
+    #[test]
+    fn test_bug_a_repeat_concat_leaf() {
+        // Symmetric direction: Repeat on left, leaf on right.
+        let mut a = arena();
+        let child = a.from_bytes(b"y");
+        let rep = a.repeat(child, 9);
+        let leaf = a.from_bytes(b"x");
+        let result = a.concat(rep, leaf);
+        a.validate(result);
+    }
+
+    #[test]
+    fn test_bug_b_rotation_unbalanced_children() {
+        // Bug B: rotations create unbalanced inner nodes.
+        // Build a tree purely from Internal nodes (no RepeatNode)
+        // where join triggers a rotation that produces an inner node
+        // with child ratio outside [2/7, 5/7].
+        // Strategy: build a left-heavy spine of weight ~7, then concat
+        // a right subtree of weight ~1. This forces join to walk the
+        // spine and rebalance via rotation.
+        let mut a = arena();
+        // Build left subtree: 7 leaves concatenated sequentially
+        // This creates a balanced internal tree of weight 7.
+        let mut left: Node = None;
+        for i in 0..7u8 {
+            let leaf = a.from_bytes(&[b'a' + i]);
+            left = a.concat(left, leaf);
+        }
+        a.validate(left); // Sanity: left is balanced
+
+        // Now concat a single leaf on the right.
+        // join(Internal_w7, Leaf_w1) → walks left spine,
+        // rebalance may rotate, creating make_internal(w1, w3) = w4
+        // with ratio 1/4 < 2/7 → violation.
+        let right = a.from_bytes(b"z");
+        let result = a.concat(left, right);
+        a.validate(result);
+    }
+
+    #[test]
+    fn test_bug_b_varied_weight_ratios() {
+        // Try many weight ratios to find rotation-induced violations.
+        // Concat a tree of weight N with a single leaf.
+        let mut a = arena();
+        for n in 3..=50u8 {
+            let mut left: Node = None;
+            for i in 0..n {
+                let leaf = a.from_bytes(&[i]);
+                left = a.concat(left, leaf);
+            }
+            let right = a.from_bytes(&[255]);
+            let result = a.concat(left, right);
+            a.validate(result); // Will panic if any ratio violates BB[2/7]
+        }
+    }
+
+    #[test]
+    fn test_stack_overflow_large_repeat_join() {
+        // Test the O(reps) vs O(log reps) recursion depth claim.
+        // If join's RepeatNode handling is O(reps), this will
+        // stack overflow. If O(log reps), it completes fine.
+        let mut a = arena();
+        let child = a.from_bytes(b"a");
+        let rep = a.repeat(child, 100_000);
+        let leaf = a.from_bytes(b"z");
+        let result = a.concat(leaf, rep);
+        // If we get here without stack overflow, the O(reps) claim is wrong.
+        assert_eq!(a.len(result), 100_001);
+        // Also verify hash correctness
+        let mut expected: Vec<u8> = Vec::new();
+        expected.push(b'z');
+        expected.resize(100_001, b'a');
+        assert_eq!(a.hash(result), a.hash_bytes(&expected));
+    }
+
+    // ===================================================================
+    // Diagnostic helpers
+    // ===================================================================
+
+    /// Returns a string describing the node type and weight.
+    fn describe(a: &Arena, id: NodeId) -> alloc::string::String {
+        use alloc::format;
+        let w = a.node_weight(id);
+        match &a.nodes[id as usize] {
+            NodeInner::Leaf { .. } => format!("Leaf(w={})", w),
+            NodeInner::Internal { left, right, .. } => {
+                format!(
+                    "Internal(w={}, L=w{}, R=w{})",
+                    w,
+                    a.node_weight(*left),
+                    a.node_weight(*right)
+                )
+            }
+            NodeInner::Repeat { reps, .. } => format!("Repeat(w={}, reps={})", w, reps),
+        }
+    }
+
+    /// Check BB[2/7] for a single Internal node. Returns Ok or Err with details.
+    fn check_balance(a: &Arena, id: NodeId) -> Result<(), alloc::string::String> {
+        use alloc::format;
+        if let NodeInner::Internal { left, weight, .. } = &a.nodes[id as usize] {
+            let total = *weight;
+            let wl = a.node_weight(*left);
+            if total > 2 {
+                if ALPHA_NUM * total > ALPHA_DEN * wl {
+                    return Err(format!(
+                        "Left too light: {}/{} (min {}/{})",
+                        wl, total, ALPHA_NUM, ALPHA_DEN
+                    ));
+                }
+                if ALPHA_DEN * wl > (ALPHA_DEN - ALPHA_NUM) * total {
+                    return Err(format!(
+                        "Left too heavy: {}/{} (max {}/{})",
+                        wl,
+                        total,
+                        ALPHA_DEN - ALPHA_NUM,
+                        ALPHA_DEN
+                    ));
+                }
+            }
+        }
+        Ok(())
+    }
+
+    /// Recursively check all Internal nodes. Returns list of violations.
+    fn find_all_violations(a: &Arena, id: NodeId) -> Vec<alloc::string::String> {
+        use alloc::format;
+        let mut violations = Vec::new();
+        match &a.nodes[id as usize].clone() {
+            NodeInner::Internal { left, right, .. } => {
+                if let Err(msg) = check_balance(a, id) {
+                    violations.push(format!("Node {}: {} -> {}", id, describe(a, id), msg));
+                }
+                violations.extend(find_all_violations(a, *left));
+                violations.extend(find_all_violations(a, *right));
+            }
+            NodeInner::Repeat { child, .. } => {
+                violations.extend(find_all_violations(a, *child));
+            }
+            _ => {}
+        }
+        violations
+    }
+
+    // ===================================================================
+    // TERMINATION PROOF: Computational verification
+    // ===================================================================
+
+    #[test]
+    fn test_termination_max_weight_decreases() {
+        // Exhaustively verify that for ALL weight pairs (wl, wr) up to
+        // MAX_W, and ALL valid decomposition splits, the ranking function
+        // M = max(wl, wr) strictly decreases in every recursive call
+        // of the double rotation path.
+        //
+        // This is the computational core of the termination proof.
+        use alloc::format;
+        let max_w: u64 = 200;
+
+        // Keep this test compatible with compilers predating is_multiple_of.
+        #[allow(clippy::manual_is_multiple_of)]
+        fn valid_splits(w: u64) -> Vec<(u64, u64)> {
+            let mut s = Vec::new();
+            // Internal: children satisfy BB[2/7]
+            for a in 1..w {
+                let b = w - a;
+                let t = a + b;
+                if t <= 2
+                    || (ALPHA_NUM * t <= ALPHA_DEN * a
+                        && ALPHA_DEN * a <= (ALPHA_DEN - ALPHA_NUM) * t)
+                {
+                    s.push((a, b));
+                }
+            }
+            // Repeat: reps-halving
+            for c in 1..=w / 2 {
+                if w % c == 0 {
+                    let q = w / c;
+                    if q >= 2 {
+                        let a = c * (q / 2);
+                        let b = c * (q - q / 2);
+                        if a >= 1 && b >= 1 {
+                            s.push((a, b));
+                        }
+                    }
+                }
+            }
+            s.sort();
+            s.dedup();
+            s
+        }
+
+        let mut verified = 0u64;
+        let mut violations: Vec<alloc::string::String> = Vec::new();
+        let mut leaf_decompose_count = 0u64;
+        let mut worst_ratio = 0.0f64;
+
+        for wr in 1..=max_w {
+            for wl in 1..wr {
+                let total = wl + wr;
+                if total <= 2 {
+                    continue;
+                }
+                // Check: is this pair unbalanced with left too light?
+                let bal = ALPHA_NUM * total <= ALPHA_DEN * wl
+                    && ALPHA_DEN * wl <= (ALPHA_DEN - ALPHA_NUM) * total;
+                if bal {
+                    continue;
+                }
+                if ALPHA_NUM * total <= ALPHA_DEN * wl {
+                    continue;
+                }
+
+                for &(wrl, wrr) in &valid_splits(wr) {
+                    // Check single rotation
+                    let inner_bal = {
+                        let t = wl + wrl;
+                        t <= 2
+                            || (ALPHA_NUM * t <= ALPHA_DEN * wl
+                                && ALPHA_DEN * wl <= (ALPHA_DEN - ALPHA_NUM) * t)
+                    };
+                    let outer_bal = {
+                        let t = wl + wrl + wrr;
+                        let wl2 = wl + wrl;
+                        t <= 2
+                            || (ALPHA_NUM * t <= ALPHA_DEN * wl2
+                                && ALPHA_DEN * wl2 <= (ALPHA_DEN - ALPHA_NUM) * t)
+                    };
+                    if inner_bal && outer_bal {
+                        continue;
+                    }
+
+                    if wrl < 2 {
+                        leaf_decompose_count += 1;
+                        continue;
+                    }
+
+                    for &(wrll, wrlr) in &valid_splits(wrl) {
+                        let max1 = core::cmp::max(wl, wrll);
+                        let max2 = core::cmp::max(wrlr, wrr);
+                        let nl = wl + wrll;
+                        let nr = wrlr + wrr;
+                        let max3 = core::cmp::max(nl, nr);
+
+                        if max1 >= wr {
+                            violations
+                                .push(format!("CALL1: bal({},{}) max {} >= {}", wl, wr, max1, wr));
+                        }
+                        if max2 >= wr {
+                            violations
+                                .push(format!("CALL2: bal({},{}) max {} >= {}", wl, wr, max2, wr));
+                        }
+                        if max3 >= wr {
+                            violations.push(format!(
+                                "CALL3: bal({},{})→bal({},{}) max {} >= {}",
+                                wl, wr, nl, nr, max3, wr
+                            ));
+                        }
+
+                        let ratio = max3 as f64 / wr as f64;
+                        if ratio > worst_ratio {
+                            worst_ratio = ratio;
+                        }
+                        verified += 1;
+                    }
+                }
+            }
+        }
+
+        assert!(
+            violations.is_empty(),
+            "Termination violated in {} of {} cases. First: {}",
+            violations.len(),
+            verified,
+            violations.first().map(|s| s.as_str()).unwrap_or("none")
+        );
+        assert_eq!(
+            leaf_decompose_count, 0,
+            "decompose would be called on {} Leaf nodes",
+            leaf_decompose_count
+        );
+        assert!(
+            worst_ratio < 1.0,
+            "Contraction ratio {} >= 1.0",
+            worst_ratio
+        );
+        // Verify the analytical bound: worst case is 223/245 ≈ 0.9184
+        assert!(
+            worst_ratio < 0.92,
+            "Contraction ratio {} exceeds 0.92",
+            worst_ratio
+        );
+    }
+
+    // ===================================================================
+    // FAULT ISOLATION: Direct rebalance probes by node-type combination
+    // ===================================================================
+
+    #[test]
+    fn test_diag_rebalance_internal_internal() {
+        // Rebalance with both sides Internal. Tests if rotations work
+        // correctly when the code path fully matches.
+        use alloc::format;
+        let mut failures: Vec<alloc::string::String> = Vec::new();
+
+        for wl in 1u64..=15 {
+            for wr in 1u64..=15 {
+                let mut a = arena();
+                let l = build_tree(&mut a, wl);
+                let r = build_tree(&mut a, wr);
+                let result = a.rebalance(l, r);
+                let violations = find_all_violations(&a, result);
+                if !violations.is_empty() {
+                    failures.push(format!(
+                        "rebalance(Internal_w{}, Internal_w{}): {:?}",
+                        wl, wr, violations
+                    ));
+                }
+            }
+        }
+
+        if !failures.is_empty() {
+            panic!(
+                "rebalance(Internal, Internal) produced {} violations:\n{}",
+                failures.len(),
+                failures.join("\n")
+            );
+        }
+    }
+
+    #[test]
+    fn test_diag_rebalance_repeat_leaf() {
+        // Rebalance with Repeat on left, Leaf on right.
+        // This is Bug A's core path: the `if let Internal` will fail.
+        use alloc::format;
+        let mut failures: Vec<alloc::string::String> = Vec::new();
+
+        for q in 2u64..=30 {
+            let mut a = arena();
+            let child = a.make_leaf(Vec::from(b"c" as &[u8]));
+            let rep = a.make_repeat_node(child, q);
+            let leaf = a.make_leaf(Vec::from(b"z" as &[u8]));
+
+            let result = a.rebalance(rep, leaf);
+            let violations = find_all_violations(&a, result);
+            if !violations.is_empty() {
+                failures.push(format!(
+                    "rebalance(Repeat(w={}), Leaf(w=1)): {:?}",
+                    q, violations
+                ));
+            }
+
+            // Also test reverse direction
+            let mut a2 = arena();
+            let child2 = a2.make_leaf(Vec::from(b"c" as &[u8]));
+            let rep2 = a2.make_repeat_node(child2, q);
+            let leaf2 = a2.make_leaf(Vec::from(b"z" as &[u8]));
+
+            let result2 = a2.rebalance(leaf2, rep2);
+            let violations2 = find_all_violations(&a2, result2);
+            if !violations2.is_empty() {
+                failures.push(format!(
+                    "rebalance(Leaf(w=1), Repeat(w={})): {:?}",
+                    q, violations2
+                ));
+            }
+        }
+
+        if !failures.is_empty() {
+            panic!(
+                "rebalance(Repeat, Leaf) produced {} violations:\n{}",
+                failures.len(),
+                failures.join("\n")
+            );
+        }
+    }
+
+    #[test]
+    fn test_diag_rebalance_repeat_internal() {
+        // Rebalance with Repeat on one side, Internal on the other.
+        use alloc::format;
+        let mut failures: Vec<alloc::string::String> = Vec::new();
+
+        for q in 2u64..=20 {
+            for wi in 1u64..=20 {
+                // Repeat left, Internal right
+                let mut a = arena();
+                let child = a.make_leaf(Vec::from(b"c" as &[u8]));
+                let rep = a.make_repeat_node(child, q);
+                let internal = build_tree(&mut a, wi);
+
+                let result = a.rebalance(rep, internal);
+                let violations = find_all_violations(&a, result);
+                if !violations.is_empty() {
+                    failures.push(format!(
+                        "rebalance(Repeat(w={}), Internal(w={})): {:?}",
+                        q, wi, violations
+                    ));
+                }
+
+                // Internal left, Repeat right
+                let mut a2 = arena();
+                let internal2 = build_tree(&mut a2, wi);
+                let child2 = a2.make_leaf(Vec::from(b"c" as &[u8]));
+                let rep2 = a2.make_repeat_node(child2, q);
+
+                let result2 = a2.rebalance(internal2, rep2);
+                let violations2 = find_all_violations(&a2, result2);
+                if !violations2.is_empty() {
+                    failures.push(format!(
+                        "rebalance(Internal(w={}), Repeat(w={})): {:?}",
+                        wi, q, violations2
+                    ));
+                }
+            }
+        }
+
+        if !failures.is_empty() {
+            panic!(
+                "rebalance(Repeat, Internal) produced {} violations:\n{}",
+                failures.len(),
+                failures.join("\n")
+            );
+        }
+    }
+
+    #[test]
+    fn test_diag_rebalance_repeat_repeat() {
+        // Rebalance with RepeatNode on both sides.
+        use alloc::format;
+        let mut failures: Vec<alloc::string::String> = Vec::new();
+
+        for ql in 2u64..=20 {
+            for qr in 2u64..=20 {
+                let mut a = arena();
+                let cl = a.make_leaf(Vec::from(b"L" as &[u8]));
+                let repl = a.make_repeat_node(cl, ql);
+                let cr = a.make_leaf(Vec::from(b"R" as &[u8]));
+                let repr = a.make_repeat_node(cr, qr);
+
+                let result = a.rebalance(repl, repr);
+                let violations = find_all_violations(&a, result);
+                if !violations.is_empty() {
+                    failures.push(format!(
+                        "rebalance(Repeat(w={}), Repeat(w={})): {:?}",
+                        ql, qr, violations
+                    ));
+                }
+            }
+        }
+
+        if !failures.is_empty() {
+            panic!(
+                "rebalance(Repeat, Repeat) produced {} violations:\n{}",
+                failures.len(),
+                failures.join("\n")
+            );
+        }
+    }
+
+    // ===================================================================
+    // CAUSAL TRACE: Step-by-step join for minimal failure
+    // ===================================================================
+
+    #[test]
+    fn test_diag_trace_join_repeat9_leaf1() {
+        // Manually trace join(Repeat(child_w1, 9), Leaf_w1) step by step.
+        // At each step, record the node type and weights of arguments
+        // and the result. Identify the exact step that creates a violation.
+        use alloc::format;
+        let mut a = arena();
+
+        let child = a.make_leaf(Vec::from(b"y" as &[u8])); // id=0, w=1
+        let rep9 = a.make_repeat_node(child, 9); // id=1, w=9
+        let leaf = a.make_leaf(Vec::from(b"x" as &[u8])); // id=2, w=1
+
+        // join(rep9=w9, leaf=w1): wl=9 > wr=1, left is Repeat
+        // Step 1: split rep9 at byte midpoint
+        let mid = a.node_len(rep9) / 2; // = 4
+        let (ll_opt, lr_opt) = a.split_inner(rep9, mid);
+        let ll = ll_opt.unwrap();
+        let lr = lr_opt.unwrap();
+
+        let trace1 = format!(
+            "Step 1: split Repeat(w=9) at byte {} -> ll={}, lr={}",
+            mid,
+            describe(&a, ll),
+            describe(&a, lr)
+        );
+
+        // Step 2: new_right = join(lr, leaf)
+        let new_right = a.join(lr, leaf);
+        let trace2 = format!(
+            "Step 2: join({}, {}) -> {}",
+            describe(&a, lr),
+            describe(&a, leaf),
+            describe(&a, new_right)
+        );
+        let violations_nr = find_all_violations(&a, new_right);
+        let trace2v = format!("  violations in new_right: {:?}", violations_nr);
+
+        // Step 3: join(ll, new_right)
+        let final_result = a.join(ll, new_right);
+        let trace3 = format!(
+            "Step 3: join({}, {}) -> {}",
+            describe(&a, ll),
+            describe(&a, new_right),
+            describe(&a, final_result)
+        );
+        let violations_final = find_all_violations(&a, final_result);
+        let trace3v = format!("  violations in final: {:?}", violations_final);
+
+        let full_trace = format!(
+            "\n=== TRACE: join(Repeat(w=9), Leaf(w=1)) ===\n{}\n{}\n{}\n{}\n{}\n",
+            trace1, trace2, trace2v, trace3, trace3v
+        );
+
+        // Print the trace, panic only if violations found
+        if !violations_final.is_empty() {
+            panic!("{}", full_trace);
+        }
+    }
+
+    // ===================================================================
+    // FAULT BOUNDARY: Bug B — find minimal split+concat that triggers
+    // rotation violation without RepeatNode
+    // ===================================================================
+
+    #[test]
+    fn test_diag_bug_b_minimal_reproduction() {
+        // Build Internal-only trees via sequential concat (known balanced),
+        // then split at every position and concat halves in reverse.
+        // Find the smallest total weight where a violation occurs.
+        use alloc::format;
+        let mut found: Vec<alloc::string::String> = Vec::new();
+
+        for total in 3u64..=30 {
+            let mut a = arena();
+            let mut rope: Node = None;
+            for i in 0..total as u8 {
+                let leaf = a.from_bytes(&[i]);
+                rope = a.concat(rope, leaf);
+            }
+            // Verify the sequential build is clean
+            a.validate(rope);
+
+            for split_pos in 1..total {
+                let mut a2 = arena();
+                let mut rope2: Node = None;
+                for i in 0..total as u8 {
+                    let leaf = a2.from_bytes(&[i]);
+                    rope2 = a2.concat(rope2, leaf);
+                }
+                let (left, right) = a2.split(rope2, split_pos);
+                // Concat in reverse order
+                let reversed = a2.concat(right, left);
+                if let Some(rid) = reversed {
+                    let violations = find_all_violations(&a2, rid);
+                    if !violations.is_empty() {
+                        found.push(format!(
+                            "total={}, split_at={}: {:?}",
+                            total, split_pos, violations
+                        ));
+                    }
+                }
+            }
+
+            if !found.is_empty() {
+                panic!(
+                    "Bug B minimal reproduction found at total={}.\nFirst violations:\n{}",
+                    total,
+                    found
+                        .iter()
+                        .take(10)
+                        .cloned()
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                );
+            }
+        }
+    }
+
+    /// Build a balanced tree of exactly the given weight using only leaves.
+    /// For w=1, returns a Leaf. For w>=2, recursively builds balanced halves.
+    fn build_tree(a: &mut Arena, w: u64) -> NodeId {
+        if w == 1 {
+            a.make_leaf(Vec::from(&[b'a'][..]))
+        } else {
+            let lw = w / 2;
+            let rw = w - lw;
+            let l = build_tree(a, lw);
+            let r = build_tree(a, rw);
+            a.make_internal(l, r)
+        }
+    }
+
+    // ===================================================================
+    // Aggressive bug-hunting tests
+    // ===================================================================
+
+    #[test]
+    fn test_bug_a_sweep_repeat_weights() {
+        // Sweep: concat(Repeat(child_w1, q), Leaf_w1) for q in 2..=200
+        // and the reverse direction. Validate after every concat.
+        for q in 2u64..=200 {
+            let mut a = arena();
+            let child = a.from_bytes(b"c");
+            let rep = a.repeat(child, q);
+            let leaf = a.from_bytes(b"z");
+
+            // Repeat on left
+            let r1 = a.concat(rep, leaf);
+            a.validate(r1);
+
+            // Repeat on right
+            let leaf2 = a.from_bytes(b"z");
+            let rep2 = a.repeat(child, q);
+            let r2 = a.concat(leaf2, rep2);
+            a.validate(r2);
+        }
+    }
+
+    #[test]
+    fn test_bug_a_repeat_concat_repeat() {
+        // Two RepeatNodes concatenated. Both sides trigger RepeatNode
+        // branches in join.
+        for ql in [2, 3, 5, 10, 50, 100].iter() {
+            for qr in [2, 3, 5, 10, 50, 100].iter() {
+                let mut a = arena();
+                let cl = a.from_bytes(b"L");
+                let cr = a.from_bytes(b"R");
+                let repl = a.repeat(cl, *ql);
+                let repr = a.repeat(cr, *qr);
+                let result = a.concat(repl, repr);
+                a.validate(result);
+
+                // Verify content correctness
+                let bytes = a.to_bytes(result);
+                assert_eq!(bytes.len(), (*ql + *qr) as usize);
+            }
+        }
+    }
+
+    #[test]
+    fn test_bug_a_multi_leaf_concat_repeat() {
+        // Build an Internal tree of weight W, then concat with Repeat of weight Q.
+        // This tests rebalance receiving RepeatNode children deeper in the tree.
+        for w in [2, 3, 5, 7, 10, 20].iter() {
+            for q in [2, 3, 5, 9, 20, 100].iter() {
+                let mut a = arena();
+                let mut left: Node = None;
+                for i in 0..*w as u8 {
+                    let leaf = a.from_bytes(&[b'a' + (i % 26)]);
+                    left = a.concat(left, leaf);
+                }
+                let child = a.from_bytes(b"R");
+                let rep = a.repeat(child, *q);
+                let result = a.concat(left, rep);
+                a.validate(result);
+
+                // Also reverse direction
+                let mut a2 = arena();
+                let child2 = a2.from_bytes(b"L");
+                let rep2 = a2.repeat(child2, *q);
+                let mut right: Node = None;
+                for i in 0..*w as u8 {
+                    let leaf = a2.from_bytes(&[b'a' + (i % 26)]);
+                    right = a2.concat(right, leaf);
+                }
+                let result2 = a2.concat(rep2, right);
+                a2.validate(result2);
+            }
+        }
+    }
+
+    #[test]
+    fn test_cdh_sort_lz77_pattern() {
+        // Simulate cdh-sort's rope_builder LZ77 back-reference pattern:
+        // 1. Build initial rope from literal bytes
+        // 2. Split at some offset, take a prefix
+        // 3. Repeat that prefix (the back-reference)
+        // 4. Concat it back
+        // This is the exact pattern that triggers the bug in production.
+        let mut a = arena();
+
+        // Step 1: initial literal "abcdefgh"
+        let mut rope = a.from_bytes(b"abcdefgh");
+
+        // Simulate several LZ77 back-references
+        for &(offset, length, distance) in &[
+            (0u64, 4u64, 1u64), // copy 4 bytes starting at offset 0, distance 1
+            (2, 6, 2),
+            (0, 3, 3),
+            (1, 10, 1), // distance=1 is the run-length trigger
+        ] {
+            // Extract the source pattern
+            let (_left, _) = a.split(rope, offset + distance);
+            let (_, pattern) = a.split(rope, offset);
+
+            // Take just `distance` bytes from pattern as the repeat unit
+            let (unit, _) = a.split(pattern, distance);
+
+            if let Some(unit_id) = unit {
+                // Repeat to cover `length` bytes
+                let reps_needed = 1 + (length - 1) / distance;
+                let repeated = a.repeat(Some(unit_id), reps_needed);
+
+                // Trim to exact length
+                let (exact, _) = a.split(repeated, length);
+
+                // Concat onto the rope
+                rope = a.concat(rope, exact);
+                a.validate(rope);
+            }
+        }
+
+        // Final validation
+        a.validate(rope);
+        assert!(
+            a.len(rope) > 8,
+            "Rope should have grown from back-references"
+        );
+    }
+
+    #[test]
+    fn test_cdh_sort_distance_1_intensive() {
+        // distance=1 (run-length) is the exact cdh-sort trigger mentioned
+        // in the analysis. Build increasingly long run-length chains.
+        let mut a = arena();
+        let mut rope = a.from_bytes(b"a");
+
+        for len in 1..=50u64 {
+            let child = a.from_bytes(b"a");
+            let rep = a.repeat(child, len);
+            rope = a.concat(rope, rep);
+            a.validate(rope);
+
+            // Verify hash
+            let expected_len = a.len(rope);
+            let bytes = a.to_bytes(rope);
+            assert_eq!(bytes.len() as u64, expected_len);
+            assert_eq!(a.hash(rope), a.hash_bytes(&bytes));
+        }
+    }
+
+    #[test]
+    fn test_split_repeat_rejoin_sweep() {
+        // Split a RepeatNode at every possible byte position, rejoin,
+        // validate balance and hash.
+        let mut a = arena();
+        let child = a.from_bytes(b"abc");
+        let rep = a.repeat(child, 10); // "abc" x 10 = 30 bytes
+        let full_hash = a.hash(rep);
+
+        for pos in 1..30u64 {
+            let (left, right) = a.split(rep, pos);
+            let rejoined = a.concat(left, right);
+            a.validate(rejoined);
+            assert_eq!(
+                a.hash(rejoined),
+                full_hash,
+                "Hash mismatch after split at pos={}",
+                pos
+            );
+        }
+    }
+
+    #[test]
+    fn test_many_small_repeats_accumulated() {
+        // Accumulate many small repeat nodes via concat.
+        // This stresses rebalance with RepeatNode children throughout.
+        let mut a = arena();
+        let mut rope: Node = None;
+        for i in 0..100u8 {
+            let child = a.from_bytes(&[b'a' + (i % 26)]);
+            let rep = a.repeat(child, ((i % 5) as u64) + 2);
+            rope = a.concat(rope, rep);
+            a.validate(rope);
+        }
+        // Verify content
+        let bytes = a.to_bytes(rope);
+        assert_eq!(bytes.len() as u64, a.len(rope));
+        assert_eq!(a.hash(rope), a.hash_bytes(&bytes));
+    }
+
+    #[test]
+    fn test_nested_repeat_of_concat() {
+        // repeat(concat(A, B), q) — the child of the repeat is an
+        // Internal node, not a Leaf. Tests deeper interaction.
+        let mut a = arena();
+        let la = a.from_bytes(b"ab");
+        let lb = a.from_bytes(b"cd");
+        let inner = a.concat(la, lb); // Internal("ab", "cd"), weight=2
+        let rep = a.repeat(inner, 20); // weight=40
+        a.validate(rep);
+
+        // Now concat with various things
+        let leaf = a.from_bytes(b"z");
+        let r1 = a.concat(rep, leaf);
+        a.validate(r1);
+
+        let r2 = a.concat(leaf, rep);
+        a.validate(r2);
+
+        // Repeat of repeat-of-concat
+        let child2 = a.from_bytes(b"xy");
+        let rep2 = a.repeat(child2, 15);
+        let r3 = a.concat(rep, rep2);
+        a.validate(r3);
+
+        // Verify hash correctness
+        let bytes = a.to_bytes(r3);
+        assert_eq!(a.hash(r3), a.hash_bytes(&bytes));
+    }
+
+    #[test]
+    fn test_bug_b_split_then_concat_internals() {
+        // Try to trigger Bug B by creating non-standard Internal tree
+        // shapes via split, then concatenating them.
+        // Split can produce trees with unusual weight distributions
+        // that sequential concat cannot.
+        let mut a = arena();
+        for total in [10, 20, 50, 100].iter() {
+            let mut rope: Node = None;
+            for i in 0..*total as u8 {
+                let leaf = a.from_bytes(&[i]);
+                rope = a.concat(rope, leaf);
+            }
+            // Split at various points, then cross-concat the halves
+            for split_at in [1, 2, 3, *total / 4, *total / 3, *total / 2, *total - 1].iter() {
+                let (left, right) = a.split(rope, *split_at as u64);
+                // Concat in reverse order
+                let reversed = a.concat(right, left);
+                a.validate(reversed);
+                // Concat each half with a fresh leaf
+                let extra = a.from_bytes(b"!");
+                let r1 = a.concat(left, extra);
+                a.validate(r1);
+                let r2 = a.concat(extra, right);
+                a.validate(r2);
+            }
+        }
+    }
+
+    #[test]
+    fn test_height_grows_log() {
+        let mut a = arena();
+        let mut node: Node = None;
+        for i in 0..1000u16 {
+            let leaf = a.from_bytes(&[(i % 256) as u8]);
+            node = a.concat(node, leaf);
+        }
+        let h = a.height(node);
+        // BB[2/7] bound: h <= log(1000) / log(7/5) ≈ 20.5
+        assert!(h <= 21, "height {} too large for w=1000", h);
+    }
+
+    // -----------------------------------------------------------------------
+    // Lazy mode tests (Definition 19, Theorem 44, Corollary 8)
+    // -----------------------------------------------------------------------
+
+    fn lazy_arena() -> Arena {
+        Arena::new_lazy()
+    }
+
+    #[test]
+    fn test_lazy_flag() {
+        let eager = Arena::new();
+        assert!(!eager.is_lazy());
+        let lazy = Arena::new_lazy();
+        assert!(lazy.is_lazy());
+    }
+
+    #[test]
+    fn test_lazy_leaf_has_sentinel_hash() {
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"hello").unwrap();
+        assert_eq!(
+            a.node(node).hash_val(),
+            LAZY_SENTINEL,
+            "Lazy leaf should have sentinel hash"
+        );
+    }
+
+    #[test]
+    fn test_lazy_internal_has_sentinel_hash() {
+        let mut a = lazy_arena();
+        let left = a.from_bytes(b"hel");
+        let right = a.from_bytes(b"lo");
+        let node = a.concat(left, right).unwrap();
+        assert_eq!(
+            a.node(node).hash_val(),
+            LAZY_SENTINEL,
+            "Lazy internal should have sentinel hash"
+        );
+    }
+
+    #[test]
+    fn test_lazy_repeat_has_sentinel_hash() {
+        let mut a = lazy_arena();
+        let pat = a.from_bytes(b"ab");
+        let node = a.repeat(pat, 5).unwrap();
+        assert_eq!(
+            a.node(node).hash_val(),
+            LAZY_SENTINEL,
+            "Lazy repeat should have sentinel hash"
+        );
+    }
+
+    #[test]
+    fn test_lazy_to_bytes_correct() {
+        // to_bytes is structural — must work without hash computation
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"hello world");
+        assert_eq!(a.to_bytes(node), b"hello world");
+    }
+
+    #[test]
+    fn test_lazy_concat_to_bytes() {
+        let mut a = lazy_arena();
+        let left = a.from_bytes(b"hello ");
+        let right = a.from_bytes(b"world");
+        let node = a.concat(left, right);
+        assert_eq!(a.to_bytes(node), b"hello world");
+    }
+
+    #[test]
+    fn test_lazy_repeat_to_bytes() {
+        let mut a = lazy_arena();
+        let pat = a.from_bytes(b"abc");
+        let node = a.repeat(pat, 3);
+        assert_eq!(a.to_bytes(node), b"abcabcabc");
+    }
+
+    #[test]
+    fn test_lazy_split_to_bytes() {
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"hello world");
+        let (left, right) = a.split(node, 5);
+        assert_eq!(a.to_bytes(left), b"hello");
+        assert_eq!(a.to_bytes(right), b" world");
+    }
+
+    #[test]
+    fn test_lazy_complex_to_bytes() {
+        // concat + repeat + split — the LZ77 pattern
+        let mut a = lazy_arena();
+        let prefix = a.from_bytes(b"data:");
+        let pat = a.from_bytes(b"AB");
+        let rep = a.repeat(pat, 4); // "ABABABAB"
+        let full = a.concat(prefix, rep); // "data:ABABABAB"
+        let (left, _) = a.split(full, 9); // "data:ABAB"
+        assert_eq!(a.to_bytes(left), b"data:ABAB");
+    }
+
+    #[test]
+    fn test_lazy_ensure_hash_leaf() {
+        let mut lazy = lazy_arena();
+        let node = lazy.from_bytes(b"hello").unwrap();
+        assert_eq!(lazy.node(node).hash_val(), LAZY_SENTINEL);
+
+        lazy.ensure_hash(node);
+        assert_ne!(lazy.node(node).hash_val(), LAZY_SENTINEL);
+
+        // Must match eager computation
+        let mut eager = arena();
+        let eager_node = eager.from_bytes(b"hello").unwrap();
+        assert_eq!(
+            lazy.node(node).hash_val(),
+            eager.node(eager_node).hash_val()
+        );
+    }
+
+    #[test]
+    fn test_lazy_ensure_hash_concat() {
+        let mut lazy = lazy_arena();
+        let l = lazy.from_bytes(b"hel");
+        let r = lazy.from_bytes(b"lo");
+        let node = lazy.concat(l, r).unwrap();
+        lazy.ensure_hash(node);
+
+        let mut eager = arena();
+        let el = eager.from_bytes(b"hel");
+        let er = eager.from_bytes(b"lo");
+        let enode = eager.concat(el, er).unwrap();
+
+        assert_eq!(lazy.node(node).hash_val(), eager.node(enode).hash_val());
+    }
+
+    #[test]
+    fn test_lazy_ensure_hash_repeat() {
+        let mut lazy = lazy_arena();
+        let pat = lazy.from_bytes(b"abc");
+        let node = lazy.repeat(pat, 10).unwrap();
+        lazy.ensure_hash(node);
+
+        let mut eager = arena();
+        let epat = eager.from_bytes(b"abc");
+        let enode = eager.repeat(epat, 10).unwrap();
+
+        assert_eq!(lazy.node(node).hash_val(), eager.node(enode).hash_val());
+    }
+
+    #[test]
+    fn test_lazy_ensure_hash_idempotent() {
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"test").unwrap();
+        a.ensure_hash(node);
+        let h1 = a.node(node).hash_val();
+        a.ensure_hash(node); // second call — should be no-op
+        let h2 = a.node(node).hash_val();
+        assert_eq!(h1, h2);
+    }
+
+    #[test]
+    fn test_lazy_substr_hash_materializes_on_demand() {
+        let mut lazy = lazy_arena();
+        let node = lazy.from_bytes(b"hello world");
+        let len = lazy.len(node);
+
+        // Before substr_hash, hash is sentinel
+        assert_eq!(lazy.node(node.unwrap()).hash_val(), LAZY_SENTINEL);
+
+        // substr_hash forces materialization
+        let h = lazy.substr_hash(node, 0, len);
+
+        // After, hash is no longer sentinel
+        assert_ne!(lazy.node(node.unwrap()).hash_val(), LAZY_SENTINEL);
+
+        // Must match eager
+        let mut eager = arena();
+        let enode = eager.from_bytes(b"hello world");
+        let eh = eager.substr_hash(enode, 0, len);
+        assert_eq!(h, eh);
+    }
+
+    #[test]
+    fn test_lazy_substr_hash_partial() {
+        // substr_hash on a sub-range of a lazy rope
+        let mut lazy = lazy_arena();
+        let l = lazy.from_bytes(b"hello ");
+        let r = lazy.from_bytes(b"world");
+        let node = lazy.concat(l, r);
+
+        let mut eager = arena();
+        let el = eager.from_bytes(b"hello ");
+        let er = eager.from_bytes(b"world");
+        let enode = eager.concat(el, er);
+
+        // Partial range
+        let h_lazy = lazy.substr_hash(node, 2, 5);
+        let h_eager = eager.substr_hash(enode, 2, 5);
+        assert_eq!(h_lazy, h_eager);
+    }
+
+    #[test]
+    fn test_lazy_substr_hash_repeat() {
+        let mut lazy = lazy_arena();
+        let pat = lazy.from_bytes(b"abc");
+        let node = lazy.repeat(pat, 50);
+
+        let mut eager = arena();
+        let epat = eager.from_bytes(b"abc");
+        let enode = eager.repeat(epat, 50);
+
+        // Full range
+        let len = lazy.len(node);
+        assert_eq!(
+            lazy.substr_hash(node, 0, len),
+            eager.substr_hash(enode, 0, len),
+        );
+
+        // Partial range spanning copies
+        assert_eq!(
+            lazy.substr_hash(node, 5, 20),
+            eager.substr_hash(enode, 5, 20),
+        );
+    }
+
+    #[test]
+    fn test_lazy_cdh_equals_h() {
+        // Theorem 12: rope hash == direct hash of bytes
+        let mut a = lazy_arena();
+        let prefix = a.from_bytes(b"prefix:");
+        let pat = a.from_bytes(b"XY");
+        let rep = a.repeat(pat, 20);
+        let node = a.concat(prefix, rep);
+        let bytes = a.to_bytes(node);
+        let len = bytes.len() as u64;
+
+        let rope_hash = a.substr_hash(node, 0, len);
+        let direct_hash = a.hash_bytes(&bytes);
+        assert_eq!(rope_hash, direct_hash, "CDH != H on lazy rope");
+    }
+
+    #[test]
+    fn test_lazy_validate_structural() {
+        // validate checks structural invariants, not hashes — must pass on lazy
+        let mut a = lazy_arena();
+        let mut node: Node = None;
+        for i in 0..100u16 {
+            let leaf = a.from_bytes(&[(i % 256) as u8]);
+            node = a.concat(node, leaf);
+        }
+        a.validate(node); // should not panic
+    }
+
+    #[test]
+    fn test_lazy_validate_with_repeats() {
+        let mut a = lazy_arena();
+        let pat = a.from_bytes(b"abc");
+        let rep = a.repeat(pat, 100);
+        let suffix = a.from_bytes(b"xyz");
+        let node = a.concat(rep, suffix);
+        a.validate(node); // should not panic
+    }
+
+    #[test]
+    fn test_lazy_height_bounded() {
+        let mut a = lazy_arena();
+        let mut node: Node = None;
+        for i in 0..1000u16 {
+            let leaf = a.from_bytes(&[(i % 256) as u8]);
+            node = a.concat(node, leaf);
+        }
+        let h = a.height(node);
+        assert!(h <= 21, "lazy height {} too large for w=1000", h);
+    }
+
+    #[test]
+    fn test_lazy_split_rejoin_hash() {
+        // Split a lazy rope, rejoin, verify hash matches original
+        let mut lazy = lazy_arena();
+        let node = lazy.from_bytes(b"abcdefghij");
+        let (left, right) = lazy.split(node, 5);
+        let rejoined = lazy.concat(left, right);
+
+        let len = lazy.len(rejoined);
+        let h_rejoined = lazy.substr_hash(rejoined, 0, len);
+
+        let mut eager = arena();
+        let enode = eager.from_bytes(b"abcdefghij");
+        let h_eager = eager.substr_hash(enode, 0, len);
+
+        assert_eq!(h_rejoined, h_eager);
+    }
+
+    #[test]
+    fn test_lazy_lz77_pattern_hash() {
+        // Simulate LZ77: literal prefix + back-reference (split+repeat+concat)
+        let mut lazy = lazy_arena();
+        // Build "hello hello hello " via LZ77 pattern
+        let prefix = lazy.from_bytes(b"hello ");
+        let (_, src) = lazy.split(prefix, 0); // full string as source
+        let rep = lazy.repeat(src, 3); // "hello hello hello "
+
+        let bytes = lazy.to_bytes(rep);
+        let len = bytes.len() as u64;
+        let rope_hash = lazy.substr_hash(rep, 0, len);
+        let direct_hash = lazy.hash_bytes(&bytes);
+        assert_eq!(rope_hash, direct_hash, "CDH != H for lazy LZ77 pattern");
+    }
+
+    #[test]
+    fn test_lazy_sentinel_never_valid_hash() {
+        // LAZY_SENTINEL = u64::MAX > p = 2^61 - 1
+        // No valid hash can equal the sentinel
+        let a = arena();
+        let p = a.hasher().prime();
+        assert!(
+            LAZY_SENTINEL > p,
+            "Sentinel {} must be > prime {}",
+            LAZY_SENTINEL,
+            p
+        );
+    }
+
+    #[test]
+    fn test_lazy_many_concats_hash_correct() {
+        // Build a large rope from many small concats, verify hash
+        let mut lazy = lazy_arena();
+        let mut eager = arena();
+        let mut lnode: Node = None;
+        let mut enode: Node = None;
+        for i in 0..200u8 {
+            let ll = lazy.from_bytes(&[i]);
+            lnode = lazy.concat(lnode, ll);
+            let el = eager.from_bytes(&[i]);
+            enode = eager.concat(enode, el);
+        }
+        let len = lazy.len(lnode);
+        assert_eq!(
+            lazy.substr_hash(lnode, 0, len),
+            eager.substr_hash(enode, 0, len),
+            "Hash mismatch after 200 lazy concats"
+        );
+    }
+
+    // -----------------------------------------------------------------------
+    // Adversarial lazy tests
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn test_lazy_public_hash_returns_sentinel() {
+        // arena.hash(node) should return LAZY_SENTINEL before materialization
+        let mut a = lazy_arena();
+        let node = a.from_bytes(b"hello");
+        assert_eq!(
+            a.hash(node),
+            LAZY_SENTINEL,
+            "hash() should return sentinel on lazy rope"
+        );
+
+        let l = a.from_bytes(b"ab");
+        let r = a.from_bytes(b"cd");
+        let cat = a.concat(l, r);
+        assert_eq!(a.hash(cat), LAZY_SENTINEL);
+
+        let pat = a.from_bytes(b"xy");
+        let rep = a.repeat(pat, 5);
+        assert_eq!(a.hash(rep), LAZY_SENTINEL);
+    }
+
+    #[test]
+    fn test_lazy_rotation_nodes_materialize_correctly() {
+        // Force many rotations by appending one leaf at a time (worst-case
+        // for BB[2/7]). All intermediate nodes created by rotations have
+        // sentinel hashes. Verify full tree hashes match eager after
+        // materialization.
+        let mut lazy = lazy_arena();
+        let mut eager = arena();
+        let mut lnode: Node = None;
+        let mut enode: Node = None;
+
+        // 500 sequential concats = many rotations
+        for i in 0..500u16 {
+            let b = [(i % 256) as u8, ((i / 256) % 256) as u8];
+            let ll = lazy.from_bytes(&b);
+            lnode = lazy.concat(lnode, ll);
+            let el = eager.from_bytes(&b);
+            enode = eager.concat(enode, el);
+        }
+
+        // Verify bytes match (structural correctness)
+        assert_eq!(lazy.to_bytes(lnode), eager.to_bytes(enode));
+
+        // Verify root hash matches after materialization
+        let len = lazy.len(lnode);
+        assert_eq!(
+            lazy.substr_hash(lnode, 0, len),
+            eager.substr_hash(enode, 0, len),
+        );
+    }
+
+    #[test]
+    fn test_lazy_partial_materialization() {
+        // Materialize only part of the tree, then materialize the rest.
+        // Tests that mixed sentinel/real children are handled correctly.
+        let mut a = lazy_arena();
+        let left = a.from_bytes(b"AAAA");
+        let right = a.from_bytes(b"BBBB");
+        let node = a.concat(left, right);
+
+        // Materialize only the left child
+        a.ensure_hash(left.unwrap());
+        assert_ne!(a.node(left.unwrap()).hash_val(), LAZY_SENTINEL);
+        // Right is still sentinel
+        assert_eq!(a.node(right.unwrap()).hash_val(), LAZY_SENTINEL);
+        // Root is still sentinel
+        assert_eq!(a.node(node.unwrap()).hash_val(), LAZY_SENTINEL);
+
+        // Now materialize root — must handle left=real, right=sentinel
+        a.ensure_hash(node.unwrap());
+        assert_ne!(a.node(node.unwrap()).hash_val(), LAZY_SENTINEL);
+        assert_ne!(a.node(right.unwrap()).hash_val(), LAZY_SENTINEL);
+
+        // Verify correctness
+        let mut eager = arena();
+        let el = eager.from_bytes(b"AAAA");
+        let er = eager.from_bytes(b"BBBB");
+        let en = eager.concat(el, er);
+        assert_eq!(
+            a.node(node.unwrap()).hash_val(),
+            eager.node(en.unwrap()).hash_val()
+        );
+    }
+
+    #[test]
+    fn test_lazy_split_repeat_then_hash() {
+        // Split a lazy repeat node, then verify hashes of the pieces.
+        // split_repeat creates new repeat/internal nodes with sentinel hashes.
+        let mut lazy = lazy_arena();
+        let pat = lazy.from_bytes(b"ABCD");
+        let rep = lazy.repeat(pat, 20); // 80 bytes: "ABCD" x 20
+
+        // Split at position 30 (not on a pattern boundary)
+        let (left, right) = lazy.split(rep, 30);
+
+        let left_bytes = lazy.to_bytes(left);
+        let right_bytes = lazy.to_bytes(right);
+        assert_eq!(left_bytes.len(), 30);
+        assert_eq!(right_bytes.len(), 50);
+
+        // Hash the pieces and verify against direct hash
+        let lh = lazy.substr_hash(left, 0, 30);
+        let rh = lazy.substr_hash(right, 0, 50);
+        assert_eq!(lh, lazy.hash_bytes(&left_bytes));
+        assert_eq!(rh, lazy.hash_bytes(&right_bytes));
+    }
+
+    #[test]
+    fn test_lazy_split_concat_split_hash() {
+        // Complex operation chain: build, split, concat pieces differently,
+        // split again, verify hashes.
+        let mut lazy = lazy_arena();
+        let a_node = lazy.from_bytes(b"Hello ");
+        let b_node = lazy.from_bytes(b"World");
+        let ab = lazy.concat(a_node, b_node); // "Hello World"
+
+        let (left, right) = lazy.split(ab, 3); // "Hel" | "lo World"
+        let c_node = lazy.from_bytes(b"XY");
+        let new_rope = lazy.concat(c_node, right); // "XYlo World"
+        let final_rope = lazy.concat(left, new_rope); // "HelXYlo World"
+
+        let bytes = lazy.to_bytes(final_rope);
+        assert_eq!(bytes, b"HelXYlo World");
+
+        let len = bytes.len() as u64;
+        let rope_hash = lazy.substr_hash(final_rope, 0, len);
+        let direct_hash = lazy.hash_bytes(&bytes);
+        assert_eq!(rope_hash, direct_hash);
+    }
+
+    #[test]
+    fn test_lazy_all_node_hashes_match_eager() {
+        // Cross-validate EVERY node's hash, not just the root.
+        // Build the same structure in lazy and eager, materialize the
+        // lazy tree, then compare all node hashes.
+        let mut lazy = lazy_arena();
+        let mut eager = arena();
+
+        // Build identical structures
+        let mut lnode: Node = None;
+        let mut enode: Node = None;
+        for i in 0..50u8 {
+            let ll = lazy.from_bytes(&[i, i + 1]);
+            lnode = lazy.concat(lnode, ll);
+            let el = eager.from_bytes(&[i, i + 1]);
+            enode = eager.concat(enode, el);
+        }
+
+        // Materialize all lazy hashes
+        let len = lazy.len(lnode);
+        lazy.substr_hash(lnode, 0, len);
+
+        // Both arenas should have the same number of nodes
+        // (they won't be identical because different alloc order from
+        //  rotations, but root hash must match)
+        assert_eq!(
+            lazy.hash(lnode),
+            eager.hash(enode),
+            "Root hashes differ after full materialization"
+        );
+    }
+
+    #[test]
+    fn test_lazy_substr_hash_multiple_ranges() {
+        // Call substr_hash on many different ranges of a lazy rope.
+        // Verifies that partial materialization paths don't interfere.
+        let mut lazy = lazy_arena();
+        let mut eager = arena();
+
+        let data = b"The quick brown fox jumps over the lazy dog";
+        let lnode = lazy.from_bytes(data);
+        let enode = eager.from_bytes(data);
+        let len = data.len() as u64;
+
+        // Query many sub-ranges
+        for start in (0..len).step_by(3) {
+            for end in (start + 1..=len).step_by(5) {
+                let length = end - start;
+                let lh = lazy.substr_hash(lnode, start, length);
+                let eh = eager.substr_hash(enode, start, length);
+                assert_eq!(lh, eh, "substr_hash({}, {}) mismatch", start, length);
+            }
+        }
+    }
+
+    #[test]
+    fn test_lazy_deep_tree_ensure_hash() {
+        // Build a deep rope (many sequential concats) and verify
+        // ensure_hash doesn't stack overflow.
+        let mut a = lazy_arena();
+        let mut node: Node = None;
+        for i in 0..2000u16 {
+            let leaf = a.from_bytes(&[(i % 256) as u8]);
+            node = a.concat(node, leaf);
+        }
+        // Tree height is O(log 2000) ≈ 11, so ensure_hash recursion is safe.
+        // But verify it works.
+        let bytes = a.to_bytes(node);
+        let len = bytes.len() as u64;
+        let rope_hash = a.substr_hash(node, 0, len);
+        let direct_hash = a.hash_bytes(&bytes);
+        assert_eq!(rope_hash, direct_hash);
+    }
+
+    #[test]
+    fn test_lazy_cdh_sort_lz77_pattern() {
+        // Replicate the cdh-sort LZ77 pattern on a lazy arena:
+        // Build "ABCABC" via literals "ABC" + back-reference(dist=3, len=3)
+        let mut lazy = lazy_arena();
+        let prefix = lazy.from_bytes(b"ABC");
+        // Back-reference: copy last 3 bytes (= "ABC"), length 3
+        let cur_len = lazy.len(prefix);
+        let (_, source) = lazy.split(prefix, cur_len - 3); // last 3 bytes
+        let copy = lazy.repeat(source, 2); // "ABCABC" (source repeated 2x)
+                                           // But we need to split off the first copy since it overlaps with prefix
+        let (_, extra) = lazy.split(copy, 3); // skip the duplicate first copy
+        let result = lazy.concat(prefix, extra); // "ABC" + "ABC" = "ABCABC"
+
+        assert_eq!(lazy.to_bytes(result), b"ABCABC");
+        let len = lazy.len(result);
+        let h = lazy.substr_hash(result, 0, len);
+        assert_eq!(h, lazy.hash_bytes(b"ABCABC"));
+    }
+}
+
+#[cfg(test)]
+mod exact_fast_path_tests {
+    use super::*;
+
+    fn fast<'a>(left: &'a Arena, right: &'a Arena, visits_left: usize) -> FastComparison<'a> {
+        FastComparison {
+            left,
+            right,
+            same_arena: core::ptr::eq(left, right),
+            visits_left,
+        }
+    }
+
+    fn chunked(arena: &mut Arena, bytes: &[u8], chunk_size: usize) -> Node {
+        let mut root = None;
+        for bytes in bytes.chunks(chunk_size) {
+            let leaf = arena.from_bytes(bytes);
+            root = arena.concat(root, leaf);
+        }
+        root
+    }
+
+    #[test]
+    fn fast_budget_counts_every_normalization_descent() {
+        let mut arena = Arena::new_lazy();
+        let leaf = arena.from_bytes(b"x");
+        let mut root = leaf;
+        for _ in 0..20 {
+            root = arena.concat(root, root);
+        }
+        let start = RangeStart {
+            node: root.unwrap(),
+            offset: (1 << 20) - 1,
+        };
+        for limit in 0..=20 {
+            let mut remaining = limit;
+            assert!(FastComparison::normalize(&arena, start, 1, &mut remaining).is_none());
+            assert_eq!(
+                remaining, 0,
+                "normalization must exhaust the supplied visit budget"
+            );
+        }
+        let mut remaining = 21;
+        let normalized = FastComparison::normalize(&arena, start, 1, &mut remaining).unwrap();
+        assert_eq!(normalized.node, leaf.unwrap());
+        assert_eq!(normalized.offset, 0);
+        assert_eq!(remaining, 0);
+    }
+
+    #[test]
+    fn fast_budget_fallback_resumes_after_verified_nonzero_prefix() {
+        let bytes: Vec<u8> = (0..4096).map(|i| (i * 37) as u8).collect();
+        let mut changed = bytes.clone();
+        changed[3500] ^= 0x80;
+        let mut left_bytes = b"abc".to_vec();
+        left_bytes.extend_from_slice(&bytes);
+        let mut right_bytes = b"12345".to_vec();
+        right_bytes.extend_from_slice(&changed);
+        let mut left_arena = Arena::new_lazy();
+        let mut right_arena = Arena::new_lazy();
+        let left = left_arena.from_bytes(&left_bytes);
+        let right = chunked(&mut right_arena, &right_bytes, 257);
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 3,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 5,
+        };
+        let mut saw_nonzero_fallback = false;
+        let mut saw_completed_fast_result = false;
+        for budget in [
+            0, 1, 2, 3, 4, 8, 16, 32, 48, 64, 96, 128, 192, 256, 384, 512,
+        ] {
+            let mut comparison = fast(&left_arena, &right_arena, budget);
+            match comparison.lcp(a, b, 4096) {
+                Ok(common) => {
+                    assert_eq!(common, 3500);
+                    saw_completed_fast_result = true;
+                }
+                Err(matched) => {
+                    assert_eq!(comparison.visits_left, 0);
+                    assert!(matched <= 3500);
+                    saw_nonzero_fallback |= matched > 0;
+                    let rest = ExactComparison::new(&left_arena, &right_arena).lcp(
+                        RangeStart {
+                            offset: a.offset + matched,
+                            ..a
+                        },
+                        RangeStart {
+                            offset: b.offset + matched,
+                            ..b
+                        },
+                        4096 - matched,
+                    );
+                    assert_eq!(matched + rest, 3500);
+                }
+            }
+        }
+        assert!(saw_nonzero_fallback);
+        assert!(saw_completed_fast_result);
+    }
+
+    #[test]
+    fn fast_repeat_transition_preserves_prefix_and_late_mismatch() {
+        for differing_repeat in [false, true] {
+            let mut left_arena = Arena::new_lazy();
+            let mut right_arena = Arena::new_lazy();
+            let prefix_bytes = alloc::vec![b'a'; 2048];
+            let prefix_left = left_arena.from_bytes(&prefix_bytes);
+            let prefix_right = right_arena.from_bytes(&prefix_bytes);
+            let left_pattern = alloc::vec![b'b'; 512];
+            let mut right_pattern = left_pattern.clone();
+            if differing_repeat {
+                right_pattern[511] = b'c';
+            }
+            let child_left = left_arena.from_bytes(&left_pattern);
+            let child_right = right_arena.from_bytes(&right_pattern);
+            let repeated_left = left_arena.repeat(child_left, 4);
+            let repeated_right = right_arena.repeat(child_right, 4);
+            let left = left_arena.concat(prefix_left, repeated_left);
+            let right = right_arena.concat(prefix_right, repeated_right);
+            let a = RangeStart {
+                node: left.unwrap(),
+                offset: 0,
+            };
+            let b = RangeStart {
+                node: right.unwrap(),
+                offset: 0,
+            };
+            let mut comparison = fast(&left_arena, &right_arena, 10_000);
+            assert_eq!(comparison.lcp(a, b, 4096), Err(2048));
+            assert!(
+                comparison.visits_left > 0,
+                "Repeat, rather than exhaustion, must trigger fallback"
+            );
+            let expected = if differing_repeat { 2048 + 511 } else { 4096 };
+            assert_eq!(exact_lcp(&left_arena, &right_arena, a, b, 4096), expected);
+            assert_eq!(left_arena.hash(left), LAZY_SENTINEL);
+            assert_eq!(right_arena.hash(right), LAZY_SENTINEL);
+        }
+    }
+
+    #[test]
+    fn fast_compact_dag_stops_at_budget_before_logical_expansion() {
+        let mut left_arena = Arena::new_lazy();
+        let mut right_arena = Arena::new_lazy();
+        let mut left = left_arena.from_bytes(b"ab");
+        let mut right = right_arena.from_bytes(b"ab");
+        for _ in 0..40 {
+            left = left_arena.concat(left, left);
+            right = right_arena.concat(right, right);
+        }
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 0,
+        };
+        let length = 2 << 40;
+        let mut comparison = fast(&left_arena, &right_arena, 256);
+        let matched = comparison.lcp_recursive(a, b, length).unwrap_err();
+        assert_eq!(comparison.visits_left, 0);
+        assert!(
+            matched > 0 && matched < 1024,
+            "the bounded scan must not expand the DAG"
+        );
+        let rest = ExactComparison::new(&left_arena, &right_arena).lcp(
+            RangeStart {
+                offset: matched,
+                ..a
+            },
+            RangeStart {
+                offset: matched,
+                ..b
+            },
+            length - matched,
+        );
+        assert_eq!(matched + rest, length);
+        // Production dispatch can recognize this obvious compression before
+        // spending even that bounded scan, and must agree with the fallback.
+        assert_eq!(exact_lcp(&left_arena, &right_arena, a, b, length), length);
+    }
+
+    #[test]
+    fn frontier_budget_includes_both_nodes_and_resumes_verified_ranges() {
+        let bytes: Vec<u8> = (0..16_384).map(|i| (i * 17) as u8).collect();
+        let mut changed = bytes.clone();
+        changed[15_111] ^= 1;
+        let mut left_arena = Arena::new_lazy();
+        let mut right_arena = Arena::new_lazy();
+        let left = left_arena.from_bytes(&bytes);
+        let right = chunked(&mut right_arena, &changed, 257);
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 13,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 13,
+        };
+        let length = 16_384 - 13;
+        let expected = 15_111 - 13;
+        let mut saw_nonzero_prefix = false;
+        for budget in [0, 1, 2, 3, 4, 8, 16, 32, 64, 128, 256, 512] {
+            let mut comparison = fast(&left_arena, &right_arena, budget);
+            match comparison.frontier_lcp(a, b, length) {
+                Ok(common) => assert_eq!(common, expected),
+                Err(matched) => {
+                    assert_eq!(comparison.visits_left, 0);
+                    assert!(matched <= expected);
+                    saw_nonzero_prefix |= matched > 0;
+                    let rest = ExactComparison::new(&left_arena, &right_arena).lcp(
+                        RangeStart {
+                            offset: a.offset + matched,
+                            ..a
+                        },
+                        RangeStart {
+                            offset: b.offset + matched,
+                            ..b
+                        },
+                        length - matched,
+                    );
+                    assert_eq!(matched + rest, expected);
+                }
+            }
+        }
+        assert!(saw_nonzero_prefix);
+    }
+
+    #[test]
+    fn frontier_depth_limit_falls_back_before_expansion_and_after_shared_prefix() {
+        let mut arena = Arena::new_lazy();
+        let mut left = arena.from_bytes(b"ab");
+        let mut right = arena.from_bytes(b"ab");
+        for _ in 0..40 {
+            left = arena.concat(left, left);
+            right = arena.concat(right, right);
+        }
+        let length = 2 << 40;
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 0,
+        };
+        let mut comparison = fast(&arena, &arena, 10_000);
+        assert_eq!(comparison.frontier_lcp(a, b, length), Err(0));
+        assert!(
+            comparison.visits_left > 0,
+            "fixed stack, not visit exhaustion, must cause fallback"
+        );
+        assert_eq!(
+            ExactComparison::new(&arena, &arena).lcp(a, b, length),
+            length
+        );
+
+        // Balanced roots share their first huge subtree; the second pair of
+        // independent DAGs then exhausts the frontier stack without expansion.
+        let prefixed_left = arena.concat(left, left);
+        let prefixed_right = arena.concat(left, right);
+        let a = RangeStart {
+            node: prefixed_left.unwrap(),
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: prefixed_right.unwrap(),
+            offset: 0,
+        };
+        let mut comparison = fast(&arena, &arena, 10_000);
+        assert_eq!(comparison.frontier_lcp(a, b, 2 * length), Err(length));
+        assert!(comparison.visits_left > 0);
+        let rest = ExactComparison::new(&arena, &arena).lcp(
+            RangeStart {
+                offset: length,
+                ..a
+            },
+            RangeStart {
+                offset: length,
+                ..b
+            },
+            length,
+        );
+        assert_eq!(rest, length);
+    }
+
+    #[test]
+    fn frontier_repeat_fallback_preserves_a_verified_nonzero_prefix() {
+        let mut left_arena = Arena::new_lazy();
+        let mut right_arena = Arena::new_lazy();
+        let prefix = alloc::vec![b'a'; 8192];
+        let p_left = left_arena.from_bytes(&prefix);
+        let p_right = right_arena.from_bytes(&prefix);
+        let left_pattern = alloc::vec![b'b'; 512];
+        let mut right_pattern = left_pattern.clone();
+        right_pattern[511] = b'c';
+        let child_left = left_arena.from_bytes(&left_pattern);
+        let child_right = right_arena.from_bytes(&right_pattern);
+        let repeat_left = left_arena.repeat(child_left, 16);
+        let repeat_right = right_arena.repeat(child_right, 16);
+        let left = left_arena.concat(p_left, repeat_left);
+        let right = right_arena.concat(p_right, repeat_right);
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 0,
+        };
+        let mut comparison = fast(&left_arena, &right_arena, 10_000);
+        assert_eq!(comparison.lcp(a, b, 16_384), Err(8192));
+        assert!(comparison.visits_left > 0);
+        assert_eq!(
+            exact_lcp(&left_arena, &right_arena, a, b, 16_384),
+            8192 + 511
+        );
+    }
+
+    #[test]
+    fn aligned_same_arena_budget_exhaustion_preserves_verified_prefix() {
+        let bytes: Vec<u8> = (0..256).map(|i| (i * 37) as u8).collect();
+        let mut changed = bytes.clone();
+        changed[211] ^= 0x80;
+        let mut arena = Arena::new_lazy();
+        let left = chunked(&mut arena, &bytes, 16).unwrap();
+        let right = chunked(&mut arena, &changed, 16).unwrap();
+        let a = RangeStart {
+            node: left,
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: right,
+            offset: 0,
+        };
+        let mut saw_nonzero_fallback = false;
+        let mut saw_success = false;
+        for budget in 0..=128 {
+            let mut comparison = fast(&arena, &arena, budget);
+            match comparison.lcp_recursive(a, b, 256) {
+                Ok(common) => {
+                    assert_eq!(common, 211);
+                    saw_success = true;
+                }
+                Err(matched) => {
+                    assert_eq!(comparison.visits_left, 0);
+                    assert!(matched <= 211);
+                    saw_nonzero_fallback |= matched > 0;
+                    let rest = ExactComparison::new(&arena, &arena).lcp(
+                        RangeStart {
+                            offset: matched,
+                            ..a
+                        },
+                        RangeStart {
+                            offset: matched,
+                            ..b
+                        },
+                        256 - matched,
+                    );
+                    assert_eq!(matched + rest, 211);
+                }
+            }
+        }
+        assert!(saw_nonzero_fallback && saw_success);
+        for budget in [0, 1, 2, 3] {
+            let mut comparison = fast(&arena, &arena, budget);
+            assert_eq!(comparison.lcp_recursive(a, b, 256), Err(0));
+            assert_eq!(comparison.visits_left, 0);
+        }
+    }
+
+    #[test]
+    fn equal_period_unit_proofs_leave_general_cache_empty() {
+        let mut arena = Arena::new_lazy();
+        let unit_a = chunked(&mut arena, b"aaaaaaa", 3);
+        let unit_b = chunked(&mut arena, b"aaaaaaa", 2);
+        let mut left = unit_a;
+        let mut right = unit_b;
+        for _ in 0..40 {
+            left = arena.concat(left, left);
+            right = arena.concat(right, right);
+        }
+        assert_eq!(
+            ExactComparison::structural_period_root(&arena, left.unwrap()),
+            unit_a
+        );
+        assert_eq!(
+            ExactComparison::structural_period_root(&arena, right.unwrap()),
+            unit_b
+        );
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 2,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 5,
+        };
+        let length = 7 << 39;
+        let mut comparison = ExactComparison::new(&arena, &arena);
+        assert_eq!(comparison.lcp(a, b, length), length);
+        assert!(
+            comparison.equal_ranges.is_empty(),
+            "period-root proof must not allocate the general range cache"
+        );
+    }
+}

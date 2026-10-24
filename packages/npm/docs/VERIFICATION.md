@@ -1,8 +1,10 @@
-# npm 0.3.3 verification
+# npm 0.3.4 verification
 
-The source suite contains **27,636 tests**: the unchanged published-wheel oracle has 27,564 records plus one integrity test, with existing unit/property checks and eleven new exact/profile tests. All 27,636 tests passed on both Node 20.11.1 and Node 24.22.1 with zero failures, skips, cancellations or todos. Results are bound to source hashes in `evidence/suite-node20.json` and `evidence/suite-node24.json`. The release gate `scripts/verify-release.py` requires both complete suites to pass with zero failures, skips, cancellations or todos, and binds the installed-consumer results to the final tarball. Publication must follow that successful gate.
+Version 0.3.4 is a metadata/parity release. `scripts/audit-release-runtime.py` compares every source and ESM/CJS payload to the retained, hash-verified 0.3.3 tarball; only the exported `VERSION` literal and its declarations/source maps may differ. The runtime algorithms, default profile, fingerprints and independent 0.2.2 oracle are unchanged. The new evidence directory preserves all earlier release evidence. No new performance timing is claimed; the table below remains the historical 0.3.3 measurement. See the [coordinated release notes](https://github.com/jemsbhai/hashrope/blob/master/releases/0.3.4/README.md) for Rust-only changes and remaining performance limits.
 
-The new regressions cover default collisions under both moduli; equal bytes with unequal legacy custom-profile fingerprints; comparison without hash calls or leaf-copy getters; 110-bit repetitions of different periods and shifted phases; late edits next to repeated prefixes; independently allocated 100-level shared DAGs; 250 random trees with 3,000 range byte oracles; strict bounds; immutable profiles; mismatch rejection before no-ops; and streaming profile replacement; and word-scan boundaries with every mismatch position, unaligned starts and tails. Tests compare bytes and exact lengths, rather than treating hash agreement as an oracle.
+The source suite contains **27,636 tests**: the unchanged published-wheel oracle has 27,564 records plus one integrity test, with existing unit/property checks and eleven exact/profile regression tests added in 0.3.3. All 27,636 tests passed on both Node 20.11.1 and Node 24.22.1 with zero failures, skips, cancellations or todos. Results are bound to source hashes in `evidence/release-0.3.4/suite-node20.json` and `evidence/release-0.3.4/suite-node24.json`. The release gate `scripts/verify-release.py` requires both complete suites to pass with zero failures, skips, cancellations or todos, and binds the installed-consumer results to the final tarball. Publication must follow that successful gate.
+
+These retained regressions cover default collisions under both moduli; equal bytes with unequal legacy custom-profile fingerprints; comparison without hash calls or leaf-copy getters; 110-bit repetitions of different periods and shifted phases; late edits next to repeated prefixes; independently allocated 100-level shared DAGs; 250 random trees with 3,000 range byte oracles; strict bounds; immutable profiles; mismatch rejection before no-ops; and streaming profile replacement; and word-scan boundaries with every mismatch position, unaligned starts and tails. Tests compare bytes and exact lengths, rather than treating hash agreement as an oracle.
 
 ```sh
 npm ci --ignore-scripts
@@ -14,12 +16,13 @@ npm run pack:verified
 npm run test:consumer
 # run packed consumers with both Node versions, then:
 python scripts/verify-preservation.py
+python scripts/audit-release-runtime.py
 python scripts/verify-release.py
 ```
 
-`npm test` compiles both module formats under strict TypeScript and runs every test file. The packed consumer harness installs the inspected tarball into fresh ESM, CJS, declaration and browser consumer directories. It executes all 27,565 published-wheel oracle checks plus the new exact/profile regressions separately through installed ESM and CommonJS; compiles and runs all six packaged README/API TypeScript examples; checks NodeNext import/require declarations; bundles for ES2022 without Node runtime imports; and runs an isolated VM and a real headless Chrome/Edge when available. Reports state whether the real-browser check ran.
+`npm test` compiles both module formats under strict TypeScript and runs every test file. The packed consumer harness installs the inspected tarball into fresh ESM, CJS, declaration and browser consumer directories. It executes all 27,565 published-wheel oracle checks plus the exact/profile regressions separately through installed ESM and CommonJS; compiles and runs all six packaged README/API TypeScript examples; checks NodeNext import/require declarations; bundles for ES2022 without Node runtime imports; and runs an isolated VM and a real headless Chrome/Edge when available. Reports state whether the real-browser check ran.
 
-`evidence/tarball-inspection.json`, `artifacts/SHA256SUMS` and `evidence/consumer-verification-<node-version>.json` bind results to the actual tarball SHA-256. Source suite success alone is not packed-package verification. Evidence/fixtures are excluded from the npm allowlist.
+`evidence/release-0.3.4/tarball-inspection.json`, `artifacts/0.3.4/SHA256SUMS` and `evidence/release-0.3.4/consumer-verification-<node-version>.json` bind results to the actual tarball SHA-256. Source suite success alone is not packed-package verification. Evidence/fixtures are excluded from the npm allowlist.
 
 ## Runtime and provenance
 
@@ -31,7 +34,7 @@ The arithmetic oracle remains the independently downloaded PyPI hashrope 0.2.2 w
 
 Finite oracle/property tests are not an exhaustive proof. Accepted legacy malformed-input arithmetic and substring behavior remain documented compatibility quirks. Forged nodes, reflection, arbitrary subclass semantics, resource exhaustion and nonterminating Python helper cases are outside the contract. Exact comparisons retain traversal/memoization and BigInt costs; unshared content can require scanning every byte. No universal logarithmic, allocation-free or measured-memory bound is claimed. No publication is implied by a local test result.
 
-## Bounded retained-API timing diagnostic
+## Historical 0.3.3 retained-API timing diagnostic
 
 The published 0.2.2 tarball and frozen 0.3.3 candidate were compared on Node 24.22.1 / Intel Core i9-14900HX in three fresh processes. Each process used six within-process rounds, rotated/reversed fixture order, three AB and three BA orders per fixture, five batches, equal repetition counts and excluded construction/setup. There was no CPU affinity or frequency control. The reported statistic is the median of three process medians (each a median of its six round medians), with process ranges below; these are not confidence intervals.
 

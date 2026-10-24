@@ -1,0 +1,86 @@
+{
+  "current": {
+    "Arena4join": {
+      "instructions": 82,
+      "callee_edges": [
+        "00000000000000EC: jmp         _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ],
+      "weight_loads": []
+    },
+    "Arena15join_unbalanced": {
+      "instructions": 314,
+      "callee_edges": [
+        "?dtor$18@?0?_ZN8hashrope4rope5Arena15join_unbalanced17hHASHE@4HA (?dtor$18@?0?_ZN8hashrope4rope5Arena15join_unbalanced17hHASHE@4HA):",
+        "?dtor$40@?0?_ZN8hashrope4rope5Arena15join_unbalanced17hHASHE@4HA (?dtor$40@?0?_ZN8hashrope4rope5Arena15join_unbalanced17hHASHE@4HA):"
+      ],
+      "weight_loads": []
+    },
+    "Arena6concat": {
+      "instructions": 226,
+      "callee_edges": [
+        "00000000000002B9: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ],
+      "weight_loads": []
+    },
+    "rope9exact_lcp": {
+      "instructions": 558,
+      "callee_edges": [],
+      "weight_loads": []
+    },
+    "FastComparison13lcp_recursive": {
+      "instructions": 546,
+      "callee_edges": [],
+      "weight_loads": []
+    },
+    "ExactFrontier6expand": {
+      "instructions": 69,
+      "callee_edges": [],
+      "weight_loads": []
+    }
+  },
+  "direction": {
+    "Arena4join": {
+      "instructions": 91,
+      "callee_edges": [
+        "0000000000000101: jmp         _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ],
+      "weight_loads": [],
+      "same_normalized": false
+    },
+    "Arena15join_unbalanced": {
+      "instructions": 308,
+      "callee_edges": [
+        "?dtor$14@?0?_ZN8hashrope4rope5Arena15join_unbalanced17hHASHE@4HA (?dtor$14@?0?_ZN8hashrope4rope5Arena15join_unbalanced17hHASHE@4HA):",
+        "?dtor$36@?0?_ZN8hashrope4rope5Arena15join_unbalanced17hHASHE@4HA (?dtor$36@?0?_ZN8hashrope4rope5Arena15join_unbalanced17hHASHE@4HA):"
+      ],
+      "weight_loads": [],
+      "same_normalized": false
+    },
+    "Arena6concat": {
+      "instructions": 235,
+      "callee_edges": [
+        "00000000000002E3: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ],
+      "weight_loads": [],
+      "same_normalized": false
+    },
+    "rope9exact_lcp": {
+      "instructions": 558,
+      "callee_edges": [],
+      "weight_loads": [],
+      "same_normalized": true
+    },
+    "FastComparison13lcp_recursive": {
+      "instructions": 546,
+      "callee_edges": [],
+      "weight_loads": [],
+      "same_normalized": true
+    },
+    "ExactFrontier6expand": {
+      "instructions": 69,
+      "callee_edges": [],
+      "weight_loads": [],
+      "same_normalized": true
+    }
+  }
+}

@@ -1,0 +1,90 @@
+0000000000000000: push        rsi
+0000000000000001: push        rdi
+0000000000000002: sub         rsp,28h
+0000000000000006: mov         eax,edx
+0000000000000008: mov         rdx,qword ptr [rcx+840h]
+000000000000000F: cmp         rdx,qword ptr [rcx+818h]
+0000000000000016: jne         0000000000000118
+000000000000001C: mov         rdx,qword ptr [rcx+820h]
+0000000000000023: cmp         qword ptr [rcx+848h],rdx
+000000000000002A: jne         0000000000000118
+0000000000000030: mov         edx,dword ptr [rsp+60h]
+0000000000000034: test        al,1
+0000000000000036: je          00000000000000E0
+000000000000003C: test        r9b,1
+0000000000000040: mov         r9d,1
+0000000000000046: je          00000000000000DD
+000000000000004C: mov         r10d,r8d
+000000000000004F: mov         r9,qword ptr [rcx+10h]
+0000000000000053: cmp         r9,r10
+0000000000000056: jbe         0000000000000148
+000000000000005C: mov         eax,edx
+000000000000005E: cmp         r9,rax
+0000000000000061: jbe         000000000000015A
+0000000000000067: mov         rsi,qword ptr [rcx+8]
+000000000000006B: lea         r9,[r10+r10*2]
+000000000000006F: shl         r9,4
+0000000000000073: add         r9,rsi
+0000000000000076: mov         r11d,dword ptr [r9]
+0000000000000079: xor         r10d,r10d
+000000000000007C: test        r11d,r11d
+000000000000007F: setne       r10b
+0000000000000083: mov         rdi,qword ptr [r9+r10*8+10h]
+0000000000000088: lea         r10,[rax+rax*2]
+000000000000008C: shl         r10,4
+0000000000000090: lea         rax,[rsi+r10]
+0000000000000094: mov         r10d,dword ptr [rsi+r10]
+0000000000000098: xor         esi,esi
+000000000000009A: test        r10d,r10d
+000000000000009D: setne       sil
+00000000000000A1: add         rdi,qword ptr [rax+rsi*8+10h]
+00000000000000A6: jb          0000000000000130
+00000000000000AC: test        r11d,r11d
+00000000000000AF: je          00000000000000EA
+00000000000000B1: mov         r9,qword ptr [r9+20h]
+00000000000000B5: not         r9
+00000000000000B8: test        r10d,r10d
+00000000000000BB: je          00000000000000F6
+00000000000000BD: mov         rax,qword ptr [rax+20h]
+00000000000000C1: cmp         rax,r9
+00000000000000C4: ja          0000000000000100
+00000000000000C6: mov         eax,edx
+00000000000000C8: mov         edx,r8d
+00000000000000CB: mov         r8d,eax
+00000000000000CE: call        _ZN8hashrope4rope5Arena4join17hHASHE.llvm.HASH
+00000000000000D3: mov         r9d,1
+00000000000000D9: mov         edx,eax
+00000000000000DB: jmp         00000000000000E0
+00000000000000DD: mov         edx,r8d
+00000000000000E0: mov         eax,r9d
+00000000000000E3: add         rsp,28h
+00000000000000E7: pop         rdi
+00000000000000E8: pop         rsi
+00000000000000E9: ret
+00000000000000EA: mov         r9,0FFFFFFFFFFFFFFFEh
+00000000000000F1: test        r10d,r10d
+00000000000000F4: jne         00000000000000BD
+00000000000000F6: mov         eax,1
+00000000000000FB: cmp         rax,r9
+00000000000000FE: jbe         00000000000000C6
+0000000000000100: lea         rcx,[anon.HASH.N.llvm.HASH]
+0000000000000107: lea         r8,[anon.HASH.N.llvm.HASH]
+000000000000010E: mov         edx,1Ch
+0000000000000113: call        _ZN4core6option13expect_failed17hHASHE
+0000000000000118: lea         rcx,[anon.HASH.N.llvm.HASH]
+000000000000011F: lea         r8,[anon.HASH.N.llvm.HASH]
+0000000000000126: mov         edx,99h
+000000000000012B: call        _ZN4core9panicking9panic_fmt17hHASHE
+0000000000000130: lea         rcx,[anon.HASH.N.llvm.HASH]
+0000000000000137: lea         r8,[anon.HASH.N.llvm.HASH]
+000000000000013E: mov         edx,1Ch
+0000000000000143: call        _ZN4core6option13expect_failed17hHASHE
+0000000000000148: lea         r8,[anon.HASH.N.llvm.HASH]
+000000000000014F: mov         rcx,r10
+0000000000000152: mov         rdx,r9
+0000000000000155: call        _ZN4core9panicking18panic_bounds_check17hHASHE
+000000000000015A: lea         r8,[anon.HASH.N.llvm.HASH]
+0000000000000161: mov         rcx,rax
+0000000000000164: mov         rdx,r9
+0000000000000167: call        _ZN4core9panicking18panic_bounds_check17hHASHE
+000000000000016C: int         3
