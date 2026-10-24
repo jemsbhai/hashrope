@@ -1,0 +1,2680 @@
+{
+  "scope": "Targeted Rust 0.3.3 integration against completed round-four optimized sources; default features; no Python interleaving",
+  "process_pairs_per_cohort": 3,
+  "source_sha256": "3d18c4af9e8e09688b96748e996581132599be4eece9f2316b203305aad6bc37",
+  "analysis_sha256": "d9b3b72d7d8bfcdcd551f97d4fed2408ddd457fcacdc4a32318b16c8dac49033",
+  "cells": {
+    "micro": {
+      "compare/1048576/early_mismatch/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            86.15,
+            85.8,
+            79.4
+          ],
+          "candidate": [
+            79.6,
+            83.45,
+            87.25
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 85.8,
+          "candidate": 83.45
+        },
+        "process_median_range": {
+          "reference": [
+            79.4,
+            86.15
+          ],
+          "candidate": [
+            79.6,
+            87.25
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9239698200812535,
+          0.9726107226107227,
+          1.098866498740554
+        ],
+        "paired_ratio_geomean": 0.9958194185024121,
+        "paired_ratio_range": [
+          0.9239698200812535,
+          1.098866498740554
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/early_mismatch/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            83.85,
+            78.25,
+            76.9
+          ],
+          "candidate": [
+            77.2,
+            82.6,
+            84.55
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 78.25,
+          "candidate": 82.6
+        },
+        "process_median_range": {
+          "reference": [
+            76.9,
+            83.85
+          ],
+          "candidate": [
+            77.2,
+            84.55
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9206917113893859,
+          1.055591054313099,
+          1.0994798439531859
+        ],
+        "paired_ratio_geomean": 1.0223487465929872,
+        "paired_ratio_range": [
+          0.9206917113893859,
+          1.0994798439531859
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/1048576/early_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            967.0,
+            978.0,
+            927.0
+          ],
+          "candidate": [
+            954.0,
+            1012.0,
+            953.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 967.0,
+          "candidate": 954.0
+        },
+        "process_median_range": {
+          "reference": [
+            927.0,
+            978.0
+          ],
+          "candidate": [
+            953.0,
+            1012.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9865563598759048,
+          1.034764826175869,
+          1.0280474649406688
+        ],
+        "paired_ratio_geomean": 1.0162305384081667,
+        "paired_ratio_range": [
+          0.9865563598759048,
+          1.034764826175869
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/1048576/independent_equal/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            58703.0,
+            56182.0,
+            60798.0
+          ],
+          "candidate": [
+            55420.0,
+            56688.0,
+            60620.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 58703.0,
+          "candidate": 56688.0
+        },
+        "process_median_range": {
+          "reference": [
+            56182.0,
+            60798.0
+          ],
+          "candidate": [
+            55420.0,
+            60620.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9440744084629406,
+          1.0090064433448436,
+          0.9970722721142142
+        ],
+        "paired_ratio_geomean": 0.9829745367779945,
+        "paired_ratio_range": [
+          0.9440744084629406,
+          1.0090064433448436
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/independent_equal/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            59359.0,
+            55921.0,
+            57420.0
+          ],
+          "candidate": [
+            70480.0,
+            62475.0,
+            58354.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 57420.0,
+          "candidate": 62475.0
+        },
+        "process_median_range": {
+          "reference": [
+            55921.0,
+            59359.0
+          ],
+          "candidate": [
+            58354.0,
+            70480.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.1873515389410199,
+          1.1172010514833426,
+          1.0162661093695577
+        ],
+        "paired_ratio_geomean": 1.104687312365724,
+        "paired_ratio_range": [
+          1.0162661093695577,
+          1.1873515389410199
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/1048576/independent_equal/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            6636.0,
+            6368.0,
+            6618.0
+          ],
+          "candidate": [
+            6225.0,
+            6424.0,
+            6771.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 6618.0,
+          "candidate": 6424.0
+        },
+        "process_median_range": {
+          "reference": [
+            6368.0,
+            6636.0
+          ],
+          "candidate": [
+            6225.0,
+            6771.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9380650994575045,
+          1.0087939698492463,
+          1.0231187669990933
+        ],
+        "paired_ratio_geomean": 0.9892829001262791,
+        "paired_ratio_range": [
+          0.9380650994575045,
+          1.0231187669990933
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/1048576/late_mismatch/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            58060.0,
+            57779.0,
+            55516.0
+          ],
+          "candidate": [
+            62411.0,
+            58672.0,
+            58532.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 57779.0,
+          "candidate": 58672.0
+        },
+        "process_median_range": {
+          "reference": [
+            55516.0,
+            58060.0
+          ],
+          "candidate": [
+            58532.0,
+            62411.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.074939717533586,
+          1.0154554422887208,
+          1.0543266805965847
+        ],
+        "paired_ratio_geomean": 1.0479487871687356,
+        "paired_ratio_range": [
+          1.0154554422887208,
+          1.074939717533586
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/1048576/late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            56824.0,
+            57812.0,
+            59531.0
+          ],
+          "candidate": [
+            55096.0,
+            57114.0,
+            59109.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 57812.0,
+          "candidate": 57114.0
+        },
+        "process_median_range": {
+          "reference": [
+            56824.0,
+            59531.0
+          ],
+          "candidate": [
+            55096.0,
+            59109.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9695903139518514,
+          0.987926382066007,
+          0.9929112563202365
+        ],
+        "paired_ratio_geomean": 0.9834246621046351,
+        "paired_ratio_range": [
+          0.9695903139518514,
+          0.9929112563202365
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            6541.0,
+            6227.0,
+            6495.0
+          ],
+          "candidate": [
+            6194.0,
+            6116.0,
+            6433.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 6495.0,
+          "candidate": 6194.0
+        },
+        "process_median_range": {
+          "reference": [
+            6227.0,
+            6541.0
+          ],
+          "candidate": [
+            6116.0,
+            6433.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9469500076440911,
+          0.9821744017986189,
+          0.9904541955350269
+        ],
+        "paired_ratio_geomean": 0.9730086167455434,
+        "paired_ratio_range": [
+          0.9469500076440911,
+          0.9904541955350269
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/same_root/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            3.85,
+            3.45,
+            3.45
+          ],
+          "candidate": [
+            3.85,
+            3.55,
+            3.85
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 3.45,
+          "candidate": 3.85
+        },
+        "process_median_range": {
+          "reference": [
+            3.45,
+            3.85
+          ],
+          "candidate": [
+            3.55,
+            3.85
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0,
+          1.0289855072463767,
+          1.1159420289855073
+        ],
+        "paired_ratio_geomean": 1.0471694511291953,
+        "paired_ratio_range": [
+          1.0,
+          1.1159420289855073
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/1048576/same_root/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            1.9,
+            1.75,
+            1.75
+          ],
+          "candidate": [
+            1.9,
+            1.75,
+            1.95
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 1.75,
+          "candidate": 1.9
+        },
+        "process_median_range": {
+          "reference": [
+            1.75,
+            1.9
+          ],
+          "candidate": [
+            1.75,
+            1.95
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0,
+          1.0,
+          1.1142857142857143
+        ],
+        "paired_ratio_geomean": 1.036729653706913,
+        "paired_ratio_range": [
+          1.0,
+          1.1142857142857143
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/same_root/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            6687.0,
+            6767.0,
+            6252.0
+          ],
+          "candidate": [
+            6462.0,
+            6191.0,
+            6798.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 6687.0,
+          "candidate": 6462.0
+        },
+        "process_median_range": {
+          "reference": [
+            6252.0,
+            6767.0
+          ],
+          "candidate": [
+            6191.0,
+            6798.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9663526244952894,
+          0.9148810403428402,
+          1.0873320537428024
+        ],
+        "paired_ratio_geomean": 0.9869325734170229,
+        "paired_ratio_range": [
+          0.9148810403428402,
+          1.0873320537428024
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/shared_late_mismatch/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            128.0,
+            123.0,
+            123.0
+          ],
+          "candidate": [
+            128.0,
+            117.0,
+            117.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 123.0,
+          "candidate": 117.0
+        },
+        "process_median_range": {
+          "reference": [
+            123.0,
+            128.0
+          ],
+          "candidate": [
+            117.0,
+            128.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0,
+          0.9512195121951219,
+          0.9512195121951219
+        ],
+        "paired_ratio_geomean": 0.967209381206953,
+        "paired_ratio_range": [
+          0.9512195121951219,
+          1.0
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/shared_late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            126.0,
+            125.0,
+            122.0
+          ],
+          "candidate": [
+            126.0,
+            115.0,
+            115.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 125.0,
+          "candidate": 115.0
+        },
+        "process_median_range": {
+          "reference": [
+            122.0,
+            126.0
+          ],
+          "candidate": [
+            115.0,
+            126.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0,
+          0.92,
+          0.9426229508196722
+        ],
+        "paired_ratio_geomean": 0.9536198423033102,
+        "paired_ratio_range": [
+          0.92,
+          1.0
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/shared_late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            6659.0,
+            6004.0,
+            6329.0
+          ],
+          "candidate": [
+            6339.0,
+            6338.0,
+            6427.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 6329.0,
+          "candidate": 6339.0
+        },
+        "process_median_range": {
+          "reference": [
+            6004.0,
+            6659.0
+          ],
+          "candidate": [
+            6338.0,
+            6427.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9519447364469139,
+          1.0556295802798135,
+          1.0154842787170169
+        ],
+        "paired_ratio_geomean": 1.006774400566155,
+        "paired_ratio_range": [
+          0.9519447364469139,
+          1.0556295802798135
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/65536/early_mismatch/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            59.45,
+            54.55,
+            53.15
+          ],
+          "candidate": [
+            54.35,
+            54.3,
+            59.4
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 54.55,
+          "candidate": 54.35
+        },
+        "process_median_range": {
+          "reference": [
+            53.15,
+            59.45
+          ],
+          "candidate": [
+            54.3,
+            59.4
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9142136248948696,
+          0.995417048579285,
+          1.1175917215428033
+        ],
+        "paired_ratio_geomean": 1.0056464235196054,
+        "paired_ratio_range": [
+          0.9142136248948696,
+          1.1175917215428033
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/early_mismatch/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            57.05,
+            53.7,
+            51.5
+          ],
+          "candidate": [
+            52.3,
+            54.0,
+            57.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 53.7,
+          "candidate": 54.0
+        },
+        "process_median_range": {
+          "reference": [
+            51.5,
+            57.05
+          ],
+          "candidate": [
+            52.3,
+            57.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9167397020157756,
+          1.005586592178771,
+          1.1067961165048543
+        ],
+        "paired_ratio_geomean": 1.0067254482605439,
+        "paired_ratio_range": [
+          0.9167397020157756,
+          1.1067961165048543
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/65536/early_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            710.0,
+            651.0,
+            691.0
+          ],
+          "candidate": [
+            638.0,
+            639.0,
+            701.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 691.0,
+          "candidate": 639.0
+        },
+        "process_median_range": {
+          "reference": [
+            651.0,
+            710.0
+          ],
+          "candidate": [
+            638.0,
+            701.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8985915492957747,
+          0.9815668202764977,
+          1.0144717800289436
+        ],
+        "paired_ratio_geomean": 0.9636235164533804,
+        "paired_ratio_range": [
+          0.8985915492957747,
+          1.0144717800289436
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/independent_equal/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            3354.0,
+            3074.0,
+            3047.0
+          ],
+          "candidate": [
+            3610.0,
+            3051.0,
+            3364.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 3074.0,
+          "candidate": 3364.0
+        },
+        "process_median_range": {
+          "reference": [
+            3047.0,
+            3354.0
+          ],
+          "candidate": [
+            3051.0,
+            3610.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0763267740011926,
+          0.9925178919973975,
+          1.1040367574663603
+        ],
+        "paired_ratio_geomean": 1.0565466410837865,
+        "paired_ratio_range": [
+          0.9925178919973975,
+          1.1040367574663603
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/65536/independent_equal/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            3371.0,
+            3075.0,
+            3028.0
+          ],
+          "candidate": [
+            3588.0,
+            3343.0,
+            3370.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 3075.0,
+          "candidate": 3370.0
+        },
+        "process_median_range": {
+          "reference": [
+            3028.0,
+            3371.0
+          ],
+          "candidate": [
+            3343.0,
+            3588.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0643725897359835,
+          1.0871544715447155,
+          1.1129458388375164
+        ],
+        "paired_ratio_geomean": 1.0879768539934633,
+        "paired_ratio_range": [
+          1.0643725897359835,
+          1.1129458388375164
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/65536/independent_equal/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            4952.0,
+            4852.0,
+            4496.0
+          ],
+          "candidate": [
+            4316.0,
+            4384.0,
+            4806.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 4852.0,
+          "candidate": 4384.0
+        },
+        "process_median_range": {
+          "reference": [
+            4496.0,
+            4952.0
+          ],
+          "candidate": [
+            4316.0,
+            4806.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8715670436187399,
+          0.9035449299258038,
+          1.0689501779359432
+        ],
+        "paired_ratio_geomean": 0.9442116162210722,
+        "paired_ratio_range": [
+          0.8715670436187399,
+          1.0689501779359432
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/late_mismatch/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            3378.0,
+            3144.0,
+            3113.0
+          ],
+          "candidate": [
+            3326.0,
+            3177.0,
+            3420.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 3144.0,
+          "candidate": 3326.0
+        },
+        "process_median_range": {
+          "reference": [
+            3113.0,
+            3378.0
+          ],
+          "candidate": [
+            3177.0,
+            3420.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9846062759029012,
+          1.0104961832061068,
+          1.0986186957918407
+        ],
+        "paired_ratio_geomean": 1.0301048236255599,
+        "paired_ratio_range": [
+          0.9846062759029012,
+          1.0986186957918407
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/65536/late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            3380.0,
+            3288.0,
+            3092.0
+          ],
+          "candidate": [
+            3107.0,
+            3134.0,
+            3415.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 3288.0,
+          "candidate": 3134.0
+        },
+        "process_median_range": {
+          "reference": [
+            3092.0,
+            3380.0
+          ],
+          "candidate": [
+            3107.0,
+            3415.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9192307692307692,
+          0.9531630170316302,
+          1.1044631306597672
+        ],
+        "paired_ratio_geomean": 0.9891169700229964,
+        "paired_ratio_range": [
+          0.9192307692307692,
+          1.1044631306597672
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            4992.0,
+            4662.0,
+            4918.0
+          ],
+          "candidate": [
+            4383.0,
+            4407.0,
+            4593.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 4918.0,
+          "candidate": 4407.0
+        },
+        "process_median_range": {
+          "reference": [
+            4662.0,
+            4992.0
+          ],
+          "candidate": [
+            4383.0,
+            4593.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8780048076923077,
+          0.9453024453024453,
+          0.933916226108174
+        ],
+        "paired_ratio_geomean": 0.9185973723291119,
+        "paired_ratio_range": [
+          0.8780048076923077,
+          0.9453024453024453
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/same_root/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            3.85,
+            3.5,
+            3.45
+          ],
+          "candidate": [
+            3.45,
+            3.45,
+            3.85
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 3.5,
+          "candidate": 3.45
+        },
+        "process_median_range": {
+          "reference": [
+            3.45,
+            3.85
+          ],
+          "candidate": [
+            3.45,
+            3.85
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8961038961038962,
+          0.9857142857142858,
+          1.1159420289855073
+        ],
+        "paired_ratio_geomean": 0.9952152378028464,
+        "paired_ratio_range": [
+          0.8961038961038962,
+          1.1159420289855073
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/same_root/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            1.95,
+            1.75,
+            1.75
+          ],
+          "candidate": [
+            1.75,
+            1.65,
+            1.95
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 1.75,
+          "candidate": 1.75
+        },
+        "process_median_range": {
+          "reference": [
+            1.75,
+            1.95
+          ],
+          "candidate": [
+            1.65,
+            1.95
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8974358974358975,
+          0.9428571428571428,
+          1.1142857142857143
+        ],
+        "paired_ratio_geomean": 0.980577593308067,
+        "paired_ratio_range": [
+          0.8974358974358975,
+          1.1142857142857143
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/same_root/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            4994.0,
+            4555.0,
+            4483.0
+          ],
+          "candidate": [
+            4335.0,
+            4389.0,
+            4809.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 4555.0,
+          "candidate": 4389.0
+        },
+        "process_median_range": {
+          "reference": [
+            4483.0,
+            4994.0
+          ],
+          "candidate": [
+            4335.0,
+            4809.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.868041649979976,
+          0.963556531284303,
+          1.0727191612759313
+        ],
+        "paired_ratio_geomean": 0.9644978573336028,
+        "paired_ratio_range": [
+          0.868041649979976,
+          1.0727191612759313
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/shared_late_mismatch/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            97.0,
+            96.0,
+            139.0
+          ],
+          "candidate": [
+            88.0,
+            93.0,
+            87.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 97.0,
+          "candidate": 88.0
+        },
+        "process_median_range": {
+          "reference": [
+            96.0,
+            139.0
+          ],
+          "candidate": [
+            87.0,
+            93.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9072164948453608,
+          0.96875,
+          0.6258992805755396
+        ],
+        "paired_ratio_geomean": 0.8193617799216483,
+        "paired_ratio_range": [
+          0.6258992805755396,
+          0.96875
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/shared_late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            94.0,
+            93.0,
+            84.0
+          ],
+          "candidate": [
+            85.0,
+            88.0,
+            86.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 93.0,
+          "candidate": 86.0
+        },
+        "process_median_range": {
+          "reference": [
+            84.0,
+            94.0
+          ],
+          "candidate": [
+            85.0,
+            88.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9042553191489362,
+          0.946236559139785,
+          1.0238095238095237
+        ],
+        "paired_ratio_geomean": 0.9568341201961129,
+        "paired_ratio_range": [
+          0.9042553191489362,
+          1.0238095238095237
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/shared_late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            4786.0,
+            4380.0,
+            4304.0
+          ],
+          "candidate": [
+            4165.0,
+            4220.0,
+            4486.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 4380.0,
+          "candidate": 4220.0
+        },
+        "process_median_range": {
+          "reference": [
+            4304.0,
+            4786.0
+          ],
+          "candidate": [
+            4165.0,
+            4486.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8702465524446301,
+          0.9634703196347032,
+          1.0422862453531598
+        ],
+        "paired_ratio_geomean": 0.956068962216124,
+        "paired_ratio_range": [
+          0.8702465524446301,
+          1.0422862453531598
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/repeat_2TiB/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            85.8,
+            79.2,
+            84.5
+          ],
+          "candidate": [
+            76.4,
+            76.0,
+            83.3
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 84.5,
+          "candidate": 76.4
+        },
+        "process_median_range": {
+          "reference": [
+            79.2,
+            85.8
+          ],
+          "candidate": [
+            76.0,
+            83.3
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8904428904428905,
+          0.9595959595959596,
+          0.9857988165680474
+        ],
+        "paired_ratio_geomean": 0.9444107559167491,
+        "paired_ratio_range": [
+          0.8904428904428905,
+          0.9857988165680474
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/repeat_2TiB/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            81.95,
+            77.75,
+            81.6
+          ],
+          "candidate": [
+            74.6,
+            80.3,
+            81.55
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 81.6,
+          "candidate": 80.3
+        },
+        "process_median_range": {
+          "reference": [
+            77.75,
+            81.95
+          ],
+          "candidate": [
+            74.6,
+            81.55
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9103111653447223,
+          1.0327974276527332,
+          0.9993872549019608
+        ],
+        "paired_ratio_geomean": 0.9794439950327876,
+        "paired_ratio_range": [
+          0.9103111653447223,
+          1.0327974276527332
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/repeat_2TiB/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            38203.0,
+            35150.0,
+            35277.0
+          ],
+          "candidate": [
+            27696.0,
+            26863.0,
+            27952.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 35277.0,
+          "candidate": 27696.0
+        },
+        "process_median_range": {
+          "reference": [
+            35150.0,
+            38203.0
+          ],
+          "candidate": [
+            26863.0,
+            27952.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.7249692432531477,
+          0.7642389758179232,
+          0.7923576267823228
+        ],
+        "paired_ratio_geomean": 0.7600170509707279,
+        "paired_ratio_range": [
+          0.7249692432531477,
+          0.7923576267823228
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/self_concat_DAG_2TiB/exact_equal": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            279.0,
+            268.0,
+            279.0
+          ],
+          "candidate": [
+            252.0,
+            288.0,
+            282.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 279.0,
+          "candidate": 282.0
+        },
+        "process_median_range": {
+          "reference": [
+            268.0,
+            279.0
+          ],
+          "candidate": [
+            252.0,
+            288.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9032258064516129,
+          1.0746268656716418,
+          1.010752688172043
+        ],
+        "paired_ratio_geomean": 0.9936489518506473,
+        "paired_ratio_range": [
+          0.9032258064516129,
+          1.0746268656716418
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/self_concat_DAG_2TiB/exact_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            251.0,
+            252.0,
+            255.0
+          ],
+          "candidate": [
+            306.0,
+            340.0,
+            347.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 252.0,
+          "candidate": 340.0
+        },
+        "process_median_range": {
+          "reference": [
+            251.0,
+            255.0
+          ],
+          "candidate": [
+            306.0,
+            347.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.2191235059760956,
+          1.3492063492063493,
+          1.3607843137254902
+        ],
+        "paired_ratio_geomean": 1.3080925087820223,
+        "paired_ratio_range": [
+          1.2191235059760956,
+          1.3607843137254902
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/self_concat_DAG_2TiB/hash_only_lcp": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            21899.0,
+            21775.0,
+            22851.0
+          ],
+          "candidate": [
+            22792.0,
+            24138.0,
+            25184.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 21899.0,
+          "candidate": 24138.0
+        },
+        "process_median_range": {
+          "reference": [
+            21775.0,
+            22851.0
+          ],
+          "candidate": [
+            22792.0,
+            25184.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0407781177222704,
+          1.1085189437428244,
+          1.1020961883506193
+        ],
+        "paired_ratio_geomean": 1.0833619814253372,
+        "paired_ratio_range": [
+          1.0407781177222704,
+          1.1085189437428244
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "core/concat_balanced_64KiB": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            15.05,
+            15.6,
+            14.9
+          ],
+          "candidate": [
+            15.7,
+            15.9,
+            17.95
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 15.05,
+          "candidate": 15.9
+        },
+        "process_median_range": {
+          "reference": [
+            14.9,
+            15.6
+          ],
+          "candidate": [
+            15.7,
+            17.95
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.043189368770764,
+          1.0192307692307694,
+          1.2046979865771812
+        ],
+        "paired_ratio_geomean": 1.0860203277853788,
+        "paired_ratio_range": [
+          1.0192307692307694,
+          1.2046979865771812
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "core/from_bytes_64KiB": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            45395.0,
+            27960.0,
+            38730.0
+          ],
+          "candidate": [
+            43600.0,
+            27260.0,
+            30780.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 38730.0,
+          "candidate": 30780.0
+        },
+        "process_median_range": {
+          "reference": [
+            27960.0,
+            45395.0
+          ],
+          "candidate": [
+            27260.0,
+            43600.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9604582002423174,
+          0.974964234620887,
+          0.7947327652982185
+        ],
+        "paired_ratio_geomean": 0.9062111969451002,
+        "paired_ratio_range": [
+          0.7947327652982185,
+          0.974964234620887
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "core/repeat_join_2pow32": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            6077.0,
+            6832.0,
+            6755.0
+          ],
+          "candidate": [
+            4862.0,
+            5292.0,
+            5244.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 6755.0,
+          "candidate": 5244.0
+        },
+        "process_median_range": {
+          "reference": [
+            6077.0,
+            6832.0
+          ],
+          "candidate": [
+            4862.0,
+            5292.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8000658219516209,
+          0.7745901639344263,
+          0.7763138415988157
+        ],
+        "paired_ratio_geomean": 0.7835709774905923,
+        "paired_ratio_range": [
+          0.7745901639344263,
+          0.8000658219516209
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "core/root_hash": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            0.5431,
+            0.5275,
+            0.5255
+          ],
+          "candidate": [
+            0.5207,
+            0.5288,
+            0.5779
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.5275,
+          "candidate": 0.5288
+        },
+        "process_median_range": {
+          "reference": [
+            0.5255,
+            0.5431
+          ],
+          "candidate": [
+            0.5207,
+            0.5779
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9587552936844044,
+          1.0024644549763035,
+          1.0997145575642246
+        ],
+        "paired_ratio_geomean": 1.0186357415751817,
+        "paired_ratio_range": [
+          0.9587552936844044,
+          1.0997145575642246
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "core/split_chunked_64KiB": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            496.0,
+            433.0,
+            421.0
+          ],
+          "candidate": [
+            413.0,
+            418.0,
+            489.0
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 433.0,
+          "candidate": 418.0
+        },
+        "process_median_range": {
+          "reference": [
+            421.0,
+            496.0
+          ],
+          "candidate": [
+            413.0,
+            489.0
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8326612903225806,
+          0.9653579676674365,
+          1.161520190023753
+        ],
+        "paired_ratio_geomean": 0.9773748840713555,
+        "paired_ratio_range": [
+          0.8326612903225806,
+          1.161520190023753
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "core/substr_warm_64KiB": {
+        "unit": "ns",
+        "process_medians": {
+          "reference": [
+            506.3,
+            479.1,
+            487.3
+          ],
+          "candidate": [
+            449.5,
+            454.5,
+            498.4
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 487.3,
+          "candidate": 454.5
+        },
+        "process_median_range": {
+          "reference": [
+            479.1,
+            506.3
+          ],
+          "candidate": [
+            449.5,
+            498.4
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.8878135492790835,
+          0.9486537257357545,
+          1.0227785758259798
+        ],
+        "paired_ratio_geomean": 0.9514888481763837,
+        "paired_ratio_range": [
+          0.8878135492790835,
+          1.0227785758259798
+        ],
+        "candidate_slower_pairs": 1
+      }
+    },
+    "churn": {
+      "10000/false/hashrope_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.0036820000000000004,
+            0.0022719999999999997,
+            0.001938
+          ],
+          "candidate": [
+            0.002248,
+            0.002152,
+            0.0024259999999999998
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.0022719999999999997,
+          "candidate": 0.002248
+        },
+        "process_median_range": {
+          "reference": [
+            0.001938,
+            0.0036820000000000004
+          ],
+          "candidate": [
+            0.002152,
+            0.0024259999999999998
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.6105377512221618,
+          0.9471830985915494,
+          1.2518059855521155
+        ],
+        "paired_ratio_geomean": 0.8978997049143714,
+        "paired_ratio_range": [
+          0.6105377512221618,
+          1.2518059855521155
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "10000/false/hashrope_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.00452,
+            0.004778,
+            0.004648
+          ],
+          "candidate": [
+            0.0047339999999999995,
+            0.004652,
+            0.005416000000000001
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.004648,
+          "candidate": 0.0047339999999999995
+        },
+        "process_median_range": {
+          "reference": [
+            0.00452,
+            0.004778
+          ],
+          "candidate": [
+            0.004652,
+            0.005416000000000001
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0473451327433627,
+          0.9736291335286731,
+          1.1652323580034425
+        ],
+        "paired_ratio_geomean": 1.0591691072792415,
+        "paired_ratio_range": [
+          0.9736291335286731,
+          1.1652323580034425
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "10000/false/ropey_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.0014479999999999999,
+            0.0012000000000000001,
+            0.001342
+          ],
+          "candidate": [
+            0.001106,
+            0.001152,
+            0.0012180000000000001
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.001342,
+          "candidate": 0.001152
+        },
+        "process_median_range": {
+          "reference": [
+            0.0012000000000000001,
+            0.0014479999999999999
+          ],
+          "candidate": [
+            0.001106,
+            0.0012180000000000001
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.7638121546961326,
+          0.96,
+          0.9076005961251863
+        ],
+        "paired_ratio_geomean": 0.873073601304048,
+        "paired_ratio_range": [
+          0.7638121546961326,
+          0.96
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "10000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.004538,
+            0.0051979999999999995,
+            0.005559999999999999
+          ],
+          "candidate": [
+            0.0048119999999999994,
+            0.004716000000000001,
+            0.005786
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.0051979999999999995,
+          "candidate": 0.0048119999999999994
+        },
+        "process_median_range": {
+          "reference": [
+            0.004538,
+            0.005559999999999999
+          ],
+          "candidate": [
+            0.004716000000000001,
+            0.005786
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0603790215954163,
+          0.9072720277029629,
+          1.0406474820143887
+        ],
+        "paired_ratio_geomean": 1.0003855931559567,
+        "paired_ratio_range": [
+          0.9072720277029629,
+          1.0603790215954163
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "10000/true/hashrope_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.0017579999999999998,
+            0.0016300000000000002,
+            0.0017599999999999998
+          ],
+          "candidate": [
+            0.00216,
+            0.001696,
+            0.002048
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.0017579999999999998,
+          "candidate": 0.002048
+        },
+        "process_median_range": {
+          "reference": [
+            0.0016300000000000002,
+            0.0017599999999999998
+          ],
+          "candidate": [
+            0.001696,
+            0.00216
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.2286689419795223,
+          1.0404907975460123,
+          1.1636363636363636
+        ],
+        "paired_ratio_geomean": 1.1415549006775738,
+        "paired_ratio_range": [
+          1.0404907975460123,
+          1.2286689419795223
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "10000/true/hashrope_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.00359,
+            0.004184,
+            0.003752
+          ],
+          "candidate": [
+            0.0038900000000000002,
+            0.00381,
+            0.004496
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.003752,
+          "candidate": 0.0038900000000000002
+        },
+        "process_median_range": {
+          "reference": [
+            0.00359,
+            0.004184
+          ],
+          "candidate": [
+            0.00381,
+            0.004496
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.083565459610028,
+          0.9106118546845123,
+          1.1982942430703625
+        ],
+        "paired_ratio_geomean": 1.0574276000848652,
+        "paired_ratio_range": [
+          0.9106118546845123,
+          1.1982942430703625
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "10000/true/ropey_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.000838,
+            0.0009119999999999999,
+            0.00098
+          ],
+          "candidate": [
+            0.000828,
+            0.000838,
+            0.000964
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.0009119999999999999,
+          "candidate": 0.000838
+        },
+        "process_median_range": {
+          "reference": [
+            0.000838,
+            0.00098
+          ],
+          "candidate": [
+            0.000828,
+            0.000964
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9880668257756563,
+          0.918859649122807,
+          0.9836734693877551
+        ],
+        "paired_ratio_geomean": 0.9630056139240174,
+        "paired_ratio_range": [
+          0.918859649122807,
+          0.9880668257756563
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "10000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.0046,
+            0.0051860000000000005,
+            0.005264
+          ],
+          "candidate": [
+            0.004784,
+            0.004358,
+            0.005102
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.0051860000000000005,
+          "candidate": 0.004784
+        },
+        "process_median_range": {
+          "reference": [
+            0.0046,
+            0.005264
+          ],
+          "candidate": [
+            0.004358,
+            0.005102
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.04,
+          0.8403393752410334,
+          0.9692249240121581
+        ],
+        "paired_ratio_geomean": 0.9461737072370586,
+        "paired_ratio_range": [
+          0.8403393752410334,
+          1.04
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "100000/false/hashrope_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.003308,
+            0.00364,
+            0.003572
+          ],
+          "candidate": [
+            0.003894,
+            0.003638,
+            0.003812
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.003572,
+          "candidate": 0.003812
+        },
+        "process_median_range": {
+          "reference": [
+            0.003308,
+            0.00364
+          ],
+          "candidate": [
+            0.003638,
+            0.003894
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.1771463119709793,
+          0.9994505494505495,
+          1.0671892497200448
+        ],
+        "paired_ratio_geomean": 1.078808599567374,
+        "paired_ratio_range": [
+          0.9994505494505495,
+          1.1771463119709793
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/false/hashrope_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.020802,
+            0.01945,
+            0.019426000000000002
+          ],
+          "candidate": [
+            0.022136,
+            0.020246,
+            0.020016000000000003
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.01945,
+          "candidate": 0.020246
+        },
+        "process_median_range": {
+          "reference": [
+            0.019426000000000002,
+            0.020802
+          ],
+          "candidate": [
+            0.020016000000000003,
+            0.022136
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.064128449187578,
+          1.0409254498714653,
+          1.030371666838258
+        ],
+        "paired_ratio_geomean": 1.0450470964802752,
+        "paired_ratio_range": [
+          1.030371666838258,
+          1.064128449187578
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "100000/false/ropey_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.011977999999999999,
+            0.010498,
+            0.010564
+          ],
+          "candidate": [
+            0.014164,
+            0.010771999999999999,
+            0.010544
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.010564,
+          "candidate": 0.010771999999999999
+        },
+        "process_median_range": {
+          "reference": [
+            0.010498,
+            0.011977999999999999
+          ],
+          "candidate": [
+            0.010544,
+            0.014164
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.1825012522958758,
+          1.0261002095637262,
+          0.9981067777357061
+        ],
+        "paired_ratio_geomean": 1.065915547228826,
+        "paired_ratio_range": [
+          0.9981067777357061,
+          1.1825012522958758
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.039504,
+            0.040682,
+            0.038984
+          ],
+          "candidate": [
+            0.045262000000000004,
+            0.038166,
+            0.04265599999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.039504,
+          "candidate": 0.04265599999999999
+        },
+        "process_median_range": {
+          "reference": [
+            0.038984,
+            0.040682
+          ],
+          "candidate": [
+            0.038166,
+            0.045262000000000004
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.1457573916565413,
+          0.9381544663487537,
+          1.094192489226349
+        ],
+        "paired_ratio_geomean": 1.0555697012011542,
+        "paired_ratio_range": [
+          0.9381544663487537,
+          1.1457573916565413
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/true/hashrope_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.004418,
+            0.004116,
+            0.003812
+          ],
+          "candidate": [
+            0.004122,
+            0.003914,
+            0.0039239999999999995
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.004116,
+          "candidate": 0.0039239999999999995
+        },
+        "process_median_range": {
+          "reference": [
+            0.003812,
+            0.004418
+          ],
+          "candidate": [
+            0.003914,
+            0.004122
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9330013580805794,
+          0.9509232264334305,
+          1.0293809024134313
+        ],
+        "paired_ratio_geomean": 0.9702149133487941,
+        "paired_ratio_range": [
+          0.9330013580805794,
+          1.0293809024134313
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "100000/true/hashrope_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.007345999999999999,
+            0.008966,
+            0.007632
+          ],
+          "candidate": [
+            0.007992,
+            0.008,
+            0.008095999999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.007632,
+          "candidate": 0.008
+        },
+        "process_median_range": {
+          "reference": [
+            0.007345999999999999,
+            0.008966
+          ],
+          "candidate": [
+            0.007992,
+            0.008095999999999999
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0879390144296217,
+          0.8922596475574393,
+          1.060796645702306
+        ],
+        "paired_ratio_geomean": 1.0098169290910133,
+        "paired_ratio_range": [
+          0.8922596475574393,
+          1.0879390144296217
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/true/ropey_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.004612,
+            0.004782,
+            0.004738
+          ],
+          "candidate": [
+            0.005884,
+            0.00523,
+            0.005107999999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.004738,
+          "candidate": 0.00523
+        },
+        "process_median_range": {
+          "reference": [
+            0.004612,
+            0.004782
+          ],
+          "candidate": [
+            0.005107999999999999,
+            0.005884
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.2758022549869905,
+          1.093684650773735,
+          1.0780920219501897
+        ],
+        "paired_ratio_geomean": 1.1458042749227526,
+        "paired_ratio_range": [
+          1.0780920219501897,
+          1.2758022549869905
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "100000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.038998,
+            0.040818,
+            0.040470000000000006
+          ],
+          "candidate": [
+            0.038046,
+            0.03913,
+            0.039366000000000005
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.040470000000000006,
+          "candidate": 0.03913
+        },
+        "process_median_range": {
+          "reference": [
+            0.038998,
+            0.040818
+          ],
+          "candidate": [
+            0.038046,
+            0.039366000000000005
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9755884917175242,
+          0.9586456955264834,
+          0.9727205337286879
+        ],
+        "paired_ratio_geomean": 0.9689565280146681,
+        "paired_ratio_range": [
+          0.9586456955264834,
+          0.9755884917175242
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "1000000/false/hashrope_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.005578,
+            0.004908,
+            0.005686000000000001
+          ],
+          "candidate": [
+            0.006088,
+            0.005014000000000001,
+            0.006212
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.005578,
+          "candidate": 0.006088
+        },
+        "process_median_range": {
+          "reference": [
+            0.004908,
+            0.005686000000000001
+          ],
+          "candidate": [
+            0.005014000000000001,
+            0.006212
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0914306202940123,
+          1.0215973920130401,
+          1.0925079141751668
+        ],
+        "paired_ratio_geomean": 1.0679891330431988,
+        "paired_ratio_range": [
+          1.0215973920130401,
+          1.0925079141751668
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "1000000/false/hashrope_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.14511200000000002,
+            0.156456,
+            0.150186
+          ],
+          "candidate": [
+            0.158934,
+            0.14352600000000001,
+            0.157636
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.150186,
+          "candidate": 0.157636
+        },
+        "process_median_range": {
+          "reference": [
+            0.14511200000000002,
+            0.156456
+          ],
+          "candidate": [
+            0.14352600000000001,
+            0.158934
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.095250565080765,
+          0.9173569565884339,
+          1.0496051562728883
+        ],
+        "paired_ratio_geomean": 1.017870669359423,
+        "paired_ratio_range": [
+          0.9173569565884339,
+          1.095250565080765
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "1000000/false/ropey_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.104612,
+            0.120734,
+            0.11957000000000001
+          ],
+          "candidate": [
+            0.106366,
+            0.1042,
+            0.11928
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.11957000000000001,
+          "candidate": 0.106366
+        },
+        "process_median_range": {
+          "reference": [
+            0.104612,
+            0.120734
+          ],
+          "candidate": [
+            0.1042,
+            0.11928
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0167667189232594,
+          0.8630543177563901,
+          0.9975746424688466
+        ],
+        "paired_ratio_geomean": 0.9566100761248449,
+        "paired_ratio_range": [
+          0.8630543177563901,
+          1.0167667189232594
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "1000000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.39785800000000004,
+            0.44638799999999995,
+            0.40883
+          ],
+          "candidate": [
+            0.6561319999999999,
+            0.40645000000000003,
+            0.39894199999999996
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.40883,
+          "candidate": 0.40645000000000003
+        },
+        "process_median_range": {
+          "reference": [
+            0.39785800000000004,
+            0.44638799999999995
+          ],
+          "candidate": [
+            0.39894199999999996,
+            0.6561319999999999
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.6491612585394786,
+          0.9105307490344724,
+          0.9758139079813124
+        ],
+        "paired_ratio_geomean": 1.1358166954495468,
+        "paired_ratio_range": [
+          0.9105307490344724,
+          1.6491612585394786
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "1000000/true/hashrope_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.003146,
+            0.002876,
+            0.0033439999999999998
+          ],
+          "candidate": [
+            0.0036660000000000004,
+            0.0032,
+            0.003846
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.003146,
+          "candidate": 0.0036660000000000004
+        },
+        "process_median_range": {
+          "reference": [
+            0.002876,
+            0.0033439999999999998
+          ],
+          "candidate": [
+            0.0032,
+            0.003846
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.1652892561983472,
+          1.1126564673157162,
+          1.1501196172248804
+        ],
+        "paired_ratio_geomean": 1.142473012684071,
+        "paired_ratio_range": [
+          1.1126564673157162,
+          1.1652892561983472
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "1000000/true/hashrope_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.009068,
+            0.008768,
+            0.009656
+          ],
+          "candidate": [
+            0.010602,
+            0.009816,
+            0.009296
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.009068,
+          "candidate": 0.009816
+        },
+        "process_median_range": {
+          "reference": [
+            0.008768,
+            0.009656
+          ],
+          "candidate": [
+            0.009296,
+            0.010602
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.1691662990736658,
+          1.1195255474452555,
+          0.9627174813587408
+        ],
+        "paired_ratio_geomean": 1.0801143060591096,
+        "paired_ratio_range": [
+          0.9627174813587408,
+          1.1691662990736658
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "1000000/true/ropey_exact": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.032854,
+            0.043629999999999995,
+            0.073858
+          ],
+          "candidate": [
+            0.033064,
+            0.036954,
+            0.07121
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.043629999999999995,
+          "candidate": 0.036954
+        },
+        "process_median_range": {
+          "reference": [
+            0.032854,
+            0.073858
+          ],
+          "candidate": [
+            0.033064,
+            0.07121
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          1.0063919157484629,
+          0.8469860187944076,
+          0.9641474180183596
+        ],
+        "paired_ratio_geomean": 0.9366894048530814,
+        "paired_ratio_range": [
+          0.8469860187944076,
+          1.0063919157484629
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "1000000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "process_medians": {
+          "reference": [
+            0.40129600000000004,
+            0.41885,
+            0.432738
+          ],
+          "candidate": [
+            0.37995199999999996,
+            0.381518,
+            0.408518
+          ]
+        },
+        "median_of_process_medians": {
+          "reference": 0.41885,
+          "candidate": 0.381518
+        },
+        "process_median_range": {
+          "reference": [
+            0.40129600000000004,
+            0.432738
+          ],
+          "candidate": [
+            0.37995199999999996,
+            0.408518
+          ]
+        },
+        "paired_ratios_candidate_over_reference": [
+          0.9468123280570948,
+          0.9108702399427003,
+          0.9440307992364895
+        ],
+        "paired_ratio_geomean": 0.9337605611046755,
+        "paired_ratio_range": [
+          0.9108702399427003,
+          0.9468123280570948
+        ],
+        "candidate_slower_pairs": 0
+      }
+    }
+  },
+  "memory": {
+    "reference": {
+      "node_inner_bytes": 48,
+      "arena_inline_bytes": 2136,
+      "nodes_for_64KiB": 255
+    },
+    "candidate": {
+      "node_inner_bytes": 48,
+      "arena_inline_bytes": 2136,
+      "nodes_for_64KiB": 255
+    }
+  },
+  "rust_working_source_matches_candidate_snapshot": {
+    "packages/rust/Cargo.lock": true,
+    "packages/rust/Cargo.toml": true,
+    "packages/rust/src/bigint.rs": true,
+    "packages/rust/src/lib.rs": true,
+    "packages/rust/src/polynomial_hash.rs": true,
+    "packages/rust/src/rope.rs": true,
+    "packages/rust/src/sliding.rs": true
+  },
+  "verified_counts": {
+    "fresh_processes": 12,
+    "micro_cells": 42,
+    "churn_cells": 24,
+    "micro_timing_samples": 1764,
+    "churn_timing_samples": 432
+  }
+}

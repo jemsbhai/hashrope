@@ -1,0 +1,146 @@
+{
+  "method": "Verify that final documentation edits preserve the measured core code.\n\nThe optimized archive remains the authoritative benchmark source. Python\ndocstrings/comments may change after timing; all other AST nodes must match.\nRust and every other core file must remain byte-identical.\n",
+  "all_measured_code_preserved": true,
+  "files": [
+    {
+      "path": "packages/rust/src/lib.rs",
+      "frozen_sha256": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+      "final_sha256": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/src/polynomial_hash.rs",
+      "frozen_sha256": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+      "final_sha256": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/src/rope.rs",
+      "frozen_sha256": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+      "final_sha256": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/src/sliding.rs",
+      "frozen_sha256": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+      "final_sha256": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/python/hashrope/__init__.py",
+      "frozen_sha256": "5e8d8f4c07d50f0eaa7d24b504ed5240bdd4a05384e7123de6e582e36420bd90",
+      "final_sha256": "5e8d8f4c07d50f0eaa7d24b504ed5240bdd4a05384e7123de6e582e36420bd90",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/python/hashrope/polynomial_hash.py",
+      "frozen_sha256": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5",
+      "final_sha256": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/python/hashrope/rope.py",
+      "frozen_sha256": "d1de00805fa37fe286dae50b87675c82aa2fb388b66c66329983d34440b6a4b2",
+      "final_sha256": "d1de00805fa37fe286dae50b87675c82aa2fb388b66c66329983d34440b6a4b2",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/python/hashrope/sliding.py",
+      "frozen_sha256": "26599d0df3a7f0b50659a02d0ed96eae1b1fc88537db6f58f887ae0b6ecd928c",
+      "final_sha256": "26599d0df3a7f0b50659a02d0ed96eae1b1fc88537db6f58f887ae0b6ecd928c",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/diag_substr_scaling.rs",
+      "frozen_sha256": "7daa599ebb2df649941ea1d0d586288624b1677410638cea387735de23d01335",
+      "final_sha256": "7daa599ebb2df649941ea1d0d586288624b1677410638cea387735de23d01335",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_e1_throughput.rs",
+      "frozen_sha256": "629c702b8b83fe7eb6f3e6a3828029be947974c03685c1987997900abdea9da2",
+      "final_sha256": "629c702b8b83fe7eb6f3e6a3828029be947974c03685c1987997900abdea9da2",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_e2_concat_split.rs",
+      "frozen_sha256": "625ad934b13d51ddd8a6406daa1205bb66ab17e09cd4c1e7cd38ea895a6fdfc2",
+      "final_sha256": "625ad934b13d51ddd8a6406daa1205bb66ab17e09cd4c1e7cd38ea895a6fdfc2",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_e3_repeat.rs",
+      "frozen_sha256": "ba59d534ebf82e1b1ae29c8a4918464f1aca02619983530376a21b70ffa97c60",
+      "final_sha256": "ba59d534ebf82e1b1ae29c8a4918464f1aca02619983530376a21b70ffa97c60",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_e4_phi.rs",
+      "frozen_sha256": "8d7b670d0c8608fb5019755b571cf5a096fbd092b0c8e31080a109bf49def37d",
+      "final_sha256": "8d7b670d0c8608fb5019755b571cf5a096fbd092b0c8e31080a109bf49def37d",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_e5_sliding.rs",
+      "frozen_sha256": "fc2e89b5512d25c1edf9e85acf19cc02d6d3ffdfff8f989220d4e546e27ac13f",
+      "final_sha256": "fc2e89b5512d25c1edf9e85acf19cc02d6d3ffdfff8f989220d4e546e27ac13f",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_e6_memory.rs",
+      "frozen_sha256": "94c2268efabd86e520b554b9d154abb281e58b58df5764b81c64a102fb49545c",
+      "final_sha256": "94c2268efabd86e520b554b9d154abb281e58b58df5764b81c64a102fb49545c",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_e7_tree_height.rs",
+      "frozen_sha256": "555d4718124feca6d6438f01a335042f842a6a458b7a49decd1711993c6df828",
+      "final_sha256": "555d4718124feca6d6438f01a335042f842a6a458b7a49decd1711993c6df828",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_edit_optimization.rs",
+      "frozen_sha256": "9d9e228797983b4516b7246db5453006d96f7ef0900ded5eb6ab288dcf27dd48",
+      "final_sha256": "9d9e228797983b4516b7246db5453006d96f7ef0900ded5eb6ab288dcf27dd48",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_exact_comparison.rs",
+      "frozen_sha256": "d85a840e20212b53182d332bcc656814084f6ad5920ba06918d623c75d76002e",
+      "final_sha256": "d85a840e20212b53182d332bcc656814084f6ad5920ba06918d623c75d76002e",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_exact_optimization.rs",
+      "frozen_sha256": "53683699edcbc59c2a944ec9963ccb22c7fa4f102813a0aaf3f7b0d3e4fa6f0a",
+      "final_sha256": "53683699edcbc59c2a944ec9963ccb22c7fa4f102813a0aaf3f7b0d3e4fa6f0a",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    },
+    {
+      "path": "packages/rust/tests/test_exact_optimization_round2.rs",
+      "frozen_sha256": "495f7d36a63ea595c634c562a39f80253394f597f0028c27874c1325ed2c3db0",
+      "final_sha256": "495f7d36a63ea595c634c562a39f80253394f597f0028c27874c1325ed2c3db0",
+      "byte_identical": true,
+      "executable_ast_identical": true
+    }
+  ]
+}

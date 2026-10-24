@@ -1,0 +1,157 @@
+   Compiling hashrope v0.3.1 (E:\data\code\claudecode\hashrope\packages\rust)
+warning: method `rebalance` is never used
+   --> E:\data\code\claudecode\hashrope\packages\rust\src\rope.rs:539:8
+    |
+ 86 | impl Arena {
+    | ---------- method in this implementation
+...
+539 |     fn rebalance(&mut self, left: NodeId, right: NodeId) -> NodeId {
+    |        ^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `hashrope` (lib) generated 1 warning
+   Compiling hashrope-bio v0.2.0 (E:\data\code\claudecode\hashrope\usecases\computational-biology\code\rust)
+warning: unused import: `Write`
+  --> src\bin\bench_construction_g4.rs:11:35
+   |
+11 | use std::io::{BufRead, BufReader, Write};
+   |                                   ^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `std::path::PathBuf`
+  --> src\bin\bench_construction_g4.rs:12:5
+   |
+12 | use std::path::PathBuf;
+   |     ^^^^^^^^^^^^^^^^^^
+
+warning: variable does not need to be mutable
+   --> src\bin\bench_cross_species_cg1.rs:235:9
+    |
+235 |     let mut gene_results: Vec<String> = Vec::new(); // JSON fragments
+    |         ----^^^^^^^^^^^^
+    |         |
+    |         help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `gene_results`
+   --> src\bin\bench_cross_species_cg1.rs:235:9
+    |
+235 |     let mut gene_results: Vec<String> = Vec::new(); // JSON fragments
+    |         ^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_gene_results`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `tx_len` is never read
+  --> src\bin\bench_cross_species_cg1.rs:44:5
+   |
+40 | struct Gene {
+   |        ---- field in this struct
+...
+44 |     tx_len: u64,
+   |     ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> src\bin\bench_construction_g4.rs:145:9
+    |
+145 |     let mut verify_arena = Arena::new();
+    |         ----^^^^^^^^^^^^
+    |         |
+    |         help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> src\bin\bench_construction_g4.rs:474:13
+    |
+474 |         let mut arena = Arena::new();
+    |             ----^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: constant `DEFAULT_CHUNK_SIZES` is never used
+  --> src\bin\bench_construction_g4.rs:22:7
+   |
+22 | const DEFAULT_CHUNK_SIZES: &[usize] = &[256, 1024, 4096, 16384];
+   |       ^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `hashrope-bio` (bin "bench_cross_species_cg1" test) generated 3 warnings (3 duplicates)
+warning: `hashrope-bio` (bin "bench_construction_g4" test) generated 5 warnings (run `cargo fix --bin "bench_construction_g4" -p hashrope-bio --tests` to apply 4 suggestions)
+warning: `hashrope-bio` (bin "bench_construction_g4") generated 5 warnings (5 duplicates)
+warning: `hashrope-bio` (bin "bench_cross_species_cg1") generated 3 warnings (run `cargo fix --bin "bench_cross_species_cg1" -p hashrope-bio` to apply 2 suggestions)
+    Finished `release` profile [optimized] target(s) in 4.84s
+     Running unittests src\lib.rs (target\release\deps\hashrope_bio-d65eaabcb6e6b2ad.exe)
+
+running 10 tests
+test gene::tests::test_mutate_codon ... ok
+test gene_diff::tests::test_mutation_detected_in_correct_gene ... ok
+test gene_diff::tests::test_identical_no_changes ... ok
+test resistance::tests::test_no_mutations_detected_on_identical ... ok
+test gene_diff::tests::test_summary ... ok
+test resistance::tests::test_byte_baseline_agrees_with_hashrope ... ok
+test gene_diff::tests::test_mutation_detected_in_correct_exon ... ok
+test resistance::tests::test_panel_detects_mutations ... ok
+test gene_diff::tests::test_screen_genes ... ok
+test gene::tests::test_synthetic_gene_deterministic ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\bin\bench_construction_g4.rs (target\release\deps\bench_construction_g4-9c0cb837427fac2c.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\bin\bench_cross_species_cg1.rs (target\release\deps\bench_cross_species_cg1-1b7c3b416c15ca59.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\bin\bench_mutation_g3.rs (target\release\deps\bench_mutation_g3-f8a9308329d51708.exe)
+
+running 1 test
+test exact_search_tests::a_matching_hash_does_not_hide_the_first_difference ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\bin\bench_mutation_g3_clinvar.rs (target\release\deps\bench_mutation_g3_clinvar-cc06dc69eb0cb865.exe)
+
+running 1 test
+test exact_search_tests::a_matching_hash_does_not_hide_the_first_difference ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\bin\bench_region_query_g1.rs (target\release\deps\bench_region_query_g1-96ff22d3b36f6d25.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\bin\bench_region_query_g1_genes.rs (target\release\deps\bench_region_query_g1_genes-278783353ffe9f1b.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\exact_consumers.rs (target\release\deps\exact_consumers-513e40e6a10d17c7.exe)
+
+running 2 tests
+test different_profiles_do_not_create_spurious_mutations ... ok
+test matching_hashes_do_not_hide_gene_exon_or_codon_changes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests hashrope_bio
+
+running 1 test
+test src\gene_diff.rs - gene_diff (line 9) - compile ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+

@@ -1,0 +1,164 @@
+{
+  "startedAt": "2026-10-24T18:54:21.669Z",
+  "node": "v20.11.1",
+  "archive": "hashrope-0.3.3.tgz",
+  "archiveSha256": "a6e279f45a3665c6f5366a317affadf5ee4a54f41e8b6de2c2f7dc55dd29bc1c",
+  "cleanDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\hashrope-consumers-l1InCm",
+  "checks": [
+    {
+      "name": "esm: clean offline tarball install",
+      "exitCode": 0,
+      "output": "\nadded 1 package in 506ms\n"
+    },
+    {
+      "name": "ESM import runtime",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "name": "esm: installed-tarball published-wheel oracle parity",
+      "exitCode": 0,
+      "summary": {
+        "tests": 27565,
+        "suites": 0,
+        "pass": 27565,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "consumer-oracle-v20.11.1-esm.tap",
+      "adapterSha256": "de957a5209200536f3ea6dda673654b005a2c0dc047fabded572f9557b482860",
+      "corpusSha256": "86236a83fedc35934a12b29246be82990b1a90f80d7159b8f5b0b34e2cf1e7ea"
+    },
+    {
+      "name": "esm: installed exact and profile regressions",
+      "exitCode": 0,
+      "output": "TAP version 13\n# Subtest: exact: default collision is rejected in both Mersenne profiles and tree shapes\nok 1 - exact: default collision is rejected in both Mersenne profiles and tree shapes\n  ---\n  duration_ms: 1.2175\n  ...\n# Subtest: exact: legacy custom profiles may give unequal hashes for equal bytes\nok 2 - exact: legacy custom profiles may give unequal hashes for equal bytes\n  ---\n  duration_ms: 0.1645\n  ...\n# Subtest: exact: comparison never invokes a hasher or a defensive leaf-data getter\nok 3 - exact: comparison never invokes a hasher or a defensive leaf-data getter\n  ---\n  duration_ms: 0.1179\n  ...\n# Subtest: exact: differently sized periods and shifted huge repeats use finite witnesses\nok 4 - exact: differently sized periods and shifted huge repeats use finite witnesses\n  ---\n  duration_ms: 0.4793\n  ...\n# Subtest: exact: independent shared DAGs are memoized without expanding logical bytes\nok 5 - exact: independent shared DAGs are memoized without expanding logical bytes\n  ---\n  duration_ms: 2.8603\n  ...\n# Subtest: exact: deterministic random trees and ranges agree with materialized byte oracles\nok 6 - exact: deterministic random trees and ranges agree with materialized byte oracles\n  ---\n  duration_ms: 38.4086\n  ...\n# Subtest: exact: strict range validation precedes identical and empty shortcuts\nok 7 - exact: strict range validation precedes identical and empty shortcuts\n  ---\n  duration_ms: 0.4774\n  ...\n# Subtest: exact: word scans agree with byte oracles at every mismatch and unaligned tail\nok 8 - exact: word scans agree with byte oracles at every mismatch and unaligned tail\n  ---\n  duration_ms: 165.2333\n  ...\n# Subtest: profile: immutable metadata, equivalent hashers, and cross-profile exact equality\nok 9 - profile: immutable metadata, equivalent hashers, and cross-profile exact equality\n  ---\n  duration_ms: 0.5861\n  ...\n# Subtest: profile: mismatch is rejected before no-op and cached-fingerprint shortcuts\nok 10 - profile: mismatch is rejected before no-op and cached-fingerprint shortcuts\n  ---\n  duration_ms: 0.4638\n  ...\n# Subtest: profile: stream cannot combine its retained/prefix state under a replacement profile\nok 11 - profile: stream cannot combine its retained/prefix state under a replacement profile\n  ---\n  duration_ms: 0.4897\n  ...\n1..11\n# tests 11\n# suites 0\n# pass 11\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 278.4843\n",
+      "adapterSha256": "395900d9de7fafae9b093eea81b0b8bbfd6d1ebd750d90e45ee3facfef7fbd3b"
+    },
+    {
+      "name": "All packaged README and API TypeScript examples",
+      "compiler": "TypeScript 5.9.3",
+      "compileExitCode": 0,
+      "compileOutput": "",
+      "examples": [
+        {
+          "source": "README.md",
+          "snippet": 1,
+          "file": "readme-1.mts",
+          "sourceSha256": "2c7f6082961e711ca247a95221e618c1ee40bd4554475eb9c6003aa305a8b8f1",
+          "exitCode": 0,
+          "output": "world\n"
+        },
+        {
+          "source": "README.md",
+          "snippet": 2,
+          "file": "readme-2.mts",
+          "sourceSha256": "1599e60836f3c12b238242404999088257b699c323fe29237926e781ac8ab0b6",
+          "exitCode": 0,
+          "output": ""
+        },
+        {
+          "source": "docs/API.md",
+          "snippet": 1,
+          "file": "api-1.mts",
+          "sourceSha256": "f712672da2a085bb563ff88dab1c6485a9ca3b228fb7ce213fe1f7a2b096faa9",
+          "exitCode": 0,
+          "output": ""
+        },
+        {
+          "source": "docs/API.md",
+          "snippet": 2,
+          "file": "api-2.mts",
+          "sourceSha256": "b308e5adef936acd5fcc25173bddff24bdb947c89d702f869377d5a9c997b49b",
+          "exitCode": 0,
+          "output": "201n 737265836629361671n 8 446618621449777712n\n"
+        },
+        {
+          "source": "docs/API.md",
+          "snippet": 3,
+          "file": "api-3.mts",
+          "sourceSha256": "56daca000526688ab89e6198b9da8ef3e2220616a67b3cc516e6c968ee5cd93a",
+          "exitCode": 0,
+          "output": "false\n"
+        },
+        {
+          "source": "docs/API.md",
+          "snippet": 4,
+          "file": "api-4.mts",
+          "sourceSha256": "7bcebd4cc650d1838d3c2ed0b2604180e68912c34d79fd0a206028e0ee55403e",
+          "exitCode": 0,
+          "output": "18n 8n 1926188600462182193n 1926188600462182193n\n"
+        }
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "cjs: clean offline tarball install",
+      "exitCode": 0,
+      "output": "\nadded 1 package in 474ms\n"
+    },
+    {
+      "name": "CommonJS require runtime",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "name": "cjs: installed-tarball published-wheel oracle parity",
+      "exitCode": 0,
+      "summary": {
+        "tests": 27565,
+        "suites": 0,
+        "pass": 27565,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "consumer-oracle-v20.11.1-cjs.tap",
+      "adapterSha256": "c06462cc80076834d26032aa21160eab2823e323254b5e4dbee78bfba9b917b4",
+      "corpusSha256": "86236a83fedc35934a12b29246be82990b1a90f80d7159b8f5b0b34e2cf1e7ea"
+    },
+    {
+      "name": "cjs: installed exact and profile regressions",
+      "exitCode": 0,
+      "output": "TAP version 13\n# Subtest: exact: default collision is rejected in both Mersenne profiles and tree shapes\nok 1 - exact: default collision is rejected in both Mersenne profiles and tree shapes\n  ---\n  duration_ms: 1.3058\n  ...\n# Subtest: exact: legacy custom profiles may give unequal hashes for equal bytes\nok 2 - exact: legacy custom profiles may give unequal hashes for equal bytes\n  ---\n  duration_ms: 0.1923\n  ...\n# Subtest: exact: comparison never invokes a hasher or a defensive leaf-data getter\nok 3 - exact: comparison never invokes a hasher or a defensive leaf-data getter\n  ---\n  duration_ms: 0.1268\n  ...\n# Subtest: exact: differently sized periods and shifted huge repeats use finite witnesses\nok 4 - exact: differently sized periods and shifted huge repeats use finite witnesses\n  ---\n  duration_ms: 0.9583\n  ...\n# Subtest: exact: independent shared DAGs are memoized without expanding logical bytes\nok 5 - exact: independent shared DAGs are memoized without expanding logical bytes\n  ---\n  duration_ms: 2.8599\n  ...\n# Subtest: exact: deterministic random trees and ranges agree with materialized byte oracles\nok 6 - exact: deterministic random trees and ranges agree with materialized byte oracles\n  ---\n  duration_ms: 36.2942\n  ...\n# Subtest: exact: strict range validation precedes identical and empty shortcuts\nok 7 - exact: strict range validation precedes identical and empty shortcuts\n  ---\n  duration_ms: 0.4576\n  ...\n# Subtest: exact: word scans agree with byte oracles at every mismatch and unaligned tail\nok 8 - exact: word scans agree with byte oracles at every mismatch and unaligned tail\n  ---\n  duration_ms: 170.5568\n  ...\n# Subtest: profile: immutable metadata, equivalent hashers, and cross-profile exact equality\nok 9 - profile: immutable metadata, equivalent hashers, and cross-profile exact equality\n  ---\n  duration_ms: 0.6197\n  ...\n# Subtest: profile: mismatch is rejected before no-op and cached-fingerprint shortcuts\nok 10 - profile: mismatch is rejected before no-op and cached-fingerprint shortcuts\n  ---\n  duration_ms: 0.4187\n  ...\n# Subtest: profile: stream cannot combine its retained/prefix state under a replacement profile\nok 11 - profile: stream cannot combine its retained/prefix state under a replacement profile\n  ---\n  duration_ms: 0.4491\n  ...\n1..11\n# tests 11\n# suites 0\n# pass 11\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 285.4476\n",
+      "adapterSha256": "514e3cbb84325e4db38b6d3d1e1c1be65ee3665b67f718d1b291989bdecc9d5f"
+    },
+    {
+      "name": "types: clean offline tarball install",
+      "exitCode": 0,
+      "output": "\nadded 1 package in 499ms\n"
+    },
+    {
+      "name": "TypeScript NodeNext import and require declarations",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "name": "browser: clean offline tarball install",
+      "exitCode": 0,
+      "output": "\nadded 1 package in 526ms\n"
+    },
+    {
+      "name": "ES2022 browser bundle; VM realm without Node globals",
+      "exitCode": 0,
+      "output": "{\"passed\":true,\"hugeLength\":\"36028797018963974\"}",
+      "browserBundleBytes": 30437,
+      "bundleSha256": "3af76d3ea64bbbc48546dd311e1b7e10672ca2aa0429b63899a5a4090d61ca1c",
+      "caveat": "This is a browser-targeted bundle executed in a Node VM without Node globals, not a real browser-engine certification."
+    },
+    {
+      "name": "Real headless browser with fresh temporary profile",
+      "exitCode": 0,
+      "executable": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "version": "155.0.8059.85",
+      "passed": true,
+      "output": "<!DOCTYPE html>\r\n<html><head><meta charset=\"utf-8\"><title>Hashrope clean consumer</title></head><body><pre id=\"result\">PASS {\"passed\":true,\"hugeLength\":\"36028797018963974\"}</pre><script src=\"browser-bundle.js\"></script><script>document.getElementById(\"result\").textContent = globalThis.hashropeSmoke?.passed ? \"PASS \" + JSON.stringify(globalThis.hashropeSmoke) : \"FAIL\";</script></body></html>\r\n",
+      "diagnostics": ""
+    }
+  ],
+  "finishedAt": "2026-10-24T18:55:04.947Z",
+  "passed": true
+}

@@ -219,6 +219,7 @@ impl NodeInner {
 pub struct Arena {
     nodes: Vec<NodeInner>,
     h: PolynomialHash,
+    hash_profile: (BigUint, BigUint),
 }
 
 impl Arena {
@@ -236,20 +237,31 @@ impl Arena {
     pub fn with_hasher(h: PolynomialHash) -> Self {
         Self {
             nodes: Vec::new(),
+            hash_profile: (h.prime().clone(), h.base().clone()),
             h,
         }
     }
 
     /// Hash parameters and cache.
     pub fn hasher(&self) -> &PolynomialHash {
+        self.assert_hash_profile();
         &self.h
     }
 
     /// Mutable hasher access, e.g. for compositional hash calculations.
-    /// Replacing the hasher with different parameters invalidates existing
-    /// node hashes; use a fresh arena to change the hash profile.
+    /// Replacing it with different parameters makes subsequent hashing,
+    /// construction, editing and validation panic before using those
+    /// parameters. Use a fresh arena to change profiles. Exact comparison
+    /// and byte/length access remain valid.
     pub fn hasher_mut(&mut self) -> &mut PolynomialHash {
         &mut self.h
+    }
+
+    fn assert_hash_profile(&self) {
+        assert!(
+            self.hash_profile.0 == *self.h.prime() && self.hash_profile.1 == *self.h.base(),
+            "Arena hash parameters changed; create a new arena to use a different profile"
+        );
     }
 
     /// Number of allocated nodes, including old persistent versions.
@@ -337,9 +349,122 @@ impl Arena {
         node.map_or_else(BigUint::zero, |id| self.node_len(id).clone())
     }
 
-    /// Hash of the logical bytes; empty ropes hash to zero.
+    /// Fingerprint of the logical bytes; empty ropes hash to zero.
+    /// Equal fingerprints do not prove equal content. Use [`Self::equal`].
     pub fn hash(&self, node: Node) -> BigUint {
+        self.assert_hash_profile();
         node.map_or_else(BigUint::zero, |id| self.node(id).hash_val().clone())
+    }
+
+    /// Exact byte equality, independent of stored fingerprints and profiles.
+    ///
+    /// Shared ranges and proven periodic spans are skipped. Independent content
+    /// may require scanning its common prefix. The explicit traversal stack
+    /// and per-call verified-range cache allocate in proportion to the ranges
+    /// visited/proved, including arbitrary-precision key storage; no expanded
+    /// rope or new rope nodes are allocated. Integer operations depend on their
+    /// bit widths. There is no general logarithmic bound for independent inputs.
+    pub fn equal(&self, a: Node, b: Node) -> bool {
+        self.equal_across(a, self, b)
+    }
+
+    /// Exact byte LCP with an arbitrary-precision result. See [`Self::equal`].
+    pub fn lcp(&self, a: Node, b: Node) -> BigUint {
+        self.lcp_across(a, self, b)
+    }
+
+    /// Exact equality across arenas and hash profiles. Handles are arena-local.
+    pub fn equal_across(&self, a: Node, other: &Arena, b: Node) -> bool {
+        let length = self.len(a);
+        length == other.len(b) && self.lcp_across(a, other, b) == length
+    }
+
+    /// Exact LCP across arenas; matching numeric IDs do not imply identity.
+    pub fn lcp_across(&self, a: Node, other: &Arena, b: Node) -> BigUint {
+        let length = core::cmp::min(self.len(a), other.len(b));
+        if length.is_zero() || (core::ptr::eq(self, other) && a == b) {
+            return length;
+        }
+        exact_lcp(
+            self,
+            other,
+            a.unwrap(),
+            BigUint::zero(),
+            b.unwrap(),
+            BigUint::zero(),
+            length,
+        )
+    }
+
+    /// Exactly compare equal-length ranges without splitting or hashing.
+    /// Panics for out-of-bounds ranges, including empty ranges past the end.
+    pub fn equal_range(
+        &self,
+        a: Node,
+        a_start: &BigUint,
+        b: Node,
+        b_start: &BigUint,
+        length: &BigUint,
+    ) -> bool {
+        self.lcp_range(a, a_start, b, b_start, length) == *length
+    }
+
+    /// Exact range LCP, relative to the starts and bounded by `length`.
+    pub fn lcp_range(
+        &self,
+        a: Node,
+        a_start: &BigUint,
+        b: Node,
+        b_start: &BigUint,
+        length: &BigUint,
+    ) -> BigUint {
+        self.lcp_range_across(a, a_start, self, b, b_start, length)
+    }
+
+    /// Exact range equality across arenas and profiles, with checked bounds.
+    pub fn equal_range_across(
+        &self,
+        a: Node,
+        a_start: &BigUint,
+        other: &Arena,
+        b: Node,
+        b_start: &BigUint,
+        length: &BigUint,
+    ) -> bool {
+        self.lcp_range_across(a, a_start, other, b, b_start, length) == *length
+    }
+
+    /// Exact range LCP across arenas. Bounds are checked before identity/empty
+    /// shortcuts. All positions and the result retain arbitrary precision.
+    pub fn lcp_range_across(
+        &self,
+        a: Node,
+        a_start: &BigUint,
+        other: &Arena,
+        b: Node,
+        b_start: &BigUint,
+        length: &BigUint,
+    ) -> BigUint {
+        assert!(
+            a_start + length <= self.len(a),
+            "Left comparison range out of bounds"
+        );
+        assert!(
+            b_start + length <= other.len(b),
+            "Right comparison range out of bounds"
+        );
+        if length.is_zero() || (core::ptr::eq(self, other) && a == b && a_start == b_start) {
+            return length.clone();
+        }
+        exact_lcp(
+            self,
+            other,
+            a.unwrap(),
+            a_start.clone(),
+            b.unwrap(),
+            b_start.clone(),
+            length.clone(),
+        )
     }
 
     /// Number of logical leaves (repeats multiply the child weight).
@@ -494,6 +619,7 @@ impl Arena {
 
     /// Concatenate without expanding compressed repeats.
     pub fn concat(&mut self, left: Node, right: Node) -> Node {
+        self.assert_hash_profile();
         match (left, right) {
             (None, _) => right,
             (_, None) => left,
@@ -504,6 +630,7 @@ impl Arena {
     /// Split at a byte position in `[0, len]`, preserving compressed repeats.
     /// Panics for an out-of-range position.
     pub fn split(&mut self, node: Node, pos: &BigUint) -> (Node, Node) {
+        self.assert_hash_profile();
         assert!(*pos <= self.len(node), "Split position exceeds rope length");
         if pos.is_zero() {
             return (None, node);
@@ -579,12 +706,14 @@ impl Arena {
 
     /// Represent `node` repeated `q` times with arbitrary-size metadata.
     pub fn repeat(&mut self, node: Node, q: &BigUint) -> Node {
+        self.assert_hash_profile();
         node.and_then(|id| self.make_repeat(id, q))
     }
 
     /// Hash a valid byte range without allocating rope nodes or expanding
     /// repetitions. Panics unless `start + length <= len`.
     pub fn substr_hash(&mut self, node: Node, start: &BigUint, length: &BigUint) -> BigUint {
+        self.assert_hash_profile();
         assert!(
             start + length <= self.len(node),
             "Substring range exceeds rope length"
@@ -683,6 +812,7 @@ impl Arena {
 
     /// Build from bytes with a caller-selected positive leaf size.
     pub fn from_bytes_chunked(&mut self, data: &[u8], chunk_size: usize) -> Node {
+        self.assert_hash_profile();
         assert!(chunk_size > 0, "Chunk size must be positive");
         let mut root = None;
         for chunk in data.chunks(chunk_size) {
@@ -739,6 +869,7 @@ impl Arena {
     /// Validate lengths, weights, hashes, and BB[2/7] balance. Panics on any
     /// invariant violation. Shared subtrees are visited once.
     pub fn validate(&self, node: Node) {
+        self.assert_hash_profile();
         let mut seen = BTreeSet::new();
         let mut pending: Vec<NodeId> = node.into_iter().collect();
         while let Some(id) = pending.pop() {
@@ -812,8 +943,205 @@ impl Arena {
 
     /// Hash raw bytes using this arena's parameters.
     pub fn hash_bytes(&self, data: &[u8]) -> BigUint {
+        self.assert_hash_profile();
         self.h.hash(data)
     }
+}
+
+// One call fixes both arenas, so a cache key needs only arena-local IDs and
+// arbitrary-precision ranges. Proofs are committed only after all child tasks
+// succeed. No recursion is used: valid BigUint ropes can have very deep DAGs.
+type EqualRange = (NodeId, BigUint, NodeId, BigUint, BigUint);
+
+enum CompareTask {
+    Range(EqualRange),
+    Verify(EqualRange),
+    Skip(BigUint),
+}
+
+fn normalize_range(
+    arena: &Arena,
+    mut id: NodeId,
+    mut start: BigUint,
+    length: &BigUint,
+) -> (NodeId, BigUint) {
+    loop {
+        match arena.node(id) {
+            NodeInner::Leaf { .. } => return (id, start),
+            NodeInner::Internal { left, right, .. } => {
+                let boundary = arena.node_len(*left);
+                if start >= *boundary {
+                    start -= boundary;
+                    id = *right;
+                } else if &start + length <= *boundary {
+                    id = *left;
+                } else {
+                    return (id, start);
+                }
+            }
+            NodeInner::Repeat { child, .. } => {
+                let period = arena.node_len(*child);
+                start %= period;
+                if &start + length <= *period {
+                    id = *child;
+                } else {
+                    return (id, start);
+                }
+            }
+        }
+    }
+}
+
+fn structural_period(arena: &Arena, mut id: NodeId) -> Option<BigUint> {
+    let mut repeated = false;
+    loop {
+        match arena.node(id) {
+            NodeInner::Repeat { child, .. } => id = *child,
+            NodeInner::Internal { left, right, .. } if left == right => id = *left,
+            _ => return repeated.then(|| arena.node_len(id).clone()),
+        }
+        repeated = true;
+    }
+}
+
+fn gcd(mut a: BigUint, mut b: BigUint) -> BigUint {
+    while !b.is_zero() {
+        let rest = &a % &b;
+        a = b;
+        b = rest;
+    }
+    a
+}
+
+fn periodic_witness(p: &BigUint, q: &BigUint) -> BigUint {
+    p + q - gcd(p.clone(), q.clone())
+}
+
+// These equal-length slices are already known to differ. Converting each word
+// from little endian makes byte localization independent of target endianness.
+fn first_different_byte(left: &[u8], right: &[u8]) -> usize {
+    let mut offset = 0;
+    while left.len() - offset >= 8 {
+        let a = u64::from_le_bytes(left[offset..offset + 8].try_into().unwrap());
+        let b = u64::from_le_bytes(right[offset..offset + 8].try_into().unwrap());
+        let different = a ^ b;
+        if different != 0 {
+            return offset + (different.trailing_zeros() / 8) as usize;
+        }
+        offset += 8;
+    }
+    offset
+        + left[offset..]
+            .iter()
+            .zip(&right[offset..])
+            .position(|(a, b)| a != b)
+            .unwrap()
+}
+
+fn exact_lcp(
+    left: &Arena,
+    right: &Arena,
+    a: NodeId,
+    a_start: BigUint,
+    b: NodeId,
+    b_start: BigUint,
+    length: BigUint,
+) -> BigUint {
+    let same_arena = core::ptr::eq(left, right);
+    let mut pending = Vec::new();
+    // Reduce chains of repeats/self-concatenations only at the whole-query
+    // entrance, avoiding repeated depth walks at every internal boundary.
+    let witness = match (structural_period(left, a), structural_period(right, b)) {
+        (Some(p), Some(q)) => core::cmp::min(periodic_witness(&p, &q), length.clone()),
+        _ => length.clone(),
+    };
+    if witness < length {
+        pending.push(CompareTask::Skip(&length - &witness));
+    }
+    pending.push(CompareTask::Range((a, a_start, b, b_start, witness)));
+    let mut verified = BTreeSet::new();
+    let mut matched = BigUint::zero();
+    while let Some(task) = pending.pop() {
+        let (a, a_start, b, b_start, size) = match task {
+            CompareTask::Skip(length) => {
+                matched += length;
+                continue;
+            }
+            CompareTask::Verify(key) => {
+                verified.insert(key);
+                continue;
+            }
+            CompareTask::Range(range) => range,
+        };
+        if size.is_zero() {
+            continue;
+        }
+        let (a, a_start) = normalize_range(left, a, a_start, &size);
+        let (b, b_start) = normalize_range(right, b, b_start, &size);
+        if same_arena && a == b && a_start == b_start {
+            matched += size;
+            continue;
+        }
+        let a_node = left.node(a);
+        let b_node = right.node(b);
+        if let (NodeInner::Leaf { data: x, .. }, NodeInner::Leaf { data: y, .. }) = (a_node, b_node)
+        {
+            // Normalization establishes that the ranges fit in owned Vecs.
+            let a_start = a_start.to_usize().expect("Leaf offset exceeds usize::MAX");
+            let b_start = b_start.to_usize().expect("Leaf offset exceeds usize::MAX");
+            let size = size.to_usize().expect("Leaf range exceeds usize::MAX");
+            let x = &x[a_start..][..size];
+            let y = &y[b_start..][..size];
+            if x != y {
+                return matched + first_different_byte(x, y);
+            }
+            matched += size;
+            continue;
+        }
+        let key = (a, a_start.clone(), b, b_start.clone(), size.clone());
+        if verified.contains(&key) {
+            matched += size;
+            continue;
+        }
+        pending.push(CompareTask::Verify(key));
+        if let (NodeInner::Repeat { child: x, .. }, NodeInner::Repeat { child: y, .. }) =
+            (a_node, b_node)
+        {
+            let witness = periodic_witness(left.node_len(*x), right.node_len(*y));
+            if witness < size {
+                pending.push(CompareTask::Skip(&size - &witness));
+                pending.push(CompareTask::Range((a, a_start, b, b_start, witness)));
+                continue;
+            }
+        }
+        // Reveal Internal children before cutting Repeat copies. This keeps
+        // Repeat versus concat(large Repeat, large Repeat) symbolic.
+        let mut cut = size.clone();
+        if let NodeInner::Internal { left: child, .. } = a_node {
+            cut = core::cmp::min(cut, left.node_len(*child) - &a_start);
+        }
+        if let NodeInner::Internal { left: child, .. } = b_node {
+            cut = core::cmp::min(cut, right.node_len(*child) - &b_start);
+        }
+        if cut == size {
+            if let NodeInner::Repeat { child, .. } = a_node {
+                cut = core::cmp::min(cut, left.node_len(*child) - &a_start);
+            }
+            if let NodeInner::Repeat { child, .. } = b_node {
+                cut = core::cmp::min(cut, right.node_len(*child) - &b_start);
+            }
+        }
+        debug_assert!(!cut.is_zero() && cut < size);
+        pending.push(CompareTask::Range((
+            a,
+            &a_start + &cut,
+            b,
+            &b_start + &cut,
+            &size - &cut,
+        )));
+        pending.push(CompareTask::Range((a, a_start, b, b_start, cut)));
+    }
+    matched
 }
 
 impl Default for Arena {
@@ -829,6 +1157,36 @@ pub fn rope_len(arena: &Arena, node: Node) -> BigUint {
 /// Hash of logical bytes.
 pub fn rope_hash(arena: &Arena, node: Node) -> BigUint {
     arena.hash(node)
+}
+/// Exact byte equality; no fingerprint is used as a decision.
+pub fn rope_equal(arena: &Arena, left: Node, right: Node) -> bool {
+    arena.equal(left, right)
+}
+/// Exact longest common prefix, in bytes.
+pub fn rope_lcp(arena: &Arena, left: Node, right: Node) -> BigUint {
+    arena.lcp(left, right)
+}
+/// Exact equality of checked, equal-length byte ranges.
+pub fn rope_range_equal(
+    arena: &Arena,
+    left: Node,
+    left_start: &BigUint,
+    right: Node,
+    right_start: &BigUint,
+    length: &BigUint,
+) -> bool {
+    arena.equal_range(left, left_start, right, right_start, length)
+}
+/// Exact LCP of checked byte ranges, relative to their starts.
+pub fn rope_range_lcp(
+    arena: &Arena,
+    left: Node,
+    left_start: &BigUint,
+    right: Node,
+    right_start: &BigUint,
+    length: &BigUint,
+) -> BigUint {
+    arena.lcp_range(left, left_start, right, right_start, length)
 }
 /// Structural height.
 pub fn rope_height(arena: &Arena, node: Node) -> u64 {
@@ -973,6 +1331,7 @@ impl SlidingWindow {
 
     /// Append literal bytes and evict excess window contents.
     pub fn append_bytes(&mut self, data: &[u8]) {
+        self.arena.assert_hash_profile();
         if data.is_empty() {
             return;
         }
@@ -987,6 +1346,7 @@ impl SlidingWindow {
     /// Panics if offset exceeds retained or decoded length, or if a nonempty
     /// copy has offset zero. A zero-length copy does not allocate rope nodes.
     pub fn append_copy(&mut self, offset: &BigUint, length: &BigUint) {
+        self.arena.assert_hash_profile();
         let win_len = self.window_len();
         assert!(
             *offset <= self.pos && *offset <= win_len,

@@ -1,0 +1,166 @@
+{
+  "purpose": "Exact consumer migration on stored real HIV data; no clinical efficacy claim",
+  "comparison_modes": [
+    "old_hash_only",
+    "exact"
+  ],
+  "paired_runs": 9,
+  "sampling": "nine within-process paired runs, not nine independent workers",
+  "order": "alternating; one warmup each; construction excluded; same current core in both arms",
+  "python": "3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024, 21:26:36) [MSC v.1937 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "hashrope_file": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization\\.cache\\optimized\\hashrope\\packages\\python\\hashrope\\__init__.py",
+  "bio_head": "206d1af783ca4c34626cfe1f9ce9a7bd7d4275cb",
+  "baseline_ref": "206d1af783ca4c34626cfe1f9ce9a7bd7d4275cb",
+  "old_source_sha256": {
+    "gene_reports": "b73d39a2e5acfc22466a06c83bc58e71a1a3ab8d54fbd1acd97664c09708a0c2",
+    "regions": "9a8c0aa047341f3ad26e35ce802c8a4f4ea8fc7ebf8cc366fed3659c76abb779",
+    "panels": "b118328ba23db0ccd79c3b0ae930d39f8b64050db8f2a0ca598445cf2bc0f7b9"
+  },
+  "exact_source_sha256": {
+    "gene_reports": "25e5acfe8a4b20c508592b10efce929d9e71e5d6c8de9a64aabd8cfc59b4f6e7",
+    "regions": "ce60abc07e82e90ddfe459c036b5abaff23517a533991d01fc419daf06df8567",
+    "panels": "cdabe56e4a5e2b6baa695723f2761f892f8c8cefcab6d7ff6303011a1357e660"
+  },
+  "core_source_sha256": {
+    "rope.py": "bbd9e95df2d30352e376e90ce2c74357c7db1b1c1b4fae76638e36f6117f01bc",
+    "polynomial_hash.py": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5"
+  },
+  "corpora": [
+    {
+      "file": "usecases\\computational-biology\\code\\data\\hiv1_hxb2.fa",
+      "bytes": 9965,
+      "sha256": "3d660cd824b3979393b6d4aa475f4c68e5931ba9467626a16ae2ebdb2c2f7a26"
+    },
+    {
+      "file": "usecases\\computational-biology\\code\\data\\hivdb_rt_expanded_aligned.fa",
+      "bytes": 1837955,
+      "sha256": "0091bef9905ec1d2a01a3d63e71baf5055932d5093c6cee4f2d3943ce35a9270"
+    }
+  ],
+  "corpus_patient_records": 2000,
+  "patient_records_used": 2000,
+  "selection": "first FASTA records in stored order plus 16 independently built equal controls",
+  "cases": 2016,
+  "construction_ms": 1004.5614,
+  "results": {
+    "regions": {
+      "operations_per_run": 2016,
+      "all_byte_oracles_match": true,
+      "workload_repetitions_per_timed_sample": 4,
+      "milliseconds": {
+        "old_hash_only": [
+          0.843175,
+          0.935575,
+          0.7632,
+          0.88615,
+          0.747575,
+          1.16355,
+          0.8099,
+          1.09405,
+          0.873975
+        ],
+        "exact": [
+          8.802375,
+          8.667375,
+          8.743325,
+          8.823425,
+          8.62305,
+          9.2816,
+          9.518375,
+          10.392275,
+          9.829125
+        ]
+      },
+      "median_ms": {
+        "old_hash_only": 0.873975,
+        "exact": 8.823425
+      },
+      "exact_over_old_ratio": 10.09574072484911
+    },
+    "gene_reports": {
+      "operations_per_run": 2016,
+      "all_byte_oracles_match": true,
+      "workload_repetitions_per_timed_sample": 1,
+      "milliseconds": {
+        "old_hash_only": [
+          2.6666,
+          2.7651,
+          2.5089,
+          2.7927,
+          2.8249,
+          3.0039,
+          2.7336,
+          2.8612,
+          3.001
+        ],
+        "exact": [
+          11.568,
+          11.9284,
+          12.6553,
+          11.8006,
+          12.724,
+          11.6334,
+          11.742,
+          11.458,
+          11.8031
+        ]
+      },
+      "median_ms": {
+        "old_hash_only": 2.7927,
+        "exact": 11.8006
+      },
+      "exact_over_old_ratio": 4.2255165252264835
+    },
+    "panels": {
+      "operations_per_run": 46368,
+      "all_byte_oracles_match": true,
+      "workload_repetitions_per_timed_sample": 1,
+      "milliseconds": {
+        "old_hash_only": [
+          131.1184,
+          133.8805,
+          132.4718,
+          144.9586,
+          139.218,
+          149.5172,
+          136.4346,
+          143.6013,
+          153.2251
+        ],
+        "exact": [
+          195.451,
+          194.6951,
+          233.2921,
+          207.3813,
+          211.9789,
+          216.7203,
+          196.7171,
+          207.5836,
+          220.8419
+        ]
+      },
+      "median_ms": {
+        "old_hash_only": 139.218,
+        "exact": 207.5836
+      },
+      "exact_over_old_ratio": 1.4910686836472296
+    }
+  },
+  "optimization_core": "optimized",
+  "core_sha256": {
+    "packages/rust/src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+    "packages/rust/src/polynomial_hash.rs": "f54256ca7f1fdfb5e7bdbd7ca00598479a3563c70baa882e01f16ef79be505ef",
+    "packages/rust/src/rope.rs": "9ed9acdbd411e7942b442a780097660041af9ad4bee41461d68bf76fce1d2cad",
+    "packages/rust/src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+    "packages/python/hashrope/__init__.py": "5e8d8f4c07d50f0eaa7d24b504ed5240bdd4a05384e7123de6e582e36420bd90",
+    "packages/python/hashrope/polynomial_hash.py": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5",
+    "packages/python/hashrope/rope.py": "bbd9e95df2d30352e376e90ce2c74357c7db1b1c1b4fae76638e36f6117f01bc",
+    "packages/python/hashrope/sliding.py": "26599d0df3a7f0b50659a02d0ed96eae1b1fc88537db6f58f887ae0b6ecd928c"
+  },
+  "process_order": [
+    "baseline",
+    "optimized"
+  ],
+  "context_fingerprint": "5c5a13df72486b8e3e8ce2c0df847707a2c6892bd563d6363b91003e00ff1dfb"
+}

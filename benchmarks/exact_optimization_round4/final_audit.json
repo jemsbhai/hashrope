@@ -1,0 +1,141 @@
+{
+  "complete_matrix": true,
+  "study_mode": "retest_pre_round3_to_current",
+  "cohort_contexts": {
+    "rust": "b62d7375ec1cc9b1215e3682bf06947ace915187eb656520d6d1ea21e51d85a4",
+    "paper": "13561f14bf3a56439f10d30f4068c33c9c9cf0b0568b8464c59eb000720295bb",
+    "extended": "ae0a76e75ee2f4d79256cad056949331195758fd0112cb492a3d98e5c8d924ac",
+    "bio": "982ecb98895c0f022b258382fada24906aa15cdf7c2f92636bd2b032f5deaee5",
+    "micro": "f58c4d5d393839bf9e46914422cb4bc6be8ce250ef4db2625ecedb475594fb1d"
+  },
+  "alternate_output_summary_identical": true,
+  "bio_resume_reused_verified_results_without_rewrite": true,
+  "python_scripts_parsed": [
+    "capture_baseline.py",
+    "check_unchanged.py",
+    "compare_controlled.py",
+    "final_checks.py",
+    "inspect_assembly.py",
+    "provenance.py",
+    "record_completion.py",
+    "replicate_original.py",
+    "run_matrix.py",
+    "summarize.py",
+    "update_ledger.py",
+    "verify_carried_validation.py",
+    "verify_final_core.py",
+    "verify_preserved.py"
+  ],
+  "prior_artifacts_byte_identical": 376,
+  "validation": "658 selected tests carried forward by exact source/test identity; diagnostic and matrix oracles freshly executed",
+  "commands": [
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\provenance.py"
+      ],
+      "returncode": 0,
+      "stdout": "Verified rust\nVerified paper\nVerified extended\nVerified bio\nVerified micro\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\check_unchanged.py"
+      ],
+      "returncode": 0,
+      "stdout": "Verified 6 unchanged modules, 34 Python definitions; audited 98 existing Rust production functions, 0 intentional changes and 0 additions\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\verify_carried_validation.py"
+      ],
+      "returncode": 0,
+      "stdout": "20 tested source/integration files are byte-identical to round three and the working tree\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\verify_final_core.py"
+      ],
+      "returncode": 0,
+      "stdout": "Measured core preserved; documentation-only changes: []\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\verify_preserved.py"
+      ],
+      "returncode": 0,
+      "stdout": "376 prior benchmark source/artifact files are byte-identical\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\summarize.py",
+        "--output-dir",
+        "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\.cache\\report_check"
+      ],
+      "returncode": 0,
+      "stdout": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\.cache\\report_check\\README.md\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\run_matrix.py",
+        "--kind",
+        "bio",
+        "--resume"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "repository_diff_checks": {
+    "E:\\data\\code\\claudecode\\hashrope": {
+      "command": [
+        "git",
+        "-C",
+        "E:\\data\\code\\claudecode\\hashrope",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "warning: in the working copy of 'README.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'hashrope1_ex.ipynb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'packages/python/hashrope/sliding.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'packages/rust/src/polynomial_hash.rs', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'packages/rust/src/rope.rs', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'usecases/document-diff/README.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'usecases/rag-index-updates/README.md', CRLF will be replaced by LF the next time Git touches it\n"
+    },
+    "E:\\data\\code\\claudecode\\hashropeictaipaper": {
+      "command": [
+        "git",
+        "-C",
+        "E:\\data\\code\\claudecode\\hashropeictaipaper",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "warning: in the working copy of 'CLAIMS.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'LOGBOOK.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'PROGRAM.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'findings.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'paper/main.tex', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'scripts/exp005_bench.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'scripts/exp015_negctl_R1.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'scripts/exp015_negctl_R2.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'scripts/exp017_bench.py', CRLF will be replaced by LF the next time Git touches it\n"
+    },
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code": {
+      "command": [
+        "git",
+        "-C",
+        "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "warning: in the working copy of 'README.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'benchmarks/bench_cross_species.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'benchmarks/bench_resistance_realdata.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'pyproject.toml', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'rust/Cargo.toml', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'rust/README.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'rust/src/bin/bench_cross_species_cg1.rs', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'rust/src/bin/bench_mutation_g3.rs', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'rust/src/bin/bench_mutation_g3_clinvar.rs', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'rust/src/gene_diff.rs', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'rust/src/resistance.rs', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'src/hashrope_bio/cheminformatics/__init__.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'src/hashrope_bio/cheminformatics/compounds.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'src/hashrope_bio/cheminformatics/resistance.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'src/hashrope_bio/genomics/gene_diff.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'src/hashrope_bio/genomics/mutation.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'src/hashrope_bio/genomics/region_query.py', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'src/hashrope_bio/proteomics/trajectory.py', CRLF will be replaced by LF the next time Git touches it\n"
+    }
+  },
+  "logbook_prior_bytes_preserved": true,
+  "final_paper_compilation": "Desktop compile_latex_document succeeded for current revised paper/main.tex; reported by root and recorded in independent review"
+}

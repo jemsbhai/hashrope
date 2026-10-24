@@ -1,5 +1,29 @@
 # Rust parity with published Python
 
+## Version 0.3.3
+
+The synchronized release adds hash-independent exact equality, LCP and checked
+range APIs to both `Arena` backends. Hash profiles are fixed when arenas are
+created, and incompatible hasher replacement is rejected before hash-dependent
+operations. Exact comparisons remain available across profiles. The bigint
+engine uses arbitrary-precision offsets and an explicit task stack for deep
+compressed DAGs. Default fingerprints and published 0.3.2 arithmetic and overflow
+fixes are preserved. Hashrope-bio 0.3.3 now adopts the exact APIs and declares
+the corresponding minimum dependency. See the repository's
+[0.3.3 release record](../../releases/0.3.3/README.md) for current validation.
+
+Behavioral parity does not promise identical algorithms or performance. The
+[release integration measurements](../../releases/0.3.3/performance/rust_integration/README.md)
+retain three paired runs of the original Rust microbenchmark and edit workload
+against the completed round-four core. They disclose recurring independent-equal
+LCP and self-concat DAG LCP slowdowns (paired ratios 1.105 and 1.308), alongside
+mixed/improved cells and unchanged node layout. Exact edit/comparison changes
+range from +1.0% to +8.0% in that bounded check. No cause is isolated, no universal
+efficiency claim is made, and the bigint engine is correctness-tested rather
+than benchmarked by that default-feature run.
+
+## Historical 0.3.2 audit
+
 Audit baseline: repository commit `100749d1cef9603465f4600b814c76d2ad6e9a6e`
 (verified current `master` on 2026-10-08), PyPI `hashrope 0.2.2`, and crates.io
 `hashrope 0.3.1`. Version numbers alone were not used as evidence of parity.

@@ -194,6 +194,9 @@ impl PolynomialHash {
         if data.is_empty() {
             return 0;
         }
+        if self.p == MERSENNE_61 && self.x == 131 {
+            return hash_default_profile(data);
+        }
         let mut h: u64 = 0;
         for &byte in data {
             // h = h * x + (byte + 1)
@@ -233,6 +236,30 @@ impl PolynomialHash {
 
         mersenne_mod(h_repeated as u128 * x_r as u128 + h_prefix as u128, self.p)
     }
+}
+
+/// Evaluate the same default polynomial eight bytes at a time.
+///
+/// For each block, H(prefix || block) = H(prefix) * 131^8 + H(block)
+/// modulo 2^61 - 1. The unreduced eight-byte block fits in u64 and the
+/// combined accumulator is below 2^118, so neither integer type overflows.
+/// This algebraic regrouping is deliberately limited to the default profile:
+/// custom profiles retain the published 0.3.2 per-byte reduction.
+fn hash_default_profile(data: &[u8]) -> u64 {
+    const BASE8: u64 = 131u64.pow(8);
+    let mut h = 0u64;
+    let mut chunks = data.chunks_exact(8);
+    for chunk in &mut chunks {
+        let mut block = 0u64;
+        for &byte in chunk {
+            block = block * 131 + byte as u64 + 1;
+        }
+        h = mersenne_mod(h as u128 * BASE8 as u128 + block as u128, MERSENNE_61);
+    }
+    for &byte in chunks.remainder() {
+        h = mersenne_mod(h as u128 * 131 + byte as u128 + 1, MERSENNE_61);
+    }
+    h
 }
 
 #[cfg(test)]

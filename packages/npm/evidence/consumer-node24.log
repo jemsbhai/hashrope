@@ -1,0 +1,14 @@
+PASS esm: clean offline tarball install
+PASS ESM import runtime
+PASS esm: all 27565 published-wheel oracle checks from installed tarball
+PASS esm: installed exact and profile regressions
+PASS all 6 packaged TypeScript examples, compiled and independently executed
+PASS cjs: clean offline tarball install
+PASS CommonJS require runtime
+PASS cjs: all 27565 published-wheel oracle checks from installed tarball
+PASS cjs: installed exact and profile regressions
+PASS types: clean offline tarball install
+PASS TypeScript NodeNext import and require declarations
+PASS browser: clean offline tarball install
+PASS ES2022 browser bundle and isolated realm
+PASS real headless browser 155.0.8059.85

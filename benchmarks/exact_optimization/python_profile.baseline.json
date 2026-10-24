@@ -1,0 +1,157 @@
+{
+  "label": "baseline",
+  "python": "3.12.2",
+  "source": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization\\.cache\\baseline\\hashrope\\packages\\python\\hashrope\\rope.py",
+  "source_sha256": "1c051da9ec56c9fd3e1799ee99db8608a5e470f6099d54ea7058a38de875744c",
+  "corpus": "E:\\data\\code\\claudecode\\hashropeictaipaper\\data\\raw\\corpus_s42.txt",
+  "corpus_sha256": "fda6a43a3fe34184b36e2e5d5eba5cb2468a64011374f35d6cd07b0f0f144d6d",
+  "repetitions": 100,
+  "construction_timed": false,
+  "note": "Diagnostic single-process timings; use paired rerun results for performance claims.",
+  "cases": [
+    {
+      "name": "independent_2MiB_equal_4KiB_leaves",
+      "expected": 2097152,
+      "median_ms": 0.84205,
+      "samples_ms": [
+        0.859977,
+        0.846645,
+        0.835791,
+        0.82889,
+        0.833298,
+        0.84205,
+        0.823364,
+        0.847183,
+        0.872545
+      ],
+      "profile_total_calls": 1994801,
+      "profile_total_seconds": 0.40576840000000003
+    },
+    {
+      "name": "independent_2MiB_late_mismatch",
+      "expected": 2097151,
+      "median_ms": 1.023882,
+      "samples_ms": [
+        1.04997,
+        1.012976,
+        0.992654,
+        1.094357,
+        1.0808,
+        1.029405,
+        1.023882,
+        0.997462,
+        1.00659
+      ],
+      "profile_total_calls": 1991201,
+      "profile_total_seconds": 0.45036210000000004
+    },
+    {
+      "name": "shared_2MiB_late_edit",
+      "expected": 2097151,
+      "median_ms": 0.012764,
+      "samples_ms": [
+        0.012441,
+        0.013391,
+        0.017023,
+        0.017198,
+        0.012764,
+        0.012714,
+        0.012438,
+        0.01322,
+        0.012573
+      ],
+      "profile_total_calls": 31701,
+      "profile_total_seconds": 0.006549999999999999
+    },
+    {
+      "name": "independent_shifted_equal_ranges",
+      "expected": 2097152,
+      "median_ms": 1.782814,
+      "samples_ms": [
+        1.945405,
+        2.150892,
+        3.231019,
+        2.628609,
+        1.746109,
+        1.75881,
+        1.726629,
+        1.744938,
+        1.782814
+      ],
+      "profile_total_calls": 3943601,
+      "profile_total_seconds": 0.7989998
+    },
+    {
+      "name": "64KiB_leaf_last_byte_mismatch",
+      "expected": 65535,
+      "median_ms": 2.206816,
+      "samples_ms": [
+        2.117379,
+        2.126494,
+        2.190951,
+        2.212323,
+        2.323435,
+        2.188696,
+        2.280529,
+        2.469892,
+        2.206816
+      ],
+      "profile_total_calls": 1901,
+      "profile_total_seconds": 0.36859850000000005
+    },
+    {
+      "name": "64KiB_leaf_first_byte_mismatch",
+      "expected": 0,
+      "median_ms": 0.001644,
+      "samples_ms": [
+        0.001762,
+        0.001695,
+        0.001689,
+        0.001644,
+        0.001633,
+        0.00162,
+        0.001638,
+        0.001616,
+        0.001905
+      ],
+      "profile_total_calls": 1901,
+      "profile_total_seconds": 0.0007211
+    },
+    {
+      "name": "independent_trillion_repeats",
+      "expected": 3000000000000,
+      "median_ms": 0.005988,
+      "samples_ms": [
+        0.006589,
+        0.006114,
+        0.005729,
+        0.005988,
+        0.006243,
+        0.005722,
+        0.005615,
+        0.006207,
+        0.00565
+      ],
+      "profile_total_calls": 8801,
+      "profile_total_seconds": 0.0027909000000000002
+    },
+    {
+      "name": "independent_self_concat_DAG",
+      "expected": 3298534883328,
+      "median_ms": 0.096978,
+      "samples_ms": [
+        0.096787,
+        0.088963,
+        0.092542,
+        0.110473,
+        0.105223,
+        0.098408,
+        0.096978,
+        0.104197,
+        0.094
+      ],
+      "profile_total_calls": 146201,
+      "profile_total_seconds": 0.0461445
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+   Compiling hashrope v0.3.1 (E:\data\code\claudecode\hashrope\packages\rust)
+warning: method `rebalance` is never used
+   --> src\rope.rs:539:8
+    |
+ 86 | impl Arena {
+    | ---------- method in this implementation
+...
+539 |     fn rebalance(&mut self, left: NodeId, right: NodeId) -> NodeId {
+    |        ^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `hashrope` (lib) generated 1 warning
+    Finished `release` profile [optimized] target(s) in 6.26s
+     Running unittests src\lib.rs (packages\rust\target\release\deps\hashrope-87fdfee5e7b5ec91.exe)
+
+running 103 tests
+test polynomial_hash::tests::test_hash_overlap_theorem5 ... ok
+test polynomial_hash::tests::test_hash_repeat_theorem2 ... ok
+test polynomial_hash::tests::test_mersenne_mod_basic ... ok
+test rope::exact_fast_path_tests::fast_budget_counts_every_normalization_descent ... ok
+test rope::exact_fast_path_tests::fast_repeat_transition_preserves_prefix_and_late_mismatch ... ok
+test polynomial_hash::tests::test_mersenne_mul_commutative ... ok
+test rope::exact_fast_path_tests::frontier_repeat_fallback_preserves_a_verified_nonzero_prefix ... ok
+test polynomial_hash::tests::test_hash_deterministic ... ok
+test polynomial_hash::tests::test_phi_base_cases ... ok
+test rope::exact_fast_path_tests::frontier_budget_includes_both_nodes_and_resumes_verified_ranges ... ok
+test polynomial_hash::tests::test_phi_degenerate_alpha_one ... ok
+test polynomial_hash::tests::test_phi_two ... ok
+test polynomial_hash::tests::test_mersenne_mod_large ... ok
+test rope::exact_fast_path_tests::fast_budget_fallback_resumes_after_verified_nonzero_prefix ... ok
+test rope::exact_fast_path_tests::fast_compact_dag_stops_at_budget_before_logical_expansion ... ok
+test polynomial_hash::tests::test_hash_concat_theorem1 ... ok
+test rope::tests::test_bug_b_varied_weight_ratios ... ok
+test rope::tests::test_associativity ... ok
+test rope::tests::test_bug_a_repeat_concat_leaf ... ok
+test rope::tests::test_cdh_sort_distance_1_intensive ... ok
+test polynomial_hash::tests::test_overflow_cache ... ok
+test rope::tests::test_concat_none ... ok
+test rope::tests::test_bug_a_multi_leaf_concat_repeat ... ok
+test polynomial_hash::tests::test_hash_empty ... ok
+test polynomial_hash::tests::test_phi_large_q ... ok
+test polynomial_hash::tests::test_hash_different_data ... ok
+test rope::exact_fast_path_tests::frontier_depth_limit_falls_back_before_expansion_and_after_shared_prefix ... ok
+test polynomial_hash::tests::test_inline_cache_correctness ... ok
+test rope::tests::test_cdh_sort_lz77_pattern ... ok
+test rope::tests::test_bug_a_leaf_concat_repeat ... ok
+test rope::tests::test_bug_a_sweep_repeat_weights ... ok
+test rope::tests::test_bug_a_repeat_concat_repeat ... ok
+test rope::tests::test_bug_b_rotation_unbalanced_children ... ok
+test rope::tests::test_concat_two_leaves ... ok
+test polynomial_hash::tests::test_python_cross_validation ... ok
+test rope::tests::test_bug_b_split_then_concat_internals ... ok
+test rope::tests::test_cross_validation_hello_world ... ok
+test rope::tests::test_lazy_all_node_hashes_match_eager ... ok
+test rope::tests::test_height_leaf ... ok
+test rope::tests::test_diag_rebalance_repeat_leaf ... ok
+test rope::tests::test_diag_trace_join_repeat9_leaf1 ... ok
+test rope::tests::test_diag_rebalance_repeat_repeat ... ok
+test rope::tests::test_lazy_concat_to_bytes ... ok
+test rope::tests::test_lazy_cdh_equals_h ... ok
+test rope::tests::test_lazy_complex_to_bytes ... ok
+test rope::tests::test_height_grows_log ... ok
+test rope::tests::test_lazy_cdh_sort_lz77_pattern ... ok
+test rope::tests::test_lazy_ensure_hash_concat ... ok
+test rope::tests::test_lazy_ensure_hash_idempotent ... ok
+test rope::tests::test_lazy_ensure_hash_leaf ... ok
+test rope::tests::test_lazy_ensure_hash_repeat ... ok
+test rope::tests::test_lazy_flag ... ok
+test rope::tests::test_lazy_leaf_has_sentinel_hash ... ok
+test rope::tests::test_diag_rebalance_internal_internal ... ok
+test rope::tests::test_lazy_partial_materialization ... ok
+test rope::tests::test_lazy_lz77_pattern_hash ... ok
+test rope::tests::test_lazy_internal_has_sentinel_hash ... ok
+test rope::tests::test_lazy_repeat_has_sentinel_hash ... ok
+test rope::tests::test_lazy_repeat_to_bytes ... ok
+test rope::tests::test_lazy_public_hash_returns_sentinel ... ok
+test rope::tests::test_lazy_sentinel_never_valid_hash ... ok
+test rope::tests::test_lazy_split_rejoin_hash ... ok
+test rope::tests::test_lazy_split_concat_split_hash ... ok
+test rope::tests::test_lazy_many_concats_hash_correct ... ok
+test rope::tests::test_lazy_height_bounded ... ok
+test rope::tests::test_lazy_split_repeat_then_hash ... ok
+test rope::tests::test_diag_rebalance_repeat_internal ... ok
+test rope::tests::test_lazy_split_to_bytes ... ok
+test rope::tests::test_lazy_substr_hash_materializes_on_demand ... ok
+test rope::tests::test_lazy_substr_hash_multiple_ranges ... ok
+test rope::tests::test_lazy_substr_hash_partial ... ok
+test rope::tests::test_lazy_substr_hash_repeat ... ok
+test rope::tests::test_lazy_to_bytes_correct ... ok
+test rope::tests::test_lazy_validate_with_repeats ... ok
+test rope::tests::test_leaf_basic ... ok
+test rope::tests::test_lazy_rotation_nodes_materialize_correctly ... ok
+test rope::tests::test_lazy_validate_structural ... ok
+test rope::tests::test_nested_repeat_of_concat ... ok
+test rope::tests::test_many_concats_balanced ... ok
+test rope::tests::test_repeat_hash ... ok
+test rope::tests::test_lazy_deep_tree_ensure_hash ... ok
+test rope::tests::test_many_small_repeats_accumulated ... ok
+test rope::tests::test_split_repeat_on_boundary ... ok
+test rope::tests::test_split_repeat_rejoin_sweep ... ok
+test rope::tests::test_split_preserves_hash ... ok
+test rope::tests::test_split_repeat_within ... ok
+test rope::tests::test_substr_hash ... ok
+test rope::tests::test_stack_overflow_large_repeat_join ... ok
+test rope::tests::test_substr_hash_full_node ... ok
+test rope::tests::test_substr_hash_multi_leaf_exhaustive ... ok
+test rope::tests::test_substr_hash_repeat_node ... ok
+test rope::tests::test_diag_bug_b_minimal_reproduction ... ok
+test rope::tests::test_substr_hash_after_split_rejoin ... ok
+test rope::tests::test_substr_hash_single_byte_leaves ... ok
+test rope::tests::test_to_bytes_roundtrip ... ok
+test sliding::tests::test_append_bytes ... ok
+test sliding::tests::test_append_incremental ... ok
+test sliding::tests::test_empty ... ok
+test sliding::tests::test_eviction_preserves_hash ... ok
+test sliding::tests::test_large_stream ... ok
+test sliding::tests::test_non_overlapping_copy ... ok
+test sliding::tests::test_overlapping_copy ... ok
+test rope::tests::test_termination_max_weight_decreases ... ok
+
+test result: ok. 103 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+     Running tests\diag_substr_scaling.rs (packages\rust\target\release\deps\diag_substr_scaling-bef15f3ba17a09a4.exe)
+
+running 1 test
+test diag_substr_hash_scaling ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.05s
+
+     Running tests\test_e1_throughput.rs (packages\rust\target\release\deps\test_e1_throughput-0c8145ed34735658.exe)
+
+running 1 test
+test e1_sequential_throughput ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.30s
+
+     Running tests\test_e2_concat_split.rs (packages\rust\target\release\deps\test_e2_concat_split-1cc31b0b9fd09c29.exe)
+
+running 1 test
+test e2_concat_vs_rehash ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+
+     Running tests\test_e3_repeat.rs (packages\rust\target\release\deps\test_e3_repeat-a232549786392e31.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\test_e4_phi.rs (packages\rust\target\release\deps\test_e4_phi-5ed10e85a17174a4.exe)
+
+running 1 test
+test e4_phi_scaling ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests\test_e5_sliding.rs (packages\rust\target\release\deps\test_e5_sliding-a14f93478fb02879.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\test_e6_memory.rs (packages\rust\target\release\deps\test_e6_memory-7264f7f339c1bce3.exe)
+
+running 3 tests
+test e6_memory_repeat_node ... ok
+test e6_memory_chunked_rope ... ok
+test e6_memory_sequential_rope ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.51s
+
+     Running tests\test_e7_tree_height.rs (packages\rust\target\release\deps\test_e7_tree_height-3b6473b2f44ec5c3.exe)
+
+running 2 tests
+test e7_chunked_insertion ... ok
+test e7_sequential_insertion ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests\test_edit_optimization.rs (packages\rust\target\release\deps\test_edit_optimization-6a6342b9e0c84c5d.exe)
+
+running 6 tests
+test accepted_custom_profile_retains_structure_sensitive_legacy_hashes ... ok
+test reduction_matches_frozen_scalar_for_full_u128_domain_boundaries ... ok
+test identity_empty_and_clamped_edit_edges_keep_their_behavior ... ok
+test editing_preserves_baseline_fingerprints_nodes_and_lazy_materialization ... ok
+test default_hash_long_buffers_and_maximum_block_carries_match_scalar ... ok
+test hash_matches_frozen_scalar_arithmetic_at_all_block_boundaries ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
+     Running tests\test_exact_comparison.rs (packages\rust\target\release\deps\test_exact_comparison-47ffe342c9ecaba7.exe)
+
+running 11 tests
+test collisions_and_encoded_tokens_are_not_equal ... ok
+test cross_arena_identity_and_profile_do_not_determine_content ... ok
+test hash_profile_replacement_is_detected_before_composition ... ok
+test exact_ranges_validate_bounds_and_compare_phases_without_nodes ... ok
+test huge_repeats_split_across_internal_nodes_and_shifted_phases ... ok
+test independently_allocated_shared_dags_use_verified_range_cache ... ok
+test periodic_comparison_checks_the_last_byte_of_its_witness ... ok
+test shared_edited_prefix_skips_immutable_ranges ... ok
+test independent_shapes_and_prefix_lengths_match_bytes ... ok
+test huge_repeats_compare_symbolically_across_patterns_shapes_and_profiles ... ok
+test nested_repeats_and_period_offsets_match_an_independent_byte_model ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\test_exact_optimization.rs (packages\rust\target\release\deps\test_exact_optimization-a4f3f9b25c4f2152.exe)
+
+running 5 tests
+test symbolic_ranges_near_u64_limit_do_not_wrap_offsets_or_bounds ... ok
+test same_identity_fast_paths_still_reject_invalid_ranges ... ok
+test huge_nonadjacent_shared_dags_and_shifted_ranges_remain_compressed ... ok
+test huge_repeat_witnesses_can_themselves_be_independent_shared_dags ... ok
+test seeded_independent_shared_and_range_comparisons_match_bytes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests\test_exact_optimization_round2.rs (packages\rust\target\release\deps\test_exact_optimization_round2-11a0ddb7109d19a5.exe)
+
+running 10 tests
+test direct_child_traversal_can_fall_back_after_a_nonzero_prefix ... ok
+test doubled_dags_keep_nonzero_phases_and_cross_profile_ranges_exact ... ok
+test equal_fingerprints_do_not_define_structural_periods ... ok
+test accepted_custom_profile_hash_inequality_does_not_reject_equal_bytes ... ok
+test late_edit_breaks_only_the_edited_dag_range ... ok
+test structurally_periodic_witness_checks_its_last_byte ... ok
+test compressed_leaf_mismatch_localization_matches_the_plain_byte_oracle ... ok
+test uneven_child_boundaries_and_clipped_ranges_match_byte_oracles ... ok
+test long_uneven_frontiers_keep_clipped_ranges_and_late_mismatches_exact ... ok
+test every_leaf_mismatch_position_and_bit_has_the_correct_byte_index ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+

@@ -1,0 +1,1804 @@
+{
+  "seed": 43,
+  "invocation": 2,
+  "reps": 5,
+  "numpy": "2.0.2",
+  "torch": "2.6.0+cu124",
+  "torch_threads": 24,
+  "hashrope_file": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round2\\.cache\\optimized\\hashrope\\packages\\python\\hashrope\\__init__.py",
+  "exp005": [
+    {
+      "bytes": 64000,
+      "fraction": 0.0,
+      "expected": 0,
+      "old_hash_only": {
+        "median_ms": 6.9489,
+        "samples_ms": [
+          6.7742,
+          7.199,
+          6.7988,
+          6.9489,
+          7.2224
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0041,
+        "samples_ms": [
+          0.0072,
+          0.0048,
+          0.0039,
+          0.0041,
+          0.0038
+        ]
+      },
+      "brute": {
+        "median_ms": 0.0006,
+        "samples_ms": [
+          0.0008,
+          0.0006,
+          0.0003
+        ]
+      },
+      "old_hash_calls": 30,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 64000,
+      "fraction": 0.5,
+      "expected": 32000,
+      "old_hash_only": {
+        "median_ms": 17.4934,
+        "samples_ms": [
+          17.4934,
+          17.4998,
+          17.4395,
+          17.233,
+          17.7395
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0161,
+        "samples_ms": [
+          0.0181,
+          0.0161,
+          0.0156,
+          0.0157,
+          0.0468
+        ]
+      },
+      "brute": {
+        "median_ms": 0.7269,
+        "samples_ms": [
+          0.7246,
+          0.7269,
+          0.8158
+        ]
+      },
+      "old_hash_calls": 30,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 64000,
+      "fraction": 0.99,
+      "expected": 63360,
+      "old_hash_only": {
+        "median_ms": 12.6556,
+        "samples_ms": [
+          12.0873,
+          12.5632,
+          12.6556,
+          13.0574,
+          12.7839
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0274,
+        "samples_ms": [
+          0.0309,
+          0.0289,
+          0.0274,
+          0.0268,
+          0.0269
+        ]
+      },
+      "brute": {
+        "median_ms": 1.5684,
+        "samples_ms": [
+          1.5684,
+          1.5656,
+          1.5706
+        ]
+      },
+      "old_hash_calls": 32,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 256000,
+      "fraction": 0.0,
+      "expected": 0,
+      "old_hash_only": {
+        "median_ms": 8.2534,
+        "samples_ms": [
+          8.0611,
+          8.3073,
+          8.2534,
+          8.1783,
+          8.3448
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0053,
+        "samples_ms": [
+          0.0068,
+          0.006,
+          0.0053,
+          0.0052,
+          0.0052
+        ]
+      },
+      "brute": {
+        "median_ms": 0.0003,
+        "samples_ms": [
+          0.0004,
+          0.0003,
+          0.0003
+        ]
+      },
+      "old_hash_calls": 34,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 256000,
+      "fraction": 0.5,
+      "expected": 128000,
+      "old_hash_only": {
+        "median_ms": 8.841,
+        "samples_ms": [
+          8.8474,
+          8.6919,
+          8.7783,
+          8.8733,
+          8.841
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0521,
+        "samples_ms": [
+          0.0551,
+          0.0527,
+          0.0521,
+          0.0513,
+          0.0515
+        ]
+      },
+      "brute": {
+        "median_ms": 3.486,
+        "samples_ms": [
+          3.2098,
+          3.486,
+          3.6329
+        ]
+      },
+      "old_hash_calls": 34,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 256000,
+      "fraction": 0.99,
+      "expected": 253440,
+      "old_hash_only": {
+        "median_ms": 20.8227,
+        "samples_ms": [
+          20.8227,
+          31.2377,
+          20.0003,
+          20.6711,
+          20.9759
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0924,
+        "samples_ms": [
+          0.0948,
+          0.0924,
+          0.0923,
+          0.0936,
+          0.0919
+        ]
+      },
+      "brute": {
+        "median_ms": 13.4593,
+        "samples_ms": [
+          5.9468,
+          20.1234,
+          13.4593
+        ]
+      },
+      "old_hash_calls": 36,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 1000000,
+      "fraction": 0.0,
+      "expected": 0,
+      "old_hash_only": {
+        "median_ms": 8.2592,
+        "samples_ms": [
+          8.3298,
+          8.6896,
+          8.0282,
+          8.2592,
+          7.8784
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0064,
+        "samples_ms": [
+          0.0079,
+          0.0068,
+          0.0064,
+          0.0063,
+          0.0062
+        ]
+      },
+      "brute": {
+        "median_ms": 0.0003,
+        "samples_ms": [
+          0.0004,
+          0.0003,
+          0.0003
+        ]
+      },
+      "old_hash_calls": 38,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 1000000,
+      "fraction": 0.5,
+      "expected": 500000,
+      "old_hash_only": {
+        "median_ms": 10.3942,
+        "samples_ms": [
+          10.0688,
+          9.9789,
+          10.3942,
+          10.6343,
+          12.7197
+        ]
+      },
+      "exact": {
+        "median_ms": 0.2094,
+        "samples_ms": [
+          0.2463,
+          0.2125,
+          0.2094,
+          0.2087,
+          0.2083
+        ]
+      },
+      "brute": {
+        "median_ms": 13.8667,
+        "samples_ms": [
+          13.2755,
+          13.8667,
+          17.3367
+        ]
+      },
+      "old_hash_calls": 38,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 1000000,
+      "fraction": 0.99,
+      "expected": 990000,
+      "old_hash_only": {
+        "median_ms": 19.686,
+        "samples_ms": [
+          33.4323,
+          19.686,
+          23.2622,
+          18.3104,
+          17.6928
+        ]
+      },
+      "exact": {
+        "median_ms": 0.4195,
+        "samples_ms": [
+          0.4654,
+          0.4094,
+          0.433,
+          0.4195,
+          0.4039
+        ]
+      },
+      "brute": {
+        "median_ms": 26.3865,
+        "samples_ms": [
+          34.9117,
+          26.3865,
+          24.2138
+        ]
+      },
+      "old_hash_calls": 40,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 2000000,
+      "fraction": 0.0,
+      "expected": 0,
+      "old_hash_only": {
+        "median_ms": 8.306,
+        "samples_ms": [
+          8.7725,
+          8.306,
+          8.0807,
+          8.0618,
+          8.78
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0068,
+        "samples_ms": [
+          0.0077,
+          0.0101,
+          0.0068,
+          0.0067,
+          0.0066
+        ]
+      },
+      "brute": {
+        "median_ms": 0.0003,
+        "samples_ms": [
+          0.0004,
+          0.0003,
+          0.0002
+        ]
+      },
+      "old_hash_calls": 40,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 2000000,
+      "fraction": 0.5,
+      "expected": 1000000,
+      "old_hash_only": {
+        "median_ms": 9.4311,
+        "samples_ms": [
+          11.8192,
+          9.1591,
+          9.4311,
+          11.7994,
+          9.1895
+        ]
+      },
+      "exact": {
+        "median_ms": 0.4157,
+        "samples_ms": [
+          0.5007,
+          0.4096,
+          0.4157,
+          0.4279,
+          0.3997
+        ]
+      },
+      "brute": {
+        "median_ms": 24.6465,
+        "samples_ms": [
+          24.3405,
+          24.6465,
+          32.8848
+        ]
+      },
+      "old_hash_calls": 40,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 2000000,
+      "fraction": 0.99,
+      "expected": 1980000,
+      "old_hash_only": {
+        "median_ms": 12.892,
+        "samples_ms": [
+          20.3093,
+          12.3629,
+          12.892,
+          12.298,
+          16.2185
+        ]
+      },
+      "exact": {
+        "median_ms": 0.7914,
+        "samples_ms": [
+          0.924,
+          0.8522,
+          0.7465,
+          0.7914,
+          0.7705
+        ]
+      },
+      "brute": {
+        "median_ms": 50.5157,
+        "samples_ms": [
+          49.1098,
+          50.5157,
+          115.6967
+        ]
+      },
+      "old_hash_calls": 42,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 4000000,
+      "fraction": 0.0,
+      "expected": 0,
+      "old_hash_only": {
+        "median_ms": 8.738,
+        "samples_ms": [
+          8.738,
+          8.6004,
+          8.7065,
+          10.1017,
+          8.7738
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0169,
+        "samples_ms": [
+          0.0166,
+          0.0156,
+          0.0169,
+          0.0169,
+          0.0173
+        ]
+      },
+      "brute": {
+        "median_ms": 0.0006,
+        "samples_ms": [
+          0.0006
+        ]
+      },
+      "old_hash_calls": 42,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 4000000,
+      "fraction": 0.5,
+      "expected": 2000000,
+      "old_hash_only": {
+        "median_ms": 13.8975,
+        "samples_ms": [
+          13.8975,
+          14.4945,
+          13.7718,
+          17.5,
+          12.7813
+        ]
+      },
+      "exact": {
+        "median_ms": 0.8461,
+        "samples_ms": [
+          0.9475,
+          0.828,
+          0.8461,
+          0.8491,
+          0.8214
+        ]
+      },
+      "brute": {
+        "median_ms": 50.6717,
+        "samples_ms": [
+          50.6717
+        ]
+      },
+      "old_hash_calls": 42,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 4000000,
+      "fraction": 0.99,
+      "expected": 3960000,
+      "old_hash_only": {
+        "median_ms": 23.5939,
+        "samples_ms": [
+          19.8948,
+          20.1488,
+          29.2234,
+          23.5939,
+          28.4789
+        ]
+      },
+      "exact": {
+        "median_ms": 1.697,
+        "samples_ms": [
+          1.9271,
+          1.7346,
+          1.6169,
+          1.697,
+          1.568
+        ]
+      },
+      "brute": {
+        "median_ms": 103.3749,
+        "samples_ms": [
+          103.3749
+        ]
+      },
+      "old_hash_calls": 44,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 8000000,
+      "fraction": 0.0,
+      "expected": 0,
+      "old_hash_only": {
+        "median_ms": 9.9375,
+        "samples_ms": [
+          15.3338,
+          11.7534,
+          9.1854,
+          9.9375,
+          9.1939
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0091,
+        "samples_ms": [
+          0.0104,
+          0.0094,
+          0.0091,
+          0.0091,
+          0.0089
+        ]
+      },
+      "brute": {
+        "median_ms": 0.0004,
+        "samples_ms": [
+          0.0004
+        ]
+      },
+      "old_hash_calls": 44,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 8000000,
+      "fraction": 0.5,
+      "expected": 4000000,
+      "old_hash_only": {
+        "median_ms": 19.9292,
+        "samples_ms": [
+          18.6563,
+          21.3055,
+          24.0701,
+          19.9292,
+          19.2968
+        ]
+      },
+      "exact": {
+        "median_ms": 1.7966,
+        "samples_ms": [
+          1.8529,
+          1.9187,
+          1.7966,
+          1.7475,
+          1.7785
+        ]
+      },
+      "brute": {
+        "median_ms": 119.5926,
+        "samples_ms": [
+          119.5926
+        ]
+      },
+      "old_hash_calls": 44,
+      "exact_hash_calls": 0
+    },
+    {
+      "bytes": 8000000,
+      "fraction": 0.99,
+      "expected": 7920000,
+      "old_hash_only": {
+        "median_ms": 18.1695,
+        "samples_ms": [
+          19.6862,
+          18.1695,
+          18.0144,
+          17.9883,
+          18.7405
+        ]
+      },
+      "exact": {
+        "median_ms": 3.675,
+        "samples_ms": [
+          4.1399,
+          5.7252,
+          3.675,
+          3.5356,
+          3.466
+        ]
+      },
+      "brute": {
+        "median_ms": 394.559,
+        "samples_ms": [
+          394.559
+        ]
+      },
+      "old_hash_calls": 46,
+      "exact_hash_calls": 0
+    }
+  ],
+  "exp017_controlled": [
+    {
+      "expected_tokens": 1000,
+      "cached_tokens": 2024,
+      "query_tokens": 2024,
+      "cached_rope_build_ms": 1.6759,
+      "query_rope_build_ms": 1.6635,
+      "old_hash_only": {
+        "median_ms": 19.5352,
+        "samples_ms": [
+          21.3561,
+          19.0392,
+          19.1758,
+          19.5352,
+          20.986
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0042,
+        "samples_ms": [
+          0.0069,
+          0.0046,
+          0.0042,
+          0.0038,
+          0.0036
+        ]
+      },
+      "radix": {
+        "median_ms": 0.0357,
+        "samples_ms": [
+          0.0481,
+          0.0388,
+          0.0357,
+          0.0349,
+          0.0341
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0023,
+        "samples_ms": [
+          0.0054,
+          0.0026,
+          0.0021,
+          0.0023,
+          0.0022
+        ]
+      }
+    },
+    {
+      "expected_tokens": 4000,
+      "cached_tokens": 5024,
+      "query_tokens": 5024,
+      "cached_rope_build_ms": 4.4308,
+      "query_rope_build_ms": 4.2354,
+      "old_hash_only": {
+        "median_ms": 19.9039,
+        "samples_ms": [
+          20.1322,
+          17.9089,
+          18.7164,
+          19.9039,
+          22.5848
+        ]
+      },
+      "exact": {
+        "median_ms": 0.008,
+        "samples_ms": [
+          0.0102,
+          0.0088,
+          0.0079,
+          0.0078,
+          0.008
+        ]
+      },
+      "radix": {
+        "median_ms": 0.1158,
+        "samples_ms": [
+          0.1227,
+          0.1173,
+          0.1156,
+          0.1136,
+          0.1158
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0028,
+        "samples_ms": [
+          0.0036,
+          0.0028,
+          0.0026,
+          0.0027,
+          0.0033
+        ]
+      }
+    },
+    {
+      "expected_tokens": 16000,
+      "cached_tokens": 17024,
+      "query_tokens": 17024,
+      "cached_rope_build_ms": 22.3044,
+      "query_rope_build_ms": 19.7637,
+      "old_hash_only": {
+        "median_ms": 15.6051,
+        "samples_ms": [
+          17.0253,
+          21.6587,
+          15.3807,
+          14.8785,
+          15.6051
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0281,
+        "samples_ms": [
+          0.0304,
+          0.0285,
+          0.0281,
+          0.0276,
+          0.0275
+        ]
+      },
+      "radix": {
+        "median_ms": 0.4975,
+        "samples_ms": [
+          0.5244,
+          0.4975,
+          0.4948,
+          0.4915,
+          0.499
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0054,
+        "samples_ms": [
+          0.0083,
+          0.0059,
+          0.0054,
+          0.0053,
+          0.0053
+        ]
+      }
+    },
+    {
+      "expected_tokens": 64000,
+      "cached_tokens": 65024,
+      "query_tokens": 65024,
+      "cached_rope_build_ms": 57.7468,
+      "query_rope_build_ms": 60.9632,
+      "old_hash_only": {
+        "median_ms": 14.9781,
+        "samples_ms": [
+          16.6115,
+          14.6323,
+          13.8126,
+          14.9781,
+          21.9887
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0972,
+        "samples_ms": [
+          0.0997,
+          0.0966,
+          0.1024,
+          0.0972,
+          0.0968
+        ]
+      },
+      "radix": {
+        "median_ms": 2.3522,
+        "samples_ms": [
+          2.5798,
+          2.3522,
+          2.2569,
+          2.1453,
+          3.627
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0259,
+        "samples_ms": [
+          0.0285,
+          0.0264,
+          0.0259,
+          0.0258,
+          0.0257
+        ]
+      }
+    },
+    {
+      "expected_tokens": 128000,
+      "cached_tokens": 129024,
+      "query_tokens": 129024,
+      "cached_rope_build_ms": 107.8806,
+      "query_rope_build_ms": 134.5716,
+      "old_hash_only": {
+        "median_ms": 16.4648,
+        "samples_ms": [
+          16.2726,
+          16.4648,
+          17.3427,
+          16.281,
+          17.0686
+        ]
+      },
+      "exact": {
+        "median_ms": 0.3396,
+        "samples_ms": [
+          0.3103,
+          0.2887,
+          0.3396,
+          0.5342,
+          0.5063
+        ]
+      },
+      "radix": {
+        "median_ms": 4.8977,
+        "samples_ms": [
+          9.1768,
+          4.3222,
+          4.7558,
+          4.8977,
+          7.111
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.2018,
+        "samples_ms": [
+          0.2204,
+          0.2076,
+          0.2018,
+          0.2015,
+          0.2014
+        ]
+      }
+    },
+    {
+      "expected_tokens": 256000,
+      "cached_tokens": 257024,
+      "query_tokens": 257024,
+      "cached_rope_build_ms": 237.8577,
+      "query_rope_build_ms": 227.8575,
+      "old_hash_only": {
+        "median_ms": 17.6206,
+        "samples_ms": [
+          24.1662,
+          17.9535,
+          16.6997,
+          17.6206,
+          16.2006
+        ]
+      },
+      "exact": {
+        "median_ms": 0.4243,
+        "samples_ms": [
+          0.453,
+          0.421,
+          0.4281,
+          0.4171,
+          0.4243
+        ]
+      },
+      "radix": {
+        "median_ms": 13.8587,
+        "samples_ms": [
+          7.8111,
+          13.8587,
+          13.8606,
+          13.0925,
+          14.0687
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0769,
+        "samples_ms": [
+          0.247,
+          0.1589,
+          0.0768,
+          0.0766,
+          0.0769
+        ]
+      }
+    },
+    {
+      "expected_tokens": 512000,
+      "cached_tokens": 513024,
+      "query_tokens": 513024,
+      "cached_rope_build_ms": 449.087,
+      "query_rope_build_ms": 452.5808,
+      "old_hash_only": {
+        "median_ms": 17.9154,
+        "samples_ms": [
+          18.2521,
+          17.9154,
+          17.6526,
+          16.7954,
+          19.2442
+        ]
+      },
+      "exact": {
+        "median_ms": 0.9543,
+        "samples_ms": [
+          0.9543,
+          1.0048,
+          1.139,
+          0.8547,
+          0.7897
+        ]
+      },
+      "radix": {
+        "median_ms": 18.5409,
+        "samples_ms": [
+          16.2545,
+          20.2888,
+          17.2365,
+          22.9959,
+          18.5409
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.1756,
+        "samples_ms": [
+          0.4803,
+          0.1965,
+          0.1661,
+          0.1756,
+          0.1564
+        ]
+      }
+    },
+    {
+      "expected_tokens": 1000000,
+      "cached_tokens": 1001024,
+      "query_tokens": 1001024,
+      "cached_rope_build_ms": 1038.8041,
+      "query_rope_build_ms": 960.7319,
+      "old_hash_only": {
+        "median_ms": 18.0266,
+        "samples_ms": [
+          17.487,
+          17.9663,
+          18.0266,
+          19.976,
+          22.1157
+        ]
+      },
+      "exact": {
+        "median_ms": 1.6244,
+        "samples_ms": [
+          1.9699,
+          1.6213,
+          1.5631,
+          1.6244,
+          1.6299
+        ]
+      },
+      "radix": {
+        "median_ms": 39.732,
+        "samples_ms": [
+          37.8526,
+          39.732,
+          44.5713,
+          30.9143,
+          40.0471
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.3811,
+        "samples_ms": [
+          0.8393,
+          0.4936,
+          0.3811,
+          0.3522,
+          0.3411
+        ]
+      }
+    },
+    {
+      "expected_tokens": 2000000,
+      "cached_tokens": 2001024,
+      "query_tokens": 2001024,
+      "cached_rope_build_ms": 1878.0811,
+      "query_rope_build_ms": 1851.9993,
+      "old_hash_only": {
+        "median_ms": 14.3099,
+        "samples_ms": [
+          14.9865,
+          15.98,
+          12.5442,
+          14.3099,
+          13.037
+        ]
+      },
+      "exact": {
+        "median_ms": 3.8643,
+        "samples_ms": [
+          3.8643,
+          3.6664,
+          3.9328,
+          4.2926,
+          3.7409
+        ]
+      },
+      "radix": {
+        "median_ms": 64.5533,
+        "samples_ms": [
+          64.5533,
+          62.7987,
+          63.4918,
+          72.6812,
+          82.2017
+        ]
+      },
+      "numpy": {
+        "median_ms": 2.7908,
+        "samples_ms": [
+          2.9973,
+          2.6753,
+          2.9649,
+          2.7908,
+          2.7105
+        ]
+      }
+    }
+  ],
+  "exp015_r2_cpu": [
+    {
+      "expected_tokens": 1000,
+      "cached_tokens": 1000,
+      "query_tokens": 2024,
+      "cached_rope_build_ms": 1.5076,
+      "query_rope_build_ms": 2.9485,
+      "old_hash_only": {
+        "median_ms": 16.7225,
+        "samples_ms": [
+          20.5015,
+          16.5652,
+          15.5675,
+          16.7225,
+          20.3665
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0028,
+        "samples_ms": [
+          0.0042,
+          0.0031,
+          0.0028,
+          0.0026,
+          0.0025
+        ]
+      },
+      "radix": {
+        "median_ms": 0.0389,
+        "samples_ms": [
+          0.0536,
+          0.0389,
+          0.0379,
+          0.0396,
+          0.0362
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0021,
+        "samples_ms": [
+          0.0037,
+          0.0021,
+          0.0029,
+          0.0019,
+          0.0021
+        ]
+      },
+      "query_index": 0
+    },
+    {
+      "expected_tokens": 1000,
+      "cached_tokens": 1000,
+      "query_tokens": 2024,
+      "cached_rope_build_ms": 0.8411,
+      "query_rope_build_ms": 1.6322,
+      "old_hash_only": {
+        "median_ms": 16.3512,
+        "samples_ms": [
+          16.3512,
+          16.2201,
+          21.5363,
+          17.3554,
+          15.7748
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0012,
+        "samples_ms": [
+          0.0018,
+          0.0012,
+          0.0012,
+          0.0011,
+          0.0012
+        ]
+      },
+      "radix": {
+        "median_ms": 0.0326,
+        "samples_ms": [
+          0.0421,
+          0.0345,
+          0.0326,
+          0.032,
+          0.0317
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0018,
+        "samples_ms": [
+          0.0026,
+          0.0018,
+          0.0017,
+          0.0016,
+          0.0019
+        ]
+      },
+      "query_index": 1
+    },
+    {
+      "expected_tokens": 1000,
+      "cached_tokens": 1000,
+      "query_tokens": 2024,
+      "cached_rope_build_ms": 0.7675,
+      "query_rope_build_ms": 1.5538,
+      "old_hash_only": {
+        "median_ms": 17.0119,
+        "samples_ms": [
+          17.7587,
+          15.6038,
+          17.0119,
+          20.9857,
+          16.5213
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0014,
+        "samples_ms": [
+          0.0021,
+          0.0014,
+          0.0012,
+          0.0014,
+          0.0019
+        ]
+      },
+      "radix": {
+        "median_ms": 0.0342,
+        "samples_ms": [
+          0.0359,
+          0.0326,
+          0.0331,
+          0.0349,
+          0.0342
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0018,
+        "samples_ms": [
+          0.0024,
+          0.002,
+          0.0017,
+          0.0018,
+          0.0016
+        ]
+      },
+      "query_index": 2
+    },
+    {
+      "expected_tokens": 16000,
+      "cached_tokens": 16000,
+      "query_tokens": 17024,
+      "cached_rope_build_ms": 23.6129,
+      "query_rope_build_ms": 18.1196,
+      "old_hash_only": {
+        "median_ms": 15.0493,
+        "samples_ms": [
+          14.0802,
+          15.8424,
+          14.432,
+          15.0493,
+          16.7162
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0237,
+        "samples_ms": [
+          0.0256,
+          0.0242,
+          0.0237,
+          0.0235,
+          0.0237
+        ]
+      },
+      "radix": {
+        "median_ms": 0.4488,
+        "samples_ms": [
+          1.1567,
+          0.4488,
+          0.4421,
+          0.4409,
+          0.4726
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0048,
+        "samples_ms": [
+          0.0057,
+          0.0048,
+          0.0048,
+          0.0045,
+          0.0045
+        ]
+      },
+      "query_index": 0
+    },
+    {
+      "expected_tokens": 16000,
+      "cached_tokens": 16000,
+      "query_tokens": 17024,
+      "cached_rope_build_ms": 16.9132,
+      "query_rope_build_ms": 20.3722,
+      "old_hash_only": {
+        "median_ms": 17.6301,
+        "samples_ms": [
+          15.1188,
+          14.3968,
+          17.6301,
+          19.3084,
+          35.5853
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0234,
+        "samples_ms": [
+          0.0243,
+          0.0238,
+          0.0234,
+          0.0233,
+          0.0234
+        ]
+      },
+      "radix": {
+        "median_ms": 0.4781,
+        "samples_ms": [
+          0.6445,
+          0.4781,
+          0.4555,
+          0.4638,
+          0.8905
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.022,
+        "samples_ms": [
+          0.0356,
+          0.0242,
+          0.022,
+          0.0188,
+          0.0193
+        ]
+      },
+      "query_index": 1
+    },
+    {
+      "expected_tokens": 16000,
+      "cached_tokens": 16000,
+      "query_tokens": 17024,
+      "cached_rope_build_ms": 24.1225,
+      "query_rope_build_ms": 14.5016,
+      "old_hash_only": {
+        "median_ms": 14.1434,
+        "samples_ms": [
+          14.1434,
+          14.1256,
+          29.2517,
+          15.0171,
+          14.036
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0239,
+        "samples_ms": [
+          0.0252,
+          0.0244,
+          0.0239,
+          0.0235,
+          0.0239
+        ]
+      },
+      "radix": {
+        "median_ms": 0.5193,
+        "samples_ms": [
+          0.5973,
+          0.7232,
+          0.5193,
+          0.4491,
+          0.4598
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0048,
+        "samples_ms": [
+          0.0059,
+          0.0049,
+          0.0048,
+          0.0047,
+          0.0048
+        ]
+      },
+      "query_index": 2
+    },
+    {
+      "expected_tokens": 64000,
+      "cached_tokens": 64000,
+      "query_tokens": 65024,
+      "cached_rope_build_ms": 56.1176,
+      "query_rope_build_ms": 49.0772,
+      "old_hash_only": {
+        "median_ms": 12.8412,
+        "samples_ms": [
+          12.7742,
+          13.1609,
+          13.0276,
+          12.6475,
+          12.8412
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0994,
+        "samples_ms": [
+          0.1051,
+          0.1001,
+          0.0992,
+          0.0994,
+          0.0987
+        ]
+      },
+      "radix": {
+        "median_ms": 3.5437,
+        "samples_ms": [
+          2.1137,
+          3.5437,
+          6.124,
+          5.8406,
+          2.3822
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0166,
+        "samples_ms": [
+          0.0219,
+          0.017,
+          0.0165,
+          0.0164,
+          0.0166
+        ]
+      },
+      "query_index": 0
+    },
+    {
+      "expected_tokens": 64000,
+      "cached_tokens": 64000,
+      "query_tokens": 65024,
+      "cached_rope_build_ms": 50.9176,
+      "query_rope_build_ms": 57.1735,
+      "old_hash_only": {
+        "median_ms": 13.1085,
+        "samples_ms": [
+          15.1033,
+          13.1085,
+          12.6164,
+          12.5426,
+          13.5692
+        ]
+      },
+      "exact": {
+        "median_ms": 0.0996,
+        "samples_ms": [
+          0.0969,
+          0.0947,
+          0.0996,
+          0.1123,
+          0.1028
+        ]
+      },
+      "radix": {
+        "median_ms": 2.347,
+        "samples_ms": [
+          2.3379,
+          3.284,
+          3.5855,
+          2.347,
+          2.2663
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0252,
+        "samples_ms": [
+          0.0399,
+          0.0259,
+          0.0252,
+          0.0251,
+          0.025
+        ]
+      },
+      "query_index": 1
+    },
+    {
+      "expected_tokens": 64000,
+      "cached_tokens": 64000,
+      "query_tokens": 65024,
+      "cached_rope_build_ms": 62.6041,
+      "query_rope_build_ms": 59.4154,
+      "old_hash_only": {
+        "median_ms": 16.9249,
+        "samples_ms": [
+          24.4005,
+          22.8285,
+          16.9249,
+          13.2992,
+          13.1485
+        ]
+      },
+      "exact": {
+        "median_ms": 0.1045,
+        "samples_ms": [
+          0.1045,
+          0.1053,
+          0.1048,
+          0.1017,
+          0.103
+        ]
+      },
+      "radix": {
+        "median_ms": 3.7189,
+        "samples_ms": [
+          3.8926,
+          3.8068,
+          2.8924,
+          2.5603,
+          3.7189
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0254,
+        "samples_ms": [
+          0.0276,
+          0.0261,
+          0.0254,
+          0.025,
+          0.0251
+        ]
+      },
+      "query_index": 2
+    },
+    {
+      "expected_tokens": 256000,
+      "cached_tokens": 256000,
+      "query_tokens": 257024,
+      "cached_rope_build_ms": 220.7394,
+      "query_rope_build_ms": 244.1873,
+      "old_hash_only": {
+        "median_ms": 19.2979,
+        "samples_ms": [
+          24.5553,
+          21.4536,
+          18.7848,
+          19.2031,
+          19.2979
+        ]
+      },
+      "exact": {
+        "median_ms": 0.4353,
+        "samples_ms": [
+          0.5032,
+          0.4541,
+          0.4353,
+          0.4134,
+          0.4048
+        ]
+      },
+      "radix": {
+        "median_ms": 12.2153,
+        "samples_ms": [
+          12.2153,
+          12.3932,
+          8.299,
+          18.1076,
+          11.6639
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0824,
+        "samples_ms": [
+          0.1683,
+          0.0866,
+          0.0782,
+          0.0824,
+          0.0701
+        ]
+      },
+      "query_index": 0
+    },
+    {
+      "expected_tokens": 256000,
+      "cached_tokens": 256000,
+      "query_tokens": 257024,
+      "cached_rope_build_ms": 220.4764,
+      "query_rope_build_ms": 257.8445,
+      "old_hash_only": {
+        "median_ms": 27.8858,
+        "samples_ms": [
+          21.574,
+          27.8858,
+          23.8833,
+          30.0902,
+          32.0452
+        ]
+      },
+      "exact": {
+        "median_ms": 0.7048,
+        "samples_ms": [
+          0.7131,
+          0.7037,
+          0.7048,
+          0.7078,
+          0.6927
+        ]
+      },
+      "radix": {
+        "median_ms": 9.4835,
+        "samples_ms": [
+          10.2126,
+          12.434,
+          8.8477,
+          8.2494,
+          9.4835
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.2038,
+        "samples_ms": [
+          0.9843,
+          0.7899,
+          0.2038,
+          0.1001,
+          0.1106
+        ]
+      },
+      "query_index": 1
+    },
+    {
+      "expected_tokens": 256000,
+      "cached_tokens": 256000,
+      "query_tokens": 257024,
+      "cached_rope_build_ms": 244.8979,
+      "query_rope_build_ms": 265.3094,
+      "old_hash_only": {
+        "median_ms": 21.7606,
+        "samples_ms": [
+          21.7616,
+          26.0402,
+          18.7338,
+          19.2632,
+          21.7606
+        ]
+      },
+      "exact": {
+        "median_ms": 0.4317,
+        "samples_ms": [
+          0.4317,
+          0.54,
+          0.4062,
+          0.4115,
+          0.5268
+        ]
+      },
+      "radix": {
+        "median_ms": 11.664,
+        "samples_ms": [
+          11.664,
+          9.9322,
+          13.1054,
+          10.1463,
+          21.1688
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.0974,
+        "samples_ms": [
+          0.1138,
+          0.0998,
+          0.0974,
+          0.0963,
+          0.0964
+        ]
+      },
+      "query_index": 2
+    },
+    {
+      "expected_tokens": 1000000,
+      "cached_tokens": 1000000,
+      "query_tokens": 1001024,
+      "cached_rope_build_ms": 973.652,
+      "query_rope_build_ms": 917.1754,
+      "old_hash_only": {
+        "median_ms": 18.0755,
+        "samples_ms": [
+          22.5354,
+          16.4181,
+          18.0755,
+          18.1487,
+          16.4643
+        ]
+      },
+      "exact": {
+        "median_ms": 1.6472,
+        "samples_ms": [
+          2.69,
+          2.2439,
+          1.6472,
+          1.5436,
+          1.6245
+        ]
+      },
+      "radix": {
+        "median_ms": 31.3483,
+        "samples_ms": [
+          37.6613,
+          29.5868,
+          34.4324,
+          29.9148,
+          31.3483
+        ]
+      },
+      "numpy": {
+        "median_ms": 1.1605,
+        "samples_ms": [
+          1.1605,
+          0.7142,
+          0.5228,
+          1.3142,
+          2.0467
+        ]
+      },
+      "query_index": 0
+    },
+    {
+      "expected_tokens": 1000000,
+      "cached_tokens": 1000000,
+      "query_tokens": 1001024,
+      "cached_rope_build_ms": 935.4935,
+      "query_rope_build_ms": 887.8849,
+      "old_hash_only": {
+        "median_ms": 18.884,
+        "samples_ms": [
+          29.9331,
+          16.9103,
+          24.5437,
+          18.884,
+          17.4653
+        ]
+      },
+      "exact": {
+        "median_ms": 2.0219,
+        "samples_ms": [
+          2.0219,
+          1.6451,
+          2.1237,
+          1.8035,
+          2.5217
+        ]
+      },
+      "radix": {
+        "median_ms": 30.8787,
+        "samples_ms": [
+          29.2752,
+          33.8386,
+          28.6477,
+          51.2563,
+          30.8787
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.5759,
+        "samples_ms": [
+          0.8954,
+          0.5776,
+          0.5261,
+          0.5759,
+          0.5265
+        ]
+      },
+      "query_index": 1
+    },
+    {
+      "expected_tokens": 1000000,
+      "cached_tokens": 1000000,
+      "query_tokens": 1001024,
+      "cached_rope_build_ms": 968.1204,
+      "query_rope_build_ms": 903.7617,
+      "old_hash_only": {
+        "median_ms": 16.3097,
+        "samples_ms": [
+          16.6022,
+          16.7194,
+          16.3097,
+          16.0444,
+          16.1044
+        ]
+      },
+      "exact": {
+        "median_ms": 1.7709,
+        "samples_ms": [
+          1.7799,
+          1.7796,
+          1.5754,
+          1.5798,
+          1.7709
+        ]
+      },
+      "radix": {
+        "median_ms": 38.8424,
+        "samples_ms": [
+          34.3184,
+          46.2964,
+          38.8424,
+          43.9827,
+          29.7429
+        ]
+      },
+      "numpy": {
+        "median_ms": 0.3516,
+        "samples_ms": [
+          1.9844,
+          0.3961,
+          0.3332,
+          0.3516,
+          0.3516
+        ]
+      },
+      "query_index": 2
+    }
+  ],
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round2\\.cache\\optimized\\hashrope\\packages\\python\\hashrope\\rope.py": "d1de00805fa37fe286dae50b87675c82aa2fb388b66c66329983d34440b6a4b2",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\src\\lcp.py": "6bb689961a740ea32e8522bcd131b753cf518dc8e6f0a2d9293e199af18b76e5",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\src\\competitive.py": "e87a69ad95c2d8eec3c8b9c5f22b93bd3bc609329e1877c6b80e49ea6628e36a",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\src\\exp015_identify.py": "9e2e3848295f03094d2e7a41d5ca4821c8287c5f0fd591f550bfca80d6be9d3d",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round2\\.cache\\hash_only_paper\\src\\lcp.py": "4da58b68ccac456d4219cf89db8055a9af7a14de3304370f1070ff108fea3c43",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\paper_cpu.py": "807bed81945cd9f7fff369eaec42d9b39773a1373c1a561519a5e8cdd96f4e72"
+  },
+  "arm_order": [
+    "old_hash_only",
+    "exact"
+  ],
+  "optimization_core": "optimized",
+  "core_sha256": {
+    "packages/rust/src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+    "packages/rust/src/polynomial_hash.rs": "f54256ca7f1fdfb5e7bdbd7ca00598479a3563c70baa882e01f16ef79be505ef",
+    "packages/rust/src/rope.rs": "eb9401967c78b0e8eb55943fe457ef6adcdbc2a0a27755c4389fc786fcd1212a",
+    "packages/rust/src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+    "packages/python/hashrope/__init__.py": "5e8d8f4c07d50f0eaa7d24b504ed5240bdd4a05384e7123de6e582e36420bd90",
+    "packages/python/hashrope/polynomial_hash.py": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5",
+    "packages/python/hashrope/rope.py": "d1de00805fa37fe286dae50b87675c82aa2fb388b66c66329983d34440b6a4b2",
+    "packages/python/hashrope/sliding.py": "26599d0df3a7f0b50659a02d0ed96eae1b1fc88537db6f58f887ae0b6ecd928c"
+  },
+  "context_fingerprint": "63673ceb74f51989be61313f961af67a1525a2e45f97308b8aa61c15a5aed2c0",
+  "process_order": [
+    "optimized",
+    "baseline"
+  ]
+}

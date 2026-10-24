@@ -1,19 +1,22 @@
 # Use Case 3: RAG Index Incremental Updates
 
-**Working title**: Incremental Knowledge Base Integrity for Retrieval-Augmented Generation via Hash Ropes
+**Working title**: Incremental Corpus Fingerprints and Exact Reuse for Retrieval-Augmented Generation
 
 ## Summary
 
-Maintain a hash rope over a chunked RAG corpus. When documents are added, modified, or deleted, update the integrity hash in O(log w) instead of rehashing the entire corpus. Use `substr_hash` to answer "what changed since last indexing?" queries without touching unchanged chunks.
+Maintain a persistent hash rope over a chunked RAG corpus. Edits update its noncryptographic fingerprint without rehashing unchanged subtrees. Before reusing indexed content, use exact byte comparison: equal root or substring fingerprints are only candidate matches. Revisions derived through persistent edits can skip shared immutable ranges; independently ingested equal content may need a linear scan.
 
 ## Core hashrope features exploited
 
-- `split`/`concat` at O(log w) — replace a single chunk without rebuilding the index
-- `substr_hash` at O(log w) — "has chunk range X–Y changed?" without reading those chunks
-- Root hash at O(1) — instant corpus-level identity check
-- Sliding window `append_copy` — process compressed documents without decompression (unique angle)
+- `split` / `concat` — replace a chunk while sharing unchanged nodes; logarithmic tree traversal assumes bounded leaves, with additional work for new bytes, leaf boundaries, and arithmetic
+- `substr_hash` — compute range fingerprints from maintained metadata, then verify candidate matches before reuse
+- `rope_equal` / `rope_lcp` — exact content comparison that can skip shared immutable ranges and verified periodic spans
+- Root hash at O(1) — a candidate fingerprint, not a corpus identity guarantee
+- Sliding-window `append_copy` — consume decompressor back-references while maintaining fingerprints; decoding the compressed format remains a separate task
 
 ## Key benchmark numbers (from FINDINGS.md)
+
+These historical primitive timings do not measure exact changed-chunk detection or a complete RAG indexing pipeline. See [consumer exactness reruns](../../benchmarks/consumer_exactness/) for the initial correction and [exact-path optimization measurements](../../benchmarks/exact_optimization/) for the current comparison paths, including the cost of inspecting unshared content.
 
 - concat (rejoin): 55–80 ns, 5,405× faster than rehash at 100K
 - substr_hash: 124 ns warm at 10K leaves
@@ -37,9 +40,9 @@ Maintain a hash rope over a chunked RAG corpus. When documents are added, modifi
 1. Build a corpus of ~10K–100K text chunks (e.g., Wikipedia articles chunked at 512 tokens)
 2. Build hashrope over the corpus
 3. Simulate document updates: modify 1%, 5%, 10% of chunks
-4. Benchmark: time to identify changed chunks via substr_hash binary search vs naive full-corpus rehash
-5. Benchmark: time to update the integrity hash after chunk replacement (split + concat) vs rebuild
-6. Demonstrate compressed-document ingestion via sliding window on gzip'd documents
+4. Benchmark exact changed-chunk identification against a byte-comparison oracle, separately for persistent revisions and independently rebuilt inputs
+5. Benchmark incremental fingerprint updates after chunk replacement (`split` + `concat`) against recomputation; keep this separate from exact reuse decisions
+6. Demonstrate compressed-document ingestion through a decoder integrated with the sliding window
 
 ## Status
 

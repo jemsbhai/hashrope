@@ -9,6 +9,7 @@
 //! by `u32` indices. No reference counting, no atomic operations.
 //! Structural sharing works via shared indices. The arena is dropped as a unit.
 
+use alloc::collections::BTreeSet;
 use alloc::vec::Vec;
 
 use crate::polynomial_hash::{mersenne_mod, mersenne_mul, phi, PolynomialHash};
@@ -78,6 +79,7 @@ impl NodeInner {
 pub struct Arena {
     nodes: Vec<NodeInner>,
     h: PolynomialHash,
+    hash_profile: (u64, u64),
     lazy: bool,
 }
 
@@ -90,11 +92,7 @@ impl Default for Arena {
 impl Arena {
     /// Create a new arena with default polynomial hash parameters.
     pub fn new() -> Self {
-        Self {
-            nodes: Vec::new(),
-            h: PolynomialHash::default_hash(),
-            lazy: false,
-        }
+        Self::with_hasher(PolynomialHash::default_hash())
     }
 
     /// Create a new lazy arena (Definition 19).
@@ -107,26 +105,21 @@ impl Arena {
     /// CD-Radix sort (Corollary 8) never accesses hashes, so lazy ropes
     /// are strictly faster for radix-based sorting.
     pub fn new_lazy() -> Self {
-        Self {
-            nodes: Vec::new(),
-            h: PolynomialHash::default_hash(),
-            lazy: true,
-        }
+        let mut arena = Self::new();
+        arena.lazy = true;
+        arena
     }
 
     /// Create an arena with custom hash parameters.
     pub fn with_hash(prime: u64, base: u64) -> Self {
-        Self {
-            nodes: Vec::new(),
-            h: PolynomialHash::new(prime, base),
-            lazy: false,
-        }
+        Self::with_hasher(PolynomialHash::new(prime, base))
     }
 
     /// Create an arena with a specific PolynomialHash instance.
     pub fn with_hasher(h: PolynomialHash) -> Self {
         Self {
             nodes: Vec::new(),
+            hash_profile: (h.prime(), h.base()),
             h,
             lazy: false,
         }
@@ -135,13 +128,27 @@ impl Arena {
     /// Access the polynomial hash state.
     #[inline]
     pub fn hasher(&self) -> &PolynomialHash {
+        self.assert_hash_profile();
         &self.h
     }
 
-    /// Mutable access to the polynomial hash state.
+    /// Mutable access to the polynomial hash state, for example its power cache.
+    ///
+    /// Replacing it with different prime/base parameters invalidates the arena's
+    /// fingerprint context. Subsequent hashing, construction, editing and
+    /// validation panic before using those parameters. Create a new arena to
+    /// change profiles. Content comparison and byte/length access remain valid.
     #[inline]
     pub fn hasher_mut(&mut self) -> &mut PolynomialHash {
         &mut self.h
+    }
+
+    #[inline]
+    pub(crate) fn assert_hash_profile(&self) {
+        assert!(
+            self.hash_profile == (self.h.prime(), self.h.base()),
+            "Arena hash parameters changed; create a new arena to use a different profile"
+        );
     }
 
     /// Whether this arena uses lazy hash materialization.
@@ -214,6 +221,11 @@ impl Arena {
     ///
     /// For eager arenas, this is a no-op (hashes are already computed).
     pub fn ensure_hash(&mut self, id: NodeId) {
+        self.assert_hash_profile();
+        self.ensure_hash_inner(id);
+    }
+
+    fn ensure_hash_inner(&mut self, id: NodeId) {
         if self.hash_val(id) != LAZY_SENTINEL {
             return;
         }
@@ -232,16 +244,15 @@ impl Arena {
 
         let h = match kind {
             Kind::Leaf => {
-                // Clone leaf data to avoid borrow conflict with self.h
                 let data = match &self.nodes[id as usize] {
-                    NodeInner::Leaf { data, .. } => data.clone(),
+                    NodeInner::Leaf { data, .. } => data,
                     _ => unreachable!(),
                 };
-                self.h.hash(&data)
+                self.h.hash(data)
             }
             Kind::Internal(left, right) => {
-                self.ensure_hash(left);
-                self.ensure_hash(right);
+                self.ensure_hash_inner(left);
+                self.ensure_hash_inner(right);
                 self.h.hash_concat(
                     self.hash_val(left),
                     self.node_len(right),
@@ -249,7 +260,7 @@ impl Arena {
                 )
             }
             Kind::Repeat(child, reps) => {
-                self.ensure_hash(child);
+                self.ensure_hash_inner(child);
                 let child_hash = self.hash_val(child);
                 let child_len = self.node_len(child);
                 let x_d = self.h.power(child_len);
@@ -365,10 +376,130 @@ impl Arena {
         node.map_or(0, |id| self.node_len(id))
     }
 
-    /// Hash of the string represented by the node.
+    /// Stored noncryptographic fingerprint of the string represented by the node.
+    ///
+    /// Matching fingerprints do not prove byte equality; use [`Self::equal`].
+    /// In a lazy arena this returns [`LAZY_SENTINEL`] until materialized.
     #[inline]
     pub fn hash(&self, node: Node) -> u64 {
+        self.assert_hash_profile();
         node.map_or(0, |id| self.hash_val(id))
+    }
+
+    /// Exact byte equality, independent of tree shape and fingerprints.
+    ///
+    /// Shared immutable ranges and proven equal repeat periods are skipped,
+    /// including periods established by identical-child concatenation chains.
+    /// Otherwise comparison may require work proportional to expanded content;
+    /// no flattened byte buffer or new rope nodes are allocated. Ordinary trees
+    /// use a bounded traversal without a cache; compressed cases fall back to a
+    /// per-call cache using space proportional to the ranges proved equal.
+    /// Lazy hashes are neither read nor materialized.
+    pub fn equal(&self, a: Node, b: Node) -> bool {
+        self.equal_across(a, self, b)
+    }
+
+    /// Exact longest common prefix length, in bytes. See [`Self::equal`] for costs.
+    pub fn lcp(&self, a: Node, b: Node) -> u64 {
+        self.lcp_across(a, self, b)
+    }
+
+    /// Exact equality across arenas, including different fingerprint profiles.
+    /// Each node ID must belong to its corresponding arena.
+    pub fn equal_across(&self, a: Node, other: &Arena, b: Node) -> bool {
+        let length = self.len(a);
+        length == other.len(b) && self.lcp_across(a, other, b) == length
+    }
+
+    /// Exact byte LCP across arenas, including eager/lazy or different profiles.
+    /// Node IDs are arena-local; matching numeric IDs in different arenas are
+    /// not treated as shared content.
+    pub fn lcp_across(&self, a: Node, other: &Arena, b: Node) -> u64 {
+        match (a, b) {
+            (Some(left), Some(right)) => {
+                let length = self.node_len(left).min(other.node_len(right));
+                if core::ptr::eq(self, other) && left == right {
+                    return length;
+                }
+                exact_lcp(
+                    self,
+                    other,
+                    RangeStart {
+                        node: left,
+                        offset: 0,
+                    },
+                    RangeStart {
+                        node: right,
+                        offset: 0,
+                    },
+                    length,
+                )
+            }
+            _ => 0,
+        }
+    }
+
+    /// Exact equality of two byte ranges of the same length, without splitting.
+    /// Panics if either range exceeds its rope, including integer overflow.
+    pub fn equal_range(&self, a: Node, a_start: u64, b: Node, b_start: u64, length: u64) -> bool {
+        self.lcp_range(a, a_start, b, b_start, length) == length
+    }
+
+    /// Exact LCP of two byte ranges, bounded by `length`. See [`Self::equal_range`].
+    pub fn lcp_range(&self, a: Node, a_start: u64, b: Node, b_start: u64, length: u64) -> u64 {
+        self.lcp_range_across(a, a_start, self, b, b_start, length)
+    }
+
+    /// Exact equal-length range comparison across arenas and fingerprint profiles.
+    pub fn equal_range_across(
+        &self,
+        a: Node,
+        a_start: u64,
+        other: &Arena,
+        b: Node,
+        b_start: u64,
+        length: u64,
+    ) -> bool {
+        self.lcp_range_across(a, a_start, other, b, b_start, length) == length
+    }
+
+    /// Exact LCP of equal-length ranges across arenas; does not allocate rope nodes.
+    /// Panics on an out-of-bounds range. Empty ranges at the end are valid.
+    pub fn lcp_range_across(
+        &self,
+        a: Node,
+        a_start: u64,
+        other: &Arena,
+        b: Node,
+        b_start: u64,
+        length: u64,
+    ) -> u64 {
+        let a_len = self.len(a);
+        let b_len = other.len(b);
+        assert!(
+            a_start <= a_len && length <= a_len - a_start,
+            "Left comparison range out of bounds"
+        );
+        assert!(
+            b_start <= b_len && length <= b_len - b_start,
+            "Right comparison range out of bounds"
+        );
+        if length == 0 || (core::ptr::eq(self, other) && a == b && a_start == b_start) {
+            return length;
+        }
+        exact_lcp(
+            self,
+            other,
+            RangeStart {
+                node: a.unwrap(),
+                offset: a_start,
+            },
+            RangeStart {
+                node: b.unwrap(),
+                offset: b_start,
+            },
+            length,
+        )
     }
 
     /// Weight (number of leaves) of the rope.
@@ -552,6 +683,7 @@ impl Arena {
     /// Panics if the resulting length or weight exceeds `u64::MAX`, or if
     /// the arena cannot represent another node with a `NodeId`.
     pub fn concat(&mut self, left: Node, right: Node) -> Node {
+        self.assert_hash_profile();
         match (left, right) {
             (None, _) => right,
             (_, None) => left,
@@ -576,6 +708,7 @@ impl Arena {
     ///
     /// Returns `(left, right)` where left has `pos` bytes, right has the rest.
     pub fn split(&mut self, node: Node, pos: u64) -> (Node, Node) {
+        self.assert_hash_profile();
         match node {
             None => (None, None),
             Some(id) => {
@@ -591,14 +724,19 @@ impl Arena {
     }
 
     fn split_inner(&mut self, id: NodeId, pos: u64) -> (Node, Node) {
-        match self.nodes[id as usize].clone() {
+        match &self.nodes[id as usize] {
             NodeInner::Leaf { data, .. } => {
                 let pos = usize::try_from(pos).expect("Leaf position exceeds usize::MAX");
-                let left = self.make_leaf(data[..pos].to_vec());
-                let right = self.make_leaf(data[pos..].to_vec());
+                // Copy just the two output slices before mutating the arena.
+                // The original leaf remains shared and immutable.
+                let left_data = data[..pos].to_vec();
+                let right_data = data[pos..].to_vec();
+                let left = self.make_leaf(left_data);
+                let right = self.make_leaf(right_data);
                 (Some(left), Some(right))
             }
             NodeInner::Internal { left, right, .. } => {
+                let (left, right) = (*left, *right);
                 let ll = self.node_len(left);
                 if pos == ll {
                     return (Some(left), Some(right));
@@ -613,7 +751,7 @@ impl Arena {
                     (rejoined, r2)
                 }
             }
-            NodeInner::Repeat { child, reps, .. } => self.split_repeat(child, reps, pos),
+            NodeInner::Repeat { child, reps, .. } => self.split_repeat(*child, *reps, pos),
         }
     }
 
@@ -649,6 +787,7 @@ impl Arena {
     /// Panics if the resulting length or weight exceeds `u64::MAX`, or if
     /// the arena cannot represent another node with a `NodeId`.
     pub fn repeat(&mut self, node: Node, q: u64) -> Node {
+        self.assert_hash_profile();
         match node {
             None => None,
             Some(id) => self.make_repeat(id, q),
@@ -661,6 +800,7 @@ impl Arena {
 
     /// Compute `H(S[start..start+length-1])` without allocating new nodes.
     pub fn substr_hash(&mut self, node: Node, start: u64, length: u64) -> u64 {
+        self.assert_hash_profile();
         match node {
             None => 0,
             Some(_) if length == 0 => 0,
@@ -673,13 +813,13 @@ impl Arena {
         // return the precomputed hash in O(1). Without this, the traversal
         // descends to every leaf in the range, degrading to O(range_size).
         if start == 0 && length == self.node_len(id) {
-            self.ensure_hash(id);
+            self.ensure_hash_inner(id);
             return self.hash_val(id);
         }
 
         let p = self.h.prime();
 
-        match self.nodes[id as usize].clone() {
+        match &self.nodes[id as usize] {
             NodeInner::Leaf { data, .. } => {
                 let s = usize::try_from(start).expect("Leaf position exceeds usize::MAX");
                 let length = usize::try_from(length).expect("Leaf range exceeds usize::MAX");
@@ -689,6 +829,7 @@ impl Arena {
                 self.h.hash(&data[s..e])
             }
             NodeInner::Internal { left, right, .. } => {
+                let (left, right) = (*left, *right);
                 let ll = self.node_len(left);
                 let end = start
                     .checked_add(length)
@@ -707,8 +848,9 @@ impl Arena {
                 self.h.hash_concat(h_l, r_len, h_r)
             }
             NodeInner::Repeat { child, .. } => {
+                let child = *child;
                 let d = self.node_len(child);
-                self.ensure_hash(child);
+                self.ensure_hash_inner(child);
                 let child_hash = self.hash_val(child);
                 let first_copy = start / d;
                 let start_in_copy = start % d;
@@ -759,6 +901,7 @@ impl Arena {
 
     /// Create a rope from a byte slice. Returns `None` for empty.
     pub fn from_bytes(&mut self, data: &[u8]) -> Node {
+        self.assert_hash_profile();
         const LEAF_CAP: usize = 512;
         if data.is_empty() {
             return None;
@@ -825,8 +968,10 @@ impl Arena {
     // Validation
     // -----------------------------------------------------------------------
 
-    /// Validate all rope invariants (Definition 7). Panics on violation.
+    /// Validate structural invariants and the arena's unchanged hash profile.
+    /// Does not recompute cached fingerprints. Panics on violation.
     pub fn validate(&self, node: Node) {
+        self.assert_hash_profile();
         if let Some(id) = node {
             self.validate_inner(id);
         }
@@ -899,8 +1044,546 @@ impl Arena {
 
     /// Hash a raw byte slice using this arena's polynomial hash.
     pub fn hash_bytes(&self, data: &[u8]) -> u64 {
+        self.assert_hash_profile();
         self.h.hash(data)
     }
+}
+
+// Exact comparison only reads immutable structure and bytes. Its two arenas are
+// fixed for one call, so IDs in cache keys cannot be confused across arenas.
+#[derive(Clone, Copy)]
+struct RangeStart {
+    node: NodeId,
+    offset: u64,
+}
+
+type EqualRange = (NodeId, u64, NodeId, u64, u64);
+
+// Ordinary independent trees have no reusable range proofs. Avoid allocating
+// and maintaining an ordered cache for them, but never expand a compact DAG
+// without a bound: normalization and frontier node examinations spend visits.
+// The budget depends on stored nodes, not expanded leaves or logical bytes.
+fn exact_lcp(left: &Arena, right: &Arena, a: RangeStart, b: RangeStart, length: u64) -> u64 {
+    let stored_nodes = left.nodes.len().saturating_add(right.nodes.len());
+    // Obvious compression can go straight to the memoized engine. This is only
+    // a cost shortcut: the visit budget also catches less obvious shared DAGs.
+    if left.node_weight(a.node) <= stored_nodes as u64
+        && right.node_weight(b.node) <= stored_nodes as u64
+    {
+        let mut fast = FastComparison {
+            left,
+            right,
+            same_arena: core::ptr::eq(left, right),
+            visits_left: stored_nodes.saturating_mul(8),
+        };
+        match fast.lcp(a, b, length) {
+            Ok(common) => return common,
+            Err(matched) => {
+                // Resume at the first unverified byte; the proven prefix need
+                // not be scanned again when the work budget or a Repeat ends
+                // the fast traversal.
+                return matched
+                    + ExactComparison::new(left, right).lcp(
+                        RangeStart {
+                            offset: a.offset + matched,
+                            ..a
+                        },
+                        RangeStart {
+                            offset: b.offset + matched,
+                            ..b
+                        },
+                        length - matched,
+                    );
+            }
+        }
+    }
+    ExactComparison::new(left, right).lcp(a, b, length)
+}
+
+struct FastComparison<'a> {
+    left: &'a Arena,
+    right: &'a Arena,
+    same_arena: bool,
+    visits_left: usize,
+}
+
+impl FastComparison<'_> {
+    fn normalize(
+        arena: &Arena,
+        mut range: RangeStart,
+        length: u64,
+        visits_left: &mut usize,
+    ) -> Option<RangeStart> {
+        loop {
+            *visits_left = visits_left.checked_sub(1)?;
+            match &arena.nodes[range.node as usize] {
+                NodeInner::Leaf { .. } => return Some(range),
+                NodeInner::Internal { left, right, .. } => {
+                    let left_len = arena.node_len(*left);
+                    if range.offset >= left_len {
+                        range.node = *right;
+                        range.offset -= left_len;
+                    } else if length <= left_len - range.offset {
+                        range.node = *left;
+                    } else {
+                        return Some(range);
+                    }
+                }
+                // Keep periodic witnesses and canonical phases in the proven
+                // memoized engine, rather than enumerating repeat copies.
+                NodeInner::Repeat { .. } => return None,
+            }
+        }
+    }
+
+    // Ok: exact LCP (possibly the full range); Err: verified prefix at fallback.
+    fn lcp(&mut self, a: RangeStart, b: RangeStart, length: u64) -> Result<u64, u64> {
+        // Different arenas cannot share node identity. Keep their long scans
+        // on explicit frontiers so differently shaped trees visit each branch
+        // once. Recursive ranges remain cheaper for small/shared comparisons.
+        if !self.same_arena && length >= 8192 {
+            self.frontier_lcp(a, b, length)
+        } else {
+            self.lcp_recursive(a, b, length)
+        }
+    }
+
+    fn lcp_recursive(
+        &mut self,
+        mut a: RangeStart,
+        mut b: RangeStart,
+        length: u64,
+    ) -> Result<u64, u64> {
+        let mut matched = 0;
+        while matched < length {
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                return Ok(length);
+            }
+            let remaining = length - matched;
+            a = Self::normalize(self.left, a, remaining, &mut self.visits_left).ok_or(matched)?;
+            b = Self::normalize(self.right, b, remaining, &mut self.visits_left).ok_or(matched)?;
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                return Ok(length);
+            }
+            if let (NodeInner::Leaf { data: x, .. }, NodeInner::Leaf { data: y, .. }) = (
+                &self.left.nodes[a.node as usize],
+                &self.right.nodes[b.node as usize],
+            ) {
+                let x = &x[a.offset as usize..][..remaining as usize];
+                let y = &y[b.offset as usize..][..remaining as usize];
+                return Ok(if x == y {
+                    length
+                } else {
+                    matched + first_different_byte(x, y) as u64
+                });
+            }
+            // Normalized non-leaf ranges cross an Internal boundary. Leaf
+            // boundaries equal remaining, so taking the minimum reveals at
+            // least one smaller child and the recursive prefix is shorter.
+            let a_boundary = ExactComparison::boundary(self.left, a);
+            let b_boundary = ExactComparison::boundary(self.right, b);
+            let piece = a_boundary.min(b_boundary).min(remaining);
+            debug_assert!(piece > 0 && piece < remaining);
+            // The prefix lies in each Internal's left child. Enter that child
+            // directly rather than inspecting the same parent again during
+            // recursive normalization. Leaf views already cover the prefix.
+            let prefix_a = match &self.left.nodes[a.node as usize] {
+                NodeInner::Internal { left, .. } => RangeStart {
+                    node: *left,
+                    offset: a.offset,
+                },
+                _ => a,
+            };
+            let prefix_b = match &self.right.nodes[b.node as usize] {
+                NodeInner::Internal { left, .. } => RangeStart {
+                    node: *left,
+                    offset: b.offset,
+                },
+                _ => b,
+            };
+            match self.lcp_recursive(prefix_a, prefix_b, piece) {
+                Ok(common) if common == piece => {}
+                Ok(common) => return Ok(matched + common),
+                Err(common) => return Err(matched + common),
+            }
+            a = match &self.left.nodes[a.node as usize] {
+                NodeInner::Internal { right, .. } if piece == a_boundary => RangeStart {
+                    node: *right,
+                    offset: 0,
+                },
+                _ => RangeStart {
+                    offset: a.offset + piece,
+                    ..a
+                },
+            };
+            b = match &self.right.nodes[b.node as usize] {
+                NodeInner::Internal { right, .. } if piece == b_boundary => RangeStart {
+                    node: *right,
+                    offset: 0,
+                },
+                _ => RangeStart {
+                    offset: b.offset + piece,
+                    ..b
+                },
+            };
+            matched += piece;
+        }
+        Ok(length)
+    }
+}
+
+// Fixed-stack frontiers hold the unverified suffix in byte order. They use
+// 1,600 bytes of frontier storage in total on 64-bit targets (excluding other
+// locals), with no heap or arena allocation. Excess depth, exhausted visits,
+// and Repeat nodes return to the
+// general exact engine at the first unverified byte.
+#[derive(Clone, Copy)]
+struct ExactPart {
+    range: RangeStart,
+    length: u64,
+}
+struct ExactFrontier {
+    part: ExactPart,
+    stack: [ExactPart; 32],
+    depth: usize,
+}
+impl ExactFrontier {
+    fn new(range: RangeStart, length: u64) -> Self {
+        Self {
+            part: ExactPart { range, length },
+            stack: [ExactPart {
+                range: RangeStart { node: 0, offset: 0 },
+                length: 0,
+            }; 32],
+            depth: 0,
+        }
+    }
+    fn expand(&mut self, arena: &Arena) -> bool {
+        let (left, right) = match arena.nodes[self.part.range.node as usize] {
+            NodeInner::Internal { left, right, .. } => (left, right),
+            _ => unreachable!(),
+        };
+        let left_len = arena.node_len(left);
+        if self.part.range.offset >= left_len {
+            self.part.range.node = right;
+            self.part.range.offset -= left_len;
+        } else {
+            let head = left_len - self.part.range.offset;
+            if self.part.length > head {
+                if self.depth == self.stack.len() {
+                    return false;
+                }
+                self.stack[self.depth] = ExactPart {
+                    range: RangeStart {
+                        node: right,
+                        offset: 0,
+                    },
+                    length: self.part.length - head,
+                };
+                self.depth += 1;
+                self.part.length = head;
+            }
+            self.part.range.node = left;
+        }
+        true
+    }
+    fn consume(&mut self, length: u64) {
+        if length == self.part.length {
+            if self.depth > 0 {
+                self.depth -= 1;
+                self.part = self.stack[self.depth];
+            } else {
+                self.part.length = 0;
+            }
+        } else {
+            self.part.range.offset += length;
+            self.part.length -= length;
+        }
+    }
+}
+
+impl FastComparison<'_> {
+    fn frontier_lcp(&mut self, a: RangeStart, b: RangeStart, length: u64) -> Result<u64, u64> {
+        let mut left = ExactFrontier::new(a, length);
+        let mut right = ExactFrontier::new(b, length);
+        let mut matched = 0;
+        while matched < length {
+            let a = left.part.range;
+            let b = right.part.range;
+            let common = left.part.length.min(right.part.length);
+            debug_assert!(common > 0);
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                left.consume(common);
+                right.consume(common);
+                matched += common;
+                continue;
+            }
+            self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+            self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+            match (
+                &self.left.nodes[a.node as usize],
+                &self.right.nodes[b.node as usize],
+            ) {
+                (NodeInner::Leaf { data: x, .. }, NodeInner::Leaf { data: y, .. }) => {
+                    let x = &x[a.offset as usize..][..common as usize];
+                    let y = &y[b.offset as usize..][..common as usize];
+                    if x != y {
+                        return Ok(matched + first_different_byte(x, y) as u64);
+                    }
+                    left.consume(common);
+                    right.consume(common);
+                    matched += common;
+                }
+                (NodeInner::Repeat { .. }, _) | (_, NodeInner::Repeat { .. }) => {
+                    return Err(matched)
+                }
+                (NodeInner::Internal { .. }, NodeInner::Internal { .. }) => {
+                    let left_len = left.part.length;
+                    let right_len = right.part.length;
+                    if left_len >= right_len && !left.expand(self.left) {
+                        return Err(matched);
+                    }
+                    if right_len >= left_len && !right.expand(self.right) {
+                        return Err(matched);
+                    }
+                }
+                (NodeInner::Internal { .. }, _) => {
+                    if !left.expand(self.left) {
+                        return Err(matched);
+                    }
+                }
+                (_, NodeInner::Internal { .. }) => {
+                    if !right.expand(self.right) {
+                        return Err(matched);
+                    }
+                }
+            }
+        }
+        Ok(length)
+    }
+}
+
+// Both slices have equal length and the caller has already proved inequality.
+// Safe fixed-width loads locate the first differing byte without a scalar
+// second pass through a long equal prefix. Little-endian conversion makes the
+// trailing-zero byte index portable to every target.
+fn first_different_byte(left: &[u8], right: &[u8]) -> usize {
+    let mut offset = 0;
+    while left.len() - offset >= 8 {
+        let a = u64::from_le_bytes(left[offset..offset + 8].try_into().unwrap());
+        let b = u64::from_le_bytes(right[offset..offset + 8].try_into().unwrap());
+        let different = a ^ b;
+        if different != 0 {
+            return offset + (different.trailing_zeros() / 8) as usize;
+        }
+        offset += 8;
+    }
+    offset
+        + left[offset..]
+            .iter()
+            .zip(&right[offset..])
+            .position(|(a, b)| a != b)
+            .unwrap()
+}
+
+struct ExactComparison<'a> {
+    left: &'a Arena,
+    right: &'a Arena,
+    same_arena: bool,
+    equal_ranges: BTreeSet<EqualRange>,
+}
+
+impl<'a> ExactComparison<'a> {
+    fn new(left: &'a Arena, right: &'a Arena) -> Self {
+        Self {
+            left,
+            right,
+            same_arena: core::ptr::eq(left, right),
+            equal_ranges: BTreeSet::new(),
+        }
+    }
+
+    // A repeated child is a structural proof of periodicity, including a
+    // self-concatenation DAG that has no explicit Repeat nodes. Follow only
+    // those proven edges; ordinary Internal nodes are never assumed periodic.
+    // Reducing nested powers avoids proving each doubling separately in the
+    // range cache. Any substring keeps this period, regardless of its phase.
+    fn structural_period(arena: &Arena, mut node: NodeId) -> Option<u64> {
+        let mut repeated = false;
+        loop {
+            match &arena.nodes[node as usize] {
+                NodeInner::Repeat { child, .. } => node = *child,
+                NodeInner::Internal { left, right, .. } if left == right => node = *left,
+                _ => return repeated.then(|| arena.node_len(node)),
+            }
+            repeated = true;
+        }
+    }
+
+    // Descend while the requested range fits in one child. A repeat range
+    // crossing a copy boundary retains its Repeat node but uses a canonical
+    // phase offset, making verified ranges reusable across subsequent copies.
+    fn normalize(arena: &Arena, mut range: RangeStart, length: u64) -> RangeStart {
+        loop {
+            match &arena.nodes[range.node as usize] {
+                NodeInner::Leaf { .. } => return range,
+                NodeInner::Internal { left, right, .. } => {
+                    let left_len = arena.node_len(*left);
+                    if range.offset >= left_len {
+                        range.node = *right;
+                        range.offset -= left_len;
+                    } else if length <= left_len - range.offset {
+                        range.node = *left;
+                    } else {
+                        return range;
+                    }
+                }
+                NodeInner::Repeat { child, .. } => {
+                    let period = arena.node_len(*child);
+                    range.offset %= period;
+                    if length <= period - range.offset {
+                        range.node = *child;
+                    } else {
+                        return range;
+                    }
+                }
+            }
+        }
+    }
+
+    fn boundary(arena: &Arena, range: RangeStart) -> u64 {
+        match &arena.nodes[range.node as usize] {
+            NodeInner::Leaf { len, .. } => len - range.offset,
+            NodeInner::Internal { left, .. } => arena.node_len(*left) - range.offset,
+            NodeInner::Repeat { child, .. } => arena.node_len(*child) - range.offset,
+        }
+    }
+
+    fn key(a: RangeStart, b: RangeStart, length: u64) -> EqualRange {
+        (a.node, a.offset, b.node, b.offset, length)
+    }
+
+    fn lcp(&mut self, a: RangeStart, b: RangeStart, length: u64) -> u64 {
+        // Reduce a whole periodic query once. Doing this at every recursive
+        // boundary would repeatedly walk the same chains on a late mismatch.
+        // The general engine below retains its memoized subrange proofs.
+        let repeated = |arena: &Arena, node: NodeId| {
+            matches!(&arena.nodes[node as usize], NodeInner::Repeat { .. })
+                || matches!(
+                    &arena.nodes[node as usize],
+                    NodeInner::Internal { left, right, .. } if left == right
+                )
+        };
+        if length > 0 && repeated(self.left, a.node) && repeated(self.right, b.node) {
+            let p = Self::structural_period(self.left, a.node).unwrap();
+            let q = Self::structural_period(self.right, b.node).unwrap();
+            let witness = p.saturating_add(q - gcd(p, q));
+            if witness < length {
+                // Compare actual range bytes, retaining both phase offsets.
+                let common = self.lcp_inner(a, b, witness);
+                return if common == witness { length } else { common };
+            }
+        }
+        self.lcp_inner(a, b, length)
+    }
+
+    fn lcp_inner(&mut self, a: RangeStart, b: RangeStart, length: u64) -> u64 {
+        if length == 0 {
+            return 0;
+        }
+        let mut a = Self::normalize(self.left, a, length);
+        let mut b = Self::normalize(self.right, b, length);
+        let original = Self::key(a, b, length);
+        let mut matched = 0;
+
+        // Process the remainder iteratively so crossing many leaf/repeat
+        // boundaries does not grow the call stack with expanded byte length.
+        while matched < length {
+            let remaining = length - matched;
+            a = Self::normalize(self.left, a, remaining);
+            b = Self::normalize(self.right, b, remaining);
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                break;
+            }
+            let key = Self::key(a, b, remaining);
+            if self.equal_ranges.contains(&key) {
+                break;
+            }
+
+            match (
+                &self.left.nodes[a.node as usize],
+                &self.right.nodes[b.node as usize],
+            ) {
+                (NodeInner::Leaf { data: x, .. }, NodeInner::Leaf { data: y, .. }) => {
+                    // A leaf's length fits usize because it owns a Vec<u8>.
+                    let x = &x[a.offset as usize..][..remaining as usize];
+                    let y = &y[b.offset as usize..][..remaining as usize];
+                    if x != y {
+                        let first = first_different_byte(x, y);
+                        return matched + first as u64;
+                    }
+                    self.equal_ranges.insert(key);
+                    break;
+                }
+                (NodeInner::Repeat { child: x, .. }, NodeInner::Repeat { child: y, .. }) => {
+                    let p = self.left.node_len(*x);
+                    let q = self.right.node_len(*y);
+                    // Fine-Wilf: two periodic sequences agreeing on p+q-gcd(p,q)
+                    // bytes agree everywhere. Phase offsets do not change their
+                    // periods. Prove actual range bytes (including their phases)
+                    // before skipping copies, including unequal period sizes.
+                    let witness = p.saturating_add(q - gcd(p, q));
+                    if witness < remaining {
+                        let common = self.lcp_inner(a, b, witness);
+                        if common < witness {
+                            return matched + common;
+                        }
+                        self.equal_ranges.insert(key);
+                        break;
+                    }
+                }
+                _ => {}
+            }
+
+            // Reveal an Internal's large child before cutting a Repeat into
+            // individual copies. Otherwise Repeat vs concat(Repeat, Repeat)
+            // would visit every period even when both large children match.
+            let left_boundary = Self::boundary(self.left, a);
+            let right_boundary = Self::boundary(self.right, b);
+            let piece = match (
+                matches!(self.left.nodes[a.node as usize], NodeInner::Internal { .. }),
+                matches!(
+                    self.right.nodes[b.node as usize],
+                    NodeInner::Internal { .. }
+                ),
+            ) {
+                (true, false) => left_boundary,
+                (false, true) => right_boundary,
+                _ => left_boundary.min(right_boundary),
+            }
+            .min(remaining);
+            // Normalization and the leaf case ensure at least one node crosses
+            // a boundary. The recursive prefix is therefore strictly shorter.
+            debug_assert!(piece > 0 && piece < remaining);
+            let common = self.lcp_inner(a, b, piece);
+            if common < piece {
+                return matched + common;
+            }
+            a.offset += piece;
+            b.offset += piece;
+            matched += piece;
+        }
+
+        self.equal_ranges.insert(original);
+        length
+    }
+}
+
+fn gcd(mut a: u64, mut b: u64) -> u64 {
+    while b != 0 {
+        (a, b) = (b, a % b);
+    }
+    a
 }
 
 // ---------------------------------------------------------------------------
@@ -917,6 +1600,44 @@ pub fn rope_len(arena: &Arena, node: Node) -> u64 {
 #[inline]
 pub fn rope_hash(arena: &Arena, node: Node) -> u64 {
     arena.hash(node)
+}
+
+/// Exact byte equality in one arena. See [`Arena::equal`] for costs.
+#[inline]
+pub fn rope_equal(arena: &Arena, a: Node, b: Node) -> bool {
+    arena.equal(a, b)
+}
+
+/// Exact longest common prefix length in bytes. See [`Arena::lcp`].
+#[inline]
+pub fn rope_lcp(arena: &Arena, a: Node, b: Node) -> u64 {
+    arena.lcp(a, b)
+}
+
+/// Exact equality of equal-length byte ranges; see [`Arena::equal_range`].
+#[inline]
+pub fn rope_range_equal(
+    arena: &Arena,
+    a: Node,
+    a_start: u64,
+    b: Node,
+    b_start: u64,
+    length: u64,
+) -> bool {
+    arena.equal_range(a, a_start, b, b_start, length)
+}
+
+/// Exact LCP of equal-length byte ranges; see [`Arena::lcp_range`].
+#[inline]
+pub fn rope_range_lcp(
+    arena: &Arena,
+    a: Node,
+    a_start: u64,
+    b: Node,
+    b_start: u64,
+    length: u64,
+) -> u64 {
+    arena.lcp_range(a, a_start, b, b_start, length)
 }
 
 /// Height of the rope tree.
@@ -961,7 +1682,7 @@ pub fn rope_to_bytes(arena: &Arena, node: Node) -> Vec<u8> {
     arena.to_bytes(node)
 }
 
-/// Validate all rope invariants.
+/// Validate structural invariants and unchanged arena parameters, without rehashing.
 #[inline]
 pub fn validate_rope(arena: &Arena, node: Node) {
     arena.validate(node)
@@ -2759,5 +3480,330 @@ mod tests {
         let len = lazy.len(result);
         let h = lazy.substr_hash(result, 0, len);
         assert_eq!(h, lazy.hash_bytes(b"ABCABC"));
+    }
+}
+
+#[cfg(test)]
+mod exact_fast_path_tests {
+    use super::*;
+
+    fn fast<'a>(left: &'a Arena, right: &'a Arena, visits_left: usize) -> FastComparison<'a> {
+        FastComparison {
+            left,
+            right,
+            same_arena: core::ptr::eq(left, right),
+            visits_left,
+        }
+    }
+
+    fn chunked(arena: &mut Arena, bytes: &[u8], chunk_size: usize) -> Node {
+        let mut root = None;
+        for bytes in bytes.chunks(chunk_size) {
+            let leaf = arena.from_bytes(bytes);
+            root = arena.concat(root, leaf);
+        }
+        root
+    }
+
+    #[test]
+    fn fast_budget_counts_every_normalization_descent() {
+        let mut arena = Arena::new_lazy();
+        let leaf = arena.from_bytes(b"x");
+        let mut root = leaf;
+        for _ in 0..20 {
+            root = arena.concat(root, root);
+        }
+        let start = RangeStart {
+            node: root.unwrap(),
+            offset: (1 << 20) - 1,
+        };
+        for limit in 0..=20 {
+            let mut remaining = limit;
+            assert!(FastComparison::normalize(&arena, start, 1, &mut remaining).is_none());
+            assert_eq!(
+                remaining, 0,
+                "normalization must exhaust the supplied visit budget"
+            );
+        }
+        let mut remaining = 21;
+        let normalized = FastComparison::normalize(&arena, start, 1, &mut remaining).unwrap();
+        assert_eq!(normalized.node, leaf.unwrap());
+        assert_eq!(normalized.offset, 0);
+        assert_eq!(remaining, 0);
+    }
+
+    #[test]
+    fn fast_budget_fallback_resumes_after_verified_nonzero_prefix() {
+        let bytes: Vec<u8> = (0..4096).map(|i| (i * 37) as u8).collect();
+        let mut changed = bytes.clone();
+        changed[3500] ^= 0x80;
+        let mut left_bytes = b"abc".to_vec();
+        left_bytes.extend_from_slice(&bytes);
+        let mut right_bytes = b"12345".to_vec();
+        right_bytes.extend_from_slice(&changed);
+        let mut left_arena = Arena::new_lazy();
+        let mut right_arena = Arena::new_lazy();
+        let left = left_arena.from_bytes(&left_bytes);
+        let right = chunked(&mut right_arena, &right_bytes, 257);
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 3,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 5,
+        };
+        let mut saw_nonzero_fallback = false;
+        let mut saw_completed_fast_result = false;
+        for budget in [
+            0, 1, 2, 3, 4, 8, 16, 32, 48, 64, 96, 128, 192, 256, 384, 512,
+        ] {
+            let mut comparison = fast(&left_arena, &right_arena, budget);
+            match comparison.lcp(a, b, 4096) {
+                Ok(common) => {
+                    assert_eq!(common, 3500);
+                    saw_completed_fast_result = true;
+                }
+                Err(matched) => {
+                    assert_eq!(comparison.visits_left, 0);
+                    assert!(matched <= 3500);
+                    saw_nonzero_fallback |= matched > 0;
+                    let rest = ExactComparison::new(&left_arena, &right_arena).lcp(
+                        RangeStart {
+                            offset: a.offset + matched,
+                            ..a
+                        },
+                        RangeStart {
+                            offset: b.offset + matched,
+                            ..b
+                        },
+                        4096 - matched,
+                    );
+                    assert_eq!(matched + rest, 3500);
+                }
+            }
+        }
+        assert!(saw_nonzero_fallback);
+        assert!(saw_completed_fast_result);
+    }
+
+    #[test]
+    fn fast_repeat_transition_preserves_prefix_and_late_mismatch() {
+        for differing_repeat in [false, true] {
+            let mut left_arena = Arena::new_lazy();
+            let mut right_arena = Arena::new_lazy();
+            let prefix_bytes = alloc::vec![b'a'; 2048];
+            let prefix_left = left_arena.from_bytes(&prefix_bytes);
+            let prefix_right = right_arena.from_bytes(&prefix_bytes);
+            let left_pattern = alloc::vec![b'b'; 512];
+            let mut right_pattern = left_pattern.clone();
+            if differing_repeat {
+                right_pattern[511] = b'c';
+            }
+            let child_left = left_arena.from_bytes(&left_pattern);
+            let child_right = right_arena.from_bytes(&right_pattern);
+            let repeated_left = left_arena.repeat(child_left, 4);
+            let repeated_right = right_arena.repeat(child_right, 4);
+            let left = left_arena.concat(prefix_left, repeated_left);
+            let right = right_arena.concat(prefix_right, repeated_right);
+            let a = RangeStart {
+                node: left.unwrap(),
+                offset: 0,
+            };
+            let b = RangeStart {
+                node: right.unwrap(),
+                offset: 0,
+            };
+            let mut comparison = fast(&left_arena, &right_arena, 10_000);
+            assert_eq!(comparison.lcp(a, b, 4096), Err(2048));
+            assert!(
+                comparison.visits_left > 0,
+                "Repeat, rather than exhaustion, must trigger fallback"
+            );
+            let expected = if differing_repeat { 2048 + 511 } else { 4096 };
+            assert_eq!(exact_lcp(&left_arena, &right_arena, a, b, 4096), expected);
+            assert_eq!(left_arena.hash(left), LAZY_SENTINEL);
+            assert_eq!(right_arena.hash(right), LAZY_SENTINEL);
+        }
+    }
+
+    #[test]
+    fn fast_compact_dag_stops_at_budget_before_logical_expansion() {
+        let mut left_arena = Arena::new_lazy();
+        let mut right_arena = Arena::new_lazy();
+        let mut left = left_arena.from_bytes(b"ab");
+        let mut right = right_arena.from_bytes(b"ab");
+        for _ in 0..40 {
+            left = left_arena.concat(left, left);
+            right = right_arena.concat(right, right);
+        }
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 0,
+        };
+        let length = 2 << 40;
+        let mut comparison = fast(&left_arena, &right_arena, 256);
+        let matched = comparison.lcp_recursive(a, b, length).unwrap_err();
+        assert_eq!(comparison.visits_left, 0);
+        assert!(
+            matched > 0 && matched < 1024,
+            "the bounded scan must not expand the DAG"
+        );
+        let rest = ExactComparison::new(&left_arena, &right_arena).lcp(
+            RangeStart {
+                offset: matched,
+                ..a
+            },
+            RangeStart {
+                offset: matched,
+                ..b
+            },
+            length - matched,
+        );
+        assert_eq!(matched + rest, length);
+        // Production dispatch can recognize this obvious compression before
+        // spending even that bounded scan, and must agree with the fallback.
+        assert_eq!(exact_lcp(&left_arena, &right_arena, a, b, length), length);
+    }
+
+    #[test]
+    fn frontier_budget_includes_both_nodes_and_resumes_verified_ranges() {
+        let bytes: Vec<u8> = (0..16_384).map(|i| (i * 17) as u8).collect();
+        let mut changed = bytes.clone();
+        changed[15_111] ^= 1;
+        let mut left_arena = Arena::new_lazy();
+        let mut right_arena = Arena::new_lazy();
+        let left = left_arena.from_bytes(&bytes);
+        let right = chunked(&mut right_arena, &changed, 257);
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 13,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 13,
+        };
+        let length = 16_384 - 13;
+        let expected = 15_111 - 13;
+        let mut saw_nonzero_prefix = false;
+        for budget in [0, 1, 2, 3, 4, 8, 16, 32, 64, 128, 256, 512] {
+            let mut comparison = fast(&left_arena, &right_arena, budget);
+            match comparison.frontier_lcp(a, b, length) {
+                Ok(common) => assert_eq!(common, expected),
+                Err(matched) => {
+                    assert_eq!(comparison.visits_left, 0);
+                    assert!(matched <= expected);
+                    saw_nonzero_prefix |= matched > 0;
+                    let rest = ExactComparison::new(&left_arena, &right_arena).lcp(
+                        RangeStart {
+                            offset: a.offset + matched,
+                            ..a
+                        },
+                        RangeStart {
+                            offset: b.offset + matched,
+                            ..b
+                        },
+                        length - matched,
+                    );
+                    assert_eq!(matched + rest, expected);
+                }
+            }
+        }
+        assert!(saw_nonzero_prefix);
+    }
+
+    #[test]
+    fn frontier_depth_limit_falls_back_before_expansion_and_after_shared_prefix() {
+        let mut arena = Arena::new_lazy();
+        let mut left = arena.from_bytes(b"ab");
+        let mut right = arena.from_bytes(b"ab");
+        for _ in 0..40 {
+            left = arena.concat(left, left);
+            right = arena.concat(right, right);
+        }
+        let length = 2 << 40;
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 0,
+        };
+        let mut comparison = fast(&arena, &arena, 10_000);
+        assert_eq!(comparison.frontier_lcp(a, b, length), Err(0));
+        assert!(
+            comparison.visits_left > 0,
+            "fixed stack, not visit exhaustion, must cause fallback"
+        );
+        assert_eq!(
+            ExactComparison::new(&arena, &arena).lcp(a, b, length),
+            length
+        );
+
+        // Balanced roots share their first huge subtree; the second pair of
+        // independent DAGs then exhausts the frontier stack without expansion.
+        let prefixed_left = arena.concat(left, left);
+        let prefixed_right = arena.concat(left, right);
+        let a = RangeStart {
+            node: prefixed_left.unwrap(),
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: prefixed_right.unwrap(),
+            offset: 0,
+        };
+        let mut comparison = fast(&arena, &arena, 10_000);
+        assert_eq!(comparison.frontier_lcp(a, b, 2 * length), Err(length));
+        assert!(comparison.visits_left > 0);
+        let rest = ExactComparison::new(&arena, &arena).lcp(
+            RangeStart {
+                offset: length,
+                ..a
+            },
+            RangeStart {
+                offset: length,
+                ..b
+            },
+            length,
+        );
+        assert_eq!(rest, length);
+    }
+
+    #[test]
+    fn frontier_repeat_fallback_preserves_a_verified_nonzero_prefix() {
+        let mut left_arena = Arena::new_lazy();
+        let mut right_arena = Arena::new_lazy();
+        let prefix = alloc::vec![b'a'; 8192];
+        let p_left = left_arena.from_bytes(&prefix);
+        let p_right = right_arena.from_bytes(&prefix);
+        let left_pattern = alloc::vec![b'b'; 512];
+        let mut right_pattern = left_pattern.clone();
+        right_pattern[511] = b'c';
+        let child_left = left_arena.from_bytes(&left_pattern);
+        let child_right = right_arena.from_bytes(&right_pattern);
+        let repeat_left = left_arena.repeat(child_left, 16);
+        let repeat_right = right_arena.repeat(child_right, 16);
+        let left = left_arena.concat(p_left, repeat_left);
+        let right = right_arena.concat(p_right, repeat_right);
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 0,
+        };
+        let mut comparison = fast(&left_arena, &right_arena, 10_000);
+        assert_eq!(comparison.lcp(a, b, 16_384), Err(8192));
+        assert!(comparison.visits_left > 0);
+        assert_eq!(
+            exact_lcp(&left_arena, &right_arena, a, b, 16_384),
+            8192 + 511
+        );
     }
 }

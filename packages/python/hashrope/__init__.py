@@ -9,10 +9,11 @@ All arithmetic is performed modulo a Mersenne prime using bit-shift
 reduction (no expensive division).
 """
 
-__version__ = "0.2.2"
+__version__ = "0.3.3"
 
 from hashrope.polynomial_hash import (
     PolynomialHash,
+    HashProfile,
     phi,
     mersenne_mod,
     mersenne_mul,
@@ -30,6 +31,10 @@ from hashrope.rope import (
     rope_substr_hash,
     rope_len,
     rope_hash,
+    rope_equal,
+    rope_lcp,
+    rope_range_equal,
+    rope_range_lcp,
     rope_height,
     rope_from_bytes,
     rope_to_bytes,
@@ -40,6 +45,7 @@ from hashrope.sliding import SlidingWindow
 __all__ = [
     # Polynomial hash
     "PolynomialHash",
+    "HashProfile",
     "phi",
     "mersenne_mod",
     "mersenne_mul",
@@ -57,6 +63,10 @@ __all__ = [
     "rope_substr_hash",
     "rope_len",
     "rope_hash",
+    "rope_equal",
+    "rope_lcp",
+    "rope_range_equal",
+    "rope_range_lcp",
     "rope_height",
     "rope_from_bytes",
     "rope_to_bytes",

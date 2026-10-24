@@ -1,0 +1,67 @@
+{
+  "kind": "rust",
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round2\\provenance.py": "00bb929f37968d45a0bda4bb0f979cb62480121b195241be7c8c5c1170182f99",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\edit_compare.py": "f630ce4b02f9815a4a21f8949508c578234cbb15aabc304f472e08b85d0f0ff9",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\edit_compare.rs": "5e1db225b95ff3199801a8c23aafe39e5c58af5370613e867692b0a43378f756",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\edit_compare.Cargo.lock": "55d7ccdcc404ad7bbc906c25078410ba83657a9fecd6478fc4fb3149a46abff4",
+    "executed_driver": "56da4f647bc220e1e9f067c7b18f391df366920e7cda425784d7c0d83e74d20a"
+  },
+  "data_sha256": {},
+  "workload": {
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "invocations": 3,
+    "samples": 3,
+    "cycles": 50,
+    "equal_fraction": 0.5,
+    "sizes": [
+      10000,
+      100000,
+      1000000
+    ],
+    "history": [
+      false,
+      true
+    ]
+  },
+  "python": "3.12.2",
+  "runtime": {
+    "python_executable": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "python_build": [
+      "tags/v3.12.2:6abddd9",
+      "Feb  6 2024 21:26:36"
+    ],
+    "python_implementation": "CPython",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "processor_identifier": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "environment": {
+      "PYTHONHASHSEED": null,
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "RUSTFLAGS": null,
+      "CARGO_ENCODED_RUSTFLAGS": null,
+      "CARGO_BUILD_TARGET": null,
+      "CARGO_PROFILE_RELEASE_OPT_LEVEL": null,
+      "CARGO_PROFILE_RELEASE_LTO": null,
+      "CARGO_PROFILE_RELEASE_CODEGEN_UNITS": null
+    },
+    "rustc_verbose": "rustc 1.94.0 (4a4ef493e 2026-03-02)\nbinary: rustc\ncommit-hash: 4a4ef493e3a1488c6e321570238084b38948f6db\ncommit-date: 2026-03-02\nhost: x86_64-pc-windows-msvc\nrelease: 1.94.0\nLLVM version: 21.1.8",
+    "cargo_version": "cargo 1.94.0 (85eff7c80 2026-01-15)"
+  },
+  "runtime_packages": {
+    "numpy": "2.0.2",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.1.0"
+  },
+  "core_archives": {
+    "baseline": "0c9e212c3828d29772365c5345393acff26611c9a86cd51ecbfc0748714671ac",
+    "optimized": "11d618187e557f145bf5f8ca556b68581478775bd44da28a18581086ef4bcd10"
+  },
+  "fingerprint": "bdca132bbb85693fc79b9e2177f9c0482130729ac0539cf425c2a4e63faf0214"
+}

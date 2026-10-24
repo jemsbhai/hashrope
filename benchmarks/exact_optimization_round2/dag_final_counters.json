@@ -1,0 +1,147 @@
+{
+  "label": "periodic_query",
+  "instrumented": true,
+  "source_sha256": "355134607486c3b2263f84f47219ac67be868e1128c086d32966ab8ab705da5b",
+  "rows": [
+    {
+      "fixture": "doubling_2TiB",
+      "median_us": 0.6413499999999999,
+      "samples_us": [
+        0.5992000000000001,
+        0.6103000000000001,
+        0.6199499999999999,
+        0.63045,
+        0.6413499999999999,
+        0.6495500000000001,
+        0.65205,
+        0.6906,
+        0.7269000000000001
+      ],
+      "allocations": 1,
+      "allocated_bytes": 368,
+      "counters": {
+        "lcp_calls": 1,
+        "normalize_visits": 84,
+        "memo_lookups": 1,
+        "memo_hits": 0,
+        "memo_inserts": 2,
+        "leaf_pairs": 1,
+        "leaf_bytes": 2,
+        "periodic_witnesses": 1,
+        "structural_period_visits": 82
+      }
+    },
+    {
+      "fixture": "doubling_shifted",
+      "median_us": 0.7351,
+      "samples_us": [
+        0.7084,
+        0.7270999999999999,
+        0.7295,
+        0.7328000000000001,
+        0.7351,
+        0.7511,
+        0.7511,
+        0.7573499999999999,
+        0.7856500000000001
+      ],
+      "allocations": 1,
+      "allocated_bytes": 368,
+      "counters": {
+        "lcp_calls": 2,
+        "normalize_visits": 92,
+        "memo_lookups": 3,
+        "memo_hits": 0,
+        "memo_inserts": 4,
+        "leaf_pairs": 2,
+        "leaf_bytes": 2,
+        "periodic_witnesses": 1,
+        "structural_period_visits": 82
+      }
+    },
+    {
+      "fixture": "doubling_late_mismatch",
+      "median_us": 7.104850000000001,
+      "samples_us": [
+        6.93355,
+        6.94365,
+        6.9906,
+        7.0205,
+        7.104850000000001,
+        7.17615,
+        7.2483,
+        7.346799999999999,
+        7.493399999999999
+      ],
+      "allocations": 7,
+      "allocated_bytes": 2672,
+      "counters": {
+        "lcp_calls": 81,
+        "normalize_visits": 803,
+        "memo_lookups": 161,
+        "memo_hits": 78,
+        "memo_inserts": 82,
+        "leaf_pairs": 3,
+        "leaf_bytes": 4,
+        "periodic_witnesses": 0,
+        "structural_period_visits": 0
+      }
+    },
+    {
+      "fixture": "repeat_2TiB",
+      "median_us": 0.1995,
+      "samples_us": [
+        0.19929999999999998,
+        0.19929999999999998,
+        0.19935,
+        0.19945,
+        0.1995,
+        0.1995,
+        0.1997,
+        0.20065,
+        0.20075
+      ],
+      "allocations": 1,
+      "allocated_bytes": 368,
+      "counters": {
+        "lcp_calls": 2,
+        "normalize_visits": 13,
+        "memo_lookups": 3,
+        "memo_hits": 0,
+        "memo_inserts": 4,
+        "leaf_pairs": 2,
+        "leaf_bytes": 4,
+        "periodic_witnesses": 1,
+        "structural_period_visits": 4
+      }
+    },
+    {
+      "fixture": "nonperiodic_shared_DAG",
+      "median_us": 9.618949999999998,
+      "samples_us": [
+        9.060300000000002,
+        9.0663,
+        9.16095,
+        9.59175,
+        9.618949999999998,
+        9.623949999999999,
+        9.6244,
+        9.625549999999999,
+        9.717450000000001
+      ],
+      "allocations": 12,
+      "allocated_bytes": 4512,
+      "counters": {
+        "lcp_calls": 97,
+        "normalize_visits": 964,
+        "memo_lookups": 193,
+        "memo_hits": 95,
+        "memo_inserts": 99,
+        "leaf_pairs": 2,
+        "leaf_bytes": 4,
+        "periodic_witnesses": 0,
+        "structural_period_visits": 0
+      }
+    }
+  ]
+}

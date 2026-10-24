@@ -1,0 +1,202 @@
+"""Paired old/exact paper CPU rerun on the stored corpus, with fresh workers.
+
+Defaults reproduce EXP005's size/fraction grid and EXP017's controlled grid.
+Historical helpers come from an explicit git archive; both arms use current
+Hashrope so the comparison isolates consumer semantics. No historical outputs
+are overwritten. Build/tokenization costs are outside query timing.
+"""
+from __future__ import annotations
+
+import argparse
+import gc
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import platform
+import statistics
+import subprocess
+import sys
+import time
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def load_module(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--paper", type=Path, required=True)
+    parser.add_argument("--baseline", type=Path, required=True)
+    parser.add_argument("--output", type=Path, default=Path(__file__).with_name("paper_results"))
+    parser.add_argument("--tokens", type=Path, help="existing token cache directory for worker reuse")
+    parser.add_argument("--seeds", default="42,43,44")
+    parser.add_argument("--invocations", type=int, default=3)
+    parser.add_argument("--reps", type=int, default=5)
+    parser.add_argument("--sizes", default="64000,256000,1000000,2000000,4000000,8000000")
+    parser.add_argument("--token-sizes", default="1000,4000,16000,64000,128000,256000,512000,1000000,2000000")
+    parser.add_argument("--worker", action="store_true")
+    parser.add_argument("--seed", type=int)
+    parser.add_argument("--invocation", type=int)
+    args = parser.parse_args()
+    expected_baseline = "4da58b68ccac456d4219cf89db8055a9af7a14de3304370f1070ff108fea3c43"
+    assert sha(args.baseline / "src/lcp.py") == expected_baseline, "Wrong baseline helper; use pinned paper commit c9d8902"
+    root = Path(os.environ.get("HASHROPE_BENCH_CORE", Path(__file__).resolve().parents[2]))
+    sys.path.insert(0, str(args.paper.resolve()))
+    sys.path.insert(0, str(root / "packages/python"))
+    os.environ["HF_HUB_OFFLINE"] = "1"
+    os.environ["TRANSFORMERS_OFFLINE"] = "1"
+    args.output.mkdir(parents=True, exist_ok=True)
+    if args.worker:
+        worker(args)
+        return
+
+    import numpy as np
+    from scripts.exp017_bench import tokenize_corpus, verify_radix_sha
+    verify_radix_sha(args.paper)
+    provenance = {"paper_baseline_commit": "c9d8902e0f443f1a5ba12da78f087d5dbd2cad68",
+                  "platform": platform.platform(), "python": platform.python_version(),
+                  "seeds": [int(s) for s in args.seeds.split(",")],
+                  "invocations": args.invocations, "reps": args.reps,
+                  "sizes": args.sizes, "token_sizes": args.token_sizes,
+                  "method": "paired old/exact on same independently constructed 4096-byte-leaf ropes; warmed query only",
+                  "source_sha256": {}, "data": {}}
+    for path in [args.baseline / "src/lcp.py", args.paper / "src/lcp.py",
+                 args.paper / "src/competitive.py", args.paper / "src/exp015_identify.py",
+                 args.paper / "src/flatten.py", args.paper / "scripts/exp017_bench.py",
+                 args.paper / "third_party/sglang_radix_cache/radix_cache.py",
+                 root / "packages/python/hashrope/rope.py", Path(__file__)]:
+        provenance["source_sha256"][str(path.resolve())] = sha(path)
+    for seed in provenance["seeds"]:
+        print(f"Preparing full corpus tokens for seed {seed}", flush=True)
+        tokens = tokenize_corpus(args.paper, seed)
+        token_path = args.output / f"tokens_s{seed}.npy"
+        np.save(token_path, np.asarray(tokens, dtype=np.int64))
+        original = args.paper / f"data/canonical/exp019_base_tokens_s{seed}.npy"
+        cached = np.load(original)
+        provenance["data"][str(seed)] = {
+            "corpus_sha256": sha(args.paper / f"data/raw/corpus_s{seed}.txt"),
+            "tokens_sha256": sha(token_path), "tokens": len(tokens),
+            "cached_prefix_sha256": sha(original),
+            "cached_prefix_matches_retokenization": np.array_equal(cached, np.asarray(tokens[:len(cached)]))}
+    (args.output / "provenance.json").write_text(json.dumps(provenance, indent=2), encoding="utf-8")
+    for seed in provenance["seeds"]:
+        for invocation in range(args.invocations):
+            print(f"Starting fresh worker seed={seed} invocation={invocation}", flush=True)
+            subprocess.run([sys.executable, str(Path(__file__).resolve()), "--paper", str(args.paper),
+                "--baseline", str(args.baseline), "--output", str(args.output), "--worker",
+                "--seed", str(seed), "--invocation", str(invocation), "--reps", str(args.reps),
+                "--sizes", args.sizes, "--token-sizes", args.token_sizes], check=True)
+    provenance["sources_unchanged"] = {path: sha(path) == digest for path, digest in provenance["source_sha256"].items()}
+    (args.output / "provenance.json").write_text(json.dumps(provenance, indent=2), encoding="utf-8")
+
+
+def worker(args):
+    import numpy as np
+    import torch
+    import hashrope
+    from src.flatten import build_fat_leaf_rope, make_hash
+    from src.lcp import lcp_hash, lcp_hash_counted, lcp_brute
+    from src.competitive import build_token_rope, flat_lcp_np, oracle_lcp, radix_lcp
+    from src.exp015_identify import build_r2_stream
+    from scripts.exp017_bench import build_controlled_pair
+    from third_party.sglang_radix_cache.radix_cache import RadixCache
+    old = load_module("historical_lcp", args.baseline / "src/lcp.py")
+    result = {"seed": args.seed, "invocation": args.invocation, "reps": args.reps,
+              "numpy": np.__version__, "torch": torch.__version__, "torch_threads": torch.get_num_threads(),
+              "hashrope_file": hashrope.__file__, "exp005": [], "exp017_controlled": [], "exp015_r2_cpu": []}
+    root = Path(os.environ.get("HASHROPE_BENCH_CORE", Path(__file__).resolve().parents[2]))
+    measured_sources = [root / "packages/python/hashrope/rope.py", args.paper / "src/lcp.py",
+                        args.paper / "src/competitive.py", args.paper / "src/exp015_identify.py",
+                        args.baseline / "src/lcp.py", Path(__file__)]
+    result["source_sha256"] = {str(path.resolve()): sha(path) for path in measured_sources}
+    order = ["old_hash_only", "exact"] if args.invocation % 2 == 0 else ["exact", "old_hash_only"]
+    result["arm_order"] = order
+
+    def measure(function, expected, reps=None):
+        assert function() == expected
+        times = []
+        gc.disable()
+        try:
+            for _ in range(reps or args.reps):
+                t = time.perf_counter_ns()
+                value = function()
+                elapsed = (time.perf_counter_ns() - t) / 1e6
+                assert value == expected
+                times.append(elapsed)
+        finally:
+            gc.enable()
+        return {"median_ms": statistics.median(times), "samples_ms": times}
+
+    corpus = (args.paper / f"data/raw/corpus_s{args.seed}.txt").read_bytes()
+    for size in map(int, args.sizes.split(",")):
+        raw = corpus[:size]
+        assert len(raw) == size
+        h = make_hash()
+        a = build_fat_leaf_rope(raw, h)
+        for fraction in [0.0, 0.5, 0.99]:
+            expected = int(size * fraction)
+            changed = bytearray(raw)
+            changed[expected] ^= 255
+            changed = bytes(changed)
+            b = build_fat_leaf_rope(changed, h)
+            row = {"bytes": size, "fraction": fraction, "expected": expected}
+            functions = {"old_hash_only": lambda: old.lcp_hash(a, b, h), "exact": lambda: lcp_hash(a, b, h)}
+            for arm in order:
+                row[arm] = measure(functions[arm], expected)
+            row["brute"] = measure(lambda: lcp_brute(raw, changed), expected,
+                                    1 if size >= 4000000 else min(args.reps, 3))
+            row["old_hash_calls"] = old.lcp_hash_counted(a, b, h)[1]
+            row["exact_hash_calls"] = lcp_hash_counted(a, b, h)[1]
+            assert row["exact_hash_calls"] == 0
+            result["exp005"].append(row)
+        print(f"  EXP005 complete N={size}", flush=True)
+
+    tokens = np.load((args.tokens or args.output) / f"tokens_s{args.seed}.npy").tolist()
+
+    def token_cell(cached, query, expected):
+        assert oracle_lcp(cached, query) == expected
+        t = time.perf_counter_ns()
+        a, h = build_token_rope(cached)
+        cached_build_ms = (time.perf_counter_ns() - t) / 1e6
+        t = time.perf_counter_ns()
+        b, _ = build_token_rope(query, h)
+        query_build_ms = (time.perf_counter_ns() - t) / 1e6
+        cache = RadixCache(None, None, False)
+        cache.insert(cached, torch.arange(len(cached)))
+        aa, bb = np.array(cached, dtype=np.int64), np.array(query, dtype=np.int64)
+        functions = {"old_hash_only": lambda: old.lcp_hash(a, b, h) // 4,
+                     "exact": lambda: lcp_hash(a, b, h) // 4,
+                     "radix": lambda: radix_lcp(cache, query),
+                     "numpy": lambda: flat_lcp_np(aa, bb)}
+        row = {"expected_tokens": expected, "cached_tokens": len(cached), "query_tokens": len(query),
+               "cached_rope_build_ms": cached_build_ms, "query_rope_build_ms": query_build_ms}
+        for arm in order + ["radix", "numpy"]:
+            row[arm] = measure(functions[arm], expected)
+        return row
+
+    for size in map(int, args.token_sizes.split(",")):
+        cached, query, expected = build_controlled_pair(tokens, size, args.seed)
+        result["exp017_controlled"].append(token_cell(cached, query, expected))
+        print(f"  EXP017 complete L={size}", flush=True)
+    for length in [1000, 16000, 64000, 256000, 1000000]:
+        stream = build_r2_stream(tokens, length, n_queries=3, seed=args.seed)
+        for index, query in enumerate(stream["queries"]):
+            row = token_cell(stream["cached_tokens"], query, length)
+            row["query_index"] = index
+            result["exp015_r2_cpu"].append(row)
+        print(f"  EXP015 CPU R2 complete L={length}", flush=True)
+    target = args.output / f"run_s{args.seed}_i{args.invocation}.json"
+    target.write_text(json.dumps(result, indent=2), encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

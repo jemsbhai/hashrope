@@ -1,0 +1,69 @@
+{
+  "name": "hashrope",
+  "version": "0.3.3",
+  "description": "Persistent byte ropes with composable polynomial fingerprints, exact comparisons and compressed repetition.",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "README.md",
+    "LICENSE",
+    "docs/API.md",
+    "docs/COMPATIBILITY.md",
+    "docs/PARITY-MATRIX.md",
+    "docs/TDD.md",
+    "docs/VERIFICATION.md",
+    "docs/RELEASE.md",
+    "docs/ORACLE.md"
+  ],
+  "sideEffects": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.11.1"
+  },
+  "keywords": [
+    "rope",
+    "polynomial-hash",
+    "bigint",
+    "bytes",
+    "persistent",
+    "sliding-window",
+    "typescript"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/test.mjs",
+    "test:consumer": "node scripts/consumers.mjs",
+    "prepack": "npm run build",
+    "pack:verified": "node scripts/pack.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "esbuild": "0.28.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jemsbhai/hashrope.git",
+    "directory": "packages/npm"
+  },
+  "homepage": "https://github.com/jemsbhai/hashrope#readme",
+  "bugs": {
+    "url": "https://github.com/jemsbhai/hashrope/issues"
+  }
+}

@@ -5,7 +5,6 @@ A BB[2/7] weight-balanced binary tree augmented with polynomial hash metadata at
 [![PyPI version](https://img.shields.io/pypi/v/hashrope)](https://pypi.org/project/hashrope/)
 [![Python 3.10+](https://img.shields.io/pypi/pyversions/hashrope)](https://pypi.org/project/hashrope/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-141%20passing-brightgreen)](https://github.com/jemsbhai/hashrope)
 
 **Zero dependencies. Pure Python. Python 3.10+.**
 
@@ -21,10 +20,18 @@ hashrope is a rope data structure where every node carries a polynomial hash. Th
 
 All arithmetic uses Mersenne prime modular reduction (bit-shift, no division).
 
+Fingerprints are noncryptographic candidate-match keys. Matching fingerprints
+do not prove equal content. Use `rope_equal` or `rope_lcp` for exact decisions;
+these compare bytes while taking advantage of shared structure and repetition.
+
 ## Install
 
+Version 0.3.3 adds exact comparison and hash-profile checks while preserving
+existing fingerprints and defaults. Version numbers are synchronized across
+the core packages; language-specific APIs and performance are documented separately.
+
 ```
-pip install hashrope
+pip install "hashrope>=0.3.3"
 ```
 
 ## Quick start
@@ -45,10 +52,76 @@ assert rope_hash(ab) == h.hash(b"hello world")
 # Split at any byte position
 left, right = rope_split(ab, 6, h)
 
-# Substring hash without allocation
+# Substring hash without allocating rope nodes
 sub_h = rope_substr_hash(ab, 0, 5, h)
 assert sub_h == h.hash(b"hello")
 ```
+
+### Exact comparison and hash profiles
+
+```python
+from hashrope import Leaf, PolynomialHash, rope_equal, rope_hash, rope_lcp
+
+h = PolynomialHash()  # Existing defaults remain p=2**61-1, base=131.
+a = Leaf(bytes([0, 131, 42]), h)
+b = Leaf(bytes([1, 0, 42]), h)
+assert rope_hash(a) == rope_hash(b)  # A deliberate legacy collision.
+assert not rope_equal(a, b)
+assert rope_lcp(a, b) == 0
+
+# Exact comparisons also work across profiles and tree shapes.
+c = Leaf(a.data, PolynomialHash(base=257))
+assert rope_equal(a, c)
+assert rope_lcp(a, c) == len(a.data)
+```
+
+`rope_lcp` returns a byte count; for fixed-width four-byte token encodings,
+`rope_lcp(a, b) // 4` gives the exact token LCP. Neither exact API depends on
+fingerprints. Empty ropes (`None`) are supported. Node `==` retains its existing
+structural meaning; use `rope_equal` for content equality across tree shapes.
+
+For slices, `rope_range_equal(left, left_start, right, right_start, length)` and
+`rope_range_lcp(left, left_start, right, right_start, length)` compare byte ranges
+directly, without splitting or recomputing hashes. The latter returns a count
+relative to the two starts. Both reject negative or out-of-bounds ranges with
+`ValueError`; an empty range may start at the rope's end. They also work across
+hash profiles.
+
+The comparison walks virtual ranges without splitting or flattening ropes.
+Identical immutable subtrees are skipped, and a per-call cache reuses previously
+verified non-leaf ranges in shared DAGs. Two periodic spans can be certified by
+comparing at most `p + q - gcd(p, q)` bytes, where `p` and `q` are their periods
+([Fine–Wilf periodicity theorem](https://doi.org/10.1090/S0002-9939-1965-0174934-9)).
+This also handles different period lengths and shifted phases. Unshared inputs
+can still require reading the entire common prefix, plus traversal, cache and
+integer-arithmetic costs: exact LCP has no universal logarithmic bound. Temporary storage includes the traversal
+stack, verified-range cache, and bounded leaf-comparison slices (at most
+192 KiB of temporary byte payload). Unequal chunks use native exact byte
+comparisons to locate late differences; a short scalar prefix check keeps
+early differences cheap. The sum of byte work over those shrinking probes is
+linear in the chunk size, and the overall exact-comparison bound is unchanged.
+
+Each hasher exposes an immutable `HashProfile(prime, base)` through `.profile`;
+nodes retain that profile. Separate hashers with equal parameters are compatible.
+`Internal`, `RepeatNode`, `rope_concat`, `rope_split`, `rope_repeat`, and
+`rope_substr_hash` raise `ValueError` on incompatible profiles, including calls
+that otherwise return an unchanged node or cached hash. Replacing a sliding
+window's hasher with incompatible parameters is rejected before hashing or
+mutating the window. Create a new hasher and rebuild content to change profiles.
+Hasher subclasses must preserve the fingerprint algorithm when overriding
+methods for instrumentation.
+
+All existing fingerprint values, defaults, and valid same-profile operation
+results are unchanged. No stable node-pickle format is promised: rebuild nodes
+serialized by older versions, which lack profile provenance. `validate_rope`
+checks structure and profile consistency; it does not recompute fingerprints.
+Initial safety measurements are in
+[`benchmarks/comparison_safety`](../../benchmarks/comparison_safety/README.md).
+The [exact-path optimization rerun](../../benchmarks/exact_optimization/README.md)
+profiles leaf mismatch localization and compares archived cores on the same
+consumer workloads. The optimization improves late mismatches; it does not
+speed up every offset or remove the traversal cost of independent equal trees.
+The report includes the narrow regression at the 64-byte probe boundary.
 
 ### RepeatNode
 
@@ -109,6 +182,7 @@ the first `k` characters).
 | Function / Class | Description |
 |---|---|
 | `PolynomialHash(prime, base)` | Hash function over Z/pZ. Default: p = 2^61 - 1, base = 131 |
+| `HashProfile(prime, base)` | Immutable fingerprint parameters; available as `hasher.profile` and `node.profile` |
 | `PolynomialHash.hash(data)` | H(data) with +1 byte offset to prevent zero collisions |
 | `PolynomialHash.hash_concat(h_a, len_b, h_b)` | H(A \|\| B) from H(A), \|B\|, H(B) in O(1) |
 | `PolynomialHash.hash_repeat(h_s, d, q)` | H(S^q) from H(S) and \|S\| in O(log q) |
@@ -117,7 +191,7 @@ the first `k` characters).
 | `mersenne_mod(a, p)` | Bit-shift reduction mod Mersenne prime |
 | `mersenne_mul(a, b, p)` | Modular multiply via mersenne_mod |
 | `MERSENNE_61` | 2^61 - 1 (default prime) |
-| `MERSENNE_127` | 2^127 - 1 (high-security prime) |
+| `MERSENNE_127` | 2^127 - 1 (wider noncryptographic fingerprint) |
 
 ### Rope nodes
 
@@ -134,12 +208,16 @@ the first `k` characters).
 | `rope_concat(left, right, h)` | O(k \|h_L - h_R\|) | Concatenate with Adams-style balanced join and BB[2/7] rebalancing |
 | `rope_split(node, pos, h)` | O(k log w) | Split at byte position |
 | `rope_repeat(node, q, h)` | O(k log q) | Create RepeatNode |
-| `rope_substr_hash(node, start, length, h)` | O(k log w) | Substring hash without allocation |
+| `rope_substr_hash(node, start, length, h)` | O(k log w) | Substring hash without allocating rope nodes |
 | `rope_len(node)` | O(1) | Total byte length |
 | `rope_hash(node)` | O(1) | Hash of represented string |
+| `rope_equal(left, right)` | Content-dependent; may scan unshared content | Exact byte equality, including across profiles |
+| `rope_lcp(left, right)` | Content-dependent; may scan unshared content | Exact common-prefix length in bytes |
+| `rope_range_equal(left, start_a, right, start_b, length)` | Content-dependent | Checked exact range equality without splitting |
+| `rope_range_lcp(left, start_a, right, start_b, length)` | Content-dependent | Checked exact range LCP, relative to the starts |
 | `rope_from_bytes(data, h)` | O(n) | Create Leaf from bytes |
 | `rope_to_bytes(node)` | O(n) | Reconstruct bytes (for testing) |
-| `validate_rope(node)` | O(w) | Assert all 9 invariants hold |
+| `validate_rope(node, h=None)` | O(w) | Check structure and profile consistency, without rehashing |
 
 ### SlidingWindow
 

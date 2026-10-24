@@ -1,0 +1,287 @@
+{
+  "seed": 2,
+  "invocation": 0,
+  "binary_sha256": "b21c65c486982acde94630ab9f77ec78c3aab48ba0b42ab055248e5fb9ab7464",
+  "cells": [
+    {
+      "bytes": 10000,
+      "shared_history": false,
+      "arm": "ropey_exact",
+      "samples_ms_per_cycle": [
+        0.00153,
+        0.0014479999999999999,
+        0.001188
+      ],
+      "median_ms_per_cycle": 0.0014479999999999999
+    },
+    {
+      "bytes": 10000,
+      "shared_history": false,
+      "arm": "ropey_rehash_candidate",
+      "samples_ms_per_cycle": [
+        0.04494,
+        0.048002,
+        0.047046000000000004
+      ],
+      "median_ms_per_cycle": 0.047046000000000004
+    },
+    {
+      "bytes": 10000,
+      "shared_history": false,
+      "arm": "hashrope_exact",
+      "samples_ms_per_cycle": [
+        0.023968000000000003,
+        0.02404,
+        0.023638
+      ],
+      "median_ms_per_cycle": 0.023968000000000003
+    },
+    {
+      "bytes": 10000,
+      "shared_history": false,
+      "arm": "hashrope_candidate",
+      "samples_ms_per_cycle": [
+        0.005212,
+        0.00503,
+        0.0047220000000000005
+      ],
+      "median_ms_per_cycle": 0.00503
+    },
+    {
+      "bytes": 10000,
+      "shared_history": true,
+      "arm": "ropey_exact",
+      "samples_ms_per_cycle": [
+        0.001116,
+        0.00089,
+        0.0008739999999999999
+      ],
+      "median_ms_per_cycle": 0.00089
+    },
+    {
+      "bytes": 10000,
+      "shared_history": true,
+      "arm": "ropey_rehash_candidate",
+      "samples_ms_per_cycle": [
+        0.043548,
+        0.048632,
+        0.042088
+      ],
+      "median_ms_per_cycle": 0.043548
+    },
+    {
+      "bytes": 10000,
+      "shared_history": true,
+      "arm": "hashrope_exact",
+      "samples_ms_per_cycle": [
+        0.017904,
+        0.017132,
+        0.017116
+      ],
+      "median_ms_per_cycle": 0.017132
+    },
+    {
+      "bytes": 10000,
+      "shared_history": true,
+      "arm": "hashrope_candidate",
+      "samples_ms_per_cycle": [
+        0.004828,
+        0.0041340000000000005,
+        0.004152
+      ],
+      "median_ms_per_cycle": 0.004152
+    },
+    {
+      "bytes": 100000,
+      "shared_history": false,
+      "arm": "ropey_exact",
+      "samples_ms_per_cycle": [
+        0.010678,
+        0.011274,
+        0.01045
+      ],
+      "median_ms_per_cycle": 0.010678
+    },
+    {
+      "bytes": 100000,
+      "shared_history": false,
+      "arm": "ropey_rehash_candidate",
+      "samples_ms_per_cycle": [
+        0.435946,
+        0.43303,
+        0.436202
+      ],
+      "median_ms_per_cycle": 0.435946
+    },
+    {
+      "bytes": 100000,
+      "shared_history": false,
+      "arm": "hashrope_exact",
+      "samples_ms_per_cycle": [
+        0.10913,
+        0.10831199999999999,
+        0.10934200000000001
+      ],
+      "median_ms_per_cycle": 0.10913
+    },
+    {
+      "bytes": 100000,
+      "shared_history": false,
+      "arm": "hashrope_candidate",
+      "samples_ms_per_cycle": [
+        0.00859,
+        0.008938,
+        0.00851
+      ],
+      "median_ms_per_cycle": 0.00859
+    },
+    {
+      "bytes": 100000,
+      "shared_history": true,
+      "arm": "ropey_exact",
+      "samples_ms_per_cycle": [
+        0.008616,
+        0.006084000000000001,
+        0.005044
+      ],
+      "median_ms_per_cycle": 0.006084000000000001
+    },
+    {
+      "bytes": 100000,
+      "shared_history": true,
+      "arm": "ropey_rehash_candidate",
+      "samples_ms_per_cycle": [
+        0.441766,
+        0.43123799999999995,
+        0.43849399999999994
+      ],
+      "median_ms_per_cycle": 0.43849399999999994
+    },
+    {
+      "bytes": 100000,
+      "shared_history": true,
+      "arm": "hashrope_exact",
+      "samples_ms_per_cycle": [
+        0.033962,
+        0.033998,
+        0.033996
+      ],
+      "median_ms_per_cycle": 0.033996
+    },
+    {
+      "bytes": 100000,
+      "shared_history": true,
+      "arm": "hashrope_candidate",
+      "samples_ms_per_cycle": [
+        0.009208000000000001,
+        0.007986,
+        0.009531999999999999
+      ],
+      "median_ms_per_cycle": 0.009208000000000001
+    },
+    {
+      "bytes": 1000000,
+      "shared_history": false,
+      "arm": "ropey_exact",
+      "samples_ms_per_cycle": [
+        0.11107199999999999,
+        0.11796,
+        0.111874
+      ],
+      "median_ms_per_cycle": 0.111874
+    },
+    {
+      "bytes": 1000000,
+      "shared_history": false,
+      "arm": "ropey_rehash_candidate",
+      "samples_ms_per_cycle": [
+        4.48348,
+        4.434302,
+        4.605584
+      ],
+      "median_ms_per_cycle": 4.48348
+    },
+    {
+      "bytes": 1000000,
+      "shared_history": false,
+      "arm": "hashrope_exact",
+      "samples_ms_per_cycle": [
+        0.9095799999999999,
+        0.9109580000000002,
+        0.8779319999999999
+      ],
+      "median_ms_per_cycle": 0.9095799999999999
+    },
+    {
+      "bytes": 1000000,
+      "shared_history": false,
+      "arm": "hashrope_candidate",
+      "samples_ms_per_cycle": [
+        0.010546,
+        0.010712,
+        0.009623999999999999
+      ],
+      "median_ms_per_cycle": 0.010546
+    },
+    {
+      "bytes": 1000000,
+      "shared_history": true,
+      "arm": "ropey_exact",
+      "samples_ms_per_cycle": [
+        0.043385999999999994,
+        0.034474,
+        0.03779
+      ],
+      "median_ms_per_cycle": 0.03779
+    },
+    {
+      "bytes": 1000000,
+      "shared_history": true,
+      "arm": "ropey_rehash_candidate",
+      "samples_ms_per_cycle": [
+        4.414668,
+        4.43389,
+        4.358612
+      ],
+      "median_ms_per_cycle": 4.414668
+    },
+    {
+      "bytes": 1000000,
+      "shared_history": true,
+      "arm": "hashrope_exact",
+      "samples_ms_per_cycle": [
+        0.05788200000000001,
+        0.056972,
+        0.055556
+      ],
+      "median_ms_per_cycle": 0.056972
+    },
+    {
+      "bytes": 1000000,
+      "shared_history": true,
+      "arm": "hashrope_candidate",
+      "samples_ms_per_cycle": [
+        0.007834,
+        0.008178000000000001,
+        0.007828
+      ],
+      "median_ms_per_cycle": 0.007834
+    }
+  ],
+  "optimization_core": "baseline",
+  "core_sha256": {
+    "packages/rust/src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+    "packages/rust/src/polynomial_hash.rs": "f54256ca7f1fdfb5e7bdbd7ca00598479a3563c70baa882e01f16ef79be505ef",
+    "packages/rust/src/rope.rs": "0efa0731c5ca18d39cd32317a7fef21a60949c563e924eb9dfb92d0d443a6ed1",
+    "packages/rust/src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+    "packages/python/hashrope/__init__.py": "5e8d8f4c07d50f0eaa7d24b504ed5240bdd4a05384e7123de6e582e36420bd90",
+    "packages/python/hashrope/polynomial_hash.py": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5",
+    "packages/python/hashrope/rope.py": "1c051da9ec56c9fd3e1799ee99db8608a5e470f6099d54ea7058a38de875744c",
+    "packages/python/hashrope/sliding.py": "26599d0df3a7f0b50659a02d0ed96eae1b1fc88537db6f58f887ae0b6ecd928c"
+  },
+  "process_order": [
+    "baseline",
+    "optimized"
+  ],
+  "context_fingerprint": "bf837d20ca2f27ef1ad197d463c949402654777350af1d4cd451f7381ddcaefc"
+}
