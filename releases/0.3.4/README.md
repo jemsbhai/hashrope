@@ -6,15 +6,16 @@ concat optimizations. Python, JavaScript/TypeScript, Java and biology algorithms
 retain their 0.3.3 behavior; their version and dependency metadata advance to
 keep the release family aligned. The rejected round-seven join trial is excluded.
 
-The final release checks and all 14 CI jobs passed. Publication and independent
-public-download verification are recorded below as each registry completes.
+All six packages were published at **0.3.4 on 2026-10-24**. The final release
+checks, all 14 source CI jobs and independent public-download/install
+verification passed. The registry results are recorded below.
 
 | Registry / package | Version | Publication and public verification |
 |---|---|---|
 | [PyPI `hashrope`](https://pypi.org/project/hashrope/0.3.4/) | 0.3.4 | Published; both public distribution hashes, fresh PyPI install, exact API gate and all 244 combined tests passed. |
 | [crates.io `hashrope`](https://crates.io/crates/hashrope/0.3.4) | 0.3.4 | Published; exact public archive hash and fresh registry-only consumer checks passed. |
 | [npm `hashrope`](https://www.npmjs.com/package/hashrope/v/0.3.4) | 0.3.4 | Published; canonical archive, all 53 installed files and fresh ESM/CJS consumer checks passed. |
-| Maven Central `io.github.jemsbhai:hashrope` | 0.3.4 | Pending |
+| [Maven Central `io.github.jemsbhai:hashrope`](https://central.sonatype.com/artifact/io.github.jemsbhai/hashrope/0.3.4) | 0.3.4 | Published; all 24 public files match the signed bundle, four signatures verify and all three fresh Central-only consumer tests passed. |
 | [PyPI `hashrope-bio`](https://pypi.org/project/hashrope-bio/0.3.4/) | 0.3.4 | Published; both public distribution hashes, fresh PyPI install and all 244 combined tests passed. |
 | [crates.io `hashrope-bio`](https://crates.io/crates/hashrope-bio/0.3.4) | 0.3.4 | Published; exact public archive hash and fresh registry-only consumer checks passed. |
 
@@ -97,7 +98,7 @@ Local release gates pass:
   version metadata changes; see
   [npm release evidence](../../packages/npm/evidence/release-0.3.4/README.md).
 - Java: source, installed-JAR, packaging and bundle/signature gates are recorded
-  in the [Java release evidence](https://github.com/jemsbhai/hashrope-java/tree/codex/release-0.3.4/evidence/release-0.3.4).
+  in the [Java release evidence](https://github.com/jemsbhai/hashrope-java/tree/main/evidence/release-0.3.4).
 
 The first local Rust capture saw Cargo update the package version in its ignored
 lockfile from 0.3.3 to 0.3.4. All commands passed, but its source-unchanged audit
@@ -135,6 +136,16 @@ checks and ESM/CJS exact/profile/compressed-input checks. See
 [public verification](../../packages/npm/evidence/release-0.3.4/public-attempt-2/verification.json).
 The initial metadata 404 from registry propagation is retained as
 [attempt one](../../packages/npm/evidence/release-0.3.4/public-attempt-1/verification.json).
+
+Maven Central deployment `52121508-fc68-459e-ac68-1cf275959923` reached
+`PUBLISHED`. All 24 canonical public files match the frozen signed bundle byte
+for byte, and all four artifact signatures verify with the release's public
+key. A fresh Maven repository resolved the published POM, main, sources and
+Javadoc artifacts from Central; all three consumer tests passed with no skips.
+The public checks retain the earlier propagation failures and the historical
+upload-preparation record. See the
+[Java public verification](https://github.com/jemsbhai/hashrope-java/tree/main/evidence/release-0.3.4/public-central)
+and [publication reference](validation/java-publication-reference.json).
 
 All three source PRs are merged. Tags identify the reviewed source commits;
 later documentation-only commits add publication evidence without changing
