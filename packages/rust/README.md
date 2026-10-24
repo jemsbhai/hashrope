@@ -27,7 +27,12 @@ The default u64 API uses Mersenne modular reduction by bit folding. The optional
 
 ## Install
 
-Version 0.3.3 adds exact whole-content and range comparison and hash-profile
+Version 0.3.4 retains exact comparisons and hash-profile checks, and includes
+the measured LCP and concat optimizations described below. Fingerprints and
+public APIs are unchanged. The [release record](../../releases/0.3.4/README.md)
+retains the remaining performance caveats.
+
+Version 0.3.3 added exact whole-content and range comparison and hash-profile
 checks while preserving the APIs and default fingerprints from 0.3.2.
 The optional `bigint` backend provides the same exact-comparison contract
 with arbitrary-precision lengths. See the release validation for measured
@@ -35,7 +40,7 @@ performance and remaining limitations.
 
 ```toml
 [dependencies]
-hashrope = "0.3.3"
+hashrope = "0.3.4"
 ```
 
 ## Quick start
@@ -121,7 +126,7 @@ Enable `bigint` on the dependency:
 
 ```toml
 [dependencies]
-hashrope = { version = "0.3.2", features = ["bigint"] }
+hashrope = { version = "0.3.4", features = ["bigint"] }
 ```
 
 ```rust
@@ -211,11 +216,11 @@ operations allocate. Neither backend flattens content or uses hashes as an exact
 comparison decision.
 
 The following traversal details apply to the default fixed-width `Arena`.
-These operations read bytes and immutable structure, without materializing lazy hashes, splitting ropes, or allocating flattened content. Identical shared ranges are skipped. Ordinary trees use borrowed leaf slices without heap allocations. Long cross-arena ranges (at least 8 KiB) use two iterative traversal stacks to avoid revisiting branches when the tree boundaries differ. Their 32-frame capacity uses 1,600 bytes of frontier storage on 64-bit targets, excluding other local variables. Smaller and same-arena ranges retain a recursive traversal that enters known children directly. An unequal leaf is localized using safe 8-byte comparisons.
+These operations read bytes and immutable structure, without materializing lazy hashes, splitting ropes, or allocating flattened content. Identical shared ranges are skipped. Ordinary trees use borrowed leaf slices without heap allocations. Long cross-arena ranges (at least 8 KiB) use two iterative traversal stacks to avoid revisiting branches when the tree boundaries differ. Their 32-frame capacity uses 1,600 bytes of frontier storage on 64-bit targets, excluding other local variables. Smaller and same-arena ranges retain a recursive traversal that enters known children directly. When both ranges start at matching branch boundaries, it compares their left children directly and then continues with their right children, charging both parent visits to the existing budget. An unequal leaf is localized using safe 8-byte comparisons.
 
 Normalization and frontier node examinations consume a visit budget of eight times the combined number of stored arena nodes. Exhausting that budget, encountering a repeat, or filling a frontier stack transfers the unverified suffix to the cached engine; the verified prefix is not rescanned. Clearly compressed roots go directly to that engine. This bounds uncached traversal before fallback without adding metadata to nodes. Node layout and the 512-byte leaf construction policy are unchanged.
 
-In the cached engine, repeated ranges with periods `p` and `q` are proved equal by checking at most `p+q-gcd(p,q)` bytes before skipping further copies (the Fine-Wilf periodicity bound); that checking can itself skip shared or repeated structure. At query entry, chains of `Repeat` nodes and concatenations of the identical child establish smaller periods structurally. The witness checks the original ranges, including their phase offsets. Reducing these chains once per query avoids repeatedly walking them on late mismatches. A per-call cache records ranges already proved equal, avoiding repeated traversal of other shared DAGs.
+In the cached engine, repeated ranges with periods `p` and `q` are proved equal by checking at most `p+q-gcd(p,q)` bytes before skipping further copies (the Fine-Wilf periodicity bound); that checking can itself skip shared or repeated structure. At query entry, chains of `Repeat` nodes and concatenations of the identical child establish smaller periods structurally. For equal periods shorter than the query, the current implementation compares one period directly at the discovered base nodes, preserving both phase offsets. At most three in-bounds pieces cover that witness, avoiding another walk down the power chains and an unnecessary proof-cache allocation for ordinary base trees. Distinct periods retain the original witness traversal. A per-call cache records ranges already proved equal, avoiding repeated traversal of other shared DAGs; compressed base pieces can still need that cache.
 
 Exact comparison is **not a logarithmic worst-case operation**. Independently stored equal content can require reading the entire common prefix plus tree traversal. If fallback is needed, cache storage grows with the number of ranges proved equal, and its ordered lookups add logarithmic overhead. Recursive stack depth follows the compared structure. Sharing and repetition often make comparisons much cheaper, but do not provide a universal bound in compressed size.
 
@@ -226,6 +231,120 @@ Both arena backends fix the prime/base profile at construction. `hasher_mut()` r
 `validate` checks tree structure and unchanged arena parameters; it does not recompute every cached fingerprint. Lazy `hash` still returns `LAZY_SENTINEL` before materialization. Exact comparison handles lazy ropes directly.
 
 ## Benchmarks
+
+### Latest regression investigation: implementation retained
+
+The [round-seven report](../../benchmarks/rust_regression_round7/README.md)
+investigates the remaining 100 KB independent edit/comparison and 1 MiB
+independent-equal LCP costs. Twelve fresh pairs of the exact original binaries
+estimate +2.0% and −0.7%, respectively, with intervals including one and mixed
+individual directions. The earlier +4.4% and +6.8% magnitudes are not stable.
+Controlled pinned LCP nevertheless shows approximately +2% in both slot
+assignments, with one primary interval wholly above one. A secondary pinned
+comparison-only timed mean is +5.2%; its median estimate and other placements
+differ. Neither cost is established harmless noise.
+
+A private join trial passes the already known heavier-side predicate instead
+of reloading weights. It preserves correctness and the inspected tail jump,
+but increases wrapper instructions and register saves. In the unchanged full
+benchmark rerun (12 pairs per workload, 48 processes, all 66 cells), the target
+changes are −1.0% and −0.4%, with no established benefit. Early-mismatch 64 KiB
+LCP and 1 MiB equality slow by 4.9% and 3.9%, respectively. Secondary gains and
+all controls are also retained in the report. The trial was rejected; the
+production core is byte-identical to the frozen round-six implementation.
+
+The existing concat gain repeats at 15.2% in the original-binary replication
+and 13.6–15.5% in controlled comparisons. Ropey still leads the retained core
+at all independent-target sizes and both smaller shared-history sizes in these
+fixtures. [Validation](../../benchmarks/rust_regression_round7/VALIDATION.md)
+records the trial and restored-core checks. Fingerprints, exact APIs, defaults,
+layout and bigint remain unchanged. The accepted round-six core is included in
+0.3.4; the rejected trial is excluded. The historical measurement snapshots
+retain their original version metadata.
+
+### Concat optimization and regression diagnosis included in 0.3.4
+
+The [round-six report](../../benchmarks/rust_regression_round6/README.md) finds no
+stable reproduction of round five's 5.1% independent 1M edit/comparison penalty.
+Concat's roughly 8% signal recurs with the retained original binaries, but the
+longer diagnostic estimates only about 0–2% across slot/affinity settings. Its
+cause remains unresolved; differing protocols are retained separately.
+
+Balanced concat now reuses checked length/weight metadata. Profile and overflow
+checks, wide balance arithmetic, node sequences, lazy behavior and fingerprints
+are preserved. The constructor tail is inlined, and unbalanced joins retain a
+tail-call path on Windows x64. Exact comparison code remains unchanged from
+round five; the scratch frontier-outlining idea was not adopted.
+
+The unchanged full benchmarks retain nine fresh pairs, 36 processes and 6,588
+samples. Concat takes 14.5% less time (8/9 faster; ratio interval
+[0.7674, 0.9526]); independent 1M edit/comparison changes by +1.4%
+([0.9834, 1.0452]). Independent 100K edit/comparison is +4.4% (8/9 slower,
+[1.0015, 1.0879]). A separate six-pair retained-binary confirmation reports
+−12.2% concat time (5/6 faster), −4.0% for independent 1M edit/comparison, and
+−1.7% for independent 100K ([0.9228, 1.0479], but 4/6 pairs still slower).
+The 100K penalty does not repeat in the paired average; its initial result
+remains an uncertain, context-sensitive cost rather than proven noise. These are
+paired geometric-mean changes with exploratory, unadjusted intervals. All
+other cells, Ropey gaps, variation and confirmation evidence remain in the
+report; no universal no-regression claim is made.
+Independent 1 MiB LCP changes from −2.0% in the primary cohort to +6.8% in
+confirmation (5/6 slower, interval [0.9921, 1.1496]); the other LCP cells also
+retain mixed results. Unchanged comparator code does not guarantee identical
+performance.
+
+All [221 release tests and tooling checks](../../benchmarks/rust_regression_round6/VALIDATION.md)
+pass, including fingerprint goldens and new concat sequence/overflow tests.
+Defaults, public APIs, node layout and bigint are unchanged. These changes are included in 0.3.4; historical benchmark snapshots retain
+their original 0.3.3 metadata.
+
+### LCP optimization included in 0.3.4
+
+The [round-five study](../../benchmarks/rust_lcp_round5/README.md) compares the
+round-five fixed-width exact comparator snapshot against published 0.3.3. It retains the
+unchanged 42-cell microbenchmark and 24-cell edit/comparison workload. An initial
+three-pair run is followed by a separately declared six-pair confirmation using
+the exact same four archived executables. All 36 processes and 6,588 samples
+are retained. The table pools all nine pairs; times are medians of process
+medians, while changes use the geometric mean of paired candidate/baseline
+ratios, so the two summaries need not give identical percentages.
+
+| Exact LCP fixture | 0.3.3 | Round five | Paired time change | Faster pairs |
+|---|---:|---:|---:|---:|
+| Independent equal, 64 KiB | 3.377 µs | 2.926 µs | −17.0% | 8/9 |
+| Independent equal, 1 MiB | 58.282 µs | 51.985 µs | −13.0% | 9/9 |
+| Late mismatch, 1 MiB | 57.255 µs | 52.667 µs | −8.8% | 9/9 |
+| Self-concatenated DAG, 2 TiB | 0.310 µs | 0.139 µs | −58.3% | 9/9 |
+
+The [mechanism audit](../../benchmarks/rust_lcp_round5/mechanism_audit.md)
+counts 4,094 fewer boundary calls for the independent 1 MiB fixture, with the
+same 2,048 leaf comparisons. The DAG fixture avoids a second repetition-chain
+walk and its one 368-byte temporary allocation. Compressed nonperiodic units
+retain shared memoization across the at-most-three phase pieces. These counts
+explain work removed; they do not isolate the cause of earlier release-timing
+regressions or prove a universal speedup.
+
+The surrounding results remain mixed. Independent 1 MB exact edit/comparison
+is 11.5% slower in the initial three pairs, 2.0% slower in the additional six,
+and 5.1% slower pooled (5/9 slower; paired range 0.933–1.307). Its pooled times
+are 144.530→149.156 µs per cycle. That workload uses the unchanged long
+cross-arena frontier rather than the same-arena recursion improved above.
+Shared 1 MB edit/comparison improves 12.1% (8/9 faster), while Ropey retains
+the smaller-input and independent-target advantages in this cohort.
+The unchanged concat control is 8.4% slower pooled (6/9), and distinct-period
+repeat LCP is 1.35% slower (5/9). Control variability does not establish that
+these effects are noise. No further causal mechanism was isolated to justify
+another production change in that round; the report retains every cell and both phases.
+
+Node layout remains 48 bytes per `NodeInner`, 2,136 inline bytes per `Arena`,
+and 255 nodes for the 64 KiB fixture. The [validation record](../../benchmarks/rust_lcp_round5/VALIDATION.md)
+contains 219 passing release tests, strict Clippy, and wasm32 checks in both
+feature modes. Fingerprints, defaults, constructors, public APIs and the bigint
+implementation are unchanged. The measurements cover Windows/Rust 1.94.0,
+default features and unpinned processes without the historical Python
+interleaving; repeated seeds and uncontrolled system state limit generalization.
+This optimization is included in 0.3.4; these historical benchmark snapshots
+retain version 0.3.3.
 
 ### Release 0.3.3 integration
 
@@ -356,8 +475,8 @@ fixture; these are layout measurements, not total memory usage.
 The [original third-round study](../../benchmarks/exact_optimization_round3/README.md),
 [previous traversal study](../../benchmarks/exact_optimization_round2/README.md)
 and [first optimization study](../../benchmarks/exact_optimization/README.md)
-remain preserved separately. Fingerprints, default parameters, node layout,
-the leaf-size policy and exact-comparison code are unchanged in this round.
+remain preserved separately. That round kept fingerprints, default parameters,
+node layout, the leaf-size policy and exact-comparison code unchanged.
 
 ## Changelog
 

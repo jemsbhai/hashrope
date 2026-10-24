@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.4 — 2026-10-24
+
+This patch retains the accepted LCP and concat optimizations. Correctness and fingerprints are unchanged. The remaining approximately 2% pinned LCP cost, mixed 100 KB edit/comparison results, and gaps against Ropey remain explicit; this is not a claim of universal speedup. See the [synchronized release record](../../releases/0.3.4/README.md).
+
+- Compare aligned child ranges directly during exact LCP/equality, retaining visit budgets and exact fallback. Verify equal-period compressed queries at their structurally proven period roots, preserving phases and checking bytes before skipping copies. Distinct-period witnesses and general DAG memoization remain available.
+- Reuse checked metadata in balanced concat, preserving profile/overflow guards, node sequences and fingerprints. Inline the shared construction tail and retain the inspected Windows tail-call path for unbalanced joins.
+- Add seven LCP phase/range/budget regressions and two concat sequence/overflow regressions. The complete release suite passes 221 tests. Public APIs, hash arithmetic/defaults, node layout, leaf sizes and the bigint backend are preserved.
+- Retain all benchmark cohorts and the rejected join-weight-lookup trial in the [round-seven report](../../benchmarks/rust_regression_round7/README.md). The trial established no useful target benefit and is excluded from this release. The original 100 KB and 1 MiB slowdown magnitudes are unstable, but the smaller pinned LCP and secondary comparison-only signals remain unresolved.
+- Synchronize version 0.3.4 across all six packages; these runtime optimizations apply only to the Rust core. Other runtimes receive version/dependency metadata updates while retaining their 0.3.3 algorithms.
+
 ## 0.3.3 — 2026-10-24
 
 - Add exact `Arena::equal` / `Arena::lcp`, cross-arena variants, and `rope_equal` / `rope_lcp` wrappers. They compare represented bytes across tree shapes and hash profiles, including lazy arenas, with shortcuts for shared ranges, repeats and previously verified ranges.

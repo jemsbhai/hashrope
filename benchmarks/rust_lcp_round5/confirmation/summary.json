@@ -1,0 +1,8356 @@
+{
+  "scope": "Same original executables; supplemental six pairs separately and pooled all nine; repeated churn seeds across two phases",
+  "source_sha256": {
+    "original_results": "8b213c4fa16d79b867c28f27ecdd5bcc2a192bd68e95059df3f5ca6e480b6c2e",
+    "supplemental_results": "80e647c5ea7e2ecb1ebbbeb8c6401150d8f2f2d2ccef4d0c1843a5e3c7fa9673"
+  },
+  "analysis_sha256": "a445cc76c16e3c47568b4e5708f0345dd7a9cc7a07a37beba6b3a131f404ebc1",
+  "supplemental_six": {
+    "micro": {
+      "compare/1048576/early_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            86.0,
+            86.45,
+            86.05,
+            86.15,
+            86.5,
+            79.1
+          ],
+          "candidate": [
+            54.05,
+            59.5,
+            59.0,
+            59.25,
+            59.35,
+            59.1
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 86.1,
+          "candidate": 59.175
+        },
+        "process_median_range": {
+          "baseline": [
+            79.1,
+            86.5
+          ],
+          "candidate": [
+            54.05,
+            59.5
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.6284883720930232,
+          0.6882591093117408,
+          0.6856478791400349,
+          0.6877539175856064,
+          0.6861271676300578,
+          0.7471554993678888
+        ],
+        "paired_ratio_geomean": 0.6863829807113672,
+        "paired_ratio_range": [
+          0.6284883720930232,
+          0.7471554993678888
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/early_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            75.75,
+            82.9,
+            84.0,
+            79.55,
+            83.7,
+            78.35
+          ],
+          "candidate": [
+            52.4,
+            56.75,
+            56.25,
+            57.15,
+            56.2,
+            52.3
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 81.225,
+          "candidate": 56.225
+        },
+        "process_median_range": {
+          "baseline": [
+            75.75,
+            84.0
+          ],
+          "candidate": [
+            52.3,
+            57.15
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.6917491749174918,
+          0.6845597104945718,
+          0.6696428571428571,
+          0.7184160905091138,
+          0.6714456391875747,
+          0.6675175494575623
+        ],
+        "paired_ratio_geomean": 0.6836630954287926,
+        "paired_ratio_range": [
+          0.6675175494575623,
+          0.7184160905091138
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/early_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            947.0,
+            855.0,
+            954.0,
+            941.0,
+            870.0,
+            870.0
+          ],
+          "candidate": [
+            880.0,
+            962.0,
+            945.0,
+            963.0,
+            962.0,
+            962.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 905.5,
+          "candidate": 962.0
+        },
+        "process_median_range": {
+          "baseline": [
+            855.0,
+            954.0
+          ],
+          "candidate": [
+            880.0,
+            963.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9292502639915523,
+          1.1251461988304094,
+          0.9905660377358491,
+          1.0233793836344314,
+          1.1057471264367815,
+          1.1057471264367815
+        ],
+        "paired_ratio_geomean": 1.0441484091522988,
+        "paired_ratio_range": [
+          0.9292502639915523,
+          1.1251461988304094
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "compare/1048576/independent_equal/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            56677.0,
+            59670.0,
+            58265.0,
+            67092.0,
+            67744.0,
+            55061.0
+          ],
+          "candidate": [
+            50606.0,
+            52183.0,
+            52320.0,
+            51475.0,
+            57890.0,
+            51588.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 58967.5,
+          "candidate": 51885.5
+        },
+        "process_median_range": {
+          "baseline": [
+            55061.0,
+            67744.0
+          ],
+          "candidate": [
+            50606.0,
+            57890.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8928842387564621,
+          0.8745265627618569,
+          0.8979661889642152,
+          0.7672300721397484,
+          0.8545406235238545,
+          0.9369245019160567
+        ],
+        "paired_ratio_geomean": 0.869024149968041,
+        "paired_ratio_range": [
+          0.7672300721397484,
+          0.9369245019160567
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/independent_equal/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            65872.0,
+            56551.0,
+            57199.0,
+            70509.0,
+            57345.0,
+            58282.0
+          ],
+          "candidate": [
+            54805.0,
+            51985.0,
+            52373.0,
+            52356.0,
+            55184.0,
+            51561.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 57813.5,
+          "candidate": 52364.5
+        },
+        "process_median_range": {
+          "baseline": [
+            56551.0,
+            70509.0
+          ],
+          "candidate": [
+            51561.0,
+            55184.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8319923487976683,
+          0.9192587222153454,
+          0.9156278955925803,
+          0.7425435050844573,
+          0.9623158078298021,
+          0.8846813767544011
+        ],
+        "paired_ratio_geomean": 0.8730057134677225,
+        "paired_ratio_range": [
+          0.7425435050844573,
+          0.9623158078298021
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/independent_equal/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6531.0,
+            6363.0,
+            6303.0,
+            6322.0,
+            6369.0,
+            6438.0
+          ],
+          "candidate": [
+            6199.0,
+            6326.0,
+            6220.0,
+            6585.0,
+            6237.0,
+            6263.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 6366.0,
+          "candidate": 6250.0
+        },
+        "process_median_range": {
+          "baseline": [
+            6303.0,
+            6531.0
+          ],
+          "candidate": [
+            6199.0,
+            6585.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9491655182973511,
+          0.9941851327989942,
+          0.9868316674599397,
+          1.041600759253401,
+          0.9792746113989638,
+          0.9728176452314383
+        ],
+        "paired_ratio_geomean": 0.9869191729722373,
+        "paired_ratio_range": [
+          0.9491655182973511,
+          1.041600759253401
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/late_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            57584.0,
+            56343.0,
+            63991.0,
+            60781.0,
+            57897.0,
+            55433.0
+          ],
+          "candidate": [
+            50079.0,
+            52513.0,
+            54374.0,
+            51513.0,
+            51857.0,
+            51387.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 57740.5,
+          "candidate": 51685.0
+        },
+        "process_median_range": {
+          "baseline": [
+            55433.0,
+            63991.0
+          ],
+          "candidate": [
+            50079.0,
+            54374.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8696686579605446,
+          0.9320234989262197,
+          0.849713240924505,
+          0.8475181388920879,
+          0.8956768053612449,
+          0.9270109862356358
+        ],
+        "paired_ratio_geomean": 0.8862842799555611,
+        "paired_ratio_range": [
+          0.8475181388920879,
+          0.9320234989262197
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            55863.0,
+            56531.0,
+            57975.0,
+            56855.0,
+            57255.0,
+            55968.0
+          ],
+          "candidate": [
+            51501.0,
+            55064.0,
+            56006.0,
+            50213.0,
+            52705.0,
+            50880.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 56693.0,
+          "candidate": 52103.0
+        },
+        "process_median_range": {
+          "baseline": [
+            55863.0,
+            57975.0
+          ],
+          "candidate": [
+            50213.0,
+            56006.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.921916116212878,
+          0.9740496364826379,
+          0.9660370849504096,
+          0.8831765016269457,
+          0.9205309579949349,
+          0.9090909090909091
+        ],
+        "paired_ratio_geomean": 0.9285955231370141,
+        "paired_ratio_range": [
+          0.8831765016269457,
+          0.9740496364826379
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6430.0,
+            6787.0,
+            6329.0,
+            6761.0,
+            6172.0,
+            6174.0
+          ],
+          "candidate": [
+            6202.0,
+            6807.0,
+            6195.0,
+            6499.0,
+            6435.0,
+            6537.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 6379.5,
+          "candidate": 6467.0
+        },
+        "process_median_range": {
+          "baseline": [
+            6172.0,
+            6787.0
+          ],
+          "candidate": [
+            6195.0,
+            6807.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9645412130637636,
+          1.0029468100780905,
+          0.9788276188971401,
+          0.9612483360449637,
+          1.0426117952041478,
+          1.0587949465500486
+        ],
+        "paired_ratio_geomean": 1.0007966278666172,
+        "paired_ratio_range": [
+          0.9612483360449637,
+          1.0587949465500486
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/1048576/same_root/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3.85,
+            3.45,
+            3.4,
+            3.45,
+            3.85,
+            5.45
+          ],
+          "candidate": [
+            3.5,
+            3.45,
+            3.9,
+            3.45,
+            3.85,
+            3.5
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3.6500000000000004,
+          "candidate": 3.5
+        },
+        "process_median_range": {
+          "baseline": [
+            3.4,
+            5.45
+          ],
+          "candidate": [
+            3.45,
+            3.9
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9090909090909091,
+          1.0,
+          1.1470588235294117,
+          1.0,
+          1.0,
+          0.6422018348623852
+        ],
+        "paired_ratio_geomean": 0.9353570511084135,
+        "paired_ratio_range": [
+          0.6422018348623852,
+          1.1470588235294117
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/same_root/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            1.95,
+            1.7,
+            1.75,
+            1.75,
+            1.95,
+            2.3
+          ],
+          "candidate": [
+            1.8,
+            1.75,
+            1.85,
+            1.75,
+            1.95,
+            1.75
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 1.85,
+          "candidate": 1.775
+        },
+        "process_median_range": {
+          "baseline": [
+            1.7,
+            2.3
+          ],
+          "candidate": [
+            1.75,
+            1.95
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9230769230769231,
+          1.0294117647058825,
+          1.0571428571428572,
+          1.0,
+          1.0,
+          0.7608695652173914
+        ],
+        "paired_ratio_geomean": 0.9561921021545935,
+        "paired_ratio_range": [
+          0.7608695652173914,
+          1.0571428571428572
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/1048576/same_root/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6801.0,
+            6416.0,
+            6361.0,
+            6171.0,
+            6410.0,
+            6412.0
+          ],
+          "candidate": [
+            6208.0,
+            6341.0,
+            6357.0,
+            6434.0,
+            6336.0,
+            6295.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 6411.0,
+          "candidate": 6338.5
+        },
+        "process_median_range": {
+          "baseline": [
+            6171.0,
+            6801.0
+          ],
+          "candidate": [
+            6208.0,
+            6434.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9128069401558594,
+          0.9883104738154613,
+          0.9993711680553372,
+          1.042618700372711,
+          0.9884555382215289,
+          0.9817529631940112
+        ],
+        "paired_ratio_geomean": 0.9847984042275184,
+        "paired_ratio_range": [
+          0.9128069401558594,
+          1.042618700372711
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/shared_late_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            128.0,
+            128.0,
+            128.0,
+            127.0,
+            128.0,
+            117.0
+          ],
+          "candidate": [
+            88.0,
+            96.0,
+            110.0,
+            96.0,
+            97.0,
+            99.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 128.0,
+          "candidate": 96.5
+        },
+        "process_median_range": {
+          "baseline": [
+            117.0,
+            128.0
+          ],
+          "candidate": [
+            88.0,
+            110.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.6875,
+          0.75,
+          0.859375,
+          0.7559055118110236,
+          0.7578125,
+          0.8461538461538461
+        ],
+        "paired_ratio_geomean": 0.7738662059622304,
+        "paired_ratio_range": [
+          0.6875,
+          0.859375
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/shared_late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            126.0,
+            126.0,
+            127.0,
+            114.0,
+            125.0,
+            114.0
+          ],
+          "candidate": [
+            98.0,
+            103.0,
+            95.0,
+            93.0,
+            105.0,
+            97.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 125.5,
+          "candidate": 97.5
+        },
+        "process_median_range": {
+          "baseline": [
+            114.0,
+            127.0
+          ],
+          "candidate": [
+            93.0,
+            105.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.7777777777777778,
+          0.8174603174603174,
+          0.7480314960629921,
+          0.8157894736842105,
+          0.84,
+          0.8508771929824561
+        ],
+        "paired_ratio_geomean": 0.8075344526112901,
+        "paired_ratio_range": [
+          0.7480314960629921,
+          0.8508771929824561
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/shared_late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6412.0,
+            6265.0,
+            6398.0,
+            6277.0,
+            6175.0,
+            6297.0
+          ],
+          "candidate": [
+            6020.0,
+            6211.0,
+            6392.0,
+            6277.0,
+            6195.0,
+            6205.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 6287.0,
+          "candidate": 6208.0
+        },
+        "process_median_range": {
+          "baseline": [
+            6175.0,
+            6412.0
+          ],
+          "candidate": [
+            6020.0,
+            6392.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9388646288209607,
+          0.9913806863527533,
+          0.9990622069396686,
+          1.0,
+          1.003238866396761,
+          0.9853898681912021
+        ],
+        "paired_ratio_geomean": 0.9860707290945263,
+        "paired_ratio_range": [
+          0.9388646288209607,
+          1.003238866396761
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/early_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            59.55,
+            53.35,
+            59.45,
+            54.2,
+            58.95,
+            59.6
+          ],
+          "candidate": [
+            38.85,
+            42.75,
+            42.65,
+            42.75,
+            42.85,
+            42.75
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 59.2,
+          "candidate": 42.75
+        },
+        "process_median_range": {
+          "baseline": [
+            53.35,
+            59.6
+          ],
+          "candidate": [
+            38.85,
+            42.85
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.6523929471032747,
+          0.8013120899718837,
+          0.7174095878889822,
+          0.7887453874538745,
+          0.7268871925360475,
+          0.7172818791946308
+        ],
+        "paired_ratio_geomean": 0.7323105761052859,
+        "paired_ratio_range": [
+          0.6523929471032747,
+          0.8013120899718837
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/early_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            57.3,
+            52.1,
+            54.4,
+            52.25,
+            57.4,
+            56.7
+          ],
+          "candidate": [
+            37.2,
+            40.7,
+            40.2,
+            40.6,
+            37.1,
+            40.8
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 55.55,
+          "candidate": 40.400000000000006
+        },
+        "process_median_range": {
+          "baseline": [
+            52.1,
+            57.4
+          ],
+          "candidate": [
+            37.1,
+            40.8
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.649214659685864,
+          0.781190019193858,
+          0.7389705882352942,
+          0.7770334928229665,
+          0.6463414634146342,
+          0.7195767195767195
+        ],
+        "paired_ratio_geomean": 0.7166248043923719,
+        "paired_ratio_range": [
+          0.6463414634146342,
+          0.781190019193858
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/early_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            700.0,
+            632.0,
+            701.0,
+            639.0,
+            628.0,
+            701.0
+          ],
+          "candidate": [
+            635.0,
+            690.0,
+            637.0,
+            690.0,
+            712.0,
+            690.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 669.5,
+          "candidate": 690.0
+        },
+        "process_median_range": {
+          "baseline": [
+            628.0,
+            701.0
+          ],
+          "candidate": [
+            635.0,
+            712.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9071428571428571,
+          1.0917721518987342,
+          0.9087018544935807,
+          1.07981220657277,
+          1.1337579617834395,
+          0.9843081312410842
+        ],
+        "paired_ratio_geomean": 1.0136113413008847,
+        "paired_ratio_range": [
+          0.9071428571428571,
+          1.1337579617834395
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/65536/independent_equal/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3968.0,
+            3333.0,
+            3062.0,
+            3580.0,
+            3936.0,
+            3948.0
+          ],
+          "candidate": [
+            3057.0,
+            2771.0,
+            2972.0,
+            2918.0,
+            2744.0,
+            2949.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3758.0,
+          "candidate": 2933.5
+        },
+        "process_median_range": {
+          "baseline": [
+            3062.0,
+            3968.0
+          ],
+          "candidate": [
+            2744.0,
+            3057.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.7704133064516129,
+          0.8313831383138314,
+          0.9706074461136512,
+          0.8150837988826816,
+          0.6971544715447154,
+          0.7469604863221885
+        ],
+        "paired_ratio_geomean": 0.8008777940471935,
+        "paired_ratio_range": [
+          0.6971544715447154,
+          0.9706074461136512
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/independent_equal/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3359.0,
+            3359.0,
+            3237.0,
+            3735.0,
+            3734.0,
+            3936.0
+          ],
+          "candidate": [
+            3026.0,
+            2959.0,
+            2720.0,
+            2915.0,
+            3047.0,
+            2712.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3546.5,
+          "candidate": 2937.0
+        },
+        "process_median_range": {
+          "baseline": [
+            3237.0,
+            3936.0
+          ],
+          "candidate": [
+            2712.0,
+            3047.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9008633521881513,
+          0.8809169395653468,
+          0.8402842137781897,
+          0.7804551539491299,
+          0.8160149973219069,
+          0.6890243902439024
+        ],
+        "paired_ratio_geomean": 0.8147983279851967,
+        "paired_ratio_range": [
+          0.6890243902439024,
+          0.9008633521881513
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/independent_equal/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            4807.0,
+            4712.0,
+            4330.0,
+            4383.0,
+            4325.0,
+            4803.0
+          ],
+          "candidate": [
+            4535.0,
+            4511.0,
+            4580.0,
+            4687.0,
+            4418.0,
+            4423.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4547.5,
+          "candidate": 4523.0
+        },
+        "process_median_range": {
+          "baseline": [
+            4325.0,
+            4807.0
+          ],
+          "candidate": [
+            4418.0,
+            4687.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9434158518826711,
+          0.9573429541595926,
+          1.0577367205542725,
+          1.0693588866073465,
+          1.0215028901734104,
+          0.9208827815948366
+        ],
+        "paired_ratio_geomean": 0.9933888671972526,
+        "paired_ratio_range": [
+          0.9208827815948366,
+          1.0693588866073465
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/65536/late_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3413.0,
+            3319.0,
+            3953.0,
+            3653.0,
+            3671.0,
+            4000.0
+          ],
+          "candidate": [
+            2817.0,
+            2963.0,
+            2782.0,
+            2976.0,
+            3108.0,
+            3011.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3662.0,
+          "candidate": 2969.5
+        },
+        "process_median_range": {
+          "baseline": [
+            3319.0,
+            4000.0
+          ],
+          "candidate": [
+            2782.0,
+            3108.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8253735716378553,
+          0.8927387767399819,
+          0.7037692891474829,
+          0.8146728716123733,
+          0.8466357940615636,
+          0.75275
+        ],
+        "paired_ratio_geomean": 0.8035680342027556,
+        "paired_ratio_range": [
+          0.7037692891474829,
+          0.8927387767399819
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3413.0,
+            3151.0,
+            3385.0,
+            3642.0,
+            3773.0,
+            4003.0
+          ],
+          "candidate": [
+            2840.0,
+            2812.0,
+            3444.0,
+            2885.0,
+            2947.0,
+            3001.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3527.5,
+          "candidate": 2916.0
+        },
+        "process_median_range": {
+          "baseline": [
+            3151.0,
+            4003.0
+          ],
+          "candidate": [
+            2812.0,
+            3444.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8321125109874011,
+          0.8924151063154554,
+          1.0174298375184638,
+          0.7921471718835804,
+          0.7810760667903525,
+          0.7496877341993505
+        ],
+        "paired_ratio_geomean": 0.8396639502492939,
+        "paired_ratio_range": [
+          0.7496877341993505,
+          1.0174298375184638
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            4709.0,
+            4390.0,
+            4418.0,
+            4385.0,
+            4611.0,
+            4762.0
+          ],
+          "candidate": [
+            4954.0,
+            4695.0,
+            4442.0,
+            4501.0,
+            4684.0,
+            4829.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4514.5,
+          "candidate": 4689.5
+        },
+        "process_median_range": {
+          "baseline": [
+            4385.0,
+            4762.0
+          ],
+          "candidate": [
+            4442.0,
+            4954.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0520280314291781,
+          1.069476082004556,
+          1.0054323223177908,
+          1.026453819840365,
+          1.0158317067881153,
+          1.0140697186056278
+        ],
+        "paired_ratio_geomean": 1.0302992193530065,
+        "paired_ratio_range": [
+          1.0054323223177908,
+          1.069476082004556
+        ],
+        "candidate_slower_pairs": 6
+      },
+      "compare/65536/same_root/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3.9,
+            3.85,
+            3.85,
+            3.45,
+            3.85,
+            3.9
+          ],
+          "candidate": [
+            3.9,
+            3.7,
+            3.5,
+            3.9,
+            3.8,
+            3.9
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3.85,
+          "candidate": 3.8499999999999996
+        },
+        "process_median_range": {
+          "baseline": [
+            3.45,
+            3.9
+          ],
+          "candidate": [
+            3.5,
+            3.9
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0,
+          0.961038961038961,
+          0.9090909090909091,
+          1.1304347826086956,
+          0.9870129870129869,
+          1.0
+        ],
+        "paired_ratio_geomean": 0.9957556548128348,
+        "paired_ratio_range": [
+          0.9090909090909091,
+          1.1304347826086956
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/same_root/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            1.95,
+            1.95,
+            1.75,
+            1.7,
+            1.75,
+            1.75
+          ],
+          "candidate": [
+            1.95,
+            1.95,
+            1.75,
+            1.95,
+            1.95,
+            1.75
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 1.75,
+          "candidate": 1.95
+        },
+        "process_median_range": {
+          "baseline": [
+            1.7,
+            1.95
+          ],
+          "candidate": [
+            1.75,
+            1.95
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0,
+          1.0,
+          1.0,
+          1.1470588235294117,
+          1.1142857142857143,
+          1.0
+        ],
+        "paired_ratio_geomean": 1.0417504788979957,
+        "paired_ratio_range": [
+          1.0,
+          1.1470588235294117
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/65536/same_root/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            4809.0,
+            4715.0,
+            4312.0,
+            4377.0,
+            4344.0,
+            4716.0
+          ],
+          "candidate": [
+            4950.0,
+            4403.0,
+            4851.0,
+            4928.0,
+            4484.0,
+            4552.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4546.0,
+          "candidate": 4701.5
+        },
+        "process_median_range": {
+          "baseline": [
+            4312.0,
+            4809.0
+          ],
+          "candidate": [
+            4403.0,
+            4950.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0293200249532126,
+          0.9338282078472958,
+          1.125,
+          1.1258853095727668,
+          1.0322283609576428,
+          0.9652247667514843
+        ],
+        "paired_ratio_geomean": 1.0327092212273807,
+        "paired_ratio_range": [
+          0.9338282078472958,
+          1.1258853095727668
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "compare/65536/shared_late_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            96.0,
+            95.0,
+            87.0,
+            88.0,
+            88.0,
+            96.0
+          ],
+          "candidate": [
+            78.0,
+            70.0,
+            75.0,
+            78.0,
+            77.0,
+            75.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 91.5,
+          "candidate": 76.0
+        },
+        "process_median_range": {
+          "baseline": [
+            87.0,
+            96.0
+          ],
+          "candidate": [
+            70.0,
+            78.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8125,
+          0.7368421052631579,
+          0.8620689655172413,
+          0.8863636363636364,
+          0.875,
+          0.78125
+        ],
+        "paired_ratio_geomean": 0.8238692713236263,
+        "paired_ratio_range": [
+          0.7368421052631579,
+          0.8863636363636364
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/shared_late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            94.0,
+            87.0,
+            84.0,
+            85.0,
+            86.0,
+            94.0
+          ],
+          "candidate": [
+            74.0,
+            68.0,
+            67.0,
+            76.0,
+            75.0,
+            67.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 86.5,
+          "candidate": 71.0
+        },
+        "process_median_range": {
+          "baseline": [
+            84.0,
+            94.0
+          ],
+          "candidate": [
+            67.0,
+            76.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.7872340425531915,
+          0.7816091954022989,
+          0.7976190476190477,
+          0.8941176470588236,
+          0.872093023255814,
+          0.7127659574468085
+        ],
+        "paired_ratio_geomean": 0.8053146105947353,
+        "paired_ratio_range": [
+          0.7127659574468085,
+          0.8941176470588236
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/shared_late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            4633.0,
+            4412.0,
+            4460.0,
+            4256.0,
+            4541.0,
+            4573.0
+          ],
+          "candidate": [
+            4342.0,
+            4502.0,
+            4484.0,
+            4668.0,
+            4575.0,
+            4459.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4500.5,
+          "candidate": 4493.0
+        },
+        "process_median_range": {
+          "baseline": [
+            4256.0,
+            4633.0
+          ],
+          "candidate": [
+            4342.0,
+            4668.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9371897258795597,
+          1.0203989120580235,
+          1.0053811659192826,
+          1.0968045112781954,
+          1.007487337590839,
+          0.9750710693199213
+        ],
+        "paired_ratio_geomean": 1.0059017362368599,
+        "paired_ratio_range": [
+          0.9371897258795597,
+          1.0968045112781954
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "compare/repeat_2TiB/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            85.45,
+            82.8,
+            83.45,
+            84.3,
+            76.55,
+            75.45
+          ],
+          "candidate": [
+            75.05,
+            82.15,
+            83.7,
+            82.25,
+            84.8,
+            75.65
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 83.125,
+          "candidate": 82.2
+        },
+        "process_median_range": {
+          "baseline": [
+            75.45,
+            85.45
+          ],
+          "candidate": [
+            75.05,
+            84.8
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8782913984786425,
+          0.9921497584541064,
+          1.0029958058717796,
+          0.9756820877817319,
+          1.107772697583279,
+          1.002650762094102
+        ],
+        "paired_ratio_geomean": 0.9909930510105958,
+        "paired_ratio_range": [
+          0.8782913984786425,
+          1.107772697583279
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/repeat_2TiB/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            88.15,
+            73.7,
+            80.7,
+            81.15,
+            80.45,
+            76.3
+          ],
+          "candidate": [
+            79.3,
+            81.1,
+            81.35,
+            80.45,
+            79.55,
+            79.35
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 80.575,
+          "candidate": 80.0
+        },
+        "process_median_range": {
+          "baseline": [
+            73.7,
+            88.15
+          ],
+          "candidate": [
+            79.3,
+            81.35
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8996029495178672,
+          1.1004070556309362,
+          1.0080545229244113,
+          0.991373998767714,
+          0.9888129272840273,
+          1.0399737876802098
+        ],
+        "paired_ratio_geomean": 1.002867872771087,
+        "paired_ratio_range": [
+          0.8996029495178672,
+          1.1004070556309362
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/repeat_2TiB/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            26868.0,
+            26476.0,
+            26842.0,
+            27465.0,
+            26602.0,
+            26504.0
+          ],
+          "candidate": [
+            26052.0,
+            27870.0,
+            26386.0,
+            26540.0,
+            26842.0,
+            26300.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 26722.0,
+          "candidate": 26463.0
+        },
+        "process_median_range": {
+          "baseline": [
+            26476.0,
+            27465.0
+          ],
+          "candidate": [
+            26052.0,
+            27870.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9696292987941045,
+          1.0526514579241577,
+          0.9830116980850905,
+          0.9663207718914982,
+          1.0090218780542817,
+          0.9923030485964383
+        ],
+        "paired_ratio_geomean": 0.9950674940153376,
+        "paired_ratio_range": [
+          0.9663207718914982,
+          1.0526514579241577
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/self_concat_DAG_2TiB/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            301.0,
+            256.0,
+            281.0,
+            283.0,
+            304.0,
+            252.0
+          ],
+          "candidate": [
+            142.0,
+            158.0,
+            142.0,
+            142.0,
+            158.0,
+            158.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 282.0,
+          "candidate": 150.0
+        },
+        "process_median_range": {
+          "baseline": [
+            252.0,
+            304.0
+          ],
+          "candidate": [
+            142.0,
+            158.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.4717607973421927,
+          0.6171875,
+          0.505338078291815,
+          0.5017667844522968,
+          0.5197368421052632,
+          0.626984126984127
+        ],
+        "paired_ratio_geomean": 0.5372921460071134,
+        "paired_ratio_range": [
+          0.4717607973421927,
+          0.626984126984127
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/self_concat_DAG_2TiB/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            309.0,
+            310.0,
+            307.0,
+            341.0,
+            306.0,
+            305.0
+          ],
+          "candidate": [
+            111.0,
+            140.0,
+            139.0,
+            112.0,
+            155.0,
+            127.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 308.0,
+          "candidate": 133.0
+        },
+        "process_median_range": {
+          "baseline": [
+            305.0,
+            341.0
+          ],
+          "candidate": [
+            111.0,
+            155.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.3592233009708738,
+          0.45161290322580644,
+          0.4527687296416938,
+          0.3284457478005865,
+          0.5065359477124183,
+          0.4163934426229508
+        ],
+        "paired_ratio_geomean": 0.41472878285811376,
+        "paired_ratio_range": [
+          0.3284457478005865,
+          0.5065359477124183
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/self_concat_DAG_2TiB/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            23405.0,
+            23653.0,
+            23027.0,
+            24016.0,
+            23572.0,
+            23782.0
+          ],
+          "candidate": [
+            23467.0,
+            24283.0,
+            23573.0,
+            23626.0,
+            24514.0,
+            23885.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 23612.5,
+          "candidate": 23755.5
+        },
+        "process_median_range": {
+          "baseline": [
+            23027.0,
+            24016.0
+          ],
+          "candidate": [
+            23467.0,
+            24514.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0026490066225167,
+          1.0266350991417579,
+          1.0237112954357928,
+          0.9837608261159227,
+          1.0399626675716953,
+          1.0043310066436801
+        ],
+        "paired_ratio_geomean": 1.0133382732040401,
+        "paired_ratio_range": [
+          0.9837608261159227,
+          1.0399626675716953
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "core/concat_balanced_64KiB": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            16.45,
+            16.35,
+            15.8,
+            15.0,
+            18.4,
+            21.75
+          ],
+          "candidate": [
+            17.5,
+            14.75,
+            15.0,
+            17.55,
+            21.75,
+            28.4
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 16.4,
+          "candidate": 17.525
+        },
+        "process_median_range": {
+          "baseline": [
+            15.0,
+            21.75
+          ],
+          "candidate": [
+            14.75,
+            28.4
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0638297872340425,
+          0.9021406727828746,
+          0.9493670886075949,
+          1.1700000000000002,
+          1.1820652173913044,
+          1.3057471264367815
+        ],
+        "paired_ratio_geomean": 1.0865369335343442,
+        "paired_ratio_range": [
+          0.9021406727828746,
+          1.3057471264367815
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "core/from_bytes_64KiB": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            41875.0,
+            42580.0,
+            41235.0,
+            36510.0,
+            37760.0,
+            43960.0
+          ],
+          "candidate": [
+            44040.0,
+            43060.0,
+            42140.0,
+            46010.0,
+            35410.0,
+            27550.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 41555.0,
+          "candidate": 42600.0
+        },
+        "process_median_range": {
+          "baseline": [
+            36510.0,
+            43960.0
+          ],
+          "candidate": [
+            27550.0,
+            46010.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0517014925373134,
+          1.0112728980742132,
+          1.0219473748029586,
+          1.2602026841961107,
+          0.9377648305084746,
+          0.6267060964513194
+        ],
+        "paired_ratio_geomean": 0.9644904726354919,
+        "paired_ratio_range": [
+          0.6267060964513194,
+          1.2602026841961107
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "core/repeat_join_2pow32": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            5237.0,
+            5337.0,
+            4962.0,
+            4845.0,
+            5023.0,
+            4905.0
+          ],
+          "candidate": [
+            5413.0,
+            4909.0,
+            5388.0,
+            5622.0,
+            5281.0,
+            5048.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4992.5,
+          "candidate": 5334.5
+        },
+        "process_median_range": {
+          "baseline": [
+            4845.0,
+            5337.0
+          ],
+          "candidate": [
+            4909.0,
+            5622.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0336070269238113,
+          0.9198051339703953,
+          1.0858524788391777,
+          1.1603715170278637,
+          1.0513637268564602,
+          1.0291539245667687
+        ],
+        "paired_ratio_geomean": 1.0441801081575948,
+        "paired_ratio_range": [
+          0.9198051339703953,
+          1.1603715170278637
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "core/root_hash": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.5781,
+            0.5453,
+            0.5205,
+            0.5274,
+            0.5204,
+            0.5667
+          ],
+          "candidate": [
+            0.5782,
+            0.5275,
+            0.5535,
+            0.5722,
+            0.5601,
+            0.5306
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.53635,
+          "candidate": 0.5568
+        },
+        "process_median_range": {
+          "baseline": [
+            0.5204,
+            0.5781
+          ],
+          "candidate": [
+            0.5275,
+            0.5782
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.000172980453209,
+          0.9673574179350816,
+          1.063400576368876,
+          1.0849450132726584,
+          1.0762874711760186,
+          0.9362978648314805
+        ],
+        "paired_ratio_geomean": 1.0198074263762733,
+        "paired_ratio_range": [
+          0.9362978648314805,
+          1.0849450132726584
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "core/split_chunked_64KiB": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            530.0,
+            450.0,
+            417.0,
+            461.0,
+            412.0,
+            459.0
+          ],
+          "candidate": [
+            465.0,
+            410.0,
+            413.0,
+            501.0,
+            477.0,
+            455.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 454.5,
+          "candidate": 460.0
+        },
+        "process_median_range": {
+          "baseline": [
+            412.0,
+            530.0
+          ],
+          "candidate": [
+            410.0,
+            501.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8773584905660378,
+          0.9111111111111111,
+          0.9904076738609112,
+          1.086767895878525,
+          1.1577669902912622,
+          0.9912854030501089
+        ],
+        "paired_ratio_geomean": 0.9978988364835505,
+        "paired_ratio_range": [
+          0.8773584905660378,
+          1.1577669902912622
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "core/substr_warm_64KiB": {
+        "unit": "ns",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            497.9,
+            454.0,
+            449.7,
+            458.6,
+            461.1,
+            486.3
+          ],
+          "candidate": [
+            501.8,
+            459.2,
+            459.3,
+            452.2,
+            449.7,
+            476.2
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 459.85,
+          "candidate": 459.25
+        },
+        "process_median_range": {
+          "baseline": [
+            449.7,
+            497.9
+          ],
+          "candidate": [
+            449.7,
+            501.8
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.007832898172324,
+          1.011453744493392,
+          1.0213475650433623,
+          0.9860444832097688,
+          0.9752765126870526,
+          0.9792309274110631
+        ],
+        "paired_ratio_geomean": 0.9967117656947836,
+        "paired_ratio_range": [
+          0.9752765126870526,
+          1.0213475650433623
+        ],
+        "candidate_slower_pairs": 3
+      }
+    },
+    "churn": {
+      "10000/false/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.002374,
+            0.0019619999999999998,
+            0.002286,
+            0.002284,
+            0.002172,
+            0.0021839999999999997
+          ],
+          "candidate": [
+            0.002386,
+            0.002122,
+            0.00201,
+            0.00201,
+            0.0019560000000000003,
+            0.002132
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.002234,
+          "candidate": 0.002066
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0019619999999999998,
+            0.002374
+          ],
+          "candidate": [
+            0.0019560000000000003,
+            0.002386
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.005054759898905,
+          1.0815494393476046,
+          0.8792650918635172,
+          0.8800350262697023,
+          0.9005524861878454,
+          0.9761904761904764
+        ],
+        "paired_ratio_geomean": 0.950932990160979,
+        "paired_ratio_range": [
+          0.8792650918635172,
+          1.0815494393476046
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "10000/false/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.005337999999999999,
+            0.0045780000000000005,
+            0.005044,
+            0.004902,
+            0.004704,
+            0.00463
+          ],
+          "candidate": [
+            0.004554,
+            0.004598,
+            0.004598,
+            0.005109999999999999,
+            0.004528,
+            0.004534
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.004803,
+          "candidate": 0.004576
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0045780000000000005,
+            0.005337999999999999
+          ],
+          "candidate": [
+            0.004528,
+            0.005109999999999999
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8531285125515176,
+          1.0043687199650502,
+          0.9115781126090404,
+          1.0424316605467154,
+          0.9625850340136054,
+          0.9792656587473003
+        ],
+        "paired_ratio_geomean": 0.9568593932617061,
+        "paired_ratio_range": [
+          0.8531285125515176,
+          1.0424316605467154
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "10000/false/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.001188,
+            0.001082,
+            0.001124,
+            0.001204,
+            0.001102,
+            0.001022
+          ],
+          "candidate": [
+            0.001224,
+            0.001082,
+            0.001052,
+            0.001154,
+            0.0015860000000000002,
+            0.001042
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.0011129999999999998,
+          "candidate": 0.001118
+        },
+        "process_median_range": {
+          "baseline": [
+            0.001022,
+            0.001204
+          ],
+          "candidate": [
+            0.001042,
+            0.0015860000000000002
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0303030303030303,
+          1.0,
+          0.9359430604982206,
+          0.9584717607973423,
+          1.4392014519056264,
+          1.0195694716242663
+        ],
+        "paired_ratio_geomean": 1.0520959687518945,
+        "paired_ratio_range": [
+          0.9359430604982206,
+          1.4392014519056264
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "10000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.004782,
+            0.004978,
+            0.005464000000000001,
+            0.0048460000000000005,
+            0.004978,
+            0.00477
+          ],
+          "candidate": [
+            0.005262,
+            0.004628,
+            0.0049559999999999995,
+            0.004736000000000001,
+            0.004924,
+            0.004844
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.004912,
+          "candidate": 0.004884
+        },
+        "process_median_range": {
+          "baseline": [
+            0.00477,
+            0.005464000000000001
+          ],
+          "candidate": [
+            0.004628,
+            0.005262
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.1003764115432875,
+          0.9296906388107674,
+          0.9070278184480232,
+          0.9773008666941808,
+          0.9891522699879471,
+          1.0155136268343816
+        ],
+        "paired_ratio_geomean": 0.9845692203703702,
+        "paired_ratio_range": [
+          0.9070278184480232,
+          1.1003764115432875
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "10000/true/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.001998,
+            0.001888,
+            0.002124,
+            0.001926,
+            0.001916,
+            0.001862
+          ],
+          "candidate": [
+            0.001912,
+            0.00187,
+            0.0018540000000000002,
+            0.0019,
+            0.001706,
+            0.0020320000000000004
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.001921,
+          "candidate": 0.001885
+        },
+        "process_median_range": {
+          "baseline": [
+            0.001862,
+            0.002124
+          ],
+          "candidate": [
+            0.001706,
+            0.0020320000000000004
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9569569569569569,
+          0.9904661016949152,
+          0.8728813559322035,
+          0.9865005192107996,
+          0.8903966597077245,
+          1.0912996777658435
+        ],
+        "paired_ratio_geomean": 0.9620966095941409,
+        "paired_ratio_range": [
+          0.8728813559322035,
+          1.0912996777658435
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "10000/true/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.003854,
+            0.0038420000000000004,
+            0.004254,
+            0.004154,
+            0.004062,
+            0.003994
+          ],
+          "candidate": [
+            0.003528,
+            0.003872,
+            0.0035819999999999997,
+            0.0037040000000000003,
+            0.003902,
+            0.0037159999999999997
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.004028,
+          "candidate": 0.0037099999999999998
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0038420000000000004,
+            0.004254
+          ],
+          "candidate": [
+            0.003528,
+            0.003902
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.915412558380903,
+          1.0078084331077564,
+          0.8420310296191819,
+          0.891670678863746,
+          0.9606105366814378,
+          0.930395593390085
+        ],
+        "paired_ratio_geomean": 0.9231885394326901,
+        "paired_ratio_range": [
+          0.8420310296191819,
+          1.0078084331077564
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "10000/true/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.000942,
+            0.000896,
+            0.00097,
+            0.00096,
+            0.000838,
+            0.0008759999999999999
+          ],
+          "candidate": [
+            0.000882,
+            0.0009220000000000001,
+            0.0008799999999999999,
+            0.000848,
+            0.000828,
+            0.001
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.000919,
+          "candidate": 0.000881
+        },
+        "process_median_range": {
+          "baseline": [
+            0.000838,
+            0.00097
+          ],
+          "candidate": [
+            0.000828,
+            0.001
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9363057324840763,
+          1.0290178571428572,
+          0.9072164948453607,
+          0.8833333333333333,
+          0.9880668257756563,
+          1.1415525114155252
+        ],
+        "paired_ratio_geomean": 0.9772216059447216,
+        "paired_ratio_range": [
+          0.8833333333333333,
+          1.1415525114155252
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "10000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.004672,
+            0.005018,
+            0.005199999999999999,
+            0.004892,
+            0.00475,
+            0.004656
+          ],
+          "candidate": [
+            0.004788,
+            0.004174,
+            0.004594,
+            0.004586,
+            0.0045780000000000005,
+            0.004834
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.004821,
+          "candidate": 0.00459
+        },
+        "process_median_range": {
+          "baseline": [
+            0.004656,
+            0.005199999999999999
+          ],
+          "candidate": [
+            0.004174,
+            0.004834
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0248287671232876,
+          0.8318055001992826,
+          0.8834615384615386,
+          0.937448896156991,
+          0.9637894736842106,
+          1.038230240549828
+        ],
+        "paired_ratio_geomean": 0.9437291424149284,
+        "paired_ratio_range": [
+          0.8318055001992826,
+          1.038230240549828
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/false/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.004216,
+            0.003352,
+            0.0034839999999999997,
+            0.003792,
+            0.003578,
+            0.003906
+          ],
+          "candidate": [
+            0.003934,
+            0.0036460000000000004,
+            0.003652,
+            0.003568,
+            0.0034620000000000002,
+            0.004033999999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.003685,
+          "candidate": 0.0036490000000000003
+        },
+        "process_median_range": {
+          "baseline": [
+            0.003352,
+            0.004216
+          ],
+          "candidate": [
+            0.0034620000000000002,
+            0.004033999999999999
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.933111954459203,
+          1.0877088305489262,
+          1.0482204362801377,
+          0.9409282700421941,
+          0.9675796534376747,
+          1.0327700972862262
+        ],
+        "paired_ratio_geomean": 1.0000560040976572,
+        "paired_ratio_range": [
+          0.933111954459203,
+          1.0877088305489262
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "100000/false/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.018217999999999998,
+            0.017405999999999998,
+            0.01985,
+            0.020148000000000003,
+            0.01916,
+            0.019142000000000003
+          ],
+          "candidate": [
+            0.018696,
+            0.01865,
+            0.018317999999999997,
+            0.017526,
+            0.018284,
+            0.019476
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.019151,
+          "candidate": 0.018484
+        },
+        "process_median_range": {
+          "baseline": [
+            0.017405999999999998,
+            0.020148000000000003
+          ],
+          "candidate": [
+            0.017526,
+            0.019476
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0262377868042596,
+          1.071469608181087,
+          0.9228211586901762,
+          0.8698630136986301,
+          0.9542797494780795,
+          1.0174485424720507
+        ],
+        "paired_ratio_geomean": 0.974609719595256,
+        "paired_ratio_range": [
+          0.8698630136986301,
+          1.071469608181087
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "100000/false/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.013838,
+            0.009467999999999999,
+            0.010752,
+            0.011023999999999999,
+            0.009867999999999998,
+            0.010395999999999999
+          ],
+          "candidate": [
+            0.009947999999999999,
+            0.011396,
+            0.009432000000000001,
+            0.010214,
+            0.011540000000000002,
+            0.01075
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.010574,
+          "candidate": 0.010482
+        },
+        "process_median_range": {
+          "baseline": [
+            0.009467999999999999,
+            0.013838
+          ],
+          "candidate": [
+            0.009432000000000001,
+            0.011540000000000002
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.71889001300766,
+          1.2036332910857628,
+          0.877232142857143,
+          0.926523947750363,
+          1.1694365626266725,
+          1.0340515582916507
+        ],
+        "paired_ratio_geomean": 0.9733621359568012,
+        "paired_ratio_range": [
+          0.71889001300766,
+          1.2036332910857628
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "100000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.038696,
+            0.040302000000000004,
+            0.040682,
+            0.042144,
+            0.039094000000000004,
+            0.038308
+          ],
+          "candidate": [
+            0.038186,
+            0.038711999999999996,
+            0.03771,
+            0.037433999999999995,
+            0.039442,
+            0.03682
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.039698000000000004,
+          "candidate": 0.037947999999999996
+        },
+        "process_median_range": {
+          "baseline": [
+            0.038308,
+            0.042144
+          ],
+          "candidate": [
+            0.03682,
+            0.039442
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9868203431879263,
+          0.9605478636295963,
+          0.9269455778968585,
+          0.8882403189066058,
+          1.008901621732235,
+          0.9611569384984858
+        ],
+        "paired_ratio_geomean": 0.9546206506236572,
+        "paired_ratio_range": [
+          0.8882403189066058,
+          1.008901621732235
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "100000/true/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.0036660000000000004,
+            0.004324,
+            0.004024000000000001,
+            0.00386,
+            0.0036680000000000003,
+            0.003954
+          ],
+          "candidate": [
+            0.003806,
+            0.00388,
+            0.003102,
+            0.003644,
+            0.0038680000000000003,
+            0.00366
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.003907,
+          "candidate": 0.003733
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0036660000000000004,
+            0.004324
+          ],
+          "candidate": [
+            0.003102,
+            0.00388
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0381887615930168,
+          0.89731729879741,
+          0.7708747514910536,
+          0.944041450777202,
+          1.054525627044711,
+          0.9256449165402124
+        ],
+        "paired_ratio_geomean": 0.933504611976915,
+        "paired_ratio_range": [
+          0.7708747514910536,
+          1.054525627044711
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/true/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.007592,
+            0.007873999999999999,
+            0.008746,
+            0.008222,
+            0.008461999999999999,
+            0.0073820000000000005
+          ],
+          "candidate": [
+            0.010064,
+            0.007272,
+            0.006828,
+            0.00757,
+            0.007426,
+            0.00797
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.008048,
+          "candidate": 0.007498
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0073820000000000005,
+            0.008746
+          ],
+          "candidate": [
+            0.006828,
+            0.010064
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.3256059009483667,
+          0.9235458470916943,
+          0.7806997484564372,
+          0.9207005594745804,
+          0.8775703143464904,
+          1.0796532105120562
+        ],
+        "paired_ratio_geomean": 0.9701530571349789,
+        "paired_ratio_range": [
+          0.7806997484564372,
+          1.3256059009483667
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/true/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.004444,
+            0.00462,
+            0.005292,
+            0.005215999999999999,
+            0.0051400000000000005,
+            0.004543999999999999
+          ],
+          "candidate": [
+            0.004958000000000001,
+            0.005594,
+            0.004898,
+            0.005058,
+            0.004646,
+            0.00536
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.004880000000000001,
+          "candidate": 0.005008
+        },
+        "process_median_range": {
+          "baseline": [
+            0.004444,
+            0.005292
+          ],
+          "candidate": [
+            0.004646,
+            0.005594
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.1156615661566158,
+          1.2108225108225108,
+          0.9255479969765683,
+          0.9697085889570554,
+          0.9038910505836575,
+          1.1795774647887325
+        ],
+        "paired_ratio_geomean": 1.0437166619170843,
+        "paired_ratio_range": [
+          0.9038910505836575,
+          1.2108225108225108
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "100000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.038404,
+            0.039498,
+            0.04348,
+            0.040672,
+            0.04277600000000001,
+            0.037372
+          ],
+          "candidate": [
+            0.037832,
+            0.042534,
+            0.04053,
+            0.03689,
+            0.038002,
+            0.037308
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.040084999999999996,
+          "candidate": 0.037917
+        },
+        "process_median_range": {
+          "baseline": [
+            0.037372,
+            0.04348
+          ],
+          "candidate": [
+            0.03689,
+            0.042534
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9851057181543589,
+          1.0768646513747533,
+          0.9321527138914443,
+          0.9070121951219512,
+          0.8883953618851691,
+          0.9982874879588997
+        ],
+        "paired_ratio_geomean": 0.9625744822564207,
+        "paired_ratio_range": [
+          0.8883953618851691,
+          1.0768646513747533
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "1000000/false/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.005472,
+            0.005342,
+            0.005798,
+            0.006134,
+            0.005117999999999999,
+            0.005788
+          ],
+          "candidate": [
+            0.0052959999999999995,
+            0.005242,
+            0.005180000000000001,
+            0.0055000000000000005,
+            0.006182,
+            0.005342
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.00563,
+          "candidate": 0.005319
+        },
+        "process_median_range": {
+          "baseline": [
+            0.005117999999999999,
+            0.006134
+          ],
+          "candidate": [
+            0.005180000000000001,
+            0.006182
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9678362573099414,
+          0.9812804193186072,
+          0.8934115212142119,
+          0.8966416693837628,
+          1.207893708479875,
+          0.9229440221147203
+        ],
+        "paired_ratio_geomean": 0.9729225317722553,
+        "paired_ratio_range": [
+          0.8934115212142119,
+          1.207893708479875
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "1000000/false/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.144612,
+            0.14415799999999998,
+            0.14453000000000002,
+            0.13948,
+            0.136882,
+            0.1386
+          ],
+          "candidate": [
+            0.13933,
+            0.141674,
+            0.15452,
+            0.14915599999999998,
+            0.145192,
+            0.13628400000000002
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.14181899999999997,
+          "candidate": 0.14343299999999998
+        },
+        "process_median_range": {
+          "baseline": [
+            0.136882,
+            0.144612
+          ],
+          "candidate": [
+            0.13628400000000002,
+            0.15452
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9634746770669103,
+          0.9827689063388783,
+          1.0691205977997646,
+          1.0693719529681673,
+          1.060709224003156,
+          0.9832900432900434
+        ],
+        "paired_ratio_geomean": 1.0204401334837854,
+        "paired_ratio_range": [
+          0.9634746770669103,
+          1.0693719529681673
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "1000000/false/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.122216,
+            0.103026,
+            0.108014,
+            0.10702,
+            0.10122999999999999,
+            0.102606
+          ],
+          "candidate": [
+            0.097486,
+            0.106148,
+            0.10539,
+            0.104756,
+            0.11793,
+            0.12014999999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.105023,
+          "candidate": 0.105769
+        },
+        "process_median_range": {
+          "baseline": [
+            0.10122999999999999,
+            0.122216
+          ],
+          "candidate": [
+            0.097486,
+            0.12014999999999999
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.7976533350788767,
+          1.0303030303030303,
+          0.9757068528153757,
+          0.9788450756867875,
+          1.1649708584411735,
+          1.1709841529735103
+        ],
+        "paired_ratio_geomean": 1.0114546754485427,
+        "paired_ratio_range": [
+          0.7976533350788767,
+          1.1709841529735103
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "1000000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.400498,
+            0.392922,
+            0.42532800000000004,
+            0.40513,
+            0.38878799999999997,
+            0.385288
+          ],
+          "candidate": [
+            0.407072,
+            0.39116799999999996,
+            0.3839080000000001,
+            0.393868,
+            0.398198,
+            0.392408
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.39671,
+          "candidate": 0.393138
+        },
+        "process_median_range": {
+          "baseline": [
+            0.385288,
+            0.42532800000000004
+          ],
+          "candidate": [
+            0.3839080000000001,
+            0.407072
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0164145638679842,
+          0.9955360096914908,
+          0.9026163337471317,
+          0.9722015155629058,
+          1.0242034219163143,
+          1.0184796827308402
+        ],
+        "paired_ratio_geomean": 0.9873117855077431,
+        "paired_ratio_range": [
+          0.9026163337471317,
+          1.0242034219163143
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "1000000/true/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.0036580000000000002,
+            0.003326,
+            0.00363,
+            0.004226000000000001,
+            0.003304,
+            0.0032300000000000002
+          ],
+          "candidate": [
+            0.00356,
+            0.003518,
+            0.00356,
+            0.003232,
+            0.0034660000000000003,
+            0.00331
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.003478,
+          "candidate": 0.0034920000000000003
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0032300000000000002,
+            0.004226000000000001
+          ],
+          "candidate": [
+            0.003232,
+            0.00356
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9732094040459266,
+          1.057726999398677,
+          0.9807162534435261,
+          0.7647893989588262,
+          1.0490314769975788,
+          1.024767801857585
+        ],
+        "paired_ratio_geomean": 0.9694227003349988,
+        "paired_ratio_range": [
+          0.7647893989588262,
+          1.057726999398677
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "1000000/true/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.009616,
+            0.009932000000000002,
+            0.010066000000000002,
+            0.01027,
+            0.009546,
+            0.009342
+          ],
+          "candidate": [
+            0.00818,
+            0.008147999999999999,
+            0.009016000000000001,
+            0.008162,
+            0.009586,
+            0.008357999999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.009774000000000001,
+          "candidate": 0.008268999999999999
+        },
+        "process_median_range": {
+          "baseline": [
+            0.009342,
+            0.01027
+          ],
+          "candidate": [
+            0.008147999999999999,
+            0.009586
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8506655574043261,
+          0.8203785743052756,
+          0.8956884561891516,
+          0.7947419668938658,
+          1.0041902367483764,
+          0.894669235709698
+        ],
+        "paired_ratio_geomean": 0.8741899246676059,
+        "paired_ratio_range": [
+          0.7947419668938658,
+          1.0041902367483764
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "1000000/true/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.032942,
+            0.044863999999999994,
+            0.036418000000000006,
+            0.032786,
+            0.034466000000000004,
+            0.032888
+          ],
+          "candidate": [
+            0.034474,
+            0.03376,
+            0.036934,
+            0.034592,
+            0.035582,
+            0.033861999999999996
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.033704,
+          "candidate": 0.034532999999999994
+        },
+        "process_median_range": {
+          "baseline": [
+            0.032786,
+            0.044863999999999994
+          ],
+          "candidate": [
+            0.03376,
+            0.036934
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0465059802076375,
+          0.7524964336661912,
+          1.0141688176176615,
+          1.0550844872811564,
+          1.0323797365519642,
+          1.0296156652882509
+        ],
+        "paired_ratio_geomean": 0.9818075725980612,
+        "paired_ratio_range": [
+          0.7524964336661912,
+          1.0550844872811564
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "1000000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.414388,
+            0.403538,
+            0.418134,
+            0.405998,
+            0.3982,
+            0.415426
+          ],
+          "candidate": [
+            0.390544,
+            0.38429199999999997,
+            0.41227199999999997,
+            0.390034,
+            0.41153399999999996,
+            0.38528199999999996
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.41019300000000003,
+          "candidate": 0.390289
+        },
+        "process_median_range": {
+          "baseline": [
+            0.3982,
+            0.418134
+          ],
+          "candidate": [
+            0.38429199999999997,
+            0.41227199999999997
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9424597237371739,
+          0.9523068459475934,
+          0.9859805708217939,
+          0.9606796092591589,
+          1.033485685585133,
+          0.927438340402382
+        ],
+        "paired_ratio_geomean": 0.9664499276258325,
+        "paired_ratio_range": [
+          0.927438340402382,
+          1.033485685585133
+        ],
+        "candidate_slower_pairs": 1
+      }
+    }
+  },
+  "pooled_nine": {
+    "micro": {
+      "compare/1048576/early_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            86.85,
+            87.1,
+            88.45,
+            86.0,
+            86.45,
+            86.05,
+            86.15,
+            86.5,
+            79.1
+          ],
+          "candidate": [
+            55.1,
+            55.35,
+            55.2,
+            54.05,
+            59.5,
+            59.0,
+            59.25,
+            59.35,
+            59.1
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 86.45,
+          "candidate": 59.0
+        },
+        "process_median_range": {
+          "baseline": [
+            79.1,
+            88.45
+          ],
+          "candidate": [
+            54.05,
+            59.5
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.6344271732872769,
+          0.6354764638346728,
+          0.6240814019219898,
+          0.6284883720930232,
+          0.6882591093117408,
+          0.6856478791400349,
+          0.6877539175856064,
+          0.6861271676300578,
+          0.7471554993678888
+        ],
+        "paired_ratio_geomean": 0.6675102627515558,
+        "paired_ratio_range": [
+          0.6240814019219898,
+          0.7471554993678888
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/early_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            81.15,
+            84.35,
+            86.05,
+            75.75,
+            82.9,
+            84.0,
+            79.55,
+            83.7,
+            78.35
+          ],
+          "candidate": [
+            52.4,
+            52.35,
+            51.35,
+            52.4,
+            56.75,
+            56.25,
+            57.15,
+            56.2,
+            52.3
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 82.9,
+          "candidate": 52.4
+        },
+        "process_median_range": {
+          "baseline": [
+            75.75,
+            86.05
+          ],
+          "candidate": [
+            51.35,
+            57.15
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.6457178065311151,
+          0.6206283343212804,
+          0.5967460778617083,
+          0.6917491749174918,
+          0.6845597104945718,
+          0.6696428571428571,
+          0.7184160905091138,
+          0.6714456391875747,
+          0.6675175494575623
+        ],
+        "paired_ratio_geomean": 0.6619991281718203,
+        "paired_ratio_range": [
+          0.5967460778617083,
+          0.7184160905091138
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/early_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            935.0,
+            953.0,
+            954.0,
+            947.0,
+            855.0,
+            954.0,
+            941.0,
+            870.0,
+            870.0
+          ],
+          "candidate": [
+            902.0,
+            879.0,
+            962.0,
+            880.0,
+            962.0,
+            945.0,
+            963.0,
+            962.0,
+            962.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 941.0,
+          "candidate": 962.0
+        },
+        "process_median_range": {
+          "baseline": [
+            855.0,
+            954.0
+          ],
+          "candidate": [
+            879.0,
+            963.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9647058823529412,
+          0.9223504721930745,
+          1.0083857442348008,
+          0.9292502639915523,
+          1.1251461988304094,
+          0.9905660377358491,
+          1.0233793836344314,
+          1.1057471264367815,
+          1.1057471264367815
+        ],
+        "paired_ratio_geomean": 1.0168965552000497,
+        "paired_ratio_range": [
+          0.9223504721930745,
+          1.1251461988304094
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "compare/1048576/independent_equal/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            60670.0,
+            60729.0,
+            57254.0,
+            56677.0,
+            59670.0,
+            58265.0,
+            67092.0,
+            67744.0,
+            55061.0
+          ],
+          "candidate": [
+            51181.0,
+            50827.0,
+            52486.0,
+            50606.0,
+            52183.0,
+            52320.0,
+            51475.0,
+            57890.0,
+            51588.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 59670.0,
+          "candidate": 51588.0
+        },
+        "process_median_range": {
+          "baseline": [
+            55061.0,
+            67744.0
+          ],
+          "candidate": [
+            50606.0,
+            57890.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8435965056865008,
+          0.8369477514861104,
+          0.9167219757571523,
+          0.8928842387564621,
+          0.8745265627618569,
+          0.8979661889642152,
+          0.7672300721397484,
+          0.8545406235238545,
+          0.9369245019160567
+        ],
+        "paired_ratio_geomean": 0.8676856720816707,
+        "paired_ratio_range": [
+          0.7672300721397484,
+          0.9369245019160567
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/independent_equal/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            61498.0,
+            59866.0,
+            56514.0,
+            65872.0,
+            56551.0,
+            57199.0,
+            70509.0,
+            57345.0,
+            58282.0
+          ],
+          "candidate": [
+            51550.0,
+            51164.0,
+            50967.0,
+            54805.0,
+            51985.0,
+            52373.0,
+            52356.0,
+            55184.0,
+            51561.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 58282.0,
+          "candidate": 51985.0
+        },
+        "process_median_range": {
+          "baseline": [
+            56514.0,
+            70509.0
+          ],
+          "candidate": [
+            50967.0,
+            55184.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8382386419070539,
+          0.8546420338756556,
+          0.9018473298651661,
+          0.8319923487976683,
+          0.9192587222153454,
+          0.9156278955925803,
+          0.7425435050844573,
+          0.9623158078298021,
+          0.8846813767544011
+        ],
+        "paired_ratio_geomean": 0.8701589818133123,
+        "paired_ratio_range": [
+          0.7425435050844573,
+          0.9623158078298021
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/independent_equal/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6522.0,
+            6791.0,
+            6284.0,
+            6531.0,
+            6363.0,
+            6303.0,
+            6322.0,
+            6369.0,
+            6438.0
+          ],
+          "candidate": [
+            6216.0,
+            6215.0,
+            6449.0,
+            6199.0,
+            6326.0,
+            6220.0,
+            6585.0,
+            6237.0,
+            6263.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 6369.0,
+          "candidate": 6237.0
+        },
+        "process_median_range": {
+          "baseline": [
+            6284.0,
+            6791.0
+          ],
+          "candidate": [
+            6199.0,
+            6585.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.953081876724931,
+          0.9151818583419231,
+          1.026257161043921,
+          0.9491655182973511,
+          0.9941851327989942,
+          0.9868316674599397,
+          1.041600759253401,
+          0.9792746113989638,
+          0.9728176452314383
+        ],
+        "paired_ratio_geomean": 0.9791350389865958,
+        "paired_ratio_range": [
+          0.9151818583419231,
+          1.041600759253401
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/1048576/late_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            56850.0,
+            57856.0,
+            57329.0,
+            57584.0,
+            56343.0,
+            63991.0,
+            60781.0,
+            57897.0,
+            55433.0
+          ],
+          "candidate": [
+            61532.0,
+            65610.0,
+            52236.0,
+            50079.0,
+            52513.0,
+            54374.0,
+            51513.0,
+            51857.0,
+            51387.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 57584.0,
+          "candidate": 52236.0
+        },
+        "process_median_range": {
+          "baseline": [
+            55433.0,
+            63991.0
+          ],
+          "candidate": [
+            50079.0,
+            65610.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0823570800351803,
+          1.134022400442478,
+          0.9111618901428596,
+          0.8696686579605446,
+          0.9320234989262197,
+          0.849713240924505,
+          0.8475181388920879,
+          0.8956768053612449,
+          0.9270109862356358
+        ],
+        "paired_ratio_geomean": 0.9342160743111192,
+        "paired_ratio_range": [
+          0.8475181388920879,
+          1.134022400442478
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/1048576/late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            58186.0,
+            61623.0,
+            57440.0,
+            55863.0,
+            56531.0,
+            57975.0,
+            56855.0,
+            57255.0,
+            55968.0
+          ],
+          "candidate": [
+            50386.0,
+            52670.0,
+            52667.0,
+            51501.0,
+            55064.0,
+            56006.0,
+            50213.0,
+            52705.0,
+            50880.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 57255.0,
+          "candidate": 52667.0
+        },
+        "process_median_range": {
+          "baseline": [
+            55863.0,
+            61623.0
+          ],
+          "candidate": [
+            50213.0,
+            56006.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8659471350496684,
+          0.8547133375525372,
+          0.9169045961002785,
+          0.921916116212878,
+          0.9740496364826379,
+          0.9660370849504096,
+          0.8831765016269457,
+          0.9205309579949349,
+          0.9090909090909091
+        ],
+        "paired_ratio_geomean": 0.9116831898266156,
+        "paired_ratio_range": [
+          0.8547133375525372,
+          0.9740496364826379
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6437.0,
+            6200.0,
+            6191.0,
+            6430.0,
+            6787.0,
+            6329.0,
+            6761.0,
+            6172.0,
+            6174.0
+          ],
+          "candidate": [
+            6814.0,
+            6564.0,
+            6645.0,
+            6202.0,
+            6807.0,
+            6195.0,
+            6499.0,
+            6435.0,
+            6537.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 6329.0,
+          "candidate": 6537.0
+        },
+        "process_median_range": {
+          "baseline": [
+            6172.0,
+            6787.0
+          ],
+          "candidate": [
+            6195.0,
+            6814.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0585676557402517,
+          1.0587096774193547,
+          1.073332256501373,
+          0.9645412130637636,
+          1.0029468100780905,
+          0.9788276188971401,
+          0.9612483360449637,
+          1.0426117952041478,
+          1.0587949465500486
+        ],
+        "paired_ratio_geomean": 1.0212803241548962,
+        "paired_ratio_range": [
+          0.9612483360449637,
+          1.073332256501373
+        ],
+        "candidate_slower_pairs": 6
+      },
+      "compare/1048576/same_root/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3.85,
+            3.8,
+            3.85,
+            3.85,
+            3.45,
+            3.4,
+            3.45,
+            3.85,
+            5.45
+          ],
+          "candidate": [
+            3.45,
+            3.55,
+            3.55,
+            3.5,
+            3.45,
+            3.9,
+            3.45,
+            3.85,
+            3.5
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3.85,
+          "candidate": 3.5
+        },
+        "process_median_range": {
+          "baseline": [
+            3.4,
+            5.45
+          ],
+          "candidate": [
+            3.45,
+            3.9
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8961038961038962,
+          0.9342105263157895,
+          0.922077922077922,
+          0.9090909090909091,
+          1.0,
+          1.1470588235294117,
+          1.0,
+          1.0,
+          0.6422018348623852
+        ],
+        "paired_ratio_geomean": 0.9293075744438691,
+        "paired_ratio_range": [
+          0.6422018348623852,
+          1.1470588235294117
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/same_root/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            1.95,
+            1.85,
+            1.9,
+            1.95,
+            1.7,
+            1.75,
+            1.75,
+            1.95,
+            2.3
+          ],
+          "candidate": [
+            1.75,
+            1.75,
+            1.7,
+            1.8,
+            1.75,
+            1.85,
+            1.75,
+            1.95,
+            1.75
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 1.9,
+          "candidate": 1.75
+        },
+        "process_median_range": {
+          "baseline": [
+            1.7,
+            2.3
+          ],
+          "candidate": [
+            1.7,
+            1.95
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8974358974358975,
+          0.9459459459459459,
+          0.8947368421052632,
+          0.9230769230769231,
+          1.0294117647058825,
+          1.0571428571428572,
+          1.0,
+          1.0,
+          0.7608695652173914
+        ],
+        "paired_ratio_geomean": 0.9413682674664655,
+        "paired_ratio_range": [
+          0.7608695652173914,
+          1.0571428571428572
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "compare/1048576/same_root/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6798.0,
+            6781.0,
+            6810.0,
+            6801.0,
+            6416.0,
+            6361.0,
+            6171.0,
+            6410.0,
+            6412.0
+          ],
+          "candidate": [
+            6179.0,
+            6311.0,
+            6240.0,
+            6208.0,
+            6341.0,
+            6357.0,
+            6434.0,
+            6336.0,
+            6295.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 6416.0,
+          "candidate": 6311.0
+        },
+        "process_median_range": {
+          "baseline": [
+            6171.0,
+            6810.0
+          ],
+          "candidate": [
+            6179.0,
+            6434.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9089438070020595,
+          0.9306886889839256,
+          0.9162995594713657,
+          0.9128069401558594,
+          0.9883104738154613,
+          0.9993711680553372,
+          1.042618700372711,
+          0.9884555382215289,
+          0.9817529631940112
+        ],
+        "paired_ratio_geomean": 0.9622184120101579,
+        "paired_ratio_range": [
+          0.9089438070020595,
+          1.042618700372711
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/1048576/shared_late_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            119.0,
+            121.0,
+            117.0,
+            128.0,
+            128.0,
+            128.0,
+            127.0,
+            128.0,
+            117.0
+          ],
+          "candidate": [
+            109.0,
+            88.0,
+            96.0,
+            88.0,
+            96.0,
+            110.0,
+            96.0,
+            97.0,
+            99.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 127.0,
+          "candidate": 96.0
+        },
+        "process_median_range": {
+          "baseline": [
+            117.0,
+            128.0
+          ],
+          "candidate": [
+            88.0,
+            110.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9159663865546218,
+          0.7272727272727273,
+          0.8205128205128205,
+          0.6875,
+          0.75,
+          0.859375,
+          0.7559055118110236,
+          0.7578125,
+          0.8461538461538461
+        ],
+        "paired_ratio_geomean": 0.7881858088118044,
+        "paired_ratio_range": [
+          0.6875,
+          0.9159663865546218
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/shared_late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            117.0,
+            119.0,
+            114.0,
+            126.0,
+            126.0,
+            127.0,
+            114.0,
+            125.0,
+            114.0
+          ],
+          "candidate": [
+            104.0,
+            94.0,
+            99.0,
+            98.0,
+            103.0,
+            95.0,
+            93.0,
+            105.0,
+            97.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 119.0,
+          "candidate": 98.0
+        },
+        "process_median_range": {
+          "baseline": [
+            114.0,
+            127.0
+          ],
+          "candidate": [
+            93.0,
+            105.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8888888888888888,
+          0.7899159663865546,
+          0.868421052631579,
+          0.7777777777777778,
+          0.8174603174603174,
+          0.7480314960629921,
+          0.8157894736842105,
+          0.84,
+          0.8508771929824561
+        ],
+        "paired_ratio_geomean": 0.8207976782514627,
+        "paired_ratio_range": [
+          0.7480314960629921,
+          0.8888888888888888
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/1048576/shared_late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6002.0,
+            6134.0,
+            6175.0,
+            6412.0,
+            6265.0,
+            6398.0,
+            6277.0,
+            6175.0,
+            6297.0
+          ],
+          "candidate": [
+            6634.0,
+            6578.0,
+            6569.0,
+            6020.0,
+            6211.0,
+            6392.0,
+            6277.0,
+            6195.0,
+            6205.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 6265.0,
+          "candidate": 6277.0
+        },
+        "process_median_range": {
+          "baseline": [
+            6002.0,
+            6412.0
+          ],
+          "candidate": [
+            6020.0,
+            6634.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.105298233922026,
+          1.07238343658298,
+          1.0638056680161943,
+          0.9388646288209607,
+          0.9913806863527533,
+          0.9990622069396686,
+          1.0,
+          1.003238866396761,
+          0.9853898681912021
+        ],
+        "paired_ratio_geomean": 1.0165452079969857,
+        "paired_ratio_range": [
+          0.9388646288209607,
+          1.105298233922026
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "compare/65536/early_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            59.45,
+            59.6,
+            59.65,
+            59.55,
+            53.35,
+            59.45,
+            54.2,
+            58.95,
+            59.6
+          ],
+          "candidate": [
+            38.3,
+            42.8,
+            39.45,
+            38.85,
+            42.75,
+            42.65,
+            42.75,
+            42.85,
+            42.75
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 59.45,
+          "candidate": 42.75
+        },
+        "process_median_range": {
+          "baseline": [
+            53.35,
+            59.65
+          ],
+          "candidate": [
+            38.3,
+            42.85
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.6442388561816652,
+          0.7181208053691275,
+          0.6613579212070412,
+          0.6523929471032747,
+          0.8013120899718837,
+          0.7174095878889822,
+          0.7887453874538745,
+          0.7268871925360475,
+          0.7172818791946308
+        ],
+        "paired_ratio_geomean": 0.7122792840887384,
+        "paired_ratio_range": [
+          0.6442388561816652,
+          0.8013120899718837
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/early_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            57.45,
+            57.35,
+            57.55,
+            57.3,
+            52.1,
+            54.4,
+            52.25,
+            57.4,
+            56.7
+          ],
+          "candidate": [
+            40.85,
+            41.0,
+            39.05,
+            37.2,
+            40.7,
+            40.2,
+            40.6,
+            37.1,
+            40.8
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 57.3,
+          "candidate": 40.6
+        },
+        "process_median_range": {
+          "baseline": [
+            52.1,
+            57.55
+          ],
+          "candidate": [
+            37.1,
+            41.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.7110530896431679,
+          0.7149084568439407,
+          0.6785403996524761,
+          0.649214659685864,
+          0.781190019193858,
+          0.7389705882352942,
+          0.7770334928229665,
+          0.6463414634146342,
+          0.7195767195767195
+        ],
+        "paired_ratio_geomean": 0.7114827162990218,
+        "paired_ratio_range": [
+          0.6463414634146342,
+          0.781190019193858
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/early_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            700.0,
+            700.0,
+            701.0,
+            700.0,
+            632.0,
+            701.0,
+            639.0,
+            628.0,
+            701.0
+          ],
+          "candidate": [
+            640.0,
+            690.0,
+            630.0,
+            635.0,
+            690.0,
+            637.0,
+            690.0,
+            712.0,
+            690.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 700.0,
+          "candidate": 690.0
+        },
+        "process_median_range": {
+          "baseline": [
+            628.0,
+            701.0
+          ],
+          "candidate": [
+            630.0,
+            712.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9142857142857143,
+          0.9857142857142858,
+          0.8987161198288159,
+          0.9071428571428571,
+          1.0917721518987342,
+          0.9087018544935807,
+          1.07981220657277,
+          1.1337579617834395,
+          0.9843081312410842
+        ],
+        "paired_ratio_geomean": 0.9856953281820358,
+        "paired_ratio_range": [
+          0.8987161198288159,
+          1.1337579617834395
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/65536/independent_equal/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3362.0,
+            3392.0,
+            3975.0,
+            3968.0,
+            3333.0,
+            3062.0,
+            3580.0,
+            3936.0,
+            3948.0
+          ],
+          "candidate": [
+            3320.0,
+            2966.0,
+            3271.0,
+            3057.0,
+            2771.0,
+            2972.0,
+            2918.0,
+            2744.0,
+            2949.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3580.0,
+          "candidate": 2966.0
+        },
+        "process_median_range": {
+          "baseline": [
+            3062.0,
+            3975.0
+          ],
+          "candidate": [
+            2744.0,
+            3320.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9875074360499703,
+          0.8744103773584906,
+          0.8228930817610063,
+          0.7704133064516129,
+          0.8313831383138314,
+          0.9706074461136512,
+          0.8150837988826816,
+          0.6971544715447154,
+          0.7469604863221885
+        ],
+        "paired_ratio_geomean": 0.8302747769660629,
+        "paired_ratio_range": [
+          0.6971544715447154,
+          0.9875074360499703
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/independent_equal/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3362.0,
+            3377.0,
+            3979.0,
+            3359.0,
+            3359.0,
+            3237.0,
+            3735.0,
+            3734.0,
+            3936.0
+          ],
+          "candidate": [
+            3572.0,
+            2926.0,
+            2764.0,
+            3026.0,
+            2959.0,
+            2720.0,
+            2915.0,
+            3047.0,
+            2712.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3377.0,
+          "candidate": 2926.0
+        },
+        "process_median_range": {
+          "baseline": [
+            3237.0,
+            3979.0
+          ],
+          "candidate": [
+            2712.0,
+            3572.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0624628197501487,
+          0.8664495114006515,
+          0.6946468962050767,
+          0.9008633521881513,
+          0.8809169395653468,
+          0.8402842137781897,
+          0.7804551539491299,
+          0.8160149973219069,
+          0.6890243902439024
+        ],
+        "paired_ratio_geomean": 0.8300889888196702,
+        "paired_ratio_range": [
+          0.6890243902439024,
+          1.0624628197501487
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/independent_equal/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            4807.0,
+            4788.0,
+            4804.0,
+            4807.0,
+            4712.0,
+            4330.0,
+            4383.0,
+            4325.0,
+            4803.0
+          ],
+          "candidate": [
+            4678.0,
+            4758.0,
+            4442.0,
+            4535.0,
+            4511.0,
+            4580.0,
+            4687.0,
+            4418.0,
+            4423.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4788.0,
+          "candidate": 4535.0
+        },
+        "process_median_range": {
+          "baseline": [
+            4325.0,
+            4807.0
+          ],
+          "candidate": [
+            4418.0,
+            4758.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9731641356355315,
+          0.993734335839599,
+          0.924646128226478,
+          0.9434158518826711,
+          0.9573429541595926,
+          1.0577367205542725,
+          1.0693588866073465,
+          1.0215028901734104,
+          0.9208827815948366
+        ],
+        "paired_ratio_geomean": 0.9832932896143441,
+        "paired_ratio_range": [
+          0.9208827815948366,
+          1.0693588866073465
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/65536/late_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3589.0,
+            3459.0,
+            4011.0,
+            3413.0,
+            3319.0,
+            3953.0,
+            3653.0,
+            3671.0,
+            4000.0
+          ],
+          "candidate": [
+            3311.0,
+            2868.0,
+            2748.0,
+            2817.0,
+            2963.0,
+            2782.0,
+            2976.0,
+            3108.0,
+            3011.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3653.0,
+          "candidate": 2963.0
+        },
+        "process_median_range": {
+          "baseline": [
+            3319.0,
+            4011.0
+          ],
+          "candidate": [
+            2748.0,
+            3311.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9225410977988298,
+          0.8291413703382481,
+          0.6851159311892296,
+          0.8253735716378553,
+          0.8927387767399819,
+          0.7037692891474829,
+          0.8146728716123733,
+          0.8466357940615636,
+          0.75275
+        ],
+        "paired_ratio_geomean": 0.8044546890864005,
+        "paired_ratio_range": [
+          0.6851159311892296,
+          0.9225410977988298
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3458.0,
+            3431.0,
+            4007.0,
+            3413.0,
+            3151.0,
+            3385.0,
+            3642.0,
+            3773.0,
+            4003.0
+          ],
+          "candidate": [
+            3313.0,
+            3012.0,
+            2738.0,
+            2840.0,
+            2812.0,
+            3444.0,
+            2885.0,
+            2947.0,
+            3001.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3458.0,
+          "candidate": 2947.0
+        },
+        "process_median_range": {
+          "baseline": [
+            3151.0,
+            4007.0
+          ],
+          "candidate": [
+            2738.0,
+            3444.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9580682475419318,
+          0.8778781696298456,
+          0.6833042176191665,
+          0.8321125109874011,
+          0.8924151063154554,
+          1.0174298375184638,
+          0.7921471718835804,
+          0.7810760667903525,
+          0.7496877341993505
+        ],
+        "paired_ratio_geomean": 0.836903368837903,
+        "paired_ratio_range": [
+          0.6833042176191665,
+          1.0174298375184638
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            5008.0,
+            4741.0,
+            4800.0,
+            4709.0,
+            4390.0,
+            4418.0,
+            4385.0,
+            4611.0,
+            4762.0
+          ],
+          "candidate": [
+            4607.0,
+            4789.0,
+            4518.0,
+            4954.0,
+            4695.0,
+            4442.0,
+            4501.0,
+            4684.0,
+            4829.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4709.0,
+          "candidate": 4684.0
+        },
+        "process_median_range": {
+          "baseline": [
+            4385.0,
+            5008.0
+          ],
+          "candidate": [
+            4442.0,
+            4954.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9199281150159745,
+          1.010124446319342,
+          0.94125,
+          1.0520280314291781,
+          1.069476082004556,
+          1.0054323223177908,
+          1.026453819840365,
+          1.0158317067881153,
+          1.0140697186056278
+        ],
+        "paired_ratio_geomean": 1.005030709004234,
+        "paired_ratio_range": [
+          0.9199281150159745,
+          1.069476082004556
+        ],
+        "candidate_slower_pairs": 7
+      },
+      "compare/65536/same_root/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            3.85,
+            3.85,
+            3.85,
+            3.9,
+            3.85,
+            3.85,
+            3.45,
+            3.85,
+            3.9
+          ],
+          "candidate": [
+            3.85,
+            3.85,
+            3.5,
+            3.9,
+            3.7,
+            3.5,
+            3.9,
+            3.8,
+            3.9
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 3.85,
+          "candidate": 3.85
+        },
+        "process_median_range": {
+          "baseline": [
+            3.45,
+            3.9
+          ],
+          "candidate": [
+            3.5,
+            3.9
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0,
+          1.0,
+          0.9090909090909091,
+          1.0,
+          0.961038961038961,
+          0.9090909090909091,
+          1.1304347826086956,
+          0.9870129870129869,
+          1.0
+        ],
+        "paired_ratio_geomean": 0.986664116164704,
+        "paired_ratio_range": [
+          0.9090909090909091,
+          1.1304347826086956
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "compare/65536/same_root/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            2.05,
+            1.85,
+            1.9,
+            1.95,
+            1.95,
+            1.75,
+            1.7,
+            1.75,
+            1.75
+          ],
+          "candidate": [
+            1.95,
+            1.95,
+            1.75,
+            1.95,
+            1.95,
+            1.75,
+            1.95,
+            1.95,
+            1.75
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 1.85,
+          "candidate": 1.95
+        },
+        "process_median_range": {
+          "baseline": [
+            1.7,
+            2.05
+          ],
+          "candidate": [
+            1.75,
+            1.95
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.951219512195122,
+          1.054054054054054,
+          0.9210526315789475,
+          1.0,
+          1.0,
+          1.0,
+          1.1470588235294117,
+          1.1142857142857143,
+          1.0
+        ],
+        "paired_ratio_geomean": 1.018594081001885,
+        "paired_ratio_range": [
+          0.9210526315789475,
+          1.1470588235294117
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "compare/65536/same_root/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            5008.0,
+            4766.0,
+            4804.0,
+            4809.0,
+            4715.0,
+            4312.0,
+            4377.0,
+            4344.0,
+            4716.0
+          ],
+          "candidate": [
+            4836.0,
+            4844.0,
+            4704.0,
+            4950.0,
+            4403.0,
+            4851.0,
+            4928.0,
+            4484.0,
+            4552.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4716.0,
+          "candidate": 4836.0
+        },
+        "process_median_range": {
+          "baseline": [
+            4312.0,
+            5008.0
+          ],
+          "candidate": [
+            4403.0,
+            4950.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9656549520766773,
+          1.0163659253042383,
+          0.9791840133222315,
+          1.0293200249532126,
+          0.9338282078472958,
+          1.125,
+          1.1258853095727668,
+          1.0322283609576428,
+          0.9652247667514843
+        ],
+        "paired_ratio_geomean": 1.0171863500174305,
+        "paired_ratio_range": [
+          0.9338282078472958,
+          1.1258853095727668
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "compare/65536/shared_late_mismatch/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            96.0,
+            95.0,
+            96.0,
+            96.0,
+            95.0,
+            87.0,
+            88.0,
+            88.0,
+            96.0
+          ],
+          "candidate": [
+            70.0,
+            71.0,
+            71.0,
+            78.0,
+            70.0,
+            75.0,
+            78.0,
+            77.0,
+            75.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 95.0,
+          "candidate": 75.0
+        },
+        "process_median_range": {
+          "baseline": [
+            87.0,
+            96.0
+          ],
+          "candidate": [
+            70.0,
+            78.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.7291666666666666,
+          0.7473684210526316,
+          0.7395833333333334,
+          0.8125,
+          0.7368421052631579,
+          0.8620689655172413,
+          0.8863636363636364,
+          0.875,
+          0.78125
+        ],
+        "paired_ratio_geomean": 0.7944295469391187,
+        "paired_ratio_range": [
+          0.7291666666666666,
+          0.8863636363636364
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/shared_late_mismatch/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            94.0,
+            100.0,
+            86.0,
+            94.0,
+            87.0,
+            84.0,
+            85.0,
+            86.0,
+            94.0
+          ],
+          "candidate": [
+            69.0,
+            69.0,
+            68.0,
+            74.0,
+            68.0,
+            67.0,
+            76.0,
+            75.0,
+            67.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 87.0,
+          "candidate": 69.0
+        },
+        "process_median_range": {
+          "baseline": [
+            84.0,
+            100.0
+          ],
+          "candidate": [
+            67.0,
+            76.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.7340425531914894,
+          0.69,
+          0.7906976744186046,
+          0.7872340425531915,
+          0.7816091954022989,
+          0.7976190476190477,
+          0.8941176470588236,
+          0.872093023255814,
+          0.7127659574468085
+        ],
+        "paired_ratio_geomean": 0.7819026689530627,
+        "paired_ratio_range": [
+          0.69,
+          0.8941176470588236
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/65536/shared_late_mismatch/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            4653.0,
+            4621.0,
+            4622.0,
+            4633.0,
+            4412.0,
+            4460.0,
+            4256.0,
+            4541.0,
+            4573.0
+          ],
+          "candidate": [
+            4423.0,
+            4500.0,
+            4420.0,
+            4342.0,
+            4502.0,
+            4484.0,
+            4668.0,
+            4575.0,
+            4459.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 4573.0,
+          "candidate": 4484.0
+        },
+        "process_median_range": {
+          "baseline": [
+            4256.0,
+            4653.0
+          ],
+          "candidate": [
+            4342.0,
+            4668.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9505695250376102,
+          0.9738151915169877,
+          0.9562959757680658,
+          0.9371897258795597,
+          1.0203989120580235,
+          1.0053811659192826,
+          1.0968045112781954,
+          1.007487337590839,
+          0.9750710693199213
+        ],
+        "paired_ratio_geomean": 0.9904229119447041,
+        "paired_ratio_range": [
+          0.9371897258795597,
+          1.0968045112781954
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "compare/repeat_2TiB/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            76.85,
+            77.8,
+            83.75,
+            85.45,
+            82.8,
+            83.45,
+            84.3,
+            76.55,
+            75.45
+          ],
+          "candidate": [
+            82.25,
+            82.35,
+            81.45,
+            75.05,
+            82.15,
+            83.7,
+            82.25,
+            84.8,
+            75.65
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 82.8,
+          "candidate": 82.25
+        },
+        "process_median_range": {
+          "baseline": [
+            75.45,
+            85.45
+          ],
+          "candidate": [
+            75.05,
+            84.8
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.070266753415745,
+          1.0584832904884318,
+          0.9725373134328359,
+          0.8782913984786425,
+          0.9921497584541064,
+          1.0029958058717796,
+          0.9756820877817319,
+          1.107772697583279,
+          1.002650762094102
+        ],
+        "paired_ratio_geomean": 1.0047458447721238,
+        "paired_ratio_range": [
+          0.8782913984786425,
+          1.107772697583279
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "compare/repeat_2TiB/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            74.35,
+            76.55,
+            81.45,
+            88.15,
+            73.7,
+            80.7,
+            81.15,
+            80.45,
+            76.3
+          ],
+          "candidate": [
+            80.25,
+            80.1,
+            79.95,
+            79.3,
+            81.1,
+            81.35,
+            80.45,
+            79.55,
+            79.35
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 80.45,
+          "candidate": 80.1
+        },
+        "process_median_range": {
+          "baseline": [
+            73.7,
+            88.15
+          ],
+          "candidate": [
+            79.3,
+            81.35
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0793544048419639,
+          1.046374918354017,
+          0.9815837937384899,
+          0.8996029495178672,
+          1.1004070556309362,
+          1.0080545229244113,
+          0.991373998767714,
+          0.9888129272840273,
+          1.0399737876802098
+        ],
+        "paired_ratio_geomean": 1.0134552214888428,
+        "paired_ratio_range": [
+          0.8996029495178672,
+          1.1004070556309362
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "compare/repeat_2TiB/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            26652.0,
+            27047.0,
+            26490.0,
+            26868.0,
+            26476.0,
+            26842.0,
+            27465.0,
+            26602.0,
+            26504.0
+          ],
+          "candidate": [
+            28618.0,
+            28455.0,
+            26315.0,
+            26052.0,
+            27870.0,
+            26386.0,
+            26540.0,
+            26842.0,
+            26300.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 26652.0,
+          "candidate": 26540.0
+        },
+        "process_median_range": {
+          "baseline": [
+            26476.0,
+            27465.0
+          ],
+          "candidate": [
+            26052.0,
+            28618.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0737655710640852,
+          1.05205752948571,
+          0.9933937334843337,
+          0.9696292987941045,
+          1.0526514579241577,
+          0.9830116980850905,
+          0.9663207718914982,
+          1.0090218780542817,
+          0.9923030485964383
+        ],
+        "paired_ratio_geomean": 1.0095590704171842,
+        "paired_ratio_range": [
+          0.9663207718914982,
+          1.0737655710640852
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "compare/self_concat_DAG_2TiB/exact_equal": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            310.0,
+            281.0,
+            257.0,
+            301.0,
+            256.0,
+            281.0,
+            283.0,
+            304.0,
+            252.0
+          ],
+          "candidate": [
+            158.0,
+            158.0,
+            158.0,
+            142.0,
+            158.0,
+            142.0,
+            142.0,
+            158.0,
+            158.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 281.0,
+          "candidate": 158.0
+        },
+        "process_median_range": {
+          "baseline": [
+            252.0,
+            310.0
+          ],
+          "candidate": [
+            142.0,
+            158.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.5096774193548387,
+          0.5622775800711743,
+          0.6147859922178989,
+          0.4717607973421927,
+          0.6171875,
+          0.505338078291815,
+          0.5017667844522968,
+          0.5197368421052632,
+          0.626984126984127
+        ],
+        "paired_ratio_geomean": 0.5449532296833385,
+        "paired_ratio_range": [
+          0.4717607973421927,
+          0.626984126984127
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/self_concat_DAG_2TiB/exact_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            311.0,
+            339.0,
+            342.0,
+            309.0,
+            310.0,
+            307.0,
+            341.0,
+            306.0,
+            305.0
+          ],
+          "candidate": [
+            155.0,
+            124.0,
+            142.0,
+            111.0,
+            140.0,
+            139.0,
+            112.0,
+            155.0,
+            127.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 310.0,
+          "candidate": 139.0
+        },
+        "process_median_range": {
+          "baseline": [
+            305.0,
+            342.0
+          ],
+          "candidate": [
+            111.0,
+            155.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.4983922829581994,
+          0.36578171091445427,
+          0.4152046783625731,
+          0.3592233009708738,
+          0.45161290322580644,
+          0.4527687296416938,
+          0.3284457478005865,
+          0.5065359477124183,
+          0.4163934426229508
+        ],
+        "paired_ratio_geomean": 0.4174714045321697,
+        "paired_ratio_range": [
+          0.3284457478005865,
+          0.5065359477124183
+        ],
+        "candidate_slower_pairs": 0
+      },
+      "compare/self_concat_DAG_2TiB/hash_only_lcp": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            24028.0,
+            23374.0,
+            23313.0,
+            23405.0,
+            23653.0,
+            23027.0,
+            24016.0,
+            23572.0,
+            23782.0
+          ],
+          "candidate": [
+            25223.0,
+            25393.0,
+            25225.0,
+            23467.0,
+            24283.0,
+            23573.0,
+            23626.0,
+            24514.0,
+            23885.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 23572.0,
+          "candidate": 24283.0
+        },
+        "process_median_range": {
+          "baseline": [
+            23027.0,
+            24028.0
+          ],
+          "candidate": [
+            23467.0,
+            25393.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0497336440819045,
+          1.0863780268674597,
+          1.0820143267704714,
+          1.0026490066225167,
+          1.0266350991417579,
+          1.0237112954357928,
+          0.9837608261159227,
+          1.0399626675716953,
+          1.0043310066436801
+        ],
+        "paired_ratio_geomean": 1.0327137874881263,
+        "paired_ratio_range": [
+          0.9837608261159227,
+          1.0863780268674597
+        ],
+        "candidate_slower_pairs": 8
+      },
+      "core/concat_balanced_64KiB": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            16.55,
+            15.5,
+            14.85,
+            16.45,
+            16.35,
+            15.8,
+            15.0,
+            18.4,
+            21.75
+          ],
+          "candidate": [
+            15.7,
+            17.75,
+            17.15,
+            17.5,
+            14.75,
+            15.0,
+            17.55,
+            21.75,
+            28.4
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 16.35,
+          "candidate": 17.5
+        },
+        "process_median_range": {
+          "baseline": [
+            14.85,
+            21.75
+          ],
+          "candidate": [
+            14.75,
+            28.4
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9486404833836857,
+          1.1451612903225807,
+          1.1548821548821548,
+          1.0638297872340425,
+          0.9021406727828746,
+          0.9493670886075949,
+          1.1700000000000002,
+          1.1820652173913044,
+          1.3057471264367815
+        ],
+        "paired_ratio_geomean": 1.0838639500766472,
+        "paired_ratio_range": [
+          0.9021406727828746,
+          1.3057471264367815
+        ],
+        "candidate_slower_pairs": 6
+      },
+      "core/from_bytes_64KiB": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            46920.0,
+            42455.0,
+            42760.0,
+            41875.0,
+            42580.0,
+            41235.0,
+            36510.0,
+            37760.0,
+            43960.0
+          ],
+          "candidate": [
+            40030.0,
+            45005.0,
+            41235.0,
+            44040.0,
+            43060.0,
+            42140.0,
+            46010.0,
+            35410.0,
+            27550.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 42455.0,
+          "candidate": 42140.0
+        },
+        "process_median_range": {
+          "baseline": [
+            36510.0,
+            46920.0
+          ],
+          "candidate": [
+            27550.0,
+            46010.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.853154305200341,
+          1.0600635967494996,
+          0.9643358278765201,
+          1.0517014925373134,
+          1.0112728980742132,
+          1.0219473748029586,
+          1.2602026841961107,
+          0.9377648305084746,
+          0.6267060964513194
+        ],
+        "paired_ratio_geomean": 0.961458640777565,
+        "paired_ratio_range": [
+          0.6267060964513194,
+          1.2602026841961107
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "core/repeat_join_2pow32": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            6495.0,
+            5380.0,
+            5408.0,
+            5237.0,
+            5337.0,
+            4962.0,
+            4845.0,
+            5023.0,
+            4905.0
+          ],
+          "candidate": [
+            6392.0,
+            5286.0,
+            4788.0,
+            5413.0,
+            4909.0,
+            5388.0,
+            5622.0,
+            5281.0,
+            5048.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 5237.0,
+          "candidate": 5286.0
+        },
+        "process_median_range": {
+          "baseline": [
+            4845.0,
+            6495.0
+          ],
+          "candidate": [
+            4788.0,
+            6392.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9841416474210931,
+          0.9825278810408922,
+          0.8853550295857988,
+          1.0336070269238113,
+          0.9198051339703953,
+          1.0858524788391777,
+          1.1603715170278637,
+          1.0513637268564602,
+          1.0291539245667687
+        ],
+        "paired_ratio_geomean": 1.0116240852263128,
+        "paired_ratio_range": [
+          0.8853550295857988,
+          1.1603715170278637
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "core/root_hash": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.5782,
+            0.5781,
+            0.5487,
+            0.5781,
+            0.5453,
+            0.5205,
+            0.5274,
+            0.5204,
+            0.5667
+          ],
+          "candidate": [
+            0.5203,
+            0.5791,
+            0.5215,
+            0.5782,
+            0.5275,
+            0.5535,
+            0.5722,
+            0.5601,
+            0.5306
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.5487,
+          "candidate": 0.5535
+        },
+        "process_median_range": {
+          "baseline": [
+            0.5204,
+            0.5782
+          ],
+          "candidate": [
+            0.5203,
+            0.5791
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8998616395710826,
+          1.001729804532088,
+          0.950428285037361,
+          1.000172980453209,
+          0.9673574179350816,
+          1.063400576368876,
+          1.0849450132726584,
+          1.0762874711760186,
+          0.9362978648314805
+        ],
+        "paired_ratio_geomean": 0.9959033420736204,
+        "paired_ratio_range": [
+          0.8998616395710826,
+          1.0849450132726584
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "core/split_chunked_64KiB": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            464.0,
+            428.0,
+            415.0,
+            530.0,
+            450.0,
+            417.0,
+            461.0,
+            412.0,
+            459.0
+          ],
+          "candidate": [
+            426.0,
+            459.0,
+            531.0,
+            465.0,
+            410.0,
+            413.0,
+            501.0,
+            477.0,
+            455.0
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 450.0,
+          "candidate": 459.0
+        },
+        "process_median_range": {
+          "baseline": [
+            412.0,
+            530.0
+          ],
+          "candidate": [
+            410.0,
+            531.0
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9181034482758621,
+          1.0724299065420562,
+          1.2795180722891566,
+          0.8773584905660378,
+          0.9111111111111111,
+          0.9904076738609112,
+          1.086767895878525,
+          1.1577669902912622,
+          0.9912854030501089
+        ],
+        "paired_ratio_geomean": 1.0245572446165696,
+        "paired_ratio_range": [
+          0.8773584905660378,
+          1.2795180722891566
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "core/substr_warm_64KiB": {
+        "unit": "ns",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            501.6,
+            497.1,
+            452.7,
+            497.9,
+            454.0,
+            449.7,
+            458.6,
+            461.1,
+            486.3
+          ],
+          "candidate": [
+            450.7,
+            499.2,
+            455.0,
+            501.8,
+            459.2,
+            459.3,
+            452.2,
+            449.7,
+            476.2
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 461.1,
+          "candidate": 459.2
+        },
+        "process_median_range": {
+          "baseline": [
+            449.7,
+            501.6
+          ],
+          "candidate": [
+            449.7,
+            501.8
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8985247208931418,
+          1.004224502112251,
+          1.005080627347029,
+          1.007832898172324,
+          1.011453744493392,
+          1.0213475650433623,
+          0.9860444832097688,
+          0.9752765126870526,
+          0.9792309274110631
+        ],
+        "paired_ratio_geomean": 0.9870315351767789,
+        "paired_ratio_range": [
+          0.8985247208931418,
+          1.0213475650433623
+        ],
+        "candidate_slower_pairs": 5
+      }
+    },
+    "churn": {
+      "10000/false/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.001946,
+            0.002026,
+            0.002076,
+            0.002374,
+            0.0019619999999999998,
+            0.002286,
+            0.002284,
+            0.002172,
+            0.0021839999999999997
+          ],
+          "candidate": [
+            0.001968,
+            0.00228,
+            0.002216,
+            0.002386,
+            0.002122,
+            0.00201,
+            0.00201,
+            0.0019560000000000003,
+            0.002132
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.002172,
+          "candidate": 0.002122
+        },
+        "process_median_range": {
+          "baseline": [
+            0.001946,
+            0.002374
+          ],
+          "candidate": [
+            0.0019560000000000003,
+            0.002386
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0113052415210688,
+          1.125370187561698,
+          1.0674373795761078,
+          1.005054759898905,
+          1.0815494393476046,
+          0.8792650918635172,
+          0.8800350262697023,
+          0.9005524861878454,
+          0.9761904761904764
+        ],
+        "paired_ratio_geomean": 0.9881534590935396,
+        "paired_ratio_range": [
+          0.8792650918635172,
+          1.125370187561698
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "10000/false/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.0045119999999999995,
+            0.004836,
+            0.004836,
+            0.005337999999999999,
+            0.0045780000000000005,
+            0.005044,
+            0.004902,
+            0.004704,
+            0.00463
+          ],
+          "candidate": [
+            0.00458,
+            0.00496,
+            0.00501,
+            0.004554,
+            0.004598,
+            0.004598,
+            0.005109999999999999,
+            0.004528,
+            0.004534
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.004836,
+          "candidate": 0.004598
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0045119999999999995,
+            0.005337999999999999
+          ],
+          "candidate": [
+            0.004528,
+            0.005109999999999999
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0150709219858156,
+          1.0256410256410255,
+          1.0359801488833746,
+          0.8531285125515176,
+          1.0043687199650502,
+          0.9115781126090404,
+          1.0424316605467154,
+          0.9625850340136054,
+          0.9792656587473003
+        ],
+        "paired_ratio_geomean": 0.9792223741471154,
+        "paired_ratio_range": [
+          0.8531285125515176,
+          1.0424316605467154
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "10000/false/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.00104,
+            0.001114,
+            0.0012860000000000003,
+            0.001188,
+            0.001082,
+            0.001124,
+            0.001204,
+            0.001102,
+            0.001022
+          ],
+          "candidate": [
+            0.00107,
+            0.0017459999999999997,
+            0.001052,
+            0.001224,
+            0.001082,
+            0.001052,
+            0.001154,
+            0.0015860000000000002,
+            0.001042
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.001114,
+          "candidate": 0.001082
+        },
+        "process_median_range": {
+          "baseline": [
+            0.001022,
+            0.0012860000000000003
+          ],
+          "candidate": [
+            0.001042,
+            0.0017459999999999997
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.028846153846154,
+          1.5673249551166963,
+          0.8180404354587868,
+          1.0303030303030303,
+          1.0,
+          0.9359430604982206,
+          0.9584717607973423,
+          1.4392014519056264,
+          1.0195694716242663
+        ],
+        "paired_ratio_geomean": 1.0667643375937157,
+        "paired_ratio_range": [
+          0.8180404354587868,
+          1.5673249551166963
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "10000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.0043679999999999995,
+            0.00553,
+            0.00504,
+            0.004782,
+            0.004978,
+            0.005464000000000001,
+            0.0048460000000000005,
+            0.004978,
+            0.00477
+          ],
+          "candidate": [
+            0.004576,
+            0.005168000000000001,
+            0.005247999999999999,
+            0.005262,
+            0.004628,
+            0.0049559999999999995,
+            0.004736000000000001,
+            0.004924,
+            0.004844
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.004978,
+          "candidate": 0.004924
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0043679999999999995,
+            0.00553
+          ],
+          "candidate": [
+            0.004576,
+            0.005262
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.047619047619048,
+          0.9345388788426764,
+          1.0412698412698411,
+          1.1003764115432875,
+          0.9296906388107674,
+          0.9070278184480232,
+          0.9773008666941808,
+          0.9891522699879471,
+          1.0155136268343816
+        ],
+        "paired_ratio_geomean": 0.9918062529114748,
+        "paired_ratio_range": [
+          0.9070278184480232,
+          1.1003764115432875
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "10000/true/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.002122,
+            0.001972,
+            0.002014,
+            0.001998,
+            0.001888,
+            0.002124,
+            0.001926,
+            0.001916,
+            0.001862
+          ],
+          "candidate": [
+            0.001872,
+            0.002076,
+            0.001792,
+            0.001912,
+            0.00187,
+            0.0018540000000000002,
+            0.0019,
+            0.001706,
+            0.0020320000000000004
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.001972,
+          "candidate": 0.001872
+        },
+        "process_median_range": {
+          "baseline": [
+            0.001862,
+            0.002124
+          ],
+          "candidate": [
+            0.001706,
+            0.002076
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.8821866163996229,
+          1.0527383367139962,
+          0.8897715988083416,
+          0.9569569569569569,
+          0.9904661016949152,
+          0.8728813559322035,
+          0.9865005192107996,
+          0.8903966597077245,
+          1.0912996777658435
+        ],
+        "paired_ratio_geomean": 0.954130875467188,
+        "paired_ratio_range": [
+          0.8728813559322035,
+          1.0912996777658435
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "10000/true/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.003824,
+            0.003796,
+            0.003824,
+            0.003854,
+            0.0038420000000000004,
+            0.004254,
+            0.004154,
+            0.004062,
+            0.003994
+          ],
+          "candidate": [
+            0.0035859999999999998,
+            0.003796,
+            0.003754,
+            0.003528,
+            0.003872,
+            0.0035819999999999997,
+            0.0037040000000000003,
+            0.003902,
+            0.0037159999999999997
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.003854,
+          "candidate": 0.0037159999999999997
+        },
+        "process_median_range": {
+          "baseline": [
+            0.003796,
+            0.004254
+          ],
+          "candidate": [
+            0.003528,
+            0.003902
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9377615062761505,
+          1.0,
+          0.981694560669456,
+          0.915412558380903,
+          1.0078084331077564,
+          0.8420310296191819,
+          0.891670678863746,
+          0.9606105366814378,
+          0.930395593390085
+        ],
+        "paired_ratio_geomean": 0.9394375441722161,
+        "paired_ratio_range": [
+          0.8420310296191819,
+          1.0078084331077564
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "10000/true/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.000838,
+            0.000852,
+            0.0008799999999999999,
+            0.000942,
+            0.000896,
+            0.00097,
+            0.00096,
+            0.000838,
+            0.0008759999999999999
+          ],
+          "candidate": [
+            0.000878,
+            0.00099,
+            0.0009780000000000001,
+            0.000882,
+            0.0009220000000000001,
+            0.0008799999999999999,
+            0.000848,
+            0.000828,
+            0.001
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.0008799999999999999,
+          "candidate": 0.000882
+        },
+        "process_median_range": {
+          "baseline": [
+            0.000838,
+            0.00097
+          ],
+          "candidate": [
+            0.000828,
+            0.001
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0477326968973748,
+          1.1619718309859155,
+          1.1113636363636366,
+          0.9363057324840763,
+          1.0290178571428572,
+          0.9072164948453607,
+          0.8833333333333333,
+          0.9880668257756563,
+          1.1415525114155252
+        ],
+        "paired_ratio_geomean": 1.018398730274522,
+        "paired_ratio_range": [
+          0.8833333333333333,
+          1.1619718309859155
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "10000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.004254,
+            0.005036,
+            0.005008,
+            0.004672,
+            0.005018,
+            0.005199999999999999,
+            0.004892,
+            0.00475,
+            0.004656
+          ],
+          "candidate": [
+            0.004428,
+            0.004904,
+            0.004938,
+            0.004788,
+            0.004174,
+            0.004594,
+            0.004586,
+            0.0045780000000000005,
+            0.004834
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.004892,
+          "candidate": 0.004594
+        },
+        "process_median_range": {
+          "baseline": [
+            0.004254,
+            0.005199999999999999
+          ],
+          "candidate": [
+            0.004174,
+            0.004938
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0409026798307475,
+          0.9737887212073075,
+          0.9860223642172523,
+          1.0248287671232876,
+          0.8318055001992826,
+          0.8834615384615386,
+          0.937448896156991,
+          0.9637894736842106,
+          1.038230240549828
+        ],
+        "paired_ratio_geomean": 0.9620664995863419,
+        "paired_ratio_range": [
+          0.8318055001992826,
+          1.0409026798307475
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "100000/false/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.0036580000000000002,
+            0.0038680000000000003,
+            0.004002,
+            0.004216,
+            0.003352,
+            0.0034839999999999997,
+            0.003792,
+            0.003578,
+            0.003906
+          ],
+          "candidate": [
+            0.003618,
+            0.003954,
+            0.003594,
+            0.003934,
+            0.0036460000000000004,
+            0.003652,
+            0.003568,
+            0.0034620000000000002,
+            0.004033999999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.003792,
+          "candidate": 0.0036460000000000004
+        },
+        "process_median_range": {
+          "baseline": [
+            0.003352,
+            0.004216
+          ],
+          "candidate": [
+            0.0034620000000000002,
+            0.004033999999999999
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9890650628758885,
+          1.0222337125129266,
+          0.8980509745127435,
+          0.933111954459203,
+          1.0877088305489262,
+          1.0482204362801377,
+          0.9409282700421941,
+          0.9675796534376747,
+          1.0327700972862262
+        ],
+        "paired_ratio_geomean": 0.9893683147783671,
+        "paired_ratio_range": [
+          0.8980509745127435,
+          1.0877088305489262
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "100000/false/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.017716,
+            0.021725999999999995,
+            0.020538000000000004,
+            0.018217999999999998,
+            0.017405999999999998,
+            0.01985,
+            0.020148000000000003,
+            0.01916,
+            0.019142000000000003
+          ],
+          "candidate": [
+            0.016984000000000003,
+            0.021211999999999998,
+            0.019092,
+            0.018696,
+            0.01865,
+            0.018317999999999997,
+            0.017526,
+            0.018284,
+            0.019476
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.01916,
+          "candidate": 0.01865
+        },
+        "process_median_range": {
+          "baseline": [
+            0.017405999999999998,
+            0.021725999999999995
+          ],
+          "candidate": [
+            0.016984000000000003,
+            0.021211999999999998
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9586814179272976,
+          0.9763417103930776,
+          0.929593923458954,
+          1.0262377868042596,
+          1.071469608181087,
+          0.9228211586901762,
+          0.8698630136986301,
+          0.9542797494780795,
+          1.0174485424720507
+        ],
+        "paired_ratio_geomean": 0.9679196742862551,
+        "paired_ratio_range": [
+          0.8698630136986301,
+          1.071469608181087
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "100000/false/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.009663999999999999,
+            0.012426,
+            0.012558,
+            0.013838,
+            0.009467999999999999,
+            0.010752,
+            0.011023999999999999,
+            0.009867999999999998,
+            0.010395999999999999
+          ],
+          "candidate": [
+            0.011341999999999998,
+            0.012322,
+            0.01238,
+            0.009947999999999999,
+            0.011396,
+            0.009432000000000001,
+            0.010214,
+            0.011540000000000002,
+            0.01075
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.010752,
+          "candidate": 0.011341999999999998
+        },
+        "process_median_range": {
+          "baseline": [
+            0.009467999999999999,
+            0.013838
+          ],
+          "candidate": [
+            0.009432000000000001,
+            0.01238
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.1736341059602649,
+          0.9916304522774827,
+          0.9858257684344641,
+          0.71889001300766,
+          1.2036332910857628,
+          0.877232142857143,
+          0.926523947750363,
+          1.1694365626266725,
+          1.0340515582916507
+        ],
+        "paired_ratio_geomean": 0.9972737349597106,
+        "paired_ratio_range": [
+          0.71889001300766,
+          1.2036332910857628
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "100000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.03863,
+            0.041656000000000006,
+            0.040084,
+            0.038696,
+            0.040302000000000004,
+            0.040682,
+            0.042144,
+            0.039094000000000004,
+            0.038308
+          ],
+          "candidate": [
+            0.038454,
+            0.04047799999999999,
+            0.037302,
+            0.038186,
+            0.038711999999999996,
+            0.03771,
+            0.037433999999999995,
+            0.039442,
+            0.03682
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.040084,
+          "candidate": 0.038186
+        },
+        "process_median_range": {
+          "baseline": [
+            0.038308,
+            0.042144
+          ],
+          "candidate": [
+            0.03682,
+            0.04047799999999999
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9954439554750195,
+          0.9717207605146915,
+          0.9305957489272528,
+          0.9868203431879263,
+          0.9605478636295963,
+          0.9269455778968585,
+          0.8882403189066058,
+          1.008901621732235,
+          0.9611569384984858
+        ],
+        "paired_ratio_geomean": 0.9582487392957234,
+        "paired_ratio_range": [
+          0.8882403189066058,
+          1.008901621732235
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "100000/true/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.0037419999999999997,
+            0.004328,
+            0.004002,
+            0.0036660000000000004,
+            0.004324,
+            0.004024000000000001,
+            0.00386,
+            0.0036680000000000003,
+            0.003954
+          ],
+          "candidate": [
+            0.0037320000000000005,
+            0.0039120000000000005,
+            0.00398,
+            0.003806,
+            0.00388,
+            0.003102,
+            0.003644,
+            0.0038680000000000003,
+            0.00366
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.003954,
+          "candidate": 0.003806
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0036660000000000004,
+            0.004328
+          ],
+          "candidate": [
+            0.003102,
+            0.00398
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9973276322822022,
+          0.9038817005545288,
+          0.9945027486256871,
+          1.0381887615930168,
+          0.89731729879741,
+          0.7708747514910536,
+          0.944041450777202,
+          1.054525627044711,
+          0.9256449165402124
+        ],
+        "paired_ratio_geomean": 0.9436393152827103,
+        "paired_ratio_range": [
+          0.7708747514910536,
+          1.054525627044711
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/true/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.00747,
+            0.008922,
+            0.007906000000000002,
+            0.007592,
+            0.007873999999999999,
+            0.008746,
+            0.008222,
+            0.008461999999999999,
+            0.0073820000000000005
+          ],
+          "candidate": [
+            0.007337999999999999,
+            0.007738,
+            0.007298,
+            0.010064,
+            0.007272,
+            0.006828,
+            0.00757,
+            0.007426,
+            0.00797
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.007906000000000002,
+          "candidate": 0.007426
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0073820000000000005,
+            0.008922
+          ],
+          "candidate": [
+            0.006828,
+            0.010064
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9823293172690761,
+          0.8672943286258687,
+          0.9230963824943079,
+          1.3256059009483667,
+          0.9235458470916943,
+          0.7806997484564372,
+          0.9207005594745804,
+          0.8775703143464904,
+          1.0796532105120562
+        ],
+        "paired_ratio_geomean": 0.9541896224075235,
+        "paired_ratio_range": [
+          0.7806997484564372,
+          1.3256059009483667
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "100000/true/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.006082000000000001,
+            0.005872,
+            0.0054659999999999995,
+            0.004444,
+            0.00462,
+            0.005292,
+            0.005215999999999999,
+            0.0051400000000000005,
+            0.004543999999999999
+          ],
+          "candidate": [
+            0.004762,
+            0.0058379999999999994,
+            0.005954,
+            0.004958000000000001,
+            0.005594,
+            0.004898,
+            0.005058,
+            0.004646,
+            0.00536
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.005215999999999999,
+          "candidate": 0.005058
+        },
+        "process_median_range": {
+          "baseline": [
+            0.004444,
+            0.006082000000000001
+          ],
+          "candidate": [
+            0.004646,
+            0.005954
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.7829661295626438,
+          0.9942098092643051,
+          1.0892791803878523,
+          1.1156615661566158,
+          1.2108225108225108,
+          0.9255479969765683,
+          0.9697085889570554,
+          0.9038910505836575,
+          1.1795774647887325
+        ],
+        "paired_ratio_geomean": 1.010249015141018,
+        "paired_ratio_range": [
+          0.7829661295626438,
+          1.2108225108225108
+        ],
+        "candidate_slower_pairs": 4
+      },
+      "100000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.037427999999999996,
+            0.04153,
+            0.04159000000000001,
+            0.038404,
+            0.039498,
+            0.04348,
+            0.040672,
+            0.04277600000000001,
+            0.037372
+          ],
+          "candidate": [
+            0.04194200000000001,
+            0.03976999999999999,
+            0.039486,
+            0.037832,
+            0.042534,
+            0.04053,
+            0.03689,
+            0.038002,
+            0.037308
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.040672,
+          "candidate": 0.039486
+        },
+        "process_median_range": {
+          "baseline": [
+            0.037372,
+            0.04348
+          ],
+          "candidate": [
+            0.03689,
+            0.042534
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.1206048947312175,
+          0.9576209968697326,
+          0.9494109160855974,
+          0.9851057181543589,
+          1.0768646513747533,
+          0.9321527138914443,
+          0.9070121951219512,
+          0.8883953618851691,
+          0.9982874879588997
+        ],
+        "paired_ratio_geomean": 0.9769138653072281,
+        "paired_ratio_range": [
+          0.8883953618851691,
+          1.1206048947312175
+        ],
+        "candidate_slower_pairs": 2
+      },
+      "1000000/false/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.005662,
+            0.00572,
+            0.005354,
+            0.005472,
+            0.005342,
+            0.005798,
+            0.006134,
+            0.005117999999999999,
+            0.005788
+          ],
+          "candidate": [
+            0.0055720000000000006,
+            0.0057339999999999995,
+            0.005982,
+            0.0052959999999999995,
+            0.005242,
+            0.005180000000000001,
+            0.0055000000000000005,
+            0.006182,
+            0.005342
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.005662,
+          "candidate": 0.0055000000000000005
+        },
+        "process_median_range": {
+          "baseline": [
+            0.005117999999999999,
+            0.006134
+          ],
+          "candidate": [
+            0.005180000000000001,
+            0.006182
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9841045566937479,
+          1.0024475524475522,
+          1.1172954800149422,
+          0.9678362573099414,
+          0.9812804193186072,
+          0.8934115212142119,
+          0.8966416693837628,
+          1.207893708479875,
+          0.9229440221147203
+        ],
+        "paired_ratio_geomean": 0.99254212004974,
+        "paired_ratio_range": [
+          0.8934115212142119,
+          1.207893708479875
+        ],
+        "candidate_slower_pairs": 3
+      },
+      "1000000/false/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.175576,
+            0.15073,
+            0.147216,
+            0.144612,
+            0.14415799999999998,
+            0.14453000000000002,
+            0.13948,
+            0.136882,
+            0.1386
+          ],
+          "candidate": [
+            0.163764,
+            0.17146799999999998,
+            0.19239599999999998,
+            0.13933,
+            0.141674,
+            0.15452,
+            0.14915599999999998,
+            0.145192,
+            0.13628400000000002
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.14453000000000002,
+          "candidate": 0.14915599999999998
+        },
+        "process_median_range": {
+          "baseline": [
+            0.136882,
+            0.175576
+          ],
+          "candidate": [
+            0.13628400000000002,
+            0.19239599999999998
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.932724290335809,
+          1.1375837590393418,
+          1.3068959895663512,
+          0.9634746770669103,
+          0.9827689063388783,
+          1.0691205977997646,
+          1.0693719529681673,
+          1.060709224003156,
+          0.9832900432900434
+        ],
+        "paired_ratio_geomean": 1.051074871660958,
+        "paired_ratio_range": [
+          0.932724290335809,
+          1.3068959895663512
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "1000000/false/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.11649599999999999,
+            0.10629200000000001,
+            0.142638,
+            0.122216,
+            0.103026,
+            0.108014,
+            0.10702,
+            0.10122999999999999,
+            0.102606
+          ],
+          "candidate": [
+            0.10552000000000002,
+            0.12607800000000002,
+            0.290754,
+            0.097486,
+            0.106148,
+            0.10539,
+            0.104756,
+            0.11793,
+            0.12014999999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.10702,
+          "candidate": 0.106148
+        },
+        "process_median_range": {
+          "baseline": [
+            0.10122999999999999,
+            0.142638
+          ],
+          "candidate": [
+            0.097486,
+            0.290754
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9057821727784647,
+          1.1861475934218946,
+          2.038404913136752,
+          0.7976533350788767,
+          1.0303030303030303,
+          0.9757068528153757,
+          0.9788450756867875,
+          1.1649708584411735,
+          1.1709841529735103
+        ],
+        "paired_ratio_geomean": 1.0993240368849253,
+        "paired_ratio_range": [
+          0.7976533350788767,
+          2.038404913136752
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "1000000/false/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.43315,
+            0.41950599999999993,
+            0.40860399999999997,
+            0.400498,
+            0.392922,
+            0.42532800000000004,
+            0.40513,
+            0.38878799999999997,
+            0.385288
+          ],
+          "candidate": [
+            0.404354,
+            0.44101599999999996,
+            0.440074,
+            0.407072,
+            0.39116799999999996,
+            0.3839080000000001,
+            0.393868,
+            0.398198,
+            0.392408
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.40513,
+          "candidate": 0.398198
+        },
+        "process_median_range": {
+          "baseline": [
+            0.385288,
+            0.43315
+          ],
+          "candidate": [
+            0.3839080000000001,
+            0.44101599999999996
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9335195659702182,
+          1.0512745944038941,
+          1.077018335601218,
+          1.0164145638679842,
+          0.9955360096914908,
+          0.9026163337471317,
+          0.9722015155629058,
+          1.0242034219163143,
+          1.0184796827308402
+        ],
+        "paired_ratio_geomean": 0.9976461091745324,
+        "paired_ratio_range": [
+          0.9026163337471317,
+          1.077018335601218
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "1000000/true/hashrope_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.0036980000000000003,
+            0.003256,
+            0.0036220000000000002,
+            0.0036580000000000002,
+            0.003326,
+            0.00363,
+            0.004226000000000001,
+            0.003304,
+            0.0032300000000000002
+          ],
+          "candidate": [
+            0.0043,
+            0.0032300000000000002,
+            0.003798,
+            0.00356,
+            0.003518,
+            0.00356,
+            0.003232,
+            0.0034660000000000003,
+            0.00331
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.0036220000000000002,
+          "candidate": 0.003518
+        },
+        "process_median_range": {
+          "baseline": [
+            0.0032300000000000002,
+            0.004226000000000001
+          ],
+          "candidate": [
+            0.0032300000000000002,
+            0.0043
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.1627906976744184,
+          0.992014742014742,
+          1.0485919381557152,
+          0.9732094040459266,
+          1.057726999398677,
+          0.9807162534435261,
+          0.7647893989588262,
+          1.0490314769975788,
+          1.024767801857585
+        ],
+        "paired_ratio_geomean": 1.000436383858731,
+        "paired_ratio_range": [
+          0.7647893989588262,
+          1.1627906976744184
+        ],
+        "candidate_slower_pairs": 5
+      },
+      "1000000/true/hashrope_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.009886,
+            0.010797999999999999,
+            0.010473999999999999,
+            0.009616,
+            0.009932000000000002,
+            0.010066000000000002,
+            0.01027,
+            0.009546,
+            0.009342
+          ],
+          "candidate": [
+            0.009576,
+            0.00842,
+            0.009712,
+            0.00818,
+            0.008147999999999999,
+            0.009016000000000001,
+            0.008162,
+            0.009586,
+            0.008357999999999999
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.009932000000000002,
+          "candidate": 0.00842
+        },
+        "process_median_range": {
+          "baseline": [
+            0.009342,
+            0.010797999999999999
+          ],
+          "candidate": [
+            0.008147999999999999,
+            0.009712
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          0.9686425247825207,
+          0.7797740322281905,
+          0.9272484246706131,
+          0.8506655574043261,
+          0.8203785743052756,
+          0.8956884561891516,
+          0.7947419668938658,
+          1.0041902367483764,
+          0.894669235709698
+        ],
+        "paired_ratio_geomean": 0.8787893767002201,
+        "paired_ratio_range": [
+          0.7797740322281905,
+          1.0041902367483764
+        ],
+        "candidate_slower_pairs": 1
+      },
+      "1000000/true/ropey_exact": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.034102,
+            0.037261999999999997,
+            0.035334,
+            0.032942,
+            0.044863999999999994,
+            0.036418000000000006,
+            0.032786,
+            0.034466000000000004,
+            0.032888
+          ],
+          "candidate": [
+            0.043916,
+            0.04177,
+            0.043488,
+            0.034474,
+            0.03376,
+            0.036934,
+            0.034592,
+            0.035582,
+            0.033861999999999996
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.034466000000000004,
+          "candidate": 0.035582
+        },
+        "process_median_range": {
+          "baseline": [
+            0.032786,
+            0.044863999999999994
+          ],
+          "candidate": [
+            0.03376,
+            0.043916
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.287783707700428,
+          1.120981160431539,
+          1.2307692307692308,
+          1.0465059802076375,
+          0.7524964336661912,
+          1.0141688176176615,
+          1.0550844872811564,
+          1.0323797365519642,
+          1.0296156652882509
+        ],
+        "paired_ratio_geomean": 1.0529786620623542,
+        "paired_ratio_range": [
+          0.7524964336661912,
+          1.287783707700428
+        ],
+        "candidate_slower_pairs": 8
+      },
+      "1000000/true/ropey_rehash_candidate": {
+        "unit": "ms",
+        "global_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "process_medians": {
+          "baseline": [
+            0.39315399999999995,
+            0.42471400000000004,
+            0.43342800000000004,
+            0.414388,
+            0.403538,
+            0.418134,
+            0.405998,
+            0.3982,
+            0.415426
+          ],
+          "candidate": [
+            0.395926,
+            0.43172799999999995,
+            0.47224400000000005,
+            0.390544,
+            0.38429199999999997,
+            0.41227199999999997,
+            0.390034,
+            0.41153399999999996,
+            0.38528199999999996
+          ]
+        },
+        "median_of_process_medians": {
+          "baseline": 0.414388,
+          "candidate": 0.395926
+        },
+        "process_median_range": {
+          "baseline": [
+            0.39315399999999995,
+            0.43342800000000004
+          ],
+          "candidate": [
+            0.38429199999999997,
+            0.47224400000000005
+          ]
+        },
+        "paired_ratios_candidate_over_baseline": [
+          1.0070506722556556,
+          1.0165146427949159,
+          1.0895558201131446,
+          0.9424597237371739,
+          0.9523068459475934,
+          0.9859805708217939,
+          0.9606796092591589,
+          1.033485685585133,
+          0.927438340402382
+        ],
+        "paired_ratio_geomean": 0.9894363099186549,
+        "paired_ratio_range": [
+          0.927438340402382,
+          1.0895558201131446
+        ],
+        "candidate_slower_pairs": 4
+      }
+    }
+  },
+  "memory": {
+    "baseline": {
+      "node_inner_bytes": 48,
+      "arena_inline_bytes": 2136,
+      "nodes_for_64KiB": 255
+    },
+    "candidate": {
+      "node_inner_bytes": 48,
+      "arena_inline_bytes": 2136,
+      "nodes_for_64KiB": 255
+    }
+  },
+  "verified_counts": {
+    "original_processes": 12,
+    "supplemental_processes": 24,
+    "supplemental_micro_samples": 3528,
+    "supplemental_churn_samples": 864,
+    "pooled_micro_samples": 5292,
+    "pooled_churn_samples": 1296
+  }
+}

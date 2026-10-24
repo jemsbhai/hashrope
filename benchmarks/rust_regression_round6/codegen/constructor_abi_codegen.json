@@ -1,0 +1,92 @@
+{
+  "five_args": {
+    "Arena6concat": {
+      "symbol": true,
+      "instructions": 235,
+      "call_edges": [
+        "00000000000002E4: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ]
+    },
+    "Arena4join": {
+      "symbol": true,
+      "instructions": 92,
+      "call_edges": [
+        "00000000000000E9: jmp         _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "00000000000000F3: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ]
+    },
+    "Arena15join_unbalanced": {
+      "symbol": true,
+      "instructions": 241,
+      "call_edges": [
+        "0000000000000089: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000000AC: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000000C7: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "00000000000000DD: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "0000000000000143: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "0000000000000166: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "0000000000000186: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000019B: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "0000000000000227: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000023C: call        _ZN8hashrope4rope5Arena7balance17hHASHE",
+        "0000000000000254: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "0000000000000269: call        _ZN8hashrope4rope5Arena7balance17hHASHE",
+        "0000000000000295: call        _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "00000000000002C1: call        _ZN8hashrope4rope5Arena13make_internal17hHASHE"
+      ]
+    },
+    "Arena13make_internal": {
+      "symbol": true,
+      "instructions": 151,
+      "call_edges": []
+    },
+    "Arena24make_internal_prechecked": {
+      "symbol": false
+    }
+  },
+  "three_args": {
+    "Arena6concat": {
+      "symbol": true,
+      "instructions": 226,
+      "call_edges": [
+        "00000000000002B9: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ]
+    },
+    "Arena4join": {
+      "symbol": true,
+      "instructions": 82,
+      "call_edges": [
+        "00000000000000DD: jmp         _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "00000000000000EC: jmp         _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+      ]
+    },
+    "Arena15join_unbalanced": {
+      "symbol": true,
+      "instructions": 247,
+      "call_edges": [
+        "00000000000000B0: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000000D3: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000000F3: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "0000000000000108: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000017A: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "000000000000019D: call        _ZN8hashrope4rope5Arena11make_repeat17hHASHE.llvm.HASH",
+        "00000000000001B8: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "00000000000001CE: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000025D: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "0000000000000272: call        _ZN8hashrope4rope5Arena7balance17hHASHE",
+        "000000000000028A: call        _ZN8hashrope4rope5Arena4join17hHASHE",
+        "000000000000029F: call        _ZN8hashrope4rope5Arena7balance17hHASHE",
+        "00000000000002CB: call        _ZN8hashrope4rope5Arena13make_internal17hHASHE",
+        "00000000000002F7: call        _ZN8hashrope4rope5Arena13make_internal17hHASHE"
+      ]
+    },
+    "Arena13make_internal": {
+      "symbol": true,
+      "instructions": 151,
+      "call_edges": []
+    },
+    "Arena24make_internal_prechecked": {
+      "symbol": false
+    }
+  }
+}

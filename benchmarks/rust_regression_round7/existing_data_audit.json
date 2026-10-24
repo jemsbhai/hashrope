@@ -1,0 +1,3110 @@
+{
+  "scope": "Separate descriptive audit of nine-pair and six-pair cohorts; no pooling, filtering, new timing or causal adjustment.",
+  "script_sha256": "eb2362138e9869b37d1952470b75cc0a8ccd97a00ac6347672cd093163471f6f",
+  "input_sha256": {
+    "final_comparison/manifest.json": "b52e8d2e1df1f13bcedb009cbe7bc590208b7f66155a9de17152b8f85d21d5c9",
+    "final_comparison/results.json": "c30350ce6a7d13681a2615bc8759e27c3e8694c72300d70aa3882f9442593c69",
+    "final_comparison/summary.json": "a61621f257a976a9856cee83241076ec1e5fa28df26b546c8c26d83c646f2abc",
+    "final_comparison/run.py": "257e39a3f2de2b2532e63bfb84f358d4ae52683eb0a04cf68b76c3aa0230a5b1",
+    "final_comparison/PLAN.md": "95c74ceaa1424aed0aac07861c86ed0cb8c5d5fa4f9bb169133b543e90ac692d",
+    "final_confirmation/manifest.json": "e6cdff0e369b5a2e57606e1cf4697ed082214cf4e9410051f2efedede8f4f921",
+    "final_confirmation/results.json": "7d21ab4c50b289f83ca2702d047d7f7b68b51a761a7d8adc6d97817904623a94",
+    "final_confirmation/summary.json": "c1faf207edfcde2907068c295caebdaec9e2d46c4cf4e2e89a8b3a8126d9792f",
+    "final_confirmation/run.py": "ad56e70df89bd3be5bff29c3799eb56ede7f32f28b83674cd915f655fbeecdd4",
+    "final_confirmation/PLAN.md": "43c23221db51585155afedf55ab5ecfc6981d85a366b49d9dd9922d028379f26",
+    "final_comparison/baseline.zip": "c79883e17f6162a7d2044f71276bf67c87ac0a7b62fb2341cc1279c82145bdd3",
+    "final_comparison/candidate.zip": "1fa5fdf834179d9ee397343df085b262cb007343bb4fc96cdf9bfa6243f4c7f7",
+    "final_comparison/binaries.zip": "d0edf137d2e6f7dbe0627fb61e8de4de0631c0b01762fe78551c98f5d68042e9",
+    "final_comparison/build.json": "b963f82c73e7cb091eb2fb31dec262009c60170f4727f34c22e479a025da166f",
+    "final_comparison/drivers.zip": "fe3cb931403a9530a04b79f35debdd7fb1075bfcefb712d25e85210ba9d6a56c"
+  },
+  "binary_sha256": {
+    "baseline": {
+      "micro": "12cdf3036a59bc572b5c6c5b83dd45c8c1ed5d4233c8593843cb6d2b58a6a950",
+      "churn": "205417591ef8ae337803a97332d550f88399f1fbe12fc491ccfacd4fa4f2f4c1"
+    },
+    "candidate": {
+      "micro": "c0bb378e7cfd3672defb2ef6ff67a9cf4896eb3ae26bac45eb5091b89f2c0f7a",
+      "churn": "a56066f2912e1f355b842851ece617ed77d5faf8b6176fb83b42cddbb2b73917"
+    }
+  },
+  "phases": {
+    "final_comparison": {
+      "process_pairs_per_cohort": 9,
+      "targets": {
+        "100K_independent_exact_churn": {
+          "cell": "100000/false/hashrope_exact",
+          "original_unit": "ms",
+          "summary": {
+            "unit": "ms",
+            "process_medians": {
+              "baseline": [
+                0.016540000000000003,
+                0.016801999999999997,
+                0.01713,
+                0.017058,
+                0.01683,
+                0.017068,
+                0.017392,
+                0.018628,
+                0.018846
+              ],
+              "candidate": [
+                0.017542,
+                0.018716,
+                0.018006,
+                0.018102,
+                0.017598,
+                0.018308,
+                0.017626,
+                0.017118,
+                0.020134
+              ]
+            },
+            "median_of_process_medians": {
+              "baseline": 0.017068,
+              "candidate": 0.018006
+            },
+            "paired_ratios": [
+              1.0605804111245463,
+              1.1139150101178432,
+              1.051138353765324,
+              1.0612029546253956,
+              1.0456327985739748,
+              1.0726505741738928,
+              1.013454461821527,
+              0.9189392312647628,
+              1.068343415048286
+            ],
+            "paired_ratio_geomean": 1.0437833722193213,
+            "paired_ratio_range": [
+              0.9189392312647628,
+              1.1139150101178432
+            ],
+            "exploratory_95_log_t_interval": [
+              1.0014660107103468,
+              1.0878888713844217
+            ],
+            "candidate_slower_pairs": 8,
+            "order_geomeans": {
+              "baseline": 1.0476580627162875,
+              "candidate": 1.0389601548298604
+            },
+            "seed_geomeans": {
+              "1": 1.0448375295836279,
+              "2": 1.0229145327772677,
+              "3": 1.0640033858591675
+            }
+          },
+          "pairs": [
+            {
+              "pair": 0,
+              "first_arm": "baseline",
+              "seed": 1,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    16.330000000000002,
+                    16.654,
+                    16.540000000000003
+                  ],
+                  "median_us": 16.540000000000003,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:03:14.007055+00:00",
+                  "finished_utc": "2026-10-24T20:03:16.548068+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                },
+                "candidate": {
+                  "samples_us": [
+                    17.788,
+                    17.541999999999998,
+                    17.014000000000003
+                  ],
+                  "median_us": 17.541999999999998,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:03:16.579938+00:00",
+                  "finished_utc": "2026-10-24T20:03:19.076215+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                }
+              },
+              "paired_ratio": 1.0605804111245463
+            },
+            {
+              "pair": 1,
+              "first_arm": "candidate",
+              "seed": 2,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    16.85,
+                    16.801999999999996,
+                    16.698
+                  ],
+                  "median_us": 16.801999999999996,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:03:20.044974+00:00",
+                  "finished_utc": "2026-10-24T20:03:20.958310+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                },
+                "candidate": {
+                  "samples_us": [
+                    18.716,
+                    19.536,
+                    17.112000000000002
+                  ],
+                  "median_us": 18.716,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:03:19.092152+00:00",
+                  "finished_utc": "2026-10-24T20:03:20.028971+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                }
+              },
+              "paired_ratio": 1.1139150101178432
+            },
+            {
+              "pair": 2,
+              "first_arm": "baseline",
+              "seed": 3,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    17.252,
+                    16.898,
+                    17.13
+                  ],
+                  "median_us": 17.13,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:03:20.991069+00:00",
+                  "finished_utc": "2026-10-24T20:03:21.928945+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                },
+                "candidate": {
+                  "samples_us": [
+                    18.006,
+                    17.756,
+                    20.558
+                  ],
+                  "median_us": 18.006,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:03:21.951885+00:00",
+                  "finished_utc": "2026-10-24T20:03:22.888349+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                }
+              },
+              "paired_ratio": 1.051138353765324
+            },
+            {
+              "pair": 3,
+              "first_arm": "candidate",
+              "seed": 1,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    16.918,
+                    17.176,
+                    17.058
+                  ],
+                  "median_us": 17.058,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:03:23.873580+00:00",
+                  "finished_utc": "2026-10-24T20:03:24.813991+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                },
+                "candidate": {
+                  "samples_us": [
+                    17.464,
+                    18.102,
+                    18.116
+                  ],
+                  "median_us": 18.102,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:03:22.920565+00:00",
+                  "finished_utc": "2026-10-24T20:03:23.860109+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                }
+              },
+              "paired_ratio": 1.0612029546253956
+            },
+            {
+              "pair": 4,
+              "first_arm": "baseline",
+              "seed": 2,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    16.830000000000002,
+                    16.823999999999998,
+                    17.622
+                  ],
+                  "median_us": 16.830000000000002,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:03:24.838811+00:00",
+                  "finished_utc": "2026-10-24T20:03:25.748579+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                },
+                "candidate": {
+                  "samples_us": [
+                    17.598,
+                    16.816000000000003,
+                    18.1
+                  ],
+                  "median_us": 17.598,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:03:25.780594+00:00",
+                  "finished_utc": "2026-10-24T20:03:26.709528+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                }
+              },
+              "paired_ratio": 1.0456327985739748
+            },
+            {
+              "pair": 5,
+              "first_arm": "candidate",
+              "seed": 3,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    18.113999999999997,
+                    16.772,
+                    17.068
+                  ],
+                  "median_us": 17.068,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:03:27.689675+00:00",
+                  "finished_utc": "2026-10-24T20:03:28.625541+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                },
+                "candidate": {
+                  "samples_us": [
+                    19.7,
+                    18.308,
+                    17.627999999999997
+                  ],
+                  "median_us": 18.308,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:03:26.737154+00:00",
+                  "finished_utc": "2026-10-24T20:03:27.659290+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                }
+              },
+              "paired_ratio": 1.0726505741738928
+            },
+            {
+              "pair": 6,
+              "first_arm": "baseline",
+              "seed": 1,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    18.234,
+                    17.392,
+                    16.985999999999997
+                  ],
+                  "median_us": 17.392,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:03:28.660598+00:00",
+                  "finished_utc": "2026-10-24T20:03:29.575754+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                },
+                "candidate": {
+                  "samples_us": [
+                    17.5,
+                    17.625999999999998,
+                    17.828
+                  ],
+                  "median_us": 17.625999999999998,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:03:29.623458+00:00",
+                  "finished_utc": "2026-10-24T20:03:30.544887+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                }
+              },
+              "paired_ratio": 1.013454461821527
+            },
+            {
+              "pair": 7,
+              "first_arm": "candidate",
+              "seed": 2,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    18.628,
+                    24.124,
+                    18.608
+                  ],
+                  "median_us": 18.628,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:03:31.514272+00:00",
+                  "finished_utc": "2026-10-24T20:03:32.436407+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                },
+                "candidate": {
+                  "samples_us": [
+                    18.291999999999998,
+                    17.118000000000002,
+                    16.796
+                  ],
+                  "median_us": 17.118000000000002,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:03:30.561043+00:00",
+                  "finished_utc": "2026-10-24T20:03:31.505134+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                }
+              },
+              "paired_ratio": 0.9189392312647628
+            },
+            {
+              "pair": 8,
+              "first_arm": "baseline",
+              "seed": 3,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    18.846,
+                    17.750000000000004,
+                    19.459999999999997
+                  ],
+                  "median_us": 18.846,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:03:32.468312+00:00",
+                  "finished_utc": "2026-10-24T20:03:33.401953+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                },
+                "candidate": {
+                  "samples_us": [
+                    20.97,
+                    18.712,
+                    20.134
+                  ],
+                  "median_us": 20.134,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:03:33.420812+00:00",
+                  "finished_utc": "2026-10-24T20:03:34.352939+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                }
+              },
+              "paired_ratio": 1.068343415048286
+            }
+          ],
+          "ratio_of_arm_medians": 1.0549566440121867,
+          "raw_sample_position_paired_geomeans": [
+            1.0502375645202928,
+            1.0128558724603964,
+            1.0378506160383978
+          ],
+          "within_process_later_earlier_geomeans": {
+            "baseline": 0.9946204637634877,
+            "candidate": 0.9828894870208073
+          },
+          "sample_position_scope": "Descriptive correlated inner samples only; no independent-replicate inference, sample removal, replacement primary estimator or causal attribution. Micro later/earlier is median(samples3..6)/median(samples0..2); churn is sample2/sample0."
+        },
+        "1MiB_independent_equal_lcp": {
+          "cell": "compare/1048576/independent_equal/exact_lcp",
+          "original_unit": "ns",
+          "summary": {
+            "unit": "ns",
+            "process_medians": {
+              "baseline": [
+                50454.0,
+                50426.0,
+                55983.0,
+                49680.0,
+                59293.0,
+                51277.0,
+                50109.0,
+                50814.0,
+                50298.0
+              ],
+              "candidate": [
+                48537.0,
+                49346.0,
+                58263.0,
+                49991.0,
+                50195.0,
+                51147.0,
+                49710.0,
+                49615.0,
+                52062.0
+              ]
+            },
+            "median_of_process_medians": {
+              "baseline": 50454.0,
+              "candidate": 49991.0
+            },
+            "paired_ratios": [
+              0.9620049946485908,
+              0.9785824772934597,
+              1.0407266491613525,
+              1.0062600644122384,
+              0.8465586156881926,
+              0.9974647502779024,
+              0.9920373585583429,
+              0.9764041405911756,
+              1.0350709769772157
+            ],
+            "paired_ratio_geomean": 0.9801176865558723,
+            "paired_ratio_range": [
+              0.8465586156881926,
+              1.0407266491613525
+            ],
+            "exploratory_95_log_t_interval": [
+              0.9353842543657183,
+              1.0269904320241487
+            ],
+            "candidate_slower_pairs": 3,
+            "order_geomeans": {
+              "baseline": 0.9725990453946217,
+              "candidate": 0.9895977754621658
+            }
+          },
+          "pairs": [
+            {
+              "pair": 0,
+              "first_arm": "baseline",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    52.324,
+                    49.906,
+                    50.454,
+                    50.739000000000004,
+                    50.494,
+                    50.271,
+                    49.918
+                  ],
+                  "median_us": 50.454,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:04.641033+00:00",
+                  "finished_utc": "2026-10-24T20:03:07.203093+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    54.199,
+                    48.537,
+                    48.528,
+                    51.108000000000004,
+                    48.419000000000004,
+                    48.507,
+                    51.154
+                  ],
+                  "median_us": 48.537,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:07.228845+00:00",
+                  "finished_utc": "2026-10-24T20:03:09.200861+00:00"
+                }
+              },
+              "paired_ratio": 0.9620049946485908
+            },
+            {
+              "pair": 1,
+              "first_arm": "candidate",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    51.725,
+                    50.426,
+                    50.419000000000004,
+                    50.928000000000004,
+                    49.677,
+                    48.883,
+                    52.476
+                  ],
+                  "median_us": 50.426,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:09.498293+00:00",
+                  "finished_utc": "2026-10-24T20:03:09.763624+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    49.407000000000004,
+                    50.925000000000004,
+                    48.57,
+                    48.53,
+                    50.457,
+                    49.346000000000004,
+                    49.165
+                  ],
+                  "median_us": 49.346000000000004,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:09.217600+00:00",
+                  "finished_utc": "2026-10-24T20:03:09.474739+00:00"
+                }
+              },
+              "paired_ratio": 0.9785824772934597
+            },
+            {
+              "pair": 2,
+              "first_arm": "baseline",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    51.271,
+                    50.553000000000004,
+                    50.457,
+                    55.983000000000004,
+                    60.779,
+                    61.36,
+                    68.471
+                  ],
+                  "median_us": 55.983000000000004,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:09.795414+00:00",
+                  "finished_utc": "2026-10-24T20:03:10.061619+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    62.077,
+                    58.263,
+                    51.139,
+                    51.037,
+                    57.18,
+                    61.858000000000004,
+                    61.773
+                  ],
+                  "median_us": 58.263,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:10.089267+00:00",
+                  "finished_utc": "2026-10-24T20:03:10.358435+00:00"
+                }
+              },
+              "paired_ratio": 1.0407266491613525
+            },
+            {
+              "pair": 3,
+              "first_arm": "candidate",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    50.082,
+                    49.437,
+                    50.375,
+                    49.68,
+                    49.019,
+                    49.042,
+                    50.945
+                  ],
+                  "median_us": 49.68,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:10.738425+00:00",
+                  "finished_utc": "2026-10-24T20:03:10.998913+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    50.367000000000004,
+                    67.0,
+                    49.664,
+                    49.991,
+                    49.035000000000004,
+                    50.1,
+                    49.195
+                  ],
+                  "median_us": 49.991,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:10.435296+00:00",
+                  "finished_utc": "2026-10-24T20:03:10.702200+00:00"
+                }
+              },
+              "paired_ratio": 1.0062600644122384
+            },
+            {
+              "pair": 4,
+              "first_arm": "baseline",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    61.497,
+                    61.479,
+                    59.293,
+                    59.619,
+                    56.417,
+                    49.226,
+                    48.394
+                  ],
+                  "median_us": 59.293,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:11.030795+00:00",
+                  "finished_utc": "2026-10-24T20:03:11.294630+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    57.561,
+                    48.643,
+                    52.346000000000004,
+                    50.195,
+                    49.233000000000004,
+                    50.433,
+                    49.342
+                  ],
+                  "median_us": 50.195,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:11.342286+00:00",
+                  "finished_utc": "2026-10-24T20:03:11.608813+00:00"
+                }
+              },
+              "paired_ratio": 0.8465586156881926
+            },
+            {
+              "pair": 5,
+              "first_arm": "candidate",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    51.728,
+                    51.277,
+                    50.398,
+                    50.363,
+                    51.328,
+                    51.321,
+                    51.024
+                  ],
+                  "median_us": 51.277,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:11.905949+00:00",
+                  "finished_utc": "2026-10-24T20:03:12.185727+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    51.274,
+                    49.837,
+                    51.147,
+                    50.185,
+                    50.029,
+                    51.678000000000004,
+                    52.039
+                  ],
+                  "median_us": 51.147,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:11.627504+00:00",
+                  "finished_utc": "2026-10-24T20:03:11.889867+00:00"
+                }
+              },
+              "paired_ratio": 0.9974647502779024
+            },
+            {
+              "pair": 6,
+              "first_arm": "baseline",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    50.386,
+                    49.82,
+                    50.109,
+                    49.233000000000004,
+                    49.836,
+                    53.279,
+                    51.215
+                  ],
+                  "median_us": 50.109,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:12.209801+00:00",
+                  "finished_utc": "2026-10-24T20:03:12.473824+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    51.054,
+                    49.71,
+                    49.371,
+                    50.865,
+                    49.618,
+                    49.088,
+                    49.901
+                  ],
+                  "median_us": 49.71,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:12.499737+00:00",
+                  "finished_utc": "2026-10-24T20:03:12.748691+00:00"
+                }
+              },
+              "paired_ratio": 0.9920373585583429
+            },
+            {
+              "pair": 7,
+              "first_arm": "candidate",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    51.104,
+                    51.739000000000004,
+                    50.236000000000004,
+                    49.942,
+                    51.388,
+                    50.504,
+                    50.814
+                  ],
+                  "median_us": 50.814,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:13.108937+00:00",
+                  "finished_utc": "2026-10-24T20:03:13.373498+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    66.778,
+                    49.615,
+                    48.146,
+                    49.96,
+                    50.488,
+                    49.119,
+                    48.425000000000004
+                  ],
+                  "median_us": 49.615,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:12.797848+00:00",
+                  "finished_utc": "2026-10-24T20:03:13.088765+00:00"
+                }
+              },
+              "paired_ratio": 0.9764041405911756
+            },
+            {
+              "pair": 8,
+              "first_arm": "baseline",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    50.298,
+                    51.162,
+                    49.191,
+                    49.712,
+                    49.272,
+                    53.274,
+                    51.924
+                  ],
+                  "median_us": 50.298,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:13.405266+00:00",
+                  "finished_utc": "2026-10-24T20:03:13.682814+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    56.917,
+                    63.815000000000005,
+                    50.333,
+                    50.019,
+                    53.032000000000004,
+                    49.131,
+                    52.062
+                  ],
+                  "median_us": 52.062,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:03:13.703932+00:00",
+                  "finished_utc": "2026-10-24T20:03:13.983441+00:00"
+                }
+              },
+              "paired_ratio": 1.0350709769772157
+            }
+          ],
+          "ratio_of_arm_medians": 0.9908233242161176,
+          "raw_sample_position_paired_geomeans": [
+            1.058965763408549,
+            1.0387497511687864,
+            0.9757091901366824,
+            0.9711237018163293,
+            0.9783000228746739,
+            0.9827720636882266,
+            0.976827239999072
+          ],
+          "within_process_later_earlier_geomeans": {
+            "baseline": 1.0029619957783675,
+            "candidate": 0.9849672357953828
+          },
+          "sample_position_scope": "Descriptive correlated inner samples only; no independent-replicate inference, sample removal, replacement primary estimator or causal attribution. Micro later/earlier is median(samples3..6)/median(samples0..2); churn is sample2/sample0."
+        }
+      },
+      "nearby_controls": {
+        "100000/false/hashrope_candidate": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.0034900000000000005,
+              0.0034360000000000003,
+              0.00375,
+              0.00396,
+              0.003364,
+              0.0036919999999999995,
+              0.003522,
+              0.0035579999999999995,
+              0.004082
+            ],
+            "candidate": [
+              0.0036919999999999995,
+              0.0034440000000000004,
+              0.00341,
+              0.00366,
+              0.0036959999999999996,
+              0.003546,
+              0.00359,
+              0.003452,
+              0.0034839999999999997
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.0035579999999999995,
+            "candidate": 0.003546
+          },
+          "paired_ratios": [
+            1.0578796561604582,
+            1.0023282887077998,
+            0.9093333333333333,
+            0.9242424242424243,
+            1.098692033293698,
+            0.9604550379198268,
+            1.0193072118114708,
+            0.9702079820123667,
+            0.8535031847133758
+          ],
+          "paired_ratio_geomean": 0.9746612660581122,
+          "paired_ratio_range": [
+            0.8535031847133758,
+            1.098692033293698
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9175641555455145,
+            1.03531134887154
+          ],
+          "candidate_slower_pairs": 4,
+          "order_geomeans": {
+            "baseline": 0.983352257179118,
+            "candidate": 0.9639054644484891
+          },
+          "seed_geomeans": {
+            "1": 0.9988702702920775,
+            "2": 1.0223123377862562,
+            "3": 0.9067100553338222
+          }
+        },
+        "100000/false/ropey_exact": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.011470000000000001,
+              0.00846,
+              0.008372,
+              0.009112,
+              0.010394,
+              0.009922,
+              0.008048000000000001,
+              0.009428,
+              0.010369999999999999
+            ],
+            "candidate": [
+              0.010051999999999998,
+              0.010495999999999998,
+              0.00971,
+              0.009046,
+              0.008418,
+              0.008158,
+              0.00855,
+              0.009250000000000001,
+              0.009871999999999999
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.009428,
+            "candidate": 0.009250000000000001
+          },
+          "paired_ratios": [
+            0.8763731473408891,
+            1.2406619385342788,
+            1.1598184424271383,
+            0.992756804214223,
+            0.8098903213392341,
+            0.8222132634549486,
+            1.0623757455268388,
+            0.9811200678829021,
+            0.951976856316297
+          ],
+          "paired_ratio_geomean": 0.9791424178257028,
+          "paired_ratio_range": [
+            0.8098903213392341,
+            1.2406619385342788
+          ],
+          "exploratory_95_log_t_interval": [
+            0.8750115040985493,
+            1.095665451133984
+          ],
+          "candidate_slower_pairs": 3,
+          "order_geomeans": {
+            "baseline": 0.9640109426945833,
+            "candidate": 0.9983911947571632
+          },
+          "seed_geomeans": {
+            "1": 0.974099589792875,
+            "2": 0.9952540241692454,
+            "3": 0.9682785093853258
+          }
+        },
+        "100000/false/ropey_rehash_candidate": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.037648,
+              0.036854,
+              0.037082000000000004,
+              0.038127999999999995,
+              0.036974,
+              0.037224,
+              0.03749,
+              0.037068000000000004,
+              0.037826
+            ],
+            "candidate": [
+              0.037950000000000005,
+              0.03628,
+              0.039563999999999995,
+              0.038278000000000006,
+              0.036754,
+              0.037354,
+              0.037692,
+              0.036584,
+              0.037502
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.037224,
+            "candidate": 0.037502
+          },
+          "paired_ratios": [
+            1.0080216744581387,
+            0.9844250284908016,
+            1.0669327436492095,
+            1.003934116659673,
+            0.994049872883648,
+            1.0034923705136471,
+            1.005388103494265,
+            0.9869429157224558,
+            0.9914344630677312
+          ],
+          "paired_ratio_geomean": 1.0046946509041927,
+          "paired_ratio_range": [
+            0.9844250284908016,
+            1.0669327436492095
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9862489671888096,
+            1.0234853217973041
+          ],
+          "candidate_slower_pairs": 5,
+          "order_geomeans": {
+            "baseline": 1.0127973778602695,
+            "candidate": 0.9946573409346741
+          },
+          "seed_geomeans": {
+            "1": 1.0057798759690633,
+            "2": 0.9884642157690822,
+            "3": 1.0200897332393206
+          }
+        },
+        "100000/true/hashrope_exact": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.00776,
+              0.00716,
+              0.006998,
+              0.007364000000000001,
+              0.00714,
+              0.007092,
+              0.00735,
+              0.007148,
+              0.007115999999999999
+            ],
+            "candidate": [
+              0.006983999999999999,
+              0.007048,
+              0.00728,
+              0.0070940000000000005,
+              0.007708,
+              0.007236,
+              0.006967999999999999,
+              0.007312,
+              0.0070999999999999995
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.007148,
+            "candidate": 0.0070999999999999995
+          },
+          "paired_ratios": [
+            0.8999999999999998,
+            0.9843575418994414,
+            1.0402972277793656,
+            0.9633351439435089,
+            1.0795518207282913,
+            1.0203045685279188,
+            0.9480272108843537,
+            1.0229434806939004,
+            0.9977515458122541
+          ],
+          "paired_ratio_geomean": 0.993878180077895,
+          "paired_ratio_range": [
+            0.8999999999999998,
+            1.0795518207282913
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9532405971713518,
+            1.036248183056964
+          ],
+          "candidate_slower_pairs": 4,
+          "order_geomeans": {
+            "baseline": 0.9910540289367767,
+            "candidate": 0.9974196889446704
+          },
+          "seed_geomeans": {
+            "1": 0.9367281513645485,
+            "2": 1.0282120014942233,
+            "3": 1.0193028235502521
+          }
+        },
+        "10000/false/hashrope_exact": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.00441,
+              0.00443,
+              0.004492,
+              0.0043679999999999995,
+              0.004648,
+              0.004494,
+              0.00453,
+              0.00466,
+              0.004972000000000001
+            ],
+            "candidate": [
+              0.004648,
+              0.00462,
+              0.004602,
+              0.004568,
+              0.004566,
+              0.004608,
+              0.004488000000000001,
+              0.005052,
+              0.00464
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.004494,
+            "candidate": 0.004608
+          },
+          "paired_ratios": [
+            1.053968253968254,
+            1.0428893905191874,
+            1.0244879786286731,
+            1.0457875457875458,
+            0.9823580034423407,
+            1.0253671562082778,
+            0.9907284768211921,
+            1.0841201716738198,
+            0.9332260659694287
+          ],
+          "paired_ratio_geomean": 1.0194215350882099,
+          "paired_ratio_range": [
+            0.9332260659694287,
+            1.0841201716738198
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9848502750431275,
+            1.0552063522103337
+          ],
+          "candidate_slower_pairs": 6,
+          "order_geomeans": {
+            "baseline": 0.99611421621275,
+            "candidate": 1.0493240712710705
+          },
+          "seed_geomeans": {
+            "1": 1.0297739006805586,
+            "2": 1.0356074215709898,
+            "3": 0.9934005052711141
+          }
+        },
+        "1000000/false/hashrope_exact": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.137296,
+              0.134464,
+              0.13484400000000002,
+              0.140216,
+              0.136658,
+              0.132894,
+              0.143092,
+              0.136474,
+              0.136928
+            ],
+            "candidate": [
+              0.139422,
+              0.134696,
+              0.15100999999999998,
+              0.137264,
+              0.13790000000000002,
+              0.13502,
+              0.1423,
+              0.134352,
+              0.13844
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.136658,
+            "candidate": 0.13790000000000002
+          },
+          "paired_ratios": [
+            1.0154847919822865,
+            1.0017253688719658,
+            1.119886683871733,
+            0.9789467678438979,
+            1.0090883812144187,
+            1.015997712462564,
+            0.994465099376625,
+            0.9844512507876957,
+            1.011042299602711
+          ],
+          "paired_ratio_geomean": 1.0138414214013916,
+          "paired_ratio_range": [
+            0.9789467678438979,
+            1.119886683871733
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9834493066655579,
+            1.0451727616080815
+          ],
+          "candidate_slower_pairs": 6,
+          "order_geomeans": {
+            "baseline": 1.0290278205957362,
+            "candidate": 0.9951732038473089
+          },
+          "seed_geomeans": {
+            "1": 0.9961865693822628,
+            "2": 0.9983681042244708,
+            "3": 1.0478007674338876
+          }
+        },
+        "compare/1048576/independent_equal/exact_equal": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              51895.0,
+              50817.0,
+              49817.0,
+              59496.0,
+              49218.0,
+              60503.0,
+              51375.0,
+              51178.0,
+              50890.0
+            ],
+            "candidate": [
+              49448.0,
+              49905.0,
+              50516.0,
+              49779.0,
+              49834.0,
+              49891.0,
+              49336.0,
+              49375.0,
+              51518.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 51178.0,
+            "candidate": 49834.0
+          },
+          "paired_ratios": [
+            0.9528470950958666,
+            0.9820532498966881,
+            1.0140313547584159,
+            0.8366780960064543,
+            1.0125157462716892,
+            0.8246037386575872,
+            0.9603114355231144,
+            0.9647700183672672,
+            1.012340341913932
+          ],
+          "paired_ratio_geomean": 0.9485586171249473,
+          "paired_ratio_range": [
+            0.8246037386575872,
+            1.0140313547584159
+          ],
+          "exploratory_95_log_t_interval": [
+            0.8926469439829242,
+            1.007972363751468
+          ],
+          "candidate_slower_pairs": 3,
+          "order_geomeans": {
+            "baseline": 0.9900178060903256,
+            "candidate": 0.8991675674272299
+          }
+        },
+        "compare/1048576/late_mismatch/exact_lcp": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              60706.0,
+              50649.0,
+              52441.0,
+              49813.0,
+              49243.0,
+              49682.0,
+              51309.0,
+              59283.0,
+              50182.0
+            ],
+            "candidate": [
+              50325.0,
+              51654.0,
+              50769.0,
+              49551.0,
+              50930.0,
+              50994.0,
+              49669.0,
+              61223.0,
+              49562.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 50649.0,
+            "candidate": 50769.0
+          },
+          "paired_ratios": [
+            0.8289954864428557,
+            1.0198424450630812,
+            0.9681165500276501,
+            0.9947403288298236,
+            1.0342586763600918,
+            1.0264079545912,
+            0.9680367966633534,
+            1.0327243897913398,
+            0.987644972300825
+          ],
+          "paired_ratio_geomean": 0.9825391953379145,
+          "paired_ratio_range": [
+            0.8289954864428557,
+            1.0342586763600918
+          ],
+          "exploratory_95_log_t_interval": [
+            0.931904929241076,
+            1.0359246314551254
+          ],
+          "candidate_slower_pairs": 4,
+          "order_geomeans": {
+            "baseline": 0.9548174364376172,
+            "candidate": 1.0183259543082053
+          }
+        },
+        "compare/1048576/late_mismatch/exact_equal": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              49400.0,
+              50827.0,
+              50891.0,
+              49625.0,
+              50664.0,
+              50715.0,
+              50166.0,
+              49303.0,
+              51045.0
+            ],
+            "candidate": [
+              48577.0,
+              49211.0,
+              52962.0,
+              49919.0,
+              49836.0,
+              49778.0,
+              49311.0,
+              59706.0,
+              53070.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 50664.0,
+            "candidate": 49836.0
+          },
+          "paired_ratios": [
+            0.9833400809716599,
+            0.9682058748303067,
+            1.0406948183372307,
+            1.0059244332493702,
+            0.9836570345807674,
+            0.9815242038844524,
+            0.982956584140653,
+            1.2110013589436748,
+            1.0396708786364972
+          ],
+          "paired_ratio_geomean": 1.0196029541155271,
+          "paired_ratio_range": [
+            0.9682058748303067,
+            1.2110013589436748
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9665634437169345,
+            1.0755529715083678
+          ],
+          "candidate_slower_pairs": 4,
+          "order_geomeans": {
+            "baseline": 1.0056809190135907,
+            "candidate": 1.0372768338575349
+          }
+        },
+        "compare/1048576/independent_equal/hash_only_lcp": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              6118.0,
+              6269.0,
+              6196.0,
+              6530.0,
+              6221.0,
+              6198.0,
+              6500.0,
+              6369.0,
+              6227.0
+            ],
+            "candidate": [
+              6192.0,
+              6212.0,
+              6201.0,
+              6193.0,
+              6406.0,
+              6324.0,
+              6190.0,
+              6448.0,
+              6103.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 6227.0,
+            "candidate": 6201.0
+          },
+          "paired_ratios": [
+            1.0120954560313828,
+            0.990907640772053,
+            1.000806972240155,
+            0.9483920367534456,
+            1.0297379842469057,
+            1.020329138431752,
+            0.9523076923076923,
+            1.0124038310566807,
+            0.9800867191263851
+          ],
+          "paired_ratio_geomean": 0.9937401346592443,
+          "paired_ratio_range": [
+            0.9483920367534456,
+            1.0297379842469057
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9715746140181523,
+            1.0164113398851349
+          ],
+          "candidate_slower_pairs": 5,
+          "order_geomeans": {
+            "baseline": 0.9946449119781412,
+            "candidate": 0.9926103203079557
+          }
+        },
+        "compare/65536/independent_equal/exact_lcp": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              2787.0,
+              3353.0,
+              2718.0,
+              3274.0,
+              3353.0,
+              3338.0,
+              2723.0,
+              2791.0,
+              3357.0
+            ],
+            "candidate": [
+              3282.0,
+              2729.0,
+              3349.0,
+              2765.0,
+              2766.0,
+              2751.0,
+              2743.0,
+              3322.0,
+              3475.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 3274.0,
+            "candidate": 2766.0
+          },
+          "paired_ratios": [
+            1.1776103336921422,
+            0.8138980017894423,
+            1.2321559970566593,
+            0.8445326817348808,
+            0.8249328959141068,
+            0.8241461953265429,
+            1.0073448402497245,
+            1.1902543891078468,
+            1.0351504319332738
+          ],
+          "paired_ratio_geomean": 0.9810193221461926,
+          "paired_ratio_range": [
+            0.8138980017894423,
+            1.2321559970566593
+          ],
+          "exploratory_95_log_t_interval": [
+            0.8577852311296198,
+            1.12195789283617
+          ],
+          "candidate_slower_pairs": 5,
+          "order_geomeans": {
+            "baseline": 1.045330234591959,
+            "candidate": 0.9061657079120904
+          }
+        },
+        "core/concat_balanced_64KiB": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              15.15,
+              14.7,
+              18.9,
+              17.95,
+              16.65,
+              16.65,
+              15.15,
+              15.45,
+              15.05
+            ],
+            "candidate": [
+              14.75,
+              15.2,
+              12.95,
+              12.9,
+              14.55,
+              13.0,
+              12.95,
+              15.05,
+              13.05
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 15.45,
+            "candidate": 13.05
+          },
+          "paired_ratios": [
+            0.9735973597359736,
+            1.034013605442177,
+            0.6851851851851852,
+            0.7186629526462396,
+            0.8738738738738739,
+            0.7807807807807808,
+            0.8547854785478547,
+            0.9741100323624596,
+            0.867109634551495
+          ],
+          "paired_ratio_geomean": 0.8550133136564434,
+          "paired_ratio_range": [
+            0.6851851851851852,
+            1.034013605442177
+          ],
+          "exploratory_95_log_t_interval": [
+            0.7674278426275093,
+            0.9525947925303568
+          ],
+          "candidate_slower_pairs": 1,
+          "order_geomeans": {
+            "baseline": 0.8454996865026843,
+            "candidate": 0.8670560247909943
+          }
+        }
+      }
+    },
+    "final_confirmation": {
+      "process_pairs_per_cohort": 6,
+      "targets": {
+        "100K_independent_exact_churn": {
+          "cell": "100000/false/hashrope_exact",
+          "original_unit": "ms",
+          "summary": {
+            "unit": "ms",
+            "process_medians": {
+              "baseline": [
+                0.017982,
+                0.017904,
+                0.021134,
+                0.017926,
+                0.020322,
+                0.018243999999999996
+              ],
+              "candidate": [
+                0.018818,
+                0.0181,
+                0.019566,
+                0.018113999999999998,
+                0.018255999999999998,
+                0.018556
+              ]
+            },
+            "median_of_process_medians": {
+              "baseline": 0.018112999999999997,
+              "candidate": 0.018406
+            },
+            "paired_ratios": [
+              1.0464909353798242,
+              1.0109472743521002,
+              0.9258067568846409,
+              1.0104875599687604,
+              0.8983367778761931,
+              1.0171015128261347
+            ],
+            "paired_ratio_geomean": 0.9833764322622518,
+            "paired_ratio_range": [
+              0.8983367778761931,
+              1.0464909353798242
+            ],
+            "exploratory_95_log_t_interval": [
+              0.9228345207346977,
+              1.0478901534361247
+            ],
+            "candidate_slower_pairs": 4,
+            "order_geomeans": {
+              "baseline": 0.9547690499106954,
+              "candidate": 1.0128409667440375
+            },
+            "seed_geomeans": {
+              "1": 1.0283316934828879,
+              "2": 0.9529801241600926,
+              "3": 0.9703810864871727
+            }
+          },
+          "pairs": [
+            {
+              "pair": 0,
+              "first_arm": "baseline",
+              "seed": 1,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    18.646,
+                    17.982000000000003,
+                    17.966
+                  ],
+                  "median_us": 17.982000000000003,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:06:21.312142+00:00",
+                  "finished_utc": "2026-10-24T20:06:23.249891+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                },
+                "candidate": {
+                  "samples_us": [
+                    19.599999999999998,
+                    18.818,
+                    18.166
+                  ],
+                  "median_us": 18.818,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:06:23.249891+00:00",
+                  "finished_utc": "2026-10-24T20:06:25.689149+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                }
+              },
+              "paired_ratio": 1.0464909353798242
+            },
+            {
+              "pair": 1,
+              "first_arm": "candidate",
+              "seed": 2,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    18.518,
+                    17.904,
+                    17.426000000000002
+                  ],
+                  "median_us": 17.904,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:06:26.704055+00:00",
+                  "finished_utc": "2026-10-24T20:06:27.672787+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                },
+                "candidate": {
+                  "samples_us": [
+                    18.1,
+                    18.646,
+                    17.932
+                  ],
+                  "median_us": 18.1,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:06:25.701906+00:00",
+                  "finished_utc": "2026-10-24T20:06:26.696868+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                }
+              },
+              "paired_ratio": 1.0109472743521002
+            },
+            {
+              "pair": 2,
+              "first_arm": "baseline",
+              "seed": 3,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    21.44,
+                    21.134,
+                    19.895999999999997
+                  ],
+                  "median_us": 21.134,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:06:27.703273+00:00",
+                  "finished_utc": "2026-10-24T20:06:28.686447+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                },
+                "candidate": {
+                  "samples_us": [
+                    21.716,
+                    19.566,
+                    19.002
+                  ],
+                  "median_us": 19.566,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:06:28.705461+00:00",
+                  "finished_utc": "2026-10-24T20:06:29.670825+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                }
+              },
+              "paired_ratio": 0.9258067568846409
+            },
+            {
+              "pair": 3,
+              "first_arm": "candidate",
+              "seed": 1,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    18.53,
+                    17.840000000000003,
+                    17.926000000000002
+                  ],
+                  "median_us": 17.926000000000002,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:06:30.672168+00:00",
+                  "finished_utc": "2026-10-24T20:06:31.677526+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                },
+                "candidate": {
+                  "samples_us": [
+                    18.568,
+                    17.772,
+                    18.113999999999997
+                  ],
+                  "median_us": 18.113999999999997,
+                  "timing_cell_position_one_based": 12,
+                  "raw_sample_lines_one_based": [
+                    34,
+                    35,
+                    36
+                  ],
+                  "started_utc": "2026-10-24T20:06:29.694667+00:00",
+                  "finished_utc": "2026-10-24T20:06:30.642870+00:00",
+                  "position_within_100K_independent_arms_one_based": 4
+                }
+              },
+              "paired_ratio": 1.0104875599687604
+            },
+            {
+              "pair": 4,
+              "first_arm": "baseline",
+              "seed": 2,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    20.322,
+                    20.162,
+                    20.791999999999998
+                  ],
+                  "median_us": 20.322,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:06:31.699464+00:00",
+                  "finished_utc": "2026-10-24T20:06:32.735371+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                },
+                "candidate": {
+                  "samples_us": [
+                    18.928,
+                    18.16,
+                    18.255999999999997
+                  ],
+                  "median_us": 18.255999999999997,
+                  "timing_cell_position_one_based": 11,
+                  "raw_sample_lines_one_based": [
+                    31,
+                    32,
+                    33
+                  ],
+                  "started_utc": "2026-10-24T20:06:32.756527+00:00",
+                  "finished_utc": "2026-10-24T20:06:33.745708+00:00",
+                  "position_within_100K_independent_arms_one_based": 3
+                }
+              },
+              "paired_ratio": 0.8983367778761931
+            },
+            {
+              "pair": 5,
+              "first_arm": "candidate",
+              "seed": 3,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    18.243999999999996,
+                    18.000000000000004,
+                    20.638
+                  ],
+                  "median_us": 18.243999999999996,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:06:34.788780+00:00",
+                  "finished_utc": "2026-10-24T20:06:35.773716+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                },
+                "candidate": {
+                  "samples_us": [
+                    18.36,
+                    20.06,
+                    18.556
+                  ],
+                  "median_us": 18.556,
+                  "timing_cell_position_one_based": 10,
+                  "raw_sample_lines_one_based": [
+                    28,
+                    29,
+                    30
+                  ],
+                  "started_utc": "2026-10-24T20:06:33.762309+00:00",
+                  "finished_utc": "2026-10-24T20:06:34.763712+00:00",
+                  "position_within_100K_independent_arms_one_based": 2
+                }
+              },
+              "paired_ratio": 1.0171015128261347
+            }
+          ],
+          "ratio_of_arm_medians": 1.016176227019268,
+          "raw_sample_position_paired_geomeans": [
+            0.996204326123506,
+            1.0014876311677603,
+            0.962029214448885
+          ],
+          "within_process_later_earlier_geomeans": {
+            "baseline": 0.990108097218391,
+            "candidate": 0.9561421186484585
+          },
+          "sample_position_scope": "Descriptive correlated inner samples only; no independent-replicate inference, sample removal, replacement primary estimator or causal attribution. Micro later/earlier is median(samples3..6)/median(samples0..2); churn is sample2/sample0."
+        },
+        "1MiB_independent_equal_lcp": {
+          "cell": "compare/1048576/independent_equal/exact_lcp",
+          "original_unit": "ns",
+          "summary": {
+            "unit": "ns",
+            "process_medians": {
+              "baseline": [
+                52030.0,
+                53902.0,
+                55534.0,
+                54686.0,
+                50057.0,
+                52656.0
+              ],
+              "candidate": [
+                52348.0,
+                52947.0,
+                61110.0,
+                63507.0,
+                57234.0,
+                54103.0
+              ]
+            },
+            "median_of_process_medians": {
+              "baseline": 53279.0,
+              "candidate": 55668.5
+            },
+            "paired_ratios": [
+              1.006111858543148,
+              0.9822826611257467,
+              1.1004069578996651,
+              1.161302710017189,
+              1.1433765507321654,
+              1.0274802491643877
+            ],
+            "paired_ratio_geomean": 1.0679658840214483,
+            "paired_ratio_range": [
+              0.9822826611257467,
+              1.161302710017189
+            ],
+            "exploratory_95_log_t_interval": [
+              0.9921489154248759,
+              1.1495765521703827
+            ],
+            "candidate_slower_pairs": 5,
+            "order_geomeans": {
+              "baseline": 1.0817567793139966,
+              "candidate": 1.0543508034745126
+            }
+          },
+          "pairs": [
+            {
+              "pair": 0,
+              "first_arm": "baseline",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    53.242000000000004,
+                    55.732,
+                    51.54,
+                    51.374,
+                    53.101,
+                    52.03,
+                    51.287
+                  ],
+                  "median_us": 52.03,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:16.341207+00:00",
+                  "finished_utc": "2026-10-24T20:06:16.653887+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    52.999,
+                    51.889,
+                    52.348,
+                    51.325,
+                    54.737,
+                    52.646,
+                    52.009
+                  ],
+                  "median_us": 52.348,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:16.670785+00:00",
+                  "finished_utc": "2026-10-24T20:06:18.290673+00:00"
+                }
+              },
+              "paired_ratio": 1.006111858543148
+            },
+            {
+              "pair": 1,
+              "first_arm": "candidate",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    55.095,
+                    53.861000000000004,
+                    52.935,
+                    54.895,
+                    53.596000000000004,
+                    53.902,
+                    57.171
+                  ],
+                  "median_us": 53.902,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:18.593269+00:00",
+                  "finished_utc": "2026-10-24T20:06:18.922404+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    52.93,
+                    52.857,
+                    52.947,
+                    52.473,
+                    52.980000000000004,
+                    54.843,
+                    53.496
+                  ],
+                  "median_us": 52.947,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:18.310794+00:00",
+                  "finished_utc": "2026-10-24T20:06:18.577454+00:00"
+                }
+              },
+              "paired_ratio": 0.9822826611257467
+            },
+            {
+              "pair": 2,
+              "first_arm": "baseline",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    56.212,
+                    58.227000000000004,
+                    55.725,
+                    54.397,
+                    55.534,
+                    54.972,
+                    54.682
+                  ],
+                  "median_us": 55.534,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:18.941683+00:00",
+                  "finished_utc": "2026-10-24T20:06:19.217613+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    53.872,
+                    51.973,
+                    52.550000000000004,
+                    63.196,
+                    61.11,
+                    66.867,
+                    66.365
+                  ],
+                  "median_us": 61.11,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:19.233494+00:00",
+                  "finished_utc": "2026-10-24T20:06:19.514838+00:00"
+                }
+              },
+              "paired_ratio": 1.1004069578996651
+            },
+            {
+              "pair": 3,
+              "first_arm": "candidate",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    56.113,
+                    55.962,
+                    52.329,
+                    54.686,
+                    53.618,
+                    53.224000000000004,
+                    56.439
+                  ],
+                  "median_us": 54.686,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:19.831659+00:00",
+                  "finished_utc": "2026-10-24T20:06:20.107206+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    67.321,
+                    66.894,
+                    67.1,
+                    63.507,
+                    55.462,
+                    51.562,
+                    56.268
+                  ],
+                  "median_us": 63.507,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:19.533617+00:00",
+                  "finished_utc": "2026-10-24T20:06:19.810217+00:00"
+                }
+              },
+              "paired_ratio": 1.161302710017189
+            },
+            {
+              "pair": 4,
+              "first_arm": "baseline",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    50.097,
+                    50.013,
+                    50.057,
+                    49.687,
+                    49.72,
+                    50.228,
+                    77.063
+                  ],
+                  "median_us": 50.057,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:20.123138+00:00",
+                  "finished_utc": "2026-10-24T20:06:20.404948+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    57.475,
+                    57.026,
+                    56.874,
+                    65.888,
+                    57.234,
+                    58.801,
+                    54.536
+                  ],
+                  "median_us": 57.234,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:20.428092+00:00",
+                  "finished_utc": "2026-10-24T20:06:20.698378+00:00"
+                }
+              },
+              "paired_ratio": 1.1433765507321654
+            },
+            {
+              "pair": 5,
+              "first_arm": "candidate",
+              "seed": null,
+              "arms": {
+                "baseline": {
+                  "samples_us": [
+                    52.412,
+                    52.656,
+                    51.665,
+                    53.244,
+                    52.78,
+                    50.628,
+                    53.63
+                  ],
+                  "median_us": 52.656,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:21.030221+00:00",
+                  "finished_utc": "2026-10-24T20:06:21.296192+00:00"
+                },
+                "candidate": {
+                  "samples_us": [
+                    68.74,
+                    54.898,
+                    52.183,
+                    54.103,
+                    54.07,
+                    56.687000000000005,
+                    53.349000000000004
+                  ],
+                  "median_us": 54.103,
+                  "timing_cell_position_one_based": 25,
+                  "raw_sample_lines_one_based": [
+                    172,
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178
+                  ],
+                  "started_utc": "2026-10-24T20:06:20.730440+00:00",
+                  "finished_utc": "2026-10-24T20:06:20.999249+00:00"
+                }
+              },
+              "paired_ratio": 1.0274802491643877
+            }
+          ],
+          "ratio_of_arm_medians": 1.0448488147300061,
+          "raw_sample_position_paired_geomeans": [
+            1.0875394875309667,
+            1.024882608779047,
+            1.058903544717903,
+            1.0962943202097108,
+            1.0535803907549868,
+            1.0803769880983956,
+            0.9651428037647156
+          ],
+          "within_process_later_earlier_geomeans": {
+            "baseline": 0.9888091901742112,
+            "candidate": 1.0056406983652797
+          },
+          "sample_position_scope": "Descriptive correlated inner samples only; no independent-replicate inference, sample removal, replacement primary estimator or causal attribution. Micro later/earlier is median(samples3..6)/median(samples0..2); churn is sample2/sample0."
+        }
+      },
+      "nearby_controls": {
+        "100000/false/hashrope_candidate": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.003776,
+              0.0035159999999999996,
+              0.0036860000000000005,
+              0.003664,
+              0.003968,
+              0.0037139999999999994
+            ],
+            "candidate": [
+              0.003636,
+              0.0036000000000000003,
+              0.00406,
+              0.00373,
+              0.003814,
+              0.0042899999999999995
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.0037,
+            "candidate": 0.003772
+          },
+          "paired_ratios": [
+            0.9629237288135594,
+            1.0238907849829353,
+            1.101465002712968,
+            1.018013100436681,
+            0.9611895161290323,
+            1.1550888529886916
+          ],
+          "paired_ratio_geomean": 1.034742614112919,
+          "paired_ratio_range": [
+            0.9611895161290323,
+            1.1550888529886916
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9579471243091021,
+            1.1176945473200832
+          ],
+          "candidate_slower_pairs": 4,
+          "order_geomeans": {
+            "baseline": 1.0064461408952712,
+            "candidate": 1.0638346494217932
+          },
+          "seed_geomeans": {
+            "1": 0.9900853350360975,
+            "2": 0.9920449023036823,
+            "3": 1.1279583088886345
+          }
+        },
+        "100000/false/ropey_exact": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.010572,
+              0.010286,
+              0.010736,
+              0.01045,
+              0.010922000000000001,
+              0.011113999999999999
+            ],
+            "candidate": [
+              0.013252,
+              0.009946,
+              0.011755999999999999,
+              0.009874,
+              0.013248,
+              0.01046
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.010654,
+            "candidate": 0.011108
+          },
+          "paired_ratios": [
+            1.2534998108210367,
+            0.9669453626288159,
+            1.0950074515648285,
+            0.9448803827751198,
+            1.2129646584874563,
+            0.9411552996220984
+          ],
+          "paired_ratio_geomean": 1.0616261128264117,
+          "paired_ratio_range": [
+            0.9411552996220984,
+            1.2534998108210367
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9272692482176036,
+            1.2154506424119336
+          ],
+          "candidate_slower_pairs": 3,
+          "order_geomeans": {
+            "baseline": 1.1852132505247646,
+            "candidate": 0.9509259223484927
+          },
+          "seed_geomeans": {
+            "1": 1.0883048199181704,
+            "2": 1.0829914826798461,
+            "3": 1.0151709541579323
+          }
+        },
+        "100000/false/ropey_rehash_candidate": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.039026,
+              0.037818,
+              0.037838,
+              0.038315999999999996,
+              0.041038000000000005,
+              0.039014
+            ],
+            "candidate": [
+              0.038498000000000004,
+              0.038382,
+              0.04181,
+              0.039972,
+              0.04204000000000001,
+              0.038378
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.038665,
+            "candidate": 0.039235000000000006
+          },
+          "paired_ratios": [
+            0.9864705580894789,
+            1.0149135332381407,
+            1.104973835826418,
+            1.0432195427497652,
+            1.0244163945611384,
+            0.9836981596350028
+          ],
+          "paired_ratio_geomean": 1.0254863325877155,
+          "paired_ratio_range": [
+            0.9836981596350028,
+            1.104973835826418
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9803201644310329,
+            1.072733435953093
+          ],
+          "candidate_slower_pairs": 4,
+          "order_geomeans": {
+            "baseline": 1.0374588528165234,
+            "candidate": 1.0136519780704827
+          },
+          "seed_geomeans": {
+            "1": 1.0144483055070928,
+            "2": 1.0196538934908856,
+            "3": 1.0425740878936505
+          }
+        },
+        "100000/true/hashrope_exact": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.0073880000000000005,
+              0.0076419999999999995,
+              0.007144,
+              0.007596,
+              0.008298,
+              0.008856
+            ],
+            "candidate": [
+              0.00733,
+              0.007314,
+              0.007232000000000001,
+              0.007042,
+              0.007858,
+              0.007253999999999999
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.007619,
+            "candidate": 0.007284
+          },
+          "paired_ratios": [
+            0.9921494315105576,
+            0.9570792986129286,
+            1.0123180291153415,
+            0.9270668773038441,
+            0.9469751747409015,
+            0.8191056910569106
+          ],
+          "paired_ratio_geomean": 0.9403118965059307,
+          "paired_ratio_range": [
+            0.8191056910569106,
+            1.0123180291153415
+          ],
+          "exploratory_95_log_t_interval": [
+            0.8693759710909552,
+            1.0170357729131156
+          ],
+          "candidate_slower_pairs": 1,
+          "order_geomeans": {
+            "baseline": 0.983431732966675,
+            "candidate": 0.8990827050529415
+          },
+          "seed_geomeans": {
+            "1": 0.9590562419844192,
+            "2": 0.95201383185586,
+            "3": 0.9106017015182277
+          }
+        },
+        "10000/false/hashrope_exact": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.004582,
+              0.004908,
+              0.004676,
+              0.004662,
+              0.005068,
+              0.004558
+            ],
+            "candidate": [
+              0.00449,
+              0.004628,
+              0.005182,
+              0.0045000000000000005,
+              0.005384,
+              0.004748
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.0046689999999999995,
+            "candidate": 0.0046879999999999995
+          },
+          "paired_ratios": [
+            0.9799214316892186,
+            0.9429502852485738,
+            1.108212147134303,
+            0.9652509652509653,
+            1.0623520126282557,
+            1.0416849495392715
+          ],
+          "paired_ratio_geomean": 1.0150591247518939,
+          "paired_ratio_range": [
+            0.9429502852485738,
+            1.108212147134303
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9504195284119231,
+            1.0840949664236246
+          ],
+          "candidate_slower_pairs": 3,
+          "order_geomeans": {
+            "baseline": 1.0488036798032123,
+            "candidate": 0.9824002781296546
+          },
+          "seed_geomeans": {
+            "1": 0.9725585369570955,
+            "2": 1.0008721863166197,
+            "3": 1.0744337646250717
+          }
+        },
+        "1000000/false/hashrope_exact": {
+          "unit": "ms",
+          "process_medians": {
+            "baseline": [
+              0.145276,
+              0.139246,
+              0.146794,
+              0.15583599999999997,
+              0.152858,
+              0.14454
+            ],
+            "candidate": [
+              0.143206,
+              0.139504,
+              0.137232,
+              0.140092,
+              0.14009799999999997,
+              0.14910400000000001
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 0.146035,
+            "candidate": 0.14009499999999997
+          },
+          "paired_ratios": [
+            0.9857512596712465,
+            1.0018528359881071,
+            0.9348610978650352,
+            0.8989707128006367,
+            0.9165238325766396,
+            1.0315760343157605
+          ],
+          "paired_ratio_geomean": 0.9603985264894812,
+          "paired_ratio_range": [
+            0.8989707128006367,
+            1.0315760343157605
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9069989211728221,
+            1.0169420361498056
+          ],
+          "candidate_slower_pairs": 2,
+          "order_geomeans": {
+            "baseline": 0.9452631557623984,
+            "candidate": 0.9757762418437187
+          },
+          "seed_geomeans": {
+            "1": 0.9413615206448509,
+            "2": 0.9582390103296753,
+            "3": 0.9820286675915786
+          }
+        },
+        "compare/1048576/independent_equal/exact_equal": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              52399.0,
+              52855.0,
+              52541.0,
+              53466.0,
+              53591.0,
+              50523.0
+            ],
+            "candidate": [
+              51241.0,
+              54555.0,
+              61621.0,
+              51531.0,
+              53613.0,
+              53079.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 52698.0,
+            "candidate": 53346.0
+          },
+          "paired_ratios": [
+            0.9779003416095727,
+            1.032163466086463,
+            1.1728174187777165,
+            0.9638087756705196,
+            1.0004105166912354,
+            1.050590820022564
+          ],
+          "paired_ratio_geomean": 1.030732656203008,
+          "paired_ratio_range": [
+            0.9638087756705196,
+            1.1728174187777165
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9567173521651173,
+            1.1104740665140038
+          ],
+          "candidate_slower_pairs": 4,
+          "order_geomeans": {
+            "baseline": 1.0468900801211942,
+            "candidate": 1.0148246016815035
+          }
+        },
+        "compare/1048576/late_mismatch/exact_lcp": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              55093.0,
+              53052.0,
+              52462.0,
+              50012.0,
+              51253.0,
+              59985.0
+            ],
+            "candidate": [
+              62422.0,
+              52764.0,
+              54679.0,
+              54024.0,
+              56196.0,
+              54871.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 52757.0,
+            "candidate": 54775.0
+          },
+          "paired_ratios": [
+            1.1330296044869583,
+            0.9945713639448088,
+            1.0422591590103314,
+            1.080220747020715,
+            1.096443135035998,
+            0.9147453530049179
+          ],
+          "paired_ratio_geomean": 1.0409789826987075,
+          "paired_ratio_range": [
+            0.9147453530049179,
+            1.1330296044869583
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9596600717436126,
+            1.1291886307737786
+          ],
+          "candidate_slower_pairs": 4,
+          "order_geomeans": {
+            "baseline": 1.089936082399425,
+            "candidate": 0.9942209088397894
+          }
+        },
+        "compare/1048576/late_mismatch/exact_equal": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              55455.0,
+              52833.0,
+              50152.0,
+              63014.0,
+              49650.0,
+              50724.0
+            ],
+            "candidate": [
+              66818.0,
+              53719.0,
+              53284.0,
+              52083.0,
+              54844.0,
+              54246.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 51778.5,
+            "candidate": 53982.5
+          },
+          "paired_ratios": [
+            1.2049048778288702,
+            1.0167698218916208,
+            1.0624501515393205,
+            0.826530612244898,
+            1.104612286002014,
+            1.0694345871776674
+          ],
+          "paired_ratio_geomean": 1.0407613806289506,
+          "paired_ratio_range": [
+            0.826530612244898,
+            1.2049048778288702
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9115217413352582,
+            1.188325195427548
+          ],
+          "candidate_slower_pairs": 5,
+          "order_geomeans": {
+            "baseline": 1.1224243115849974,
+            "candidate": 0.9650399053447923
+          }
+        },
+        "compare/1048576/independent_equal/hash_only_lcp": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              6807.0,
+              6626.0,
+              6735.0,
+              6393.0,
+              6637.0,
+              6315.0
+            ],
+            "candidate": [
+              6295.0,
+              6318.0,
+              6390.0,
+              6337.0,
+              6800.0,
+              6655.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 6631.5,
+            "candidate": 6363.5
+          },
+          "paired_ratios": [
+            0.924783311297194,
+            0.9535164503471174,
+            0.9487750556792873,
+            0.9912404192085094,
+            1.0245592888353172,
+            1.053840063341251
+          ],
+          "paired_ratio_geomean": 0.981756320170729,
+          "paired_ratio_range": [
+            0.924783311297194,
+            1.053840063341251
+          ],
+          "exploratory_95_log_t_interval": [
+            0.931516653879494,
+            1.0347055720163851
+          ],
+          "candidate_slower_pairs": 2,
+          "order_geomeans": {
+            "baseline": 0.965117326204324,
+            "candidate": 0.9986821767938255
+          }
+        },
+        "compare/65536/independent_equal/exact_lcp": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              2858.0,
+              2928.0,
+              3022.0,
+              2964.0,
+              2738.0,
+              3034.0
+            ],
+            "candidate": [
+              3649.0,
+              2799.0,
+              2830.0,
+              3672.0,
+              3042.0,
+              3019.0
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 2946.0,
+            "candidate": 3030.5
+          },
+          "paired_ratios": [
+            1.2767669699090274,
+            0.9559426229508197,
+            0.9364659166115156,
+            1.2388663967611335,
+            1.1110299488677866,
+            0.9950560316413974
+          ],
+          "paired_ratio_geomean": 1.0775535682212185,
+          "paired_ratio_range": [
+            0.9364659166115156,
+            1.2767669699090274
+          ],
+          "exploratory_95_log_t_interval": [
+            0.9363622634691069,
+            1.2400346935004272
+          ],
+          "candidate_slower_pairs": 3,
+          "order_geomeans": {
+            "baseline": 1.099283712860355,
+            "candidate": 1.0562529752806231
+          }
+        },
+        "core/concat_balanced_64KiB": {
+          "unit": "ns",
+          "process_medians": {
+            "baseline": [
+              19.2,
+              16.4,
+              16.25,
+              17.8,
+              20.3,
+              16.4
+            ],
+            "candidate": [
+              14.3,
+              14.4,
+              15.05,
+              16.45,
+              14.2,
+              19.15
+            ]
+          },
+          "median_of_process_medians": {
+            "baseline": 17.1,
+            "candidate": 14.725000000000001
+          },
+          "paired_ratios": [
+            0.7447916666666667,
+            0.878048780487805,
+            0.9261538461538462,
+            0.9241573033707864,
+            0.6995073891625615,
+            1.1676829268292683
+          ],
+          "paired_ratio_geomean": 0.8777077922517922,
+          "paired_ratio_range": [
+            0.6995073891625615,
+            1.1676829268292683
+          ],
+          "exploratory_95_log_t_interval": [
+            0.7251550215717246,
+            1.0623534908574281
+          ],
+          "candidate_slower_pairs": 1,
+          "order_geomeans": {
+            "baseline": 0.7843382892844913,
+            "candidate": 0.9821922238200078
+          }
+        }
+      }
+    }
+  },
+  "verified": {
+    "processes": 60,
+    "samples": 10980,
+    "paired_vectors": 132
+  }
+}

@@ -1,0 +1,574 @@
+{
+  "kind": "micro",
+  "pair": 2,
+  "label": "baseline",
+  "order": [
+    "baseline",
+    "candidate"
+  ],
+  "seed": null,
+  "arguments": [
+    "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\original_replication\\.cache\\baseline\\micro.exe"
+  ],
+  "started_utc": "2026-10-24T19:46:33.803958+00:00",
+  "finished_utc": "2026-10-24T19:46:34.107486+00:00",
+  "returncode": 0,
+  "timed_out": false,
+  "raw": "raw/micro_2_baseline.tsv",
+  "raw_sha256": "0e0955f497b2f7c3b1c3273a0b23c179131e2f8678f52c07d0e53c1d32aaf3ec",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "binary_sha256": "4f0c6488e9b8f4470f77584ca71b382f5d826f3e58481c27a4da66816766b089",
+  "cells": {
+    "core/from_bytes_64KiB": {
+      "samples_ns": [
+        43260.0,
+        53170.0,
+        53790.0,
+        56970.0,
+        52495.0,
+        52730.0,
+        53900.0
+      ],
+      "iterations": 20,
+      "median_ns": 53170.0
+    },
+    "core/concat_balanced_64KiB": {
+      "samples_ns": [
+        34.55,
+        38.2,
+        15.3,
+        45.7,
+        15.4,
+        16.5,
+        15.7
+      ],
+      "iterations": 2000,
+      "median_ns": 16.5
+    },
+    "core/split_chunked_64KiB": {
+      "samples_ns": [
+        909.0,
+        1698.0,
+        459.0,
+        464.0,
+        447.0,
+        466.0,
+        458.0
+      ],
+      "iterations": 100,
+      "median_ns": 464.0
+    },
+    "core/substr_warm_64KiB": {
+      "samples_ns": [
+        497.5,
+        1344.2,
+        497.8,
+        504.7,
+        498.8,
+        498.3,
+        498.7
+      ],
+      "iterations": 1000,
+      "median_ns": 498.7
+    },
+    "core/root_hash": {
+      "samples_ns": [
+        0.5815,
+        0.5781,
+        0.5784,
+        0.5875,
+        0.583,
+        0.5782,
+        0.5782
+      ],
+      "iterations": 1000000,
+      "median_ns": 0.5784
+    },
+    "core/repeat_join_2pow32": {
+      "samples_ns": [
+        8396.0,
+        5466.0,
+        5278.0,
+        5555.0,
+        11824.0,
+        5432.0,
+        5286.0
+      ],
+      "iterations": 100,
+      "median_ns": 5466.0
+    },
+    "compare/65536/same_root/exact_lcp": {
+      "samples_ns": [
+        1.9,
+        1.75,
+        1.85,
+        1.95,
+        1.95,
+        1.8,
+        1.95
+      ],
+      "iterations": 2000,
+      "median_ns": 1.9
+    },
+    "compare/65536/same_root/exact_equal": {
+      "samples_ns": [
+        3.95,
+        3.9,
+        3.7,
+        3.7,
+        3.9,
+        3.65,
+        3.9
+      ],
+      "iterations": 2000,
+      "median_ns": 3.9
+    },
+    "compare/65536/same_root/hash_only_lcp": {
+      "samples_ns": [
+        4819.0,
+        5034.0,
+        4941.0,
+        4883.0,
+        7497.0,
+        4858.0,
+        4805.0
+      ],
+      "iterations": 100,
+      "median_ns": 4883.0
+    },
+    "compare/65536/independent_equal/exact_lcp": {
+      "samples_ns": [
+        3366.0,
+        3356.0,
+        3407.0,
+        3397.0,
+        3367.0,
+        3865.0,
+        3376.0
+      ],
+      "iterations": 100,
+      "median_ns": 3376.0
+    },
+    "compare/65536/independent_equal/exact_equal": {
+      "samples_ns": [
+        3457.0,
+        3375.0,
+        3462.0,
+        3375.0,
+        3381.0,
+        4087.0,
+        3357.0
+      ],
+      "iterations": 100,
+      "median_ns": 3381.0
+    },
+    "compare/65536/independent_equal/hash_only_lcp": {
+      "samples_ns": [
+        4816.0,
+        4806.0,
+        4947.0,
+        4814.0,
+        4803.0,
+        4835.0,
+        4807.0
+      ],
+      "iterations": 100,
+      "median_ns": 4814.0
+    },
+    "compare/65536/early_mismatch/exact_lcp": {
+      "samples_ns": [
+        56.9,
+        57.45,
+        57.55,
+        57.25,
+        57.45,
+        57.6,
+        57.6
+      ],
+      "iterations": 2000,
+      "median_ns": 57.45
+    },
+    "compare/65536/early_mismatch/exact_equal": {
+      "samples_ns": [
+        59.4,
+        59.6,
+        60.75,
+        59.8,
+        59.9,
+        59.7,
+        60.25
+      ],
+      "iterations": 2000,
+      "median_ns": 59.8
+    },
+    "compare/65536/early_mismatch/hash_only_lcp": {
+      "samples_ns": [
+        799.0,
+        705.0,
+        703.0,
+        705.0,
+        711.0,
+        715.0,
+        706.0
+      ],
+      "iterations": 100,
+      "median_ns": 706.0
+    },
+    "compare/65536/late_mismatch/exact_lcp": {
+      "samples_ns": [
+        3471.0,
+        3434.0,
+        3442.0,
+        3445.0,
+        3525.0,
+        3439.0,
+        3451.0
+      ],
+      "iterations": 100,
+      "median_ns": 3445.0
+    },
+    "compare/65536/late_mismatch/exact_equal": {
+      "samples_ns": [
+        3467.0,
+        3423.0,
+        3566.0,
+        3461.0,
+        3439.0,
+        3429.0,
+        3448.0
+      ],
+      "iterations": 100,
+      "median_ns": 3448.0
+    },
+    "compare/65536/late_mismatch/hash_only_lcp": {
+      "samples_ns": [
+        4861.0,
+        4809.0,
+        4810.0,
+        4803.0,
+        4568.0,
+        4481.0,
+        4801.0
+      ],
+      "iterations": 100,
+      "median_ns": 4803.0
+    },
+    "compare/65536/shared_late_mismatch/exact_lcp": {
+      "samples_ns": [
+        99.0,
+        94.0,
+        93.0,
+        94.0,
+        94.0,
+        94.0,
+        98.0
+      ],
+      "iterations": 100,
+      "median_ns": 94.0
+    },
+    "compare/65536/shared_late_mismatch/exact_equal": {
+      "samples_ns": [
+        97.0,
+        96.0,
+        97.0,
+        96.0,
+        96.0,
+        101.0,
+        96.0
+      ],
+      "iterations": 100,
+      "median_ns": 96.0
+    },
+    "compare/65536/shared_late_mismatch/hash_only_lcp": {
+      "samples_ns": [
+        4664.0,
+        4632.0,
+        4425.0,
+        4298.0,
+        4635.0,
+        4648.0,
+        4628.0
+      ],
+      "iterations": 100,
+      "median_ns": 4632.0
+    },
+    "compare/1048576/same_root/exact_lcp": {
+      "samples_ns": [
+        1.95,
+        1.85,
+        1.8,
+        1.95,
+        1.95,
+        1.95,
+        1.95
+      ],
+      "iterations": 2000,
+      "median_ns": 1.95
+    },
+    "compare/1048576/same_root/exact_equal": {
+      "samples_ns": [
+        3.7,
+        3.7,
+        3.9,
+        3.9,
+        3.85,
+        3.85,
+        3.9
+      ],
+      "iterations": 2000,
+      "median_ns": 3.85
+    },
+    "compare/1048576/same_root/hash_only_lcp": {
+      "samples_ns": [
+        6526.0,
+        6759.0,
+        6819.0,
+        6789.0,
+        6537.0,
+        6314.0,
+        6298.0
+      ],
+      "iterations": 100,
+      "median_ns": 6537.0
+    },
+    "compare/1048576/independent_equal/exact_lcp": {
+      "samples_ns": [
+        60430.0,
+        60546.0,
+        61623.0,
+        60703.0,
+        60712.0,
+        62494.0,
+        60777.0
+      ],
+      "iterations": 100,
+      "median_ns": 60712.0
+    },
+    "compare/1048576/independent_equal/exact_equal": {
+      "samples_ns": [
+        60769.0,
+        60258.0,
+        60160.0,
+        60036.0,
+        61906.0,
+        60082.0,
+        60023.0
+      ],
+      "iterations": 100,
+      "median_ns": 60160.0
+    },
+    "compare/1048576/independent_equal/hash_only_lcp": {
+      "samples_ns": [
+        6534.0,
+        6675.0,
+        6652.0,
+        6927.0,
+        6949.0,
+        6635.0,
+        6787.0
+      ],
+      "iterations": 100,
+      "median_ns": 6675.0
+    },
+    "compare/1048576/early_mismatch/exact_lcp": {
+      "samples_ns": [
+        85.1,
+        84.75,
+        84.4,
+        84.25,
+        84.25,
+        84.4,
+        84.35
+      ],
+      "iterations": 2000,
+      "median_ns": 84.4
+    },
+    "compare/1048576/early_mismatch/exact_equal": {
+      "samples_ns": [
+        87.0,
+        87.1,
+        86.25,
+        87.0,
+        91.35,
+        87.55,
+        86.7
+      ],
+      "iterations": 2000,
+      "median_ns": 87.0
+    },
+    "compare/1048576/early_mismatch/hash_only_lcp": {
+      "samples_ns": [
+        964.0,
+        958.0,
+        954.0,
+        956.0,
+        955.0,
+        954.0,
+        957.0
+      ],
+      "iterations": 100,
+      "median_ns": 956.0
+    },
+    "compare/1048576/late_mismatch/exact_lcp": {
+      "samples_ns": [
+        66497.0,
+        60214.0,
+        58892.0,
+        63496.0,
+        57913.0,
+        57918.0,
+        60386.0
+      ],
+      "iterations": 100,
+      "median_ns": 60214.0
+    },
+    "compare/1048576/late_mismatch/exact_equal": {
+      "samples_ns": [
+        63662.0,
+        56708.0,
+        55822.0,
+        59713.0,
+        56737.0,
+        56317.0,
+        57329.0
+      ],
+      "iterations": 100,
+      "median_ns": 56737.0
+    },
+    "compare/1048576/late_mismatch/hash_only_lcp": {
+      "samples_ns": [
+        6223.0,
+        6220.0,
+        6285.0,
+        6564.0,
+        6814.0,
+        6507.0,
+        6520.0
+      ],
+      "iterations": 100,
+      "median_ns": 6507.0
+    },
+    "compare/1048576/shared_late_mismatch/exact_lcp": {
+      "samples_ns": [
+        135.0,
+        126.0,
+        126.0,
+        126.0,
+        125.0,
+        125.0,
+        125.0
+      ],
+      "iterations": 100,
+      "median_ns": 126.0
+    },
+    "compare/1048576/shared_late_mismatch/exact_equal": {
+      "samples_ns": [
+        129.0,
+        128.0,
+        127.0,
+        127.0,
+        127.0,
+        130.0,
+        128.0
+      ],
+      "iterations": 100,
+      "median_ns": 128.0
+    },
+    "compare/1048576/shared_late_mismatch/hash_only_lcp": {
+      "samples_ns": [
+        6587.0,
+        6594.0,
+        6581.0,
+        6585.0,
+        6556.0,
+        6583.0,
+        6592.0
+      ],
+      "iterations": 100,
+      "median_ns": 6585.0
+    },
+    "compare/repeat_2TiB/exact_lcp": {
+      "samples_ns": [
+        135.8,
+        82.45,
+        85.9,
+        81.45,
+        80.9,
+        81.5,
+        82.4
+      ],
+      "iterations": 2000,
+      "median_ns": 82.4
+    },
+    "compare/repeat_2TiB/exact_equal": {
+      "samples_ns": [
+        84.75,
+        84.6,
+        86.1,
+        84.7,
+        83.5,
+        83.65,
+        82.65
+      ],
+      "iterations": 2000,
+      "median_ns": 84.6
+    },
+    "compare/repeat_2TiB/hash_only_lcp": {
+      "samples_ns": [
+        28550.0,
+        26772.0,
+        28504.0,
+        26514.0,
+        26274.0,
+        27331.0,
+        26263.0
+      ],
+      "iterations": 100,
+      "median_ns": 26772.0
+    },
+    "compare/self_concat_DAG_2TiB/exact_lcp": {
+      "samples_ns": [
+        343.0,
+        344.0,
+        344.0,
+        343.0,
+        341.0,
+        342.0,
+        343.0
+      ],
+      "iterations": 100,
+      "median_ns": 343.0
+    },
+    "compare/self_concat_DAG_2TiB/exact_equal": {
+      "samples_ns": [
+        334.0,
+        344.0,
+        340.0,
+        342.0,
+        346.0,
+        343.0,
+        343.0
+      ],
+      "iterations": 100,
+      "median_ns": 343.0
+    },
+    "compare/self_concat_DAG_2TiB/hash_only_lcp": {
+      "samples_ns": [
+        23230.0,
+        23887.0,
+        23394.0,
+        23766.0,
+        24018.0,
+        23597.0,
+        23565.0
+      ],
+      "iterations": 100,
+      "median_ns": 23597.0
+    }
+  },
+  "memory": {
+    "node_inner_bytes": 48,
+    "arena_inline_bytes": 2136,
+    "nodes_for_64KiB": 255
+  }
+}

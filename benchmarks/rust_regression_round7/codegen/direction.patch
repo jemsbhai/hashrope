@@ -1,0 +1,34 @@
+--- round6-baseline/rope.rs
++++ round7-direction/rope.rs
+@@ -638,15 +638,13 @@
+             return self.make_internal(left, right);
+         }
+ 
+-        self.join_unbalanced(left, right)
+-    }
+-
+-    // Pass only node IDs so join can tail-call this branch on the Windows x64
+-    // ABI. Passing both weights would add a stack argument and an extra call.
+-    fn join_unbalanced(&mut self, left: NodeId, right: NodeId) -> NodeId {
+-        let wl = self.node_weight(left);
+-        let wr = self.node_weight(right);
+-        if wl > wr {
++        self.join_unbalanced(left, right, wl > wr)
++    }
++
++    // Pass the known direction in the fourth Windows x64 register argument.
++    // This retains tail calls and avoids looking up either weight again.
++    fn join_unbalanced(&mut self, left: NodeId, right: NodeId, left_heavy: bool) -> NodeId {
++        if left_heavy {
+             match self.nodes[left as usize].clone() {
+                 NodeInner::Internal {
+                     left: ll,
+@@ -717,7 +715,7 @@
+                 Some(if Self::is_balanced_wt(wl, wr) {
+                     self.make_internal_prechecked(l, r, len, weight, right_len)
+                 } else {
+-                    self.join_unbalanced(l, r)
++                    self.join_unbalanced(l, r, wl > wr)
+                 })
+             }
+         }

@@ -1,0 +1,30 @@
+{
+  "audit": "Independent final cohort raw/provenance/statistical verification; no builds or timings.",
+  "script_sha256": "f5585f00255ed620801b90f664458959ef6d4734f88db7cfb10c17c09181c5f1",
+  "summary_sha256": "7cecad18844d0fd483e74bd640fc7d732eb55018b3bef3669dab025a29a90d35",
+  "verified": {
+    "processes": 48,
+    "samples": 8784,
+    "paired_vectors": 66,
+    "csv_rows": 66,
+    "archived_executables": 4,
+    "source_files_per_core": 6
+  },
+  "working_source_matches_candidate": {
+    "packages/rust/Cargo.toml": true,
+    "packages/rust/src/bigint.rs": true,
+    "packages/rust/src/lib.rs": true,
+    "packages/rust/src/polynomial_hash.rs": true,
+    "packages/rust/src/rope.rs": false,
+    "packages/rust/src/sliding.rs": true
+  },
+  "working_source_matches_baseline": {
+    "packages/rust/Cargo.toml": true,
+    "packages/rust/src/bigint.rs": true,
+    "packages/rust/src/lib.rs": true,
+    "packages/rust/src/polynomial_hash.rs": true,
+    "packages/rust/src/rope.rs": true,
+    "packages/rust/src/sliding.rs": true
+  },
+  "working_state": "restored_baseline"
+}

@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { gunzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { artifactDirectory, evidenceDirectory } from './release-paths.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const npmCli = [process.env.npm_execpath,
   path.join(path.dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js'),
@@ -17,9 +18,9 @@ function run(args) {
   return r.stdout;
 }
 run(['scripts/build.mjs']);
-mkdirSync(path.join(root, 'artifacts'), { recursive: true });
-const metadata = JSON.parse(run([npmCli, 'pack', '--ignore-scripts', '--json', '--pack-destination', 'artifacts']))[0];
-const filename = path.join(root, 'artifacts', metadata.filename);
+mkdirSync(artifactDirectory, { recursive: true });
+const metadata = JSON.parse(run([npmCli, 'pack', '--ignore-scripts', '--json', '--pack-destination', artifactDirectory]))[0];
+const filename = path.join(artifactDirectory, metadata.filename);
 const archive = readFileSync(filename);
 const tar = gunzipSync(archive);
 const readString = (buf) => buf.toString('utf8').replace(/\0.*$/s, '');
@@ -60,6 +61,6 @@ if (JSON.stringify(expected) !== JSON.stringify(entries.map(f => f.path).sort())
 const integrity = 'sha512-' + createHash('sha512').update(archive).digest('base64');
 if (metadata.integrity !== integrity) throw new Error('npm integrity mismatch');
 const result = { checkedAt: new Date().toISOString(), filename: metadata.filename, sha256: createHash('sha256').update(archive).digest('hex'), integrity, size: archive.length, unpackedSize: entries.reduce((sum, e) => sum + e.size, 0), files: entries, runtimeDependencies: Object.keys(manifest.dependencies ?? {}), passed: true };
-writeFileSync(path.join(root, 'evidence', 'tarball-inspection.json'), JSON.stringify(result, null, 2) + '\n');
-writeFileSync(path.join(root, 'artifacts', 'SHA256SUMS'), `${result.sha256}  ${metadata.filename}\n`);
+writeFileSync(path.join(evidenceDirectory, 'tarball-inspection.json'), JSON.stringify(result, null, 2) + '\n');
+writeFileSync(path.join(artifactDirectory, 'SHA256SUMS'), `${result.sha256}  ${metadata.filename}\n`);
 process.stdout.write(`Verified ${metadata.filename}: ${entries.length} files, ${archive.length} bytes, SHA256 ${result.sha256}\n`);

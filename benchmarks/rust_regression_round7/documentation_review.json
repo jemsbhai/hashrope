@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "builds_or_timings_run": false,
+  "final_table_cells": 66,
+  "main_trial_rows": 12,
+  "retained_ropey_rows": [
+    {
+      "cell": "10000/false/",
+      "baseline_hashrope_ropey_ratio": 3.5492118663272927
+    },
+    {
+      "cell": "10000/true/",
+      "baseline_hashrope_ropey_ratio": 3.8218804695282254
+    },
+    {
+      "cell": "100000/false/",
+      "baseline_hashrope_ropey_ratio": 1.769750144340787
+    },
+    {
+      "cell": "100000/true/",
+      "baseline_hashrope_ropey_ratio": 1.3572628103503277
+    },
+    {
+      "cell": "1000000/false/",
+      "baseline_hashrope_ropey_ratio": 1.312045084641601
+    },
+    {
+      "cell": "1000000/true/",
+      "baseline_hashrope_ropey_ratio": 0.24589780486343837
+    }
+  ],
+  "validation": {
+    "validation": {
+      "checks": 7,
+      "passed_tests": 221,
+      "archived_source_files": 25,
+      "results_sha256": "523bb58e80e2655a3695974c9a929a557f825b5c6fc3635b00afeca288b0d011"
+    },
+    "retained_validation": {
+      "checks": 7,
+      "passed_tests": 221,
+      "archived_source_files": 25,
+      "results_sha256": "391893e4858f3c1ab4fd4c4108ff790c95e51000d3a767bf233e224b4a54d673"
+    }
+  },
+  "current_core_files_equal_baseline": 6,
+  "fingerprint_candidate_time_change_percent": -7.248203029672407,
+  "documentation_sha256": {
+    "benchmarks/rust_regression_round7/README.md": "f24adc027952eab4c667f0d0d8e8d70badb9b9724f8b1d49979bf6ae323c51e1",
+    "benchmarks/rust_regression_round7/VALIDATION.md": "3ebeae0c8fa4668437b2cb99f77cc3bed24c37a527f270af56cd57d4d6278312",
+    "benchmarks/rust_regression_round7/final_comparison/README.md": "7e60addc3c6335e44a01b34272f43d26648b4ed8dd84aad94497483239a1463c",
+    "README.md": "0e7e60483fa4e7e01403f0d3328efb86be4849069c29fb8f4346e7bb118ed828",
+    "packages/rust/README.md": "fb0217dc8c251600bd1442df865f117bf02ac5896cfa4cda170bd3a137e61a99",
+    "packages/rust/PARITY.md": "e4ce355ce9db08a4888f1957d6779912ca442c07f8921775696619fc652db4e4",
+    "packages/rust/CHANGELOG.md": "a956e65d2f37de7024a1abbdd692efafb8a317545989267fff83eb5a39365c3b"
+  }
+}

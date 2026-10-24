@@ -1,0 +1,43 @@
+{
+  "script_sha256": "b91b9167a5190d9824bf60f296a812860f8ab36f172ed025ea1b51c60ce57095",
+  "workload_sha256": "5e1db225b95ff3199801a8c23aafe39e5c58af5370613e867692b0a43378f756",
+  "dumpbin_sha256": "22f0834029ca0dd4edefb7fce08280fcc039c6d8a1505cf30ef86d60faff20b3",
+  "arms": {
+    "unchanged": {
+      "rope_before_sha256": "8439fe38d04bde7a79ac5981ce3a4c6f5a5b4f727d9eeeaa278e2d286608b222",
+      "rope_sha256": "8439fe38d04bde7a79ac5981ce3a4c6f5a5b4f727d9eeeaa278e2d286608b222",
+      "cargo_manifest_sha256": "abb32f180307086df0f8c61c2546fa6c5b49994eef5dcd68c8ac5f404f28c3a2",
+      "cargo_lock_sha256": "7a1f87d149fbc438704c27e9a3e95821d179636a818348e6054cc432715b6a20",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\lcp-round6-codegen\\outline-build\\unchanged\\Cargo.toml"
+      ],
+      "binary_sha256": "138c0f709ab95c6cb07eaa74b179c1fe9bdcb0ec9ef5a89fdd56a0d69d7f7adf",
+      "rlib_sha256": "55bfac6ba6603a47ff422e95ae38da7c10e5adbe77b565bc639438995de69d7b",
+      "dump_sha256": "959ac1bcc4f9464fece429a223401236d86a92c50b615c2cb1937b96a3dacf9a"
+    },
+    "outlined": {
+      "rope_before_sha256": "8439fe38d04bde7a79ac5981ce3a4c6f5a5b4f727d9eeeaa278e2d286608b222",
+      "rope_sha256": "8ee19785d73b2166b6f1bd7cf35f00ee61572c5f662c182ce5d3b5ee19208b85",
+      "cargo_manifest_sha256": "abb32f180307086df0f8c61c2546fa6c5b49994eef5dcd68c8ac5f404f28c3a2",
+      "cargo_lock_sha256": "7a1f87d149fbc438704c27e9a3e95821d179636a818348e6054cc432715b6a20",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\lcp-round6-codegen\\outline-build\\outlined\\Cargo.toml"
+      ],
+      "binary_sha256": "cf8ce093924284317cdb458e9022efa38a6abe6afce0cc6e30b7897ed3236da7",
+      "rlib_sha256": "e51a8a8f029c3ce5bdf698c3cf0c93dd6d9893c78cec4916fe32b1201b23be44",
+      "dump_sha256": "d4c79b642528e301f46a0f4700275247f3839d7b83af4621f7d9321548fa7051"
+    }
+  }
+}

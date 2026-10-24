@@ -1,0 +1,133 @@
+{
+  "started_utc": "2026-10-24T19:25:35.200154+00:00",
+  "driver_sha256": "e1a29acc8428eb9f34b201ca5df61d26cfefed168927d7657ac2199adf81ca95",
+  "source_sha256": {
+    "packages/rust/Cargo.toml": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+    "packages/rust/Cargo.lock": "67c2149366d81eadf627bb43b9e322dab4a50838dd71f742155576ee22d105f9",
+    "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+    "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+    "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+    "packages/rust/src/rope.rs": "8439fe38d04bde7a79ac5981ce3a4c6f5a5b4f727d9eeeaa278e2d286608b222",
+    "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130",
+    "packages/rust/tests/diag_substr_scaling.rs": "f5b11f35033194ee099ad540dd127f26d9c038c6c59e32c90c3215522270331f",
+    "packages/rust/tests/downstream_contracts.rs": "91c8a090db08c2700046c778fdad16abe88d47f9cafbf3d957c4a4f34795d98f",
+    "packages/rust/tests/fixtures/pollard-1.6.0-hashrope-0.2.2.jsonl": "45174ce9b17341c5bd9efb800a403308d148ce799b60862896341c248a37e623",
+    "packages/rust/tests/fixtures/python-0.2.2.json": "4dee4bc115f6f2419ef15a8da8c2b6d15e51e28f027b29f25d877aa5e485220a",
+    "packages/rust/tests/python_conformance.rs": "d94f90b3e29af8aae6381e250419bfb127239238a66383379ff85cdad8de785d",
+    "packages/rust/tests/test_bigint_exact_comparison.rs": "109f1de5d46f606dd501e58ebebd0b91f7b00135f5ae713845fba167144a0457",
+    "packages/rust/tests/test_e1_throughput.rs": "b0e4cf80961d9ba10861e441c5047abd59ccdf1bd91f27199f26f37ed8432d01",
+    "packages/rust/tests/test_e2_concat_split.rs": "f9492c3f987bb79227ed9a49318c76b9d961a2bd0297b5e13948cb564273cb5c",
+    "packages/rust/tests/test_e3_repeat.rs": "74ca6502c64bebef5a15fcc8a4eef69c89ac018322b539c7a2f73ef82b25c746",
+    "packages/rust/tests/test_e4_phi.rs": "6f8aa34790f3746803aec117d3cd5e118fd9d5ebfc04d951e342fbb70b9fa8c1",
+    "packages/rust/tests/test_e5_sliding.rs": "0b8c538abb2680dbf6112fd2a235b8daa834b9dd256ea93a6d4e49662a899715",
+    "packages/rust/tests/test_e6_memory.rs": "135d34d099ee4cbd8a26533bea65b0c6dba3db2b14af5285ebe8b468d27a1a69",
+    "packages/rust/tests/test_e7_tree_height.rs": "fc3ca39c38109c4aee3525846c922b88f9c82b3be5f4dc5ae3637cbe0a1f00d1",
+    "packages/rust/tests/test_edit_optimization.rs": "b9ac3ac068a08e764f3c222ac1e9eecf0f332688df7e6c8776bf7cbcbe00cf2d",
+    "packages/rust/tests/test_exact_comparison.rs": "62664c6e5130801a3512faff732f850ed5309a2bac95e8d310b23c977a0881fa",
+    "packages/rust/tests/test_exact_optimization.rs": "d861662df0c815b9bea5b6807c0f11c775f9931ccdae42d66b57e2657b6e2f44",
+    "packages/rust/tests/test_exact_optimization_round2.rs": "a8928bb6beddfa5650f25ca17c7e9b60a2c71e381545d33d58c06b152798f3bf",
+    "packages/rust/tests/test_lcp_performance.rs": "afc3151b283c81a04b7900a5b73cdd551eab4c9648ebe3464ceba433aa59da3a"
+  },
+  "commands": [
+    {
+      "arguments": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/00.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "clippy",
+        "--all-features",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/01.log",
+      "sha256": "39dff46616d0a9dde7ccebd841fb90eec92f05b9bb7136cc4ba1e9dcfb60c580",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "test",
+        "--all-features",
+        "--release"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/02.log",
+      "sha256": "b22c0228c0227a3db223a8c6aaa89a3f472269aa108ef9ec26dffecd000b8a35",
+      "passed_tests": 219
+    },
+    {
+      "arguments": [
+        "cargo",
+        "test",
+        "--doc"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/03.log",
+      "sha256": "e7da87a571fea3d3d6e07e68527e1031951fcbe028ccb579ddac3f95f51f51db",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "check",
+        "--lib",
+        "--no-default-features",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/04.log",
+      "sha256": "0411303202b79f0ffbe29d119c1f3d172f44aa8506113f327f9567e5635a076c",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "check",
+        "--lib",
+        "--all-features",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/05.log",
+      "sha256": "a20ce813d4ee57d6c06e4c71829c803ad64c5d2917091eae08f0def65798ff09",
+      "passed_tests": 0
+    },
+    {
+      "arguments": [
+        "cargo",
+        "doc",
+        "--no-deps",
+        "--all-features"
+      ],
+      "working_directory": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\rust",
+      "returncode": 0,
+      "log": "validation/06.log",
+      "sha256": "88a4bb02d00dd923bae720a09b0c0ad0857d5886372d90e58c0a18e9a1bdce40",
+      "passed_tests": 0
+    }
+  ],
+  "finished_utc": "2026-10-24T19:28:02.762042+00:00",
+  "source_unchanged": true,
+  "success": true
+}

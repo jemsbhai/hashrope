@@ -2,6 +2,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import * as api from '../dist/esm/index.js';
+import path from 'node:path';
+import { evidenceDirectory } from './release-paths.mjs';
 const manifest = JSON.parse(readFileSync(new URL('../test/fixtures/manifest.json', import.meta.url)));
 const camel = name => name.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
 const mappings = {};
@@ -36,5 +38,5 @@ assert.equal(h.prime, api.MERSENNE_61); assert.equal(h.base, 131n);
 assert.equal(instances.SlidingWindow.h.prime, h.prime);
 assert.equal(instances.SlidingWindow.h.base, h.base);
 const result = { pythonVersion: manifest.pythonVersion, exportedNames: Object.keys(mappings).length, mappings, publicMembers, balanceConstantsChecked: true, versionsChecked: true, result: 'all mapped exports and public members present' };
-writeFileSync(new URL('../evidence/oracle-api-audit.json', import.meta.url), JSON.stringify(result, null, 2) + '\n');
+writeFileSync(path.join(evidenceDirectory, 'oracle-api-audit.json'), JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify({ exportedNames: result.exportedNames, classes: Object.keys(publicMembers).length, result: result.result }));

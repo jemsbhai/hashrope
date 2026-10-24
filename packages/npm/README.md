@@ -1,12 +1,12 @@
 # hashrope
 
-Hashrope **0.3.3** for Node.js and browsers, preserving the published npm 0.2.2 fingerprint contracts and adding profile-safe metadata operations and exact whole/range comparisons. Persistent byte ropes carry polynomial fingerprints through concatenation, splitting, repetition, substring queries and streaming copies. Zero runtime dependencies. MIT licensed.
+Hashrope **0.3.4** for Node.js and browsers, preserving the published npm 0.2.2 fingerprint contracts and adding profile-safe metadata operations and exact whole/range comparisons. Persistent byte ropes carry polynomial fingerprints through concatenation, splitting, repetition, substring queries and streaming copies. Zero runtime dependencies. MIT licensed.
 
 ```sh
-npm install hashrope
+npm install hashrope@0.3.4
 ```
 
-The starting implementation is the published npm `hashrope@0.2.2` artifact. All 46 published files matched the authoritative standalone source before integration here; see [release provenance](docs/RELEASE.md). This checkout prepares version 0.3.3; publication status is recorded separately by the release process.
+The starting implementation is the published npm `hashrope@0.2.2` artifact. All 46 published files matched the authoritative standalone source before integration here; see [release provenance](docs/RELEASE.md). Version 0.3.4 synchronizes package versions; JavaScript algorithms and fingerprints are unchanged from 0.3.3. Only release metadata, documentation and checks change. The [coordinated release notes](https://github.com/jemsbhai/hashrope/blob/master/releases/0.3.4/README.md) describe the Rust-only LCP/concat improvements, the remaining approximately 2% pinned Rust LCP cost and mixed 100 KB results. Those measurements do not establish a universal speedup or a JavaScript performance change. Publication status is recorded separately by the release process.
 
 ```ts
 import { PolynomialHash, Leaf, ropeConcat, ropeSplit, ropeHash,

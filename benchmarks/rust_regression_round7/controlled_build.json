@@ -1,0 +1,61 @@
+{
+  "freeze_sha256": "17506c187dd2a99b474190799cb15051b0af8b9ca40ed91dc431d43da470be88",
+  "rustc": "rustc 1.94.0 (4a4ef493e 2026-03-02)\nbinary: rustc\ncommit-hash: 4a4ef493e3a1488c6e321570238084b38948f6db\ncommit-date: 2026-03-02\nhost: x86_64-pc-windows-msvc\nrelease: 1.94.0\nLLVM version: 21.1.8\n",
+  "cargo": "cargo 1.94.0 (85eff7c80 2026-01-15)\n",
+  "environment": {
+    "RUSTFLAGS": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "RUSTC_WRAPPER": null
+  },
+  "builds": {
+    "prior_current": {
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round7\\.cache\\controlled\\prior_current\\Cargo.toml"
+      ],
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round7\\.cache\\controlled\\prior_current\\target\\release\\hashrope-controlled-regression.exe",
+      "binary_sha256": "76757cd618f4be5b4e1bf752e4b42ec650bc10f031af3e17ec23928409994dec",
+      "lock_sha256": "7f8031545dca9ea8aae3f5746c77351e14ba29ceeaa1388f15772f6cdad4794c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "598a092802901dbd9afa580f8de5ebf84c17b7dc86eff89352b93533416aa9c7"
+    },
+    "current_prior": {
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round7\\.cache\\controlled\\current_prior\\Cargo.toml"
+      ],
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round7\\.cache\\controlled\\current_prior\\target\\release\\hashrope-controlled-regression.exe",
+      "binary_sha256": "99f7273a8806e4342050a1e59ecca09ee12588003aff097e160fbfc57282b785",
+      "lock_sha256": "7f8031545dca9ea8aae3f5746c77351e14ba29ceeaa1388f15772f6cdad4794c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ff09d292d1e3c084056d4cc5938e58c65f09ab8e2d91ebad49a9dfd9bb110843"
+    },
+    "current_current": {
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round7\\.cache\\controlled\\current_current\\Cargo.toml"
+      ],
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round7\\.cache\\controlled\\current_current\\target\\release\\hashrope-controlled-regression.exe",
+      "binary_sha256": "d48c80254a94c6a04f01ac4f9751ecd5f1474bd84401dc2c007dd8f75c4932dd",
+      "lock_sha256": "7f8031545dca9ea8aae3f5746c77351e14ba29ceeaa1388f15772f6cdad4794c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "94e2ff5882900b5075c22220b61cad4074583e10469774718e76bf60999b85a4"
+    }
+  },
+  "binary_archive_sha256": "68c6f6196ed9e002ec2abf76cfaed5d763f3208402cdcba967c83b72eb810e2e"
+}

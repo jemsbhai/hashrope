@@ -1,0 +1,43 @@
+{
+  "frozen_utc": "2026-10-24T19:38:33.987594+00:00",
+  "baseline": "reviewed round5 candidate; current optimization baseline",
+  "historical_reference": "published0.3.3 committed sources, for within-study recurrence diagnostics",
+  "source_parent": "benchmarks/rust_lcp_round5",
+  "parent_manifest_sha256": "d3da2a15afaccaa92d9be5905da8a35aa2fa6838e718f0bebdb3263b171b4e91",
+  "parent_build_sha256": "51992594915d06f190b7b0de0bf952f07268b161112f443eb4aa36b33272a70e",
+  "parent_initial_results_sha256": "8b213c4fa16d79b867c28f27ecdd5bcc2a192bd68e95059df3f5ca6e480b6c2e",
+  "parent_confirmation_results_sha256": "80e647c5ea7e2ecb1ebbbeb8c6401150d8f2f2d2ccef4d0c1843a5e3c7fa9673",
+  "archives": {
+    "baseline.zip": "c79883e17f6162a7d2044f71276bf67c87ac0a7b62fb2341cc1279c82145bdd3",
+    "released_033_reference.zip": "31b66a0640a8094c2fc1c660d11b9d1c4773c39a812863331420bf1ed00b55e2",
+    "round5_binaries.zip": "cae412b6ce61fa0eadd0c9451791d260963e60867fd36ccec501fff793a1f8f7"
+  },
+  "source_sha256": {
+    "baseline": {
+      "packages/rust/Cargo.toml": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+      "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+      "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+      "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+      "packages/rust/src/rope.rs": "8439fe38d04bde7a79ac5981ce3a4c6f5a5b4f727d9eeeaa278e2d286608b222",
+      "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130"
+    },
+    "released_033_reference": {
+      "packages/rust/Cargo.toml": "5b4b2c1ec93946e8fd4fd62f876f2265ac3f47b689309f747993e3e5955e485a",
+      "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+      "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+      "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+      "packages/rust/src/rope.rs": "0121a5b8f6f7b521b51fcf0f6f6db85e4d0de8e6001385f4e65aa451b7a97f6c",
+      "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130"
+    }
+  },
+  "retained_executables": {
+    "baseline": {
+      "micro": "4f0c6488e9b8f4470f77584ca71b382f5d826f3e58481c27a4da66816766b089",
+      "churn": "9a71ddc1120b976909f9aaa25b90b869f57e83894d4c00ddd12dd8ea26124f62"
+    },
+    "candidate": {
+      "micro": "d01437355c1e503bf170eb4adeeb6ac43ff729043e494efef9ad3d488420a18c",
+      "churn": "93289f68763368a66616818038df058b7f979581e5e815d62882e8c5a247018c"
+    }
+  }
+}

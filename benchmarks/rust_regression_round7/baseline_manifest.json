@@ -1,0 +1,45 @@
+{
+  "frozen_utc": "2026-10-24T20:18:56.854618+00:00",
+  "baseline": "frozen round-six optimization; starting point for round seven",
+  "prior_reference": "frozen round-five optimization; diagnostic comparison only",
+  "parent": "benchmarks/rust_regression_round6/final_comparison",
+  "parent_manifest_sha256": "b52e8d2e1df1f13bcedb009cbe7bc590208b7f66155a9de17152b8f85d21d5c9",
+  "parent_build_sha256": "b963f82c73e7cb091eb2fb31dec262009c60170f4727f34c22e479a025da166f",
+  "parent_results_sha256": "c30350ce6a7d13681a2615bc8759e27c3e8694c72300d70aa3882f9442593c69",
+  "parent_summary_sha256": "a61621f257a976a9856cee83241076ec1e5fa28df26b546c8c26d83c646f2abc",
+  "parent_confirmation_results_sha256": "7d21ab4c50b289f83ca2702d047d7f7b68b51a761a7d8adc6d97817904623a94",
+  "parent_confirmation_summary_sha256": "c1faf207edfcde2907068c295caebdaec9e2d46c4cf4e2e89a8b3a8126d9792f",
+  "archives": {
+    "baseline.zip": "1fa5fdf834179d9ee397343df085b262cb007343bb4fc96cdf9bfa6243f4c7f7",
+    "prior_round5.zip": "c79883e17f6162a7d2044f71276bf67c87ac0a7b62fb2341cc1279c82145bdd3",
+    "round6_final_binaries.zip": "d0edf137d2e6f7dbe0627fb61e8de4de0631c0b01762fe78551c98f5d68042e9"
+  },
+  "source_sha256": {
+    "baseline": {
+      "packages/rust/Cargo.toml": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+      "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+      "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+      "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+      "packages/rust/src/rope.rs": "50d9441b03d5e6f4acba329bcd449fe5dbc4354b6f09c2d9c28fb54cc916d4e7",
+      "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130"
+    },
+    "prior_round5": {
+      "packages/rust/Cargo.toml": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+      "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+      "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+      "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+      "packages/rust/src/rope.rs": "8439fe38d04bde7a79ac5981ce3a4c6f5a5b4f727d9eeeaa278e2d286608b222",
+      "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130"
+    }
+  },
+  "retained_executables": {
+    "baseline": {
+      "micro": "12cdf3036a59bc572b5c6c5b83dd45c8c1ed5d4233c8593843cb6d2b58a6a950",
+      "churn": "205417591ef8ae337803a97332d550f88399f1fbe12fc491ccfacd4fa4f2f4c1"
+    },
+    "candidate": {
+      "micro": "c0bb378e7cfd3672defb2ef6ff67a9cf4896eb3ae26bac45eb5091b89f2c0f7a",
+      "churn": "a56066f2912e1f355b842851ece617ed77d5faf8b6176fb83b42cddbb2b73917"
+    }
+  }
+}

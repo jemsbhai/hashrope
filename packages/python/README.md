@@ -26,12 +26,14 @@ these compare bytes while taking advantage of shared structure and repetition.
 
 ## Install
 
-Version 0.3.3 adds exact comparison and hash-profile checks while preserving
-existing fingerprints and defaults. Version numbers are synchronized across
-the core packages; language-specific APIs and performance are documented separately.
+Version 0.3.4 synchronizes the published packages. Python's comparison and
+fingerprint implementations are unchanged from 0.3.3, which introduced exact
+comparison and hash-profile checks. Existing fingerprints and defaults remain
+compatible. Version parity does not promise identical APIs or speed across
+languages; see the [release scope and performance caveats](https://github.com/jemsbhai/hashrope/blob/master/releases/0.3.4/README.md).
 
 ```
-pip install "hashrope>=0.3.3"
+pip install "hashrope>=0.3.4"
 ```
 
 ## Quick start

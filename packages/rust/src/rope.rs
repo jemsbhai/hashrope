@@ -305,22 +305,37 @@ impl Arena {
 
     #[inline]
     fn make_internal(&mut self, left: NodeId, right: NodeId) -> NodeId {
-        let len = self
-            .node_len(left)
-            .checked_add(self.node_len(right))
+        let left_len = self.node_len(left);
+        let right_len = self.node_len(right);
+        let len = left_len
+            .checked_add(right_len)
             .expect("Rope length exceeds u64::MAX");
         let weight = self
             .node_weight(left)
             .checked_add(self.node_weight(right))
             .expect("Rope weight exceeds u64::MAX");
+        self.make_internal_prechecked(left, right, len, weight, right_len)
+    }
+
+    // Callers have checked both sums before reaching this allocation. Retaining
+    // those values lets public concat avoid checking the same metadata again
+    // when its two roots can be joined without rebalancing.
+    // Inline this shared tail so existing make_internal callers do not gain
+    // another function call merely because public concat can reuse its sums.
+    #[inline(always)]
+    fn make_internal_prechecked(
+        &mut self,
+        left: NodeId,
+        right: NodeId,
+        len: u64,
+        weight: u64,
+        right_len: u64,
+    ) -> NodeId {
         let hash_val = if self.lazy {
             LAZY_SENTINEL
         } else {
-            self.h.hash_concat(
-                self.hash_val(left),
-                self.node_len(right),
-                self.hash_val(right),
-            )
+            self.h
+                .hash_concat(self.hash_val(left), right_len, self.hash_val(right))
         };
         self.alloc(NodeInner::Internal {
             left,
@@ -527,11 +542,6 @@ impl Arena {
     // Balance helpers (Invariant I8)
     // -----------------------------------------------------------------------
 
-    #[inline]
-    fn is_balanced(&self, left: NodeId, right: NodeId) -> bool {
-        Self::is_balanced_wt(self.node_weight(left), self.node_weight(right))
-    }
-
     /// Weight-only balance check (no node lookup needed).
     #[inline]
     fn is_balanced_wt(wl: u64, wr: u64) -> bool {
@@ -622,13 +632,20 @@ impl Arena {
     // -----------------------------------------------------------------------
 
     fn join(&mut self, left: NodeId, right: NodeId) -> NodeId {
-        if self.is_balanced(left, right) {
+        let wl = self.node_weight(left);
+        let wr = self.node_weight(right);
+        if Self::is_balanced_wt(wl, wr) {
             return self.make_internal(left, right);
         }
 
+        self.join_unbalanced(left, right)
+    }
+
+    // Pass only node IDs so join can tail-call this branch on the Windows x64
+    // ABI. Passing both weights would add a stack argument and an extra call.
+    fn join_unbalanced(&mut self, left: NodeId, right: NodeId) -> NodeId {
         let wl = self.node_weight(left);
         let wr = self.node_weight(right);
-
         if wl > wr {
             match self.nodes[left as usize].clone() {
                 NodeInner::Internal {
@@ -689,13 +706,19 @@ impl Arena {
             (_, None) => left,
             (Some(l), Some(r)) => {
                 // Reject an unrepresentable result before join allocates any nodes.
-                self.node_len(l)
-                    .checked_add(self.node_len(r))
+                let left_len = self.node_len(l);
+                let right_len = self.node_len(r);
+                let len = left_len
+                    .checked_add(right_len)
                     .expect("Rope length exceeds u64::MAX");
-                self.node_weight(l)
-                    .checked_add(self.node_weight(r))
-                    .expect("Rope weight exceeds u64::MAX");
-                Some(self.join(l, r))
+                let wl = self.node_weight(l);
+                let wr = self.node_weight(r);
+                let weight = wl.checked_add(wr).expect("Rope weight exceeds u64::MAX");
+                Some(if Self::is_balanced_wt(wl, wr) {
+                    self.make_internal_prechecked(l, r, len, weight, right_len)
+                } else {
+                    self.join_unbalanced(l, r)
+                })
             }
         }
     }
@@ -1160,6 +1183,60 @@ impl FastComparison<'_> {
                 return Ok(length);
             }
             let remaining = length - matched;
+            // Independently built trees often have matching branch boundaries.
+            // Their complete left children can be compared directly, without
+            // normalizing both parents and then looking up the same boundaries
+            // again. This is a structural shortcut only: every child still goes
+            // through exact comparison, and both parent visits spend budget.
+            if a.offset == 0 && b.offset == 0 {
+                if let (
+                    NodeInner::Internal {
+                        left: al,
+                        right: ar,
+                        ..
+                    },
+                    NodeInner::Internal {
+                        left: bl,
+                        right: br,
+                        ..
+                    },
+                ) = (
+                    &self.left.nodes[a.node as usize],
+                    &self.right.nodes[b.node as usize],
+                ) {
+                    let piece = self.left.node_len(*al);
+                    if piece < remaining && piece == self.right.node_len(*bl) {
+                        self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+                        self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+                        let (al, ar, bl, br) = (*al, *ar, *bl, *br);
+                        match self.lcp_recursive(
+                            RangeStart {
+                                node: al,
+                                offset: 0,
+                            },
+                            RangeStart {
+                                node: bl,
+                                offset: 0,
+                            },
+                            piece,
+                        ) {
+                            Ok(common) if common == piece => {}
+                            Ok(common) => return Ok(matched + common),
+                            Err(common) => return Err(matched + common),
+                        }
+                        a = RangeStart {
+                            node: ar,
+                            offset: 0,
+                        };
+                        b = RangeStart {
+                            node: br,
+                            offset: 0,
+                        };
+                        matched += piece;
+                        continue;
+                    }
+                }
+            }
             a = Self::normalize(self.left, a, remaining, &mut self.visits_left).ok_or(matched)?;
             b = Self::normalize(self.right, b, remaining, &mut self.visits_left).ok_or(matched)?;
             if self.same_arena && a.node == b.node && a.offset == b.offset {
@@ -1408,13 +1485,13 @@ impl<'a> ExactComparison<'a> {
     // those proven edges; ordinary Internal nodes are never assumed periodic.
     // Reducing nested powers avoids proving each doubling separately in the
     // range cache. Any substring keeps this period, regardless of its phase.
-    fn structural_period(arena: &Arena, mut node: NodeId) -> Option<u64> {
+    fn structural_period_root(arena: &Arena, mut node: NodeId) -> Option<NodeId> {
         let mut repeated = false;
         loop {
             match &arena.nodes[node as usize] {
                 NodeInner::Repeat { child, .. } => node = *child,
                 NodeInner::Internal { left, right, .. } if left == right => node = *left,
-                _ => return repeated.then(|| arena.node_len(node)),
+                _ => return repeated.then_some(node),
             }
             repeated = true;
         }
@@ -1475,16 +1552,75 @@ impl<'a> ExactComparison<'a> {
                 )
         };
         if length > 0 && repeated(self.left, a.node) && repeated(self.right, b.node) {
-            let p = Self::structural_period(self.left, a.node).unwrap();
-            let q = Self::structural_period(self.right, b.node).unwrap();
+            let left_unit = Self::structural_period_root(self.left, a.node).unwrap();
+            let right_unit = Self::structural_period_root(self.right, b.node).unwrap();
+            let p = self.left.node_len(left_unit);
+            let q = self.right.node_len(right_unit);
             let witness = p.saturating_add(q - gcd(p, q));
             if witness < length {
-                // Compare actual range bytes, retaining both phase offsets.
-                let common = self.lcp_inner(a, b, witness);
+                let common = if p == q {
+                    // One complete period proves these two phased sequences.
+                    // Compare valid slices of the period roots directly, rather
+                    // than walking both repetition chains again from the roots.
+                    // Each phase wraps at most once, so there are at most three
+                    // pieces, regardless of the expanded query length.
+                    self.equal_period_lcp(left_unit, a.offset % p, right_unit, b.offset % p, p)
+                } else {
+                    // Distinct periods retain the general Fine-Wilf witness.
+                    self.lcp_inner(a, b, witness)
+                };
                 return if common == witness { length } else { common };
             }
         }
         self.lcp_inner(a, b, length)
+    }
+
+    fn equal_period_lcp(
+        &mut self,
+        left_unit: NodeId,
+        mut left_phase: u64,
+        right_unit: NodeId,
+        mut right_phase: u64,
+        period: u64,
+    ) -> u64 {
+        // Compressed units can reuse proofs between the phase pieces. Ordinary
+        // units use the bounded cache-free path; a compact unit retains this
+        // comparison's memo table rather than starting up to three new tables.
+        let stored_nodes = self.left.nodes.len().saturating_add(self.right.nodes.len());
+        let compressed = self.left.node_weight(left_unit) > stored_nodes as u64
+            || self.right.node_weight(right_unit) > stored_nodes as u64;
+        let mut matched = 0;
+        while matched < period {
+            let piece = (period - matched)
+                .min(period - left_phase)
+                .min(period - right_phase);
+            let a = RangeStart {
+                node: left_unit,
+                offset: left_phase,
+            };
+            let b = RangeStart {
+                node: right_unit,
+                offset: right_phase,
+            };
+            let common = if compressed {
+                self.lcp_inner(a, b, piece)
+            } else {
+                exact_lcp(self.left, self.right, a, b, piece)
+            };
+            matched += common;
+            if common < piece {
+                return matched;
+            }
+            left_phase += piece;
+            right_phase += piece;
+            if left_phase == period {
+                left_phase = 0;
+            }
+            if right_phase == period {
+                right_phase = 0;
+            }
+        }
+        period
     }
 
     fn lcp_inner(&mut self, a: RangeStart, b: RangeStart, length: u64) -> u64 {
@@ -1698,6 +1834,101 @@ mod tests {
 
     fn arena() -> Arena {
         Arena::new()
+    }
+
+    #[test]
+    fn test_prechecked_concat_preserves_join_node_sequence() {
+        for (prime, base) in [((1 << 61) - 1, 131), (17, 2), (31, 3)] {
+            for lazy in [false, true] {
+                for (left_count, right_count) in [
+                    (1, 1),
+                    (2, 5),
+                    (5, 2),
+                    (2, 6),
+                    (6, 2),
+                    (1, 64),
+                    (64, 1),
+                    (63, 64),
+                    (64, 63),
+                    (64, 64),
+                ] {
+                    for repeats in [false, true] {
+                        let mut actual = Arena::with_hash(prime, base);
+                        actual.lazy = lazy;
+                        let (left, right) = if repeats {
+                            let a = actual.from_bytes(b"abc");
+                            let b = actual.from_bytes(b"\0\xff\r");
+                            (actual.repeat(a, left_count), actual.repeat(b, right_count))
+                        } else {
+                            (
+                                actual.from_bytes(&alloc::vec![b'a'; left_count as usize * 512]),
+                                actual.from_bytes(&alloc::vec![b'b'; right_count as usize * 512]),
+                            )
+                        };
+                        let mut reference = Arena::with_hash(prime, base);
+                        reference.lazy = lazy;
+                        reference.nodes = actual.nodes.clone();
+                        // Keep the pre-existing recursive join path as a direct
+                        // structural oracle for the new public balanced shortcut.
+                        let expected = reference.join(left.unwrap(), right.unwrap());
+                        let joined = actual.concat(left, right);
+                        assert_eq!(joined, Some(expected));
+                        assert_eq!(
+                            alloc::format!("{:?}", actual.nodes),
+                            alloc::format!("{:?}", reference.nodes)
+                        );
+                        actual.ensure_hash(joined.unwrap());
+                        reference.ensure_hash(expected);
+                        assert_eq!(
+                            alloc::format!("{:?}", actual.nodes),
+                            alloc::format!("{:?}", reference.nodes)
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_prechecked_concat_rejects_before_allocation() {
+        extern crate std;
+        use std::panic::{catch_unwind, AssertUnwindSafe};
+        for lazy in [false, true] {
+            for length_overflow in [false, true] {
+                let mut a = if lazy { Arena::new_lazy() } else { arena() };
+                let leaf = a.from_bytes(b"a").unwrap();
+                let huge = a.repeat(Some(leaf), u64::MAX).unwrap();
+                if !length_overflow {
+                    // Weight overflow is otherwise preceded by length overflow
+                    // for valid nodes. Exercise its independent preflight with
+                    // private test metadata and no byte traversal.
+                    if let NodeInner::Repeat { len, .. } = &mut a.nodes[huge as usize] {
+                        *len = 1;
+                    }
+                }
+                let before = alloc::format!("{:?}", a.nodes);
+                let failure = catch_unwind(AssertUnwindSafe(|| a.concat(Some(huge), Some(leaf))))
+                    .expect_err("overflow must be rejected");
+                let message = failure
+                    .downcast_ref::<&str>()
+                    .copied()
+                    .or_else(|| {
+                        failure
+                            .downcast_ref::<alloc::string::String>()
+                            .map(|s| s.as_str())
+                    })
+                    .unwrap();
+                assert_eq!(
+                    message,
+                    if length_overflow {
+                        "Rope length exceeds u64::MAX"
+                    } else {
+                        "Rope weight exceeds u64::MAX"
+                    }
+                );
+                assert_eq!(alloc::format!("{:?}", a.nodes), before);
+            }
+        }
     }
 
     #[test]
@@ -3804,6 +4035,94 @@ mod exact_fast_path_tests {
         assert_eq!(
             exact_lcp(&left_arena, &right_arena, a, b, 16_384),
             8192 + 511
+        );
+    }
+
+    #[test]
+    fn aligned_same_arena_budget_exhaustion_preserves_verified_prefix() {
+        let bytes: Vec<u8> = (0..256).map(|i| (i * 37) as u8).collect();
+        let mut changed = bytes.clone();
+        changed[211] ^= 0x80;
+        let mut arena = Arena::new_lazy();
+        let left = chunked(&mut arena, &bytes, 16).unwrap();
+        let right = chunked(&mut arena, &changed, 16).unwrap();
+        let a = RangeStart {
+            node: left,
+            offset: 0,
+        };
+        let b = RangeStart {
+            node: right,
+            offset: 0,
+        };
+        let mut saw_nonzero_fallback = false;
+        let mut saw_success = false;
+        for budget in 0..=128 {
+            let mut comparison = fast(&arena, &arena, budget);
+            match comparison.lcp_recursive(a, b, 256) {
+                Ok(common) => {
+                    assert_eq!(common, 211);
+                    saw_success = true;
+                }
+                Err(matched) => {
+                    assert_eq!(comparison.visits_left, 0);
+                    assert!(matched <= 211);
+                    saw_nonzero_fallback |= matched > 0;
+                    let rest = ExactComparison::new(&arena, &arena).lcp(
+                        RangeStart {
+                            offset: matched,
+                            ..a
+                        },
+                        RangeStart {
+                            offset: matched,
+                            ..b
+                        },
+                        256 - matched,
+                    );
+                    assert_eq!(matched + rest, 211);
+                }
+            }
+        }
+        assert!(saw_nonzero_fallback && saw_success);
+        for budget in [0, 1, 2, 3] {
+            let mut comparison = fast(&arena, &arena, budget);
+            assert_eq!(comparison.lcp_recursive(a, b, 256), Err(0));
+            assert_eq!(comparison.visits_left, 0);
+        }
+    }
+
+    #[test]
+    fn equal_period_unit_proofs_leave_general_cache_empty() {
+        let mut arena = Arena::new_lazy();
+        let unit_a = chunked(&mut arena, b"aaaaaaa", 3);
+        let unit_b = chunked(&mut arena, b"aaaaaaa", 2);
+        let mut left = unit_a;
+        let mut right = unit_b;
+        for _ in 0..40 {
+            left = arena.concat(left, left);
+            right = arena.concat(right, right);
+        }
+        assert_eq!(
+            ExactComparison::structural_period_root(&arena, left.unwrap()),
+            unit_a
+        );
+        assert_eq!(
+            ExactComparison::structural_period_root(&arena, right.unwrap()),
+            unit_b
+        );
+        let a = RangeStart {
+            node: left.unwrap(),
+            offset: 2,
+        };
+        let b = RangeStart {
+            node: right.unwrap(),
+            offset: 5,
+        };
+        let length = 7 << 39;
+        let mut comparison = ExactComparison::new(&arena, &arena);
+        assert_eq!(comparison.lcp(a, b, length), length);
+        assert!(
+            comparison.equal_ranges.is_empty(),
+            "period-root proof must not allocate the general range cache"
         );
     }
 }

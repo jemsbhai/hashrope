@@ -1,5 +1,83 @@
 # Rust parity with published Python
 
+## Version 0.3.4
+
+The synchronized patch includes the accepted Rust LCP and concat optimizations.
+The other language runtimes and biology algorithms remain unchanged. Exact
+semantics, public APIs, fingerprint arithmetic/defaults and node layout are
+preserved. The rejected round-seven trial is excluded. The roughly 2% pinned
+LCP cost, mixed 100 KB edit/comparison results and remaining Ropey gaps are
+explicit limitations, not established noise or universal efficiency parity.
+See the [0.3.4 release record](../../releases/0.3.4/README.md) for current gates.
+The studies below retain their original source identities and version metadata.
+
+## Latest regression follow-up: round-six core retained
+
+The [round-seven investigation](../../benchmarks/rust_regression_round7/README.md)
+does not establish stable repetitions of the earlier 100 KB edit/comparison
+or 1 MiB LCP slowdown magnitudes. The new twelve-pair original-executable
+estimates are +2.0% and −0.7%, respectively. Controlled pinned LCP retains
+about a 2% cost in both implementation-slot orders, and a secondary pinned
+comparison-only estimate is slower. These unresolved, context-sensitive
+signals are not dismissed as noise.
+
+A correctness-preserving join trial removed redundant weight lookups but
+increased register saves and wrapper instructions. Its full twelve-pair
+comparison establishes no useful improvement for either target and retains
+secondary early-mismatch slowdowns as well as some gains. The trial was
+rejected; all six core source files match the frozen round-six baseline.
+Both trial and retained-core validation are recorded separately in
+[VALIDATION.md](../../benchmarks/rust_regression_round7/VALIDATION.md).
+Exact semantics, fingerprints, defaults, layouts, bigint and versions remain
+unchanged. The previous concat improvement repeats, but correctness parity
+does not promise uniform performance or parity with Ropey.
+
+## Earlier concat follow-up included in 0.3.4
+
+Balanced concat reuses already checked length/weight metadata; unbalanced joins
+and the shared constructor tail avoid adding call overhead in the inspected
+Windows build. Profile checks, overflow order, wide balance arithmetic, full
+node sequences, fingerprints, defaults, layout and exact comparison semantics
+are preserved. All 221 release tests and tooling/platform compilation checks
+pass; the bigint implementation and versions remain unchanged.
+
+The [round-six study](../../benchmarks/rust_regression_round6/README.md) does not
+reproduce a stable original 5.1% long edit/comparison penalty. The original
+concat signal recurs in short runs but changes with controlled context. The
+selected optimization takes 14.5% less concat time in nine fresh pairs (8/9
+faster), while independent 1M edit/comparison changes by +1.4%. A secondary
+100K independent result is +4.4% (8/9 slower); a separate six-pair confirmation
+estimates −1.7%, with mixed directions. Concat improves 12.2% in that confirmation
+(5/6 faster). Both cohorts, all cells and uncertainty remain visible; the 100K
+cost is unresolved. Behavioral/fingerprint parity does
+not imply uniform performance gains or parity with Ropey.
+Independent 1 MiB LCP changes from −2.0% to +6.8% across the two cohorts;
+that secondary reversal is retained alongside the concat improvement.
+
+## Earlier Rust LCP follow-up included in 0.3.4
+
+The fixed-width comparator now enters aligned child ranges directly and verifies
+equal-period compressed witnesses at their structurally proven period roots.
+The bigint backend, fingerprints, defaults, node layout and package versions
+are unchanged. All 219 tests in the complete Rust release suite pass, including
+the existing published-reference fixtures and seven new range/budget regressions.
+Strict all-feature linting passes, and wasm32 checks pass in both feature modes.
+
+The [round-five measurements](../../benchmarks/rust_lcp_round5/README.md) retain
+the same 42 microbenchmark and 24 edit/comparison cells against 0.3.3. An initial
+three-pair cohort and six additional pairs using identical executables yield
+pooled LCP time reductions of 17.0% for independent 64 KiB inputs, 13.0% for
+independent 1 MiB inputs, and 58.3% for the 2 TiB self-concat DAG. These paired
+estimates improve in 8/9, 9/9 and 9/9 pairs respectively. They do not imply
+identical language performance or a logarithmic exact-comparison bound.
+
+The report also preserves unresolved costs: independent 1 MB edit/comparison
+is 5.1% slower pooled (5/9 pairs), compared with +11.5% in the original three
+and +2.0% in the additional six. The unchanged concat control is +8.4% pooled
+(6/9), and the distinct-period repeat LCP is +1.35% (5/9). Variation is not proof
+of noise, and these results do not establish universal efficiency. This local
+Windows/default-feature study does not benchmark bigint or other languages.
+
 ## Version 0.3.3
 
 The synchronized release adds hash-independent exact equality, LCP and checked

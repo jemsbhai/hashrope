@@ -1,0 +1,73 @@
+{
+  "source_sha256": "5931fcb08942a8ea887bb38ec25f57e651665583a39a42142af090f687f231d6",
+  "extractor_sha256": "0d49e313c091f748c54fa4dc702703173c18453d80ef06b87b3d38cbb41642de",
+  "notes": "Primary function bodies exclude adjacent unwind funclets; supersedes preliminary parser counts. No timing inference.",
+  "arms": {
+    "current": {
+      "Arena4join": {
+        "instructions": 82,
+        "callee_edges": [
+          "00000000000000EC: jmp         _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+        ]
+      },
+      "Arena15join_unbalanced": {
+        "instructions": 247,
+        "callee_edges": []
+      },
+      "Arena6concat": {
+        "instructions": 226,
+        "callee_edges": [
+          "00000000000002B9: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+        ]
+      },
+      "rope9exact_lcp": {
+        "instructions": 507,
+        "callee_edges": []
+      },
+      "FastComparison13lcp_recursive": {
+        "instructions": 546,
+        "callee_edges": []
+      },
+      "ExactFrontier6expand": {
+        "instructions": 69,
+        "callee_edges": []
+      }
+    },
+    "direction": {
+      "Arena4join": {
+        "instructions": 91,
+        "callee_edges": [
+          "0000000000000101: jmp         _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+        ],
+        "same_normalized": false
+      },
+      "Arena15join_unbalanced": {
+        "instructions": 241,
+        "callee_edges": [],
+        "same_normalized": false
+      },
+      "Arena6concat": {
+        "instructions": 235,
+        "callee_edges": [
+          "00000000000002E3: call        _ZN8hashrope4rope5Arena15join_unbalanced17hHASHE"
+        ],
+        "same_normalized": false
+      },
+      "rope9exact_lcp": {
+        "instructions": 507,
+        "callee_edges": [],
+        "same_normalized": true
+      },
+      "FastComparison13lcp_recursive": {
+        "instructions": 546,
+        "callee_edges": [],
+        "same_normalized": true
+      },
+      "ExactFrontier6expand": {
+        "instructions": 69,
+        "callee_edges": [],
+        "same_normalized": true
+      }
+    }
+  }
+}

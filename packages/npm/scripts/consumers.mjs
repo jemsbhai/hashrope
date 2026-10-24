@@ -7,10 +7,11 @@ import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import vm from 'node:vm';
 import { build } from 'esbuild';
+import { artifactDirectory, evidenceDirectory, version } from './release-paths.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const require = createRequire(import.meta.url);
-const archive = path.resolve(process.argv[2] ?? path.join(root, 'artifacts', `hashrope-${JSON.parse(readFileSync(path.join(root, 'package.json'), 'utf8')).version}.tgz`));
+const archive = path.resolve(process.argv[2] ?? path.join(artifactDirectory, `hashrope-${version}.tgz`));
 if (!existsSync(archive)) throw new Error(`Pack the release before consumer testing: ${archive}`);
 const cleanRoot = mkdtempSync(path.join(tmpdir(), 'hashrope-consumers-'));
 const npmCli = [process.env.npm_execpath,
@@ -32,6 +33,7 @@ function consumer(name, type = 'module') {
   writeFileSync(path.join(dir, 'package.json'), JSON.stringify({ name: `hashrope-clean-${name}`, private: true, type }));
   run(`${name}: clean offline tarball install`, dir, process.execPath, [npmCli, 'install', archive, '--ignore-scripts', '--offline', '--no-audit', '--no-fund', '--package-lock=false']);
   const manifest = JSON.parse(readFileSync(path.join(dir, 'node_modules/hashrope/package.json'), 'utf8'));
+  if (manifest.version !== version) throw new Error('Installed package version differs from the release manifest');
   if (Object.keys(manifest.dependencies ?? {}).length) throw new Error('Unexpected runtime dependencies');
   return dir;
 }
@@ -48,7 +50,7 @@ function installedOracle(flavor, dir) {
   const r = spawnSync(process.execPath, ['--test', '--test-reporter=tap', 'test/oracle.test.mjs'], { cwd: dir, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, timeout: 300000 });
   const output = (r.stdout ?? '') + (r.stderr ?? '') + (r.error ? String(r.error) : '');
   const log = `consumer-oracle-${process.version}-${flavor}.tap`;
-  writeFileSync(path.join(root, 'evidence', log), output);
+  writeFileSync(path.join(evidenceDirectory, log), output);
   const summary = Object.fromEntries([...output.matchAll(/^# (tests|suites|pass|fail|cancelled|skipped|todo) (\d+)$/gm)].map(m => [m[1], Number(m[2])]));
   report.checks.push({ name: `${flavor}: installed-tarball published-wheel oracle parity`, exitCode: r.status, summary, log, adapterSha256: createHash('sha256').update(adapted).digest('hex'), corpusSha256: createHash('sha256').update(readFileSync(path.join(target, 'fixtures', 'oracle.json'))).digest('hex') });
   if (r.error) throw r.error;
@@ -96,9 +98,10 @@ function documentedExamples(dir) {
   check.exitCode = 0;
   process.stdout.write(`PASS all ${files.length} packaged TypeScript examples, compiled and independently executed\n`);
 }
-const names = 'PolynomialHash, MERSENNE_61, MERSENNE_127, Leaf, ropeConcat, ropeSplit, ropeRepeat, ropeSubstrHash, ropeLen, ropeHash, ropeToBytes, validateRope, SlidingWindow, HashProfile, ropeEqual, ropeLcp, ropeRangeEqual, ropeRangeLcp';
+const names = 'PolynomialHash, MERSENNE_61, MERSENNE_127, Leaf, ropeConcat, ropeSplit, ropeRepeat, ropeSubstrHash, ropeLen, ropeHash, ropeToBytes, validateRope, SlidingWindow, HashProfile, ropeEqual, ropeLcp, ropeRangeEqual, ropeRangeLcp, VERSION, PYTHON_VERSION';
 const smoke = `
 const check = (x, message) => { if (!x) throw new Error(message); };
+check(VERSION === ${JSON.stringify(version)} && PYTHON_VERSION === '0.2.2', 'release and independent oracle versions');
 const same = (a, b) => a.length === b.length && a.every((v, i) => v === b[i]);
 const h = new PolynomialHash();
 const data = Uint8Array.of(97, 98);
@@ -208,6 +211,5 @@ void hash;
   report.error = String(e);
   throw e;
 } finally {
-  mkdirSync(path.join(root, 'evidence'), { recursive: true });
-  for (const name of ['consumer-verification.json', `consumer-verification-${process.version}.json`]) writeFileSync(path.join(root, 'evidence', name), JSON.stringify(report, null, 2) + '\n');
+  for (const name of ['consumer-verification.json', `consumer-verification-${process.version}.json`]) writeFileSync(path.join(evidenceDirectory, name), JSON.stringify(report, null, 2) + '\n');
 }

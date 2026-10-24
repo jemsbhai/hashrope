@@ -1,0 +1,468 @@
+{
+  "script_sha256": "828b8f979591fd2a3be760e2ae190c5d6b809e8659e50ba3f0c6de8b2f4be747",
+  "build_manifest_sha256": "b963f82c73e7cb091eb2fb31dec262009c60170f4727f34c22e479a025da166f",
+  "dumpbin_sha256": "22f0834029ca0dd4edefb7fce08280fcc039c6d8a1505cf30ef86d60faff20b3",
+  "inputs": {
+    "micro.baseline": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\baseline_micro\\target\\release\\hashrope-comparison-benchmark.exe",
+      "binary_sha256": "12cdf3036a59bc572b5c6c5b83dd45c8c1ed5d4233c8593843cb6d2b58a6a950",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\baseline_micro\\target\\release\\deps\\libhashrope-1829fa5eb57d2e23.rlib",
+      "rlib_sha256": "fcd8607e864474f94a2cb42306ee2fb8400407f23d68085bc56501a7e9a373c1",
+      "dump_sha256": {
+        "normalized_source": "ea27f9d646b10d716d80af44bb1133edd3f15f5fe0db79e10a8909a5b78d9369",
+        "bytes": "82cb83b97237b4fad14720c7d49cf2edf690658ccbfe1c612de4561258a99827"
+      },
+      "functions": {
+        "rope9exact_lcp": {
+          "instruction_lines": 558,
+          "normalized_sha256": "e77cab4a28837b134900cd468c97921fd1b1501ba7a91ce2ef67679d63353fb0",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534881ecf8060000488dac248000000048c78570060000feffffff4989cc4c8b59104489c94939cb0f86c40a0000488b4210488985",
+            "rva": 43440,
+            "rva_hex": "0xa9b0",
+            "preferred_address_hex": "0x14000a9b0",
+            "mod64": 48,
+            "mod4096": 2480,
+            "runtime_function_size": 2865,
+            "unwind_rva": 207192
+          }
+        },
+        "FastComparison13lcp_recursive": {
+          "instruction_lines": 546,
+          "normalized_sha256": "12778f646989ecd8ae1ecac8682226c717402a35d6d6ce8c0a74abceb601634a",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4157415641554154565755534881ec880000004889d6488b9424f80000004885d20f84e30500008bac24f000000048c7842480000000000000004531db48894c",
+            "rva": 26688,
+            "rva_hex": "0x6840",
+            "preferred_address_hex": "0x140006840",
+            "mod64": 0,
+            "mod4096": 2112,
+            "runtime_function_size": 2156,
+            "unwind_rva": 206036
+          }
+        },
+        "ExactFrontier6expand": {
+          "instruction_lines": 69,
+          "normalized_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4883ec288b81080300004939c00f86d60000004c8d0c4049c1e10442833c0a010f85ab0000004901d1418b41044939c00f86c8000000458b41084c8d0c4049c1",
+            "rva": 26384,
+            "rva_hex": "0x6710",
+            "preferred_address_hex": "0x140006710",
+            "mod64": 16,
+            "mod4096": 1808,
+            "runtime_function_size": 296,
+            "unwind_rva": 205876
+          }
+        },
+        "Arena6concat": {
+          "instruction_lines": 90,
+          "normalized_sha256": "594bc5e35745898162a02d33e4bda7df74a149e8549727d193a8770f026204d4",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "56574883ec2889d0488b9140080000483b91180800000f85fc000000488b9120080000483991480800000f85e80000008b542460a8010f84a400000041f6c101",
+            "rva": 41024,
+            "rva_hex": "0xa040",
+            "preferred_address_hex": "0x14000a040",
+            "mod64": 0,
+            "mod4096": 64,
+            "runtime_function_size": 365,
+            "unwind_rva": 206832
+          }
+        },
+        "Arena4join": {
+          "instruction_lines": 376,
+          "normalized_sha256": "69991cda810c9c7912844c7873471792afc056f42fb68f863d87aee376013c6b",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534883ec58488d6c245048c74500feffffff4c8b491089d04939c10f86ff0300004c8b5908488d044048c1e0044d8d2c03418b3403",
+            "rva": 39488,
+            "rva_hex": "0x9a40",
+            "preferred_address_hex": "0x140009a40",
+            "mod64": 0,
+            "mod4096": 2624,
+            "runtime_function_size": 1099,
+            "unwind_rva": 206592
+          }
+        },
+        "Arena15join_unbalanced": null,
+        "Arena11split_inner": {
+          "instruction_lines": 338,
+          "normalized_sha256": "962cfe6b4cbd0c23ea45cbf9a3a515cc0ab1742c5951973adcb67b9915555d74",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534883ec78488d6c247048c74500feffffff4889d74889ce4489c1488b52104839ca0f86640300004d89cd488b4708488d0c4948c1",
+            "rva": 36288,
+            "rva_hex": "0x8dc0",
+            "preferred_address_hex": "0x140008dc0",
+            "mod64": 0,
+            "mod4096": 3520,
+            "runtime_function_size": 974,
+            "unwind_rva": 206352
+          }
+        }
+      }
+    },
+    "micro.candidate": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\candidate_micro\\target\\release\\hashrope-comparison-benchmark.exe",
+      "binary_sha256": "c0bb378e7cfd3672defb2ef6ff67a9cf4896eb3ae26bac45eb5091b89f2c0f7a",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\candidate_micro\\target\\release\\deps\\libhashrope-d007c848f831b4b2.rlib",
+      "rlib_sha256": "708ae67fd9b0c0eecf810b0d3a01f559a98b07da463fccd7c1669e1d2220f1a0",
+      "dump_sha256": {
+        "normalized_source": "d76f97c29a91c1a512ae14af771bd6801983a591370bfca59996e9702859c61c",
+        "bytes": "1bce69530b089b73d7c0666199f2c633e1322fd50b76c29121edf0cec2627ee8"
+      },
+      "functions": {
+        "rope9exact_lcp": {
+          "instruction_lines": 558,
+          "normalized_sha256": "e77cab4a28837b134900cd468c97921fd1b1501ba7a91ce2ef67679d63353fb0",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534881ecf8060000488dac248000000048c78570060000feffffff4989cc4c8b59104489c94939cb0f86c40a0000488b4210488985",
+            "rva": 43776,
+            "rva_hex": "0xab00",
+            "preferred_address_hex": "0x14000ab00",
+            "mod64": 0,
+            "mod4096": 2816,
+            "runtime_function_size": 2865,
+            "unwind_rva": 207352
+          }
+        },
+        "FastComparison13lcp_recursive": {
+          "instruction_lines": 546,
+          "normalized_sha256": "12778f646989ecd8ae1ecac8682226c717402a35d6d6ce8c0a74abceb601634a",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4157415641554154565755534881ec880000004889d6488b9424f80000004885d20f84e30500008bac24f000000048c7842480000000000000004531db48894c",
+            "rva": 26688,
+            "rva_hex": "0x6840",
+            "preferred_address_hex": "0x140006840",
+            "mod64": 0,
+            "mod4096": 2112,
+            "runtime_function_size": 2156,
+            "unwind_rva": 206164
+          }
+        },
+        "ExactFrontier6expand": {
+          "instruction_lines": 69,
+          "normalized_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4883ec288b81080300004939c00f86d60000004c8d0c4049c1e10442833c0a010f85ab0000004901d1418b41044939c00f86c8000000458b41084c8d0c4049c1",
+            "rva": 26384,
+            "rva_hex": "0x6710",
+            "preferred_address_hex": "0x140006710",
+            "mod64": 16,
+            "mod4096": 1808,
+            "runtime_function_size": 296,
+            "unwind_rva": 206004
+          }
+        },
+        "Arena6concat": {
+          "instruction_lines": 226,
+          "normalized_sha256": "b8ad7704623a1ee6c79b6819ea2f8d11d8588400ed83cedabbb2503f87911ee0",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4157415641554154565755534883ec4889d0488b9140080000483b91180800000f85a2020000488b9120080000483991480800000f858e0200008b9424b00000",
+            "rva": 40832,
+            "rva_hex": "0x9f80",
+            "preferred_address_hex": "0x140009f80",
+            "mod64": 0,
+            "mod4096": 3968,
+            "runtime_function_size": 886,
+            "unwind_rva": 206980
+          }
+        },
+        "Arena4join": {
+          "instruction_lines": 82,
+          "normalized_sha256": "2a314e5cff2a83c4ed3491f5086896de8117c33909a40225260b0290f1fa251f",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "41565657534883ec2889d04c8b49104939c10f86d90000004c8b5908488d044048c1e00441833c030074274c01d8488b40204589c24d39d176254f8d0c5249c1",
+            "rva": 40288,
+            "rva_hex": "0x9d60",
+            "preferred_address_hex": "0x140009d60",
+            "mod64": 32,
+            "mod4096": 3424,
+            "runtime_function_size": 260,
+            "unwind_rva": 205980
+          }
+        },
+        "Arena15join_unbalanced": {
+          "instruction_lines": 314,
+          "normalized_sha256": "d249ec3b6da283c11c1377c372c65ebd99c5530c393f95a73ca83c44d9b4c24f",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534883ec58488d6c245048c74500feffffff4889ce89d1488b46104839c80f86f50000004c8b5608488d0c4948c1e1044d8d0c0a41",
+            "rva": 38288,
+            "rva_hex": "0x9590",
+            "preferred_address_hex": "0x140009590",
+            "mod64": 16,
+            "mod4096": 1424,
+            "runtime_function_size": 909,
+            "unwind_rva": 206688
+          }
+        },
+        "Arena11split_inner": {
+          "instruction_lines": 338,
+          "normalized_sha256": "962cfe6b4cbd0c23ea45cbf9a3a515cc0ab1742c5951973adcb67b9915555d74",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534883ec78488d6c247048c74500feffffff4889d74889ce4489c1488b52104839ca0f86640300004d89cd488b4708488d0c4948c1",
+            "rva": 36016,
+            "rva_hex": "0x8cb0",
+            "preferred_address_hex": "0x140008cb0",
+            "mod64": 48,
+            "mod4096": 3248,
+            "runtime_function_size": 974,
+            "unwind_rva": 206476
+          }
+        }
+      }
+    },
+    "churn.baseline": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\baseline_churn\\target\\release\\exact-edit-comparison.exe",
+      "binary_sha256": "205417591ef8ae337803a97332d550f88399f1fbe12fc491ccfacd4fa4f2f4c1",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\baseline_churn\\target\\release\\deps\\libhashrope-1829fa5eb57d2e23.rlib",
+      "rlib_sha256": "fcd8607e864474f94a2cb42306ee2fb8400407f23d68085bc56501a7e9a373c1",
+      "dump_sha256": {
+        "normalized_source": "97f2a2564fda2703fd54ce87ae7359f0a0052536b170d34f4d87beb6613ac5af",
+        "bytes": "893beac934681af23f669437d539d50962f1bba0848e1ba08bf57f33f6458d61"
+      },
+      "functions": {
+        "rope9exact_lcp": {
+          "instruction_lines": 558,
+          "normalized_sha256": "e77cab4a28837b134900cd468c97921fd1b1501ba7a91ce2ef67679d63353fb0",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534881ecf8060000488dac248000000048c78570060000feffffff4989cc4c8b59104489c94939cb0f86c40a0000488b4210488985",
+            "rva": 141488,
+            "rva_hex": "0x228b0",
+            "preferred_address_hex": "0x1400228b0",
+            "mod64": 48,
+            "mod4096": 2224,
+            "runtime_function_size": 2865,
+            "unwind_rva": 335484
+          }
+        },
+        "FastComparison13lcp_recursive": {
+          "instruction_lines": 546,
+          "normalized_sha256": "12778f646989ecd8ae1ecac8682226c717402a35d6d6ce8c0a74abceb601634a",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4157415641554154565755534881ec880000004889d6488b9424f80000004885d20f84e30500008bac24f000000048c7842480000000000000004531db48894c",
+            "rva": 127136,
+            "rva_hex": "0x1f0a0",
+            "preferred_address_hex": "0x14001f0a0",
+            "mod64": 32,
+            "mod4096": 160,
+            "runtime_function_size": 2156,
+            "unwind_rva": 334320
+          }
+        },
+        "ExactFrontier6expand": {
+          "instruction_lines": 69,
+          "normalized_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4883ec288b81080300004939c00f86d60000004c8d0c4049c1e10442833c0a010f85ab0000004901d1418b41044939c00f86c8000000458b41084c8d0c4049c1",
+            "rva": 126832,
+            "rva_hex": "0x1ef70",
+            "preferred_address_hex": "0x14001ef70",
+            "mod64": 48,
+            "mod4096": 3952,
+            "runtime_function_size": 296,
+            "unwind_rva": 325140
+          }
+        },
+        "Arena6concat": {
+          "instruction_lines": 90,
+          "normalized_sha256": "594bc5e35745898162a02d33e4bda7df74a149e8549727d193a8770f026204d4",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "56574883ec2889d0488b9140080000483b91180800000f85fc000000488b9120080000483991480800000f85e80000008b542460a8010f84a400000041f6c101",
+            "rva": 138896,
+            "rva_hex": "0x21e90",
+            "preferred_address_hex": "0x140021e90",
+            "mod64": 16,
+            "mod4096": 3728,
+            "runtime_function_size": 365,
+            "unwind_rva": 326052
+          }
+        },
+        "Arena4join": {
+          "instruction_lines": 376,
+          "normalized_sha256": "69991cda810c9c7912844c7873471792afc056f42fb68f863d87aee376013c6b",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534883ec58488d6c245048c74500feffffff4c8b491089d04939c10f86ff0300004c8b5908488d044048c1e0044d8d2c03418b3403",
+            "rva": 137360,
+            "rva_hex": "0x21890",
+            "preferred_address_hex": "0x140021890",
+            "mod64": 16,
+            "mod4096": 2192,
+            "runtime_function_size": 1099,
+            "unwind_rva": 334824
+          }
+        },
+        "Arena15join_unbalanced": null,
+        "Arena11split_inner": {
+          "instruction_lines": 338,
+          "normalized_sha256": "962cfe6b4cbd0c23ea45cbf9a3a515cc0ab1742c5951973adcb67b9915555d74",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534883ec78488d6c247048c74500feffffff4889d74889ce4489c1488b52104839ca0f86640300004d89cd488b4708488d0c4948c1",
+            "rva": 134976,
+            "rva_hex": "0x20f40",
+            "preferred_address_hex": "0x140020f40",
+            "mod64": 0,
+            "mod4096": 3904,
+            "runtime_function_size": 974,
+            "unwind_rva": 334612
+          }
+        }
+      }
+    },
+    "churn.candidate": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\candidate_churn\\target\\release\\exact-edit-comparison.exe",
+      "binary_sha256": "a56066f2912e1f355b842851ece617ed77d5faf8b6176fb83b42cddbb2b73917",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\candidate_churn\\target\\release\\deps\\libhashrope-d007c848f831b4b2.rlib",
+      "rlib_sha256": "708ae67fd9b0c0eecf810b0d3a01f559a98b07da463fccd7c1669e1d2220f1a0",
+      "dump_sha256": {
+        "normalized_source": "28b3c5241be4cbba3de69f05e84044e19e0f6ced70508d59baf65fb636648ed6",
+        "bytes": "740aa1582822e8acaee4b7798ecce1453bbd641577f5127975122794dc871e0e"
+      },
+      "functions": {
+        "rope9exact_lcp": {
+          "instruction_lines": 558,
+          "normalized_sha256": "e77cab4a28837b134900cd468c97921fd1b1501ba7a91ce2ef67679d63353fb0",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534881ecf8060000488dac248000000048c78570060000feffffff4989cc4c8b59104489c94939cb0f86c40a0000488b4210488985",
+            "rva": 141824,
+            "rva_hex": "0x22a00",
+            "preferred_address_hex": "0x140022a00",
+            "mod64": 0,
+            "mod4096": 2560,
+            "runtime_function_size": 2865,
+            "unwind_rva": 335528
+          }
+        },
+        "FastComparison13lcp_recursive": {
+          "instruction_lines": 546,
+          "normalized_sha256": "12778f646989ecd8ae1ecac8682226c717402a35d6d6ce8c0a74abceb601634a",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4157415641554154565755534881ec880000004889d6488b9424f80000004885d20f84e30500008bac24f000000048c7842480000000000000004531db48894c",
+            "rva": 127136,
+            "rva_hex": "0x1f0a0",
+            "preferred_address_hex": "0x14001f0a0",
+            "mod64": 32,
+            "mod4096": 160,
+            "runtime_function_size": 2156,
+            "unwind_rva": 334320
+          }
+        },
+        "ExactFrontier6expand": {
+          "instruction_lines": 69,
+          "normalized_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4883ec288b81080300004939c00f86d60000004c8d0c4049c1e10442833c0a010f85ab0000004901d1418b41044939c00f86c8000000458b41084c8d0c4049c1",
+            "rva": 126832,
+            "rva_hex": "0x1ef70",
+            "preferred_address_hex": "0x14001ef70",
+            "mod64": 48,
+            "mod4096": 3952,
+            "runtime_function_size": 296,
+            "unwind_rva": 325140
+          }
+        },
+        "Arena6concat": {
+          "instruction_lines": 226,
+          "normalized_sha256": "b8ad7704623a1ee6c79b6819ea2f8d11d8588400ed83cedabbb2503f87911ee0",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "4157415641554154565755534883ec4889d0488b9140080000483b91180800000f85a2020000488b9120080000483991480800000f858e0200008b9424b00000",
+            "rva": 138704,
+            "rva_hex": "0x21dd0",
+            "preferred_address_hex": "0x140021dd0",
+            "mod64": 16,
+            "mod4096": 3536,
+            "runtime_function_size": 886,
+            "unwind_rva": 335076
+          }
+        },
+        "Arena4join": {
+          "instruction_lines": 82,
+          "normalized_sha256": "2a314e5cff2a83c4ed3491f5086896de8117c33909a40225260b0290f1fa251f",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "41565657534883ec2889d04c8b49104939c10f86d90000004c8b5908488d044048c1e00441833c030074274c01d8488b40204589c24d39d176254f8d0c5249c1",
+            "rva": 138160,
+            "rva_hex": "0x21bb0",
+            "preferred_address_hex": "0x140021bb0",
+            "mod64": 48,
+            "mod4096": 2992,
+            "runtime_function_size": 260,
+            "unwind_rva": 324912
+          }
+        },
+        "Arena15join_unbalanced": {
+          "instruction_lines": 314,
+          "normalized_sha256": "d249ec3b6da283c11c1377c372c65ebd99c5530c393f95a73ca83c44d9b4c24f",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534883ec58488d6c245048c74500feffffff4889ce89d1488b46104839c80f86f50000004c8b5608488d0c4948c1e1044d8d0c0a41",
+            "rva": 137088,
+            "rva_hex": "0x21780",
+            "preferred_address_hex": "0x140021780",
+            "mod64": 0,
+            "mod4096": 1920,
+            "runtime_function_size": 909,
+            "unwind_rva": 334820
+          }
+        },
+        "Arena11split_inner": {
+          "instruction_lines": 338,
+          "normalized_sha256": "962cfe6b4cbd0c23ea45cbf9a3a515cc0ab1742c5951973adcb67b9915555d74",
+          "placement": {
+            "signature_bytes": 64,
+            "signature_hex": "5541574156415541545657534883ec78488d6c247048c74500feffffff4889d74889ce4489c1488b52104839ca0f86640300004d89cd488b4708488d0c4948c1",
+            "rva": 134704,
+            "rva_hex": "0x20e30",
+            "preferred_address_hex": "0x140020e30",
+            "mod64": 48,
+            "mod4096": 3632,
+            "runtime_function_size": 974,
+            "unwind_rva": 334608
+          }
+        }
+      }
+    }
+  },
+  "comparison": {
+    "micro": {
+      "rope9exact_lcp": true,
+      "FastComparison13lcp_recursive": true,
+      "ExactFrontier6expand": true,
+      "Arena6concat": false,
+      "Arena4join": false,
+      "Arena15join_unbalanced": null,
+      "Arena11split_inner": true
+    },
+    "churn": {
+      "rope9exact_lcp": true,
+      "FastComparison13lcp_recursive": true,
+      "ExactFrontier6expand": true,
+      "Arena6concat": false,
+      "Arena4join": false,
+      "Arena15join_unbalanced": null,
+      "Arena11split_inner": true
+    }
+  },
+  "limits": "Read retained round-six rlibs/PEs: no compilation or benchmark execution.\n\nCOFF instruction comparison removes symbol hashes and anonymous data symbols;\nbranch offsets and registers remain. PE placement uses an exact 64-byte prologue\nsignature, requires a unique .text match and an x64 runtime-function table entry.\nIt records linked placement, not ASLR-resolved runtime addresses or causation.\n"
+}

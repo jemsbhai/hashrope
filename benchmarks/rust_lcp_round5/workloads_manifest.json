@@ -1,0 +1,21 @@
+{
+  "source": "releases/0.3.3/performance/rust_integration",
+  "source_manifest_sha256": "907fa426c99bbe5eb836d72d7567eb52489d96806dd355afef1a1b1bac50aad5",
+  "source_build_sha256": "ae7d4e0d6dca39f000b30b5f768d9f80d08f7f8bce801d9feeb2c35511135de4",
+  "source_drivers_archive_sha256": "0836b9272e51d6f9fcf39b4af7e502d0373ecf4f30567f4a1a58bd9c75d7ab7b",
+  "workload_sha256": {
+    "workloads/bench_rust.py": "f14e06ecf535bc075eff402b8c83b033215ea5402f8afb76e1b6f7825d510d84",
+    "workloads/bench_rust.rs": "7f0fcf1c0c9da53767eb116973f92bf605e6c860fee80895c845e6f166e63a70",
+    "workloads/churn.Cargo.lock": "7a1f87d149fbc438704c27e9a3e95821d179636a818348e6054cc432715b6a20",
+    "workloads/edit_compare.Cargo.lock": "55d7ccdcc404ad7bbc906c25078410ba83657a9fecd6478fc4fb3149a46abff4",
+    "workloads/edit_compare.py": "f630ce4b02f9815a4a21f8949508c578234cbb15aabc304f472e08b85d0f0ff9",
+    "workloads/edit_compare.rs": "5e1db225b95ff3199801a8c23aafe39e5c58af5370613e867692b0a43378f756",
+    "workloads/micro.Cargo.lock": "7031aa7f048b677a7dc75627da49d4a36afa84d6379f8e29165a49c81cb6bfdb"
+  },
+  "locked_package_versions": {
+    "hashrope": "0.3.3",
+    "ropey": "1.6.1",
+    "smallvec": "1.16.4",
+    "str_indices": "0.4.4"
+  }
+}

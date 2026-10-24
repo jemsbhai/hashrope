@@ -1,0 +1,56 @@
+{
+  "script_sha256": "c343475a115f559c5f31176e6501199718b95a50a95c32e5621fbdae62209faf",
+  "extractor_sha256": "7d95afcc6ff9a3fe613cb38286c66230d072e943b2fe726db3c43a116538a069",
+  "build_manifest_sha256": "b963f82c73e7cb091eb2fb31dec262009c60170f4727f34c22e479a025da166f",
+  "dumpbin_sha256": "22f0834029ca0dd4edefb7fce08280fcc039c6d8a1505cf30ef86d60faff20b3",
+  "inputs": {
+    "baseline": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\baseline_churn\\target\\release\\exact-edit-comparison.exe",
+      "binary_sha256": "205417591ef8ae337803a97332d550f88399f1fbe12fc491ccfacd4fa4f2f4c1",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\baseline_churn\\target\\release\\deps\\libhashrope-1829fa5eb57d2e23.rlib",
+      "rlib_sha256": "fcd8607e864474f94a2cb42306ee2fb8400407f23d68085bc56501a7e9a373c1",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DISASM:NOBYTES",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\baseline_churn\\target\\release\\deps\\libhashrope-1829fa5eb57d2e23.rlib"
+      ],
+      "dump_sha256": "97f2a2564fda2703fd54ce87ae7359f0a0052536b170d34f4d87beb6613ac5af"
+    },
+    "candidate": {
+      "binary": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\candidate_churn\\target\\release\\exact-edit-comparison.exe",
+      "binary_sha256": "a56066f2912e1f355b842851ece617ed77d5faf8b6176fb83b42cddbb2b73917",
+      "rlib": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\candidate_churn\\target\\release\\deps\\libhashrope-d007c848f831b4b2.rlib",
+      "rlib_sha256": "708ae67fd9b0c0eecf810b0d3a01f559a98b07da463fccd7c1669e1d2220f1a0",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DISASM:NOBYTES",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\benchmarks\\rust_regression_round6\\final_comparison\\.cache\\build\\candidate_churn\\target\\release\\deps\\libhashrope-d007c848f831b4b2.rlib"
+      ],
+      "dump_sha256": "28b3c5241be4cbba3de69f05e84044e19e0f6ced70508d59baf65fb636648ed6"
+    }
+  },
+  "comparison": {
+    "rope9exact_lcp": {
+      "same_normalized_instructions": true,
+      "baseline_lines": 507,
+      "candidate_lines": 507,
+      "baseline_sha256": "56a8a13c8edae838110fcb6d33024f11840b9d2c3fb87b33647928ba47761d9e",
+      "candidate_sha256": "56a8a13c8edae838110fcb6d33024f11840b9d2c3fb87b33647928ba47761d9e"
+    },
+    "FastComparison13lcp_recursive": {
+      "same_normalized_instructions": true,
+      "baseline_lines": 546,
+      "candidate_lines": 546,
+      "baseline_sha256": "12778f646989ecd8ae1ecac8682226c717402a35d6d6ce8c0a74abceb601634a",
+      "candidate_sha256": "12778f646989ecd8ae1ecac8682226c717402a35d6d6ce8c0a74abceb601634a"
+    },
+    "ExactFrontier6expand": {
+      "same_normalized_instructions": true,
+      "baseline_lines": 69,
+      "candidate_lines": 69,
+      "baseline_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc",
+      "candidate_sha256": "2a6246dd7e81affdca94846e8f22d865753180cb8c6bb3f3b15602dc945ecebc"
+    }
+  },
+  "limits": "COFF instruction comparison, not linked code/data placement. Rust/LLVM hashes and anonymous data symbols normalized; branch offsets/registers retained. No timing inference."
+}

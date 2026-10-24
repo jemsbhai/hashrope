@@ -1,0 +1,2326 @@
+{
+  "scope": "Descriptive existing-data audit only; no new timings, causal test, significance test or excluded samples",
+  "script_sha256": "5ed1620923c349fee1bdbd2388a626d099301d683ec53bd09fee319969626f48",
+  "input_sha256": {
+    "results.json": "8b213c4fa16d79b867c28f27ecdd5bcc2a192bd68e95059df3f5ca6e480b6c2e",
+    "summary.json": "4b550fac810c5ba4c4b161b05716a15ade682508d55335e993b523dfdf318209",
+    "confirmation\\results.json": "80e647c5ea7e2ecb1ebbbeb8c6401150d8f2f2d2ccef4d0c1843a5e3c7fa9673",
+    "confirmation\\summary.json": "3411be7c16fd693c2b26e69d320b58b22a1d983db3f94165aa436e151998ebea",
+    "binaries.zip": "cae412b6ce61fa0eadd0c9451791d260963e60867fd36ccec501fff793a1f8f7",
+    "workloads\\bench_rust.rs": "7f0fcf1c0c9da53767eb116973f92bf605e6c860fee80895c845e6f166e63a70",
+    "workloads\\edit_compare.rs": "5e1db225b95ff3199801a8c23aafe39e5c58af5370613e867692b0a43378f756"
+  },
+  "verified_processes": 36,
+  "verified_samples": 6588,
+  "verified_summary_vectors": 132,
+  "raw_identities": [
+    {
+      "raw": "raw\\micro_0_baseline.tsv",
+      "sha256": "6b35ace6aef9b1ca388183d48ae7c57cd1ab3e7b9cea402f76e6edbc771ddb0c"
+    },
+    {
+      "raw": "raw\\micro_0_candidate.tsv",
+      "sha256": "f3c9e487fd0f310d5008952408b17d772ede2bdd055554f1eab7485d2034ee5f"
+    },
+    {
+      "raw": "raw\\micro_1_candidate.tsv",
+      "sha256": "fcf2998c5923f912868cc271e90c5077a1c174f6615d842c00d3f0255183a7f9"
+    },
+    {
+      "raw": "raw\\micro_1_baseline.tsv",
+      "sha256": "a5abefa3157b48f27a0ea3d358a9922589baadd54dac76c196b0551533dd1556"
+    },
+    {
+      "raw": "raw\\micro_2_baseline.tsv",
+      "sha256": "103fb07b97c394979b971ed0549579e8ef3ee562de550388851b2b02e198a181"
+    },
+    {
+      "raw": "raw\\micro_2_candidate.tsv",
+      "sha256": "b98b993b54e99fd40619cc586d6563541488e51fcd60feb2851306788ae7275f"
+    },
+    {
+      "raw": "raw\\churn_0_baseline.tsv",
+      "sha256": "7d2093e26cc66d5bf4ff7e67d0b806030a3275d302f3f8f79997f64f9beed716"
+    },
+    {
+      "raw": "raw\\churn_0_candidate.tsv",
+      "sha256": "6699a7b943d18c66fe05d24f182644ac0e05d7ef358680c7acd62890526b472d"
+    },
+    {
+      "raw": "raw\\churn_1_candidate.tsv",
+      "sha256": "7dfe6cb0ce882e179f22dcbc43ff316e2f244a81a67803707c843658f67b4feb"
+    },
+    {
+      "raw": "raw\\churn_1_baseline.tsv",
+      "sha256": "324efd1868037bb6d383e873e0d06bf7df67a9c658ef5a0cf08697bfb6b03f2c"
+    },
+    {
+      "raw": "raw\\churn_2_baseline.tsv",
+      "sha256": "e9af6f9579eb8aeadf9af3cbcb6bda0b5454db82d483328558536aa7959db20a"
+    },
+    {
+      "raw": "raw\\churn_2_candidate.tsv",
+      "sha256": "9ca4cbf276e8f8a566cb64397f72a04adeea18d2556f4b0144bce40a979cadd7"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_0_candidate.tsv",
+      "sha256": "489426a821265d029953c8269fd362ec3234cc2d4a326c51d4cca737be50e149"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_0_baseline.tsv",
+      "sha256": "5cc50476fa50d0ae332dd35d669e91e22bf4f3c0f546e9c477796914db6933f6"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_1_baseline.tsv",
+      "sha256": "ccd1883da279af143a8a0f8b9d300ab4702821cc2cb20486a9bcc7684fe72eb1"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_1_candidate.tsv",
+      "sha256": "8301c90ab809c5acba8da52ab63317a16729e0c96dbed8177bd39b0e8c6bab57"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_2_candidate.tsv",
+      "sha256": "1d7ddab1bb0a321ae7e453461af1037e8a8ef623835713a7b892192a4b014334"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_2_baseline.tsv",
+      "sha256": "c1c121881adef37a919ca818f860f75abfb516a4659593702909d221989f9e15"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_3_baseline.tsv",
+      "sha256": "0367ee8e33189814663ac69a4dc9e0ec9dca8d2d2e60f388a3537622cc7fe573"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_3_candidate.tsv",
+      "sha256": "22e53f128744fafd967c0ebaa2aad02f3d828f52b7c0d8f7e842c4e3a60072d2"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_4_candidate.tsv",
+      "sha256": "6316707febb66a29619aab87b9e5ee042479f143c4889aea5416eb3239f6e91d"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_4_baseline.tsv",
+      "sha256": "064f83c249ec8268187d30821ac20b6eae113abe87ab373c8ba4e0cf088658ed"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_5_baseline.tsv",
+      "sha256": "9c0377f00bb64a6948ec702213657a279ddf1cfab407d4716f22e61bbad027de"
+    },
+    {
+      "raw": "confirmation\\raw\\micro_5_candidate.tsv",
+      "sha256": "b0b03d99b18decb6dc63bf54c0ac9cb4743bf8d0c71a04c6eeacf66c524059ab"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_0_candidate.tsv",
+      "sha256": "3d243493bc05fc0c112ace1e6b9d5bee9b41c224ef14816a7bff1dac07d08e0f"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_0_baseline.tsv",
+      "sha256": "0709d3e65bc99196c54c8b344ab5857ffc67334b75c5ad0e52faf1556003f837"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_1_baseline.tsv",
+      "sha256": "e03a3d3b006d918617a3643b8d364cd8ca4717382e04d6cc6db18d1a741c2946"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_1_candidate.tsv",
+      "sha256": "9fcf86949f7f458f5612b714b202046ef7079d1ed31963b73c9ca596cb353c31"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_2_candidate.tsv",
+      "sha256": "a460dfcc27a4a4eef450829667936390a1594c46735f381128c998ac66f3369c"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_2_baseline.tsv",
+      "sha256": "73c26ec7e880668fbea70ecf1b747356dbc20bb600837d510ad645466bac6ee8"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_3_baseline.tsv",
+      "sha256": "1e00402004496799479e08ec06742362f7bca4d8e681fad87151afa468c2f3aa"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_3_candidate.tsv",
+      "sha256": "09e179ba26111599d81bf975845479c512f8d0985162b071bfac2c67dc2a42f0"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_4_candidate.tsv",
+      "sha256": "b83afac65962d44c1c9ab00318151e44d636a870bafd1cef14cad4e1f7d7c94a"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_4_baseline.tsv",
+      "sha256": "d0860deebebece522d965be5d60dd8d226cfcdadb2bc81cedcaadcfda2b0190f"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_5_baseline.tsv",
+      "sha256": "1edd3c9c833aff8f5ddc92c0142eb038bdc23aa70d1dc91540fe526d8ef11be5"
+    },
+    {
+      "raw": "confirmation\\raw\\churn_5_candidate.tsv",
+      "sha256": "f715c0008ba77591b9a243cd87a682fa618aede753aa811f96fbacf8d63eb768"
+    }
+  ],
+  "cells": {
+    "core/concat_balanced_64KiB": {
+      "kind": "micro",
+      "cell": "core/concat_balanced_64KiB",
+      "unit": "ns",
+      "pairs": [
+        {
+          "global_pair": 0,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              51.35,
+              39.3,
+              15.6,
+              43.95,
+              15.7,
+              16.55,
+              15.6
+            ],
+            "candidate": [
+              35.85,
+              36.45,
+              15.7,
+              44.1,
+              14.55,
+              15.4,
+              14.5
+            ]
+          },
+          "process_medians": {
+            "baseline": 16.55,
+            "candidate": 15.7
+          },
+          "ratio": 0.9486404833836857
+        },
+        {
+          "global_pair": 1,
+          "phase": "initial_three",
+          "first_process": "candidate",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              36.25,
+              37.75,
+              15.5,
+              41.45,
+              13.95,
+              15.2,
+              14.25
+            ],
+            "candidate": [
+              36.15,
+              37.7,
+              15.55,
+              42.5,
+              15.4,
+              16.6,
+              17.75
+            ]
+          },
+          "process_medians": {
+            "baseline": 15.5,
+            "candidate": 17.75
+          },
+          "ratio": 1.1451612903225807
+        },
+        {
+          "global_pair": 2,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              33.85,
+              34.55,
+              13.9,
+              39.5,
+              14.0,
+              14.85,
+              14.0
+            ],
+            "candidate": [
+              35.85,
+              36.7,
+              17.1,
+              49.95,
+              15.6,
+              16.55,
+              17.15
+            ]
+          },
+          "process_medians": {
+            "baseline": 14.85,
+            "candidate": 17.15
+          },
+          "ratio": 1.1548821548821548
+        },
+        {
+          "global_pair": 3,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              37.4,
+              35.3,
+              15.55,
+              45.6,
+              14.9,
+              16.45,
+              15.4
+            ],
+            "candidate": [
+              36.95,
+              39.45,
+              15.7,
+              40.65,
+              16.95,
+              17.5,
+              15.5
+            ]
+          },
+          "process_medians": {
+            "baseline": 16.45,
+            "candidate": 17.5
+          },
+          "ratio": 1.0638297872340425
+        },
+        {
+          "global_pair": 4,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              37.4,
+              38.65,
+              15.4,
+              41.8,
+              15.3,
+              16.35,
+              15.5
+            ],
+            "candidate": [
+              32.3,
+              110.05,
+              13.95,
+              42.25,
+              14.15,
+              14.75,
+              14.0
+            ]
+          },
+          "process_medians": {
+            "baseline": 16.35,
+            "candidate": 14.75
+          },
+          "ratio": 0.9021406727828746
+        },
+        {
+          "global_pair": 5,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              35.15,
+              34.55,
+              13.9,
+              38.2,
+              14.2,
+              15.05,
+              15.8
+            ],
+            "candidate": [
+              34.85,
+              32.3,
+              14.05,
+              38.5,
+              13.95,
+              15.0,
+              13.95
+            ]
+          },
+          "process_medians": {
+            "baseline": 15.8,
+            "candidate": 15.0
+          },
+          "ratio": 0.9493670886075949
+        },
+        {
+          "global_pair": 6,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              32.3,
+              32.4,
+              14.1,
+              39.8,
+              14.0,
+              15.0,
+              14.6
+            ],
+            "candidate": [
+              42.9,
+              41.05,
+              15.6,
+              43.25,
+              15.65,
+              16.45,
+              17.55
+            ]
+          },
+          "process_medians": {
+            "baseline": 15.0,
+            "candidate": 17.55
+          },
+          "ratio": 1.1700000000000002
+        },
+        {
+          "global_pair": 7,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              35.2,
+              34.85,
+              18.4,
+              39.45,
+              14.0,
+              14.75,
+              14.0
+            ],
+            "candidate": [
+              36.3,
+              32.65,
+              15.5,
+              50.25,
+              15.4,
+              21.75,
+              15.4
+            ]
+          },
+          "process_medians": {
+            "baseline": 18.4,
+            "candidate": 21.75
+          },
+          "ratio": 1.1820652173913044
+        },
+        {
+          "global_pair": 8,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": null,
+          "samples": {
+            "baseline": [
+              39.6,
+              46.95,
+              17.15,
+              52.95,
+              21.75,
+              16.4,
+              17.25
+            ],
+            "candidate": [
+              34.0,
+              33.8,
+              14.95,
+              41.65,
+              28.4,
+              16.4,
+              15.45
+            ]
+          },
+          "process_medians": {
+            "baseline": 21.75,
+            "candidate": 28.4
+          },
+          "ratio": 1.3057471264367815
+        }
+      ],
+      "all_pairs": {
+        "count": 9,
+        "geomean": 1.0838639500766472,
+        "range": [
+          0.9021406727828746,
+          1.3057471264367815
+        ],
+        "above_one": 6
+      },
+      "strata": {
+        "phase": {
+          "initial_three": {
+            "count": 3,
+            "geomean": 1.0785376943593283,
+            "range": [
+              0.9486404833836857,
+              1.1548821548821548
+            ],
+            "above_one": 2
+          },
+          "supplemental_six": {
+            "count": 6,
+            "geomean": 1.0865369335343442,
+            "range": [
+              0.9021406727828746,
+              1.3057471264367815
+            ],
+            "above_one": 4
+          }
+        },
+        "first_process": {
+          "baseline": {
+            "count": 5,
+            "geomean": 1.0859046823187108,
+            "range": [
+              0.9021406727828746,
+              1.3057471264367815
+            ],
+            "above_one": 3
+          },
+          "candidate": {
+            "count": 4,
+            "geomean": 1.081318427083908,
+            "range": [
+              0.9493670886075949,
+              1.1820652173913044
+            ],
+            "above_one": 3
+          }
+        }
+      },
+      "per_sample_position": {
+        "warning": "Exploratory position summaries retain every sample. Positions mix arena growth, allocation and elapsed context; they are not replacements for the predeclared estimator.",
+        "positions": [
+          {
+            "sample": 0,
+            "arm_median_ns": {
+              "baseline": 36.25,
+              "candidate": 35.85
+            },
+            "paired_ratio_geomean": 0.9661579450074763
+          },
+          {
+            "sample": 1,
+            "arm_median_ns": {
+              "baseline": 35.3,
+              "candidate": 36.7
+            },
+            "paired_ratio_geomean": 1.107231067854136
+          },
+          {
+            "sample": 2,
+            "arm_median_ns": {
+              "baseline": 15.5,
+              "candidate": 15.55
+            },
+            "paired_ratio_geomean": 0.9923123982435115
+          },
+          {
+            "sample": 3,
+            "arm_median_ns": {
+              "baseline": 41.45,
+              "candidate": 42.5
+            },
+            "paired_ratio_geomean": 1.0283759351387138
+          },
+          {
+            "sample": 4,
+            "arm_median_ns": {
+              "baseline": 14.2,
+              "candidate": 15.4
+            },
+            "paired_ratio_geomean": 1.0734067213231584
+          },
+          {
+            "sample": 5,
+            "arm_median_ns": {
+              "baseline": 15.2,
+              "candidate": 16.45
+            },
+            "paired_ratio_geomean": 1.0642796492440136
+          },
+          {
+            "sample": 6,
+            "arm_median_ns": {
+              "baseline": 15.4,
+              "candidate": 15.45
+            },
+            "paired_ratio_geomean": 1.0337510718236875
+          }
+        ],
+        "source_derived_capacity_hypothesis": {
+          "status": "Expected doubling trajectory, not observed capacities; confirm with separate allocator/capacity probe.",
+          "nodes_after_inputs": 510,
+          "untimed_warmup_pushes": 3,
+          "timed_pushes": 14000,
+          "nodes_after_concat_cell": 14513,
+          "assumed_capacity_after_warmup": 1024,
+          "predicted_reallocation_counts_by_sample": [
+            2,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "note": "Three growth-heavy and four growth-free positions can make median-of-seven equal the largest growth-free value, conditional on their ordering. No samples are excluded."
+        }
+      }
+    },
+    "1000000/false/hashrope_exact": {
+      "kind": "churn",
+      "cell": "1000000/false/hashrope_exact",
+      "unit": "ms",
+      "pairs": [
+        {
+          "global_pair": 0,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.175576,
+              0.18914799999999998,
+              0.146626
+            ],
+            "candidate": [
+              0.163764,
+              0.14165799999999998,
+              0.17348400000000003
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.175576,
+            "candidate": 0.163764
+          },
+          "ratio": 0.932724290335809,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 1,
+          "phase": "initial_three",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.177428,
+              0.15073,
+              0.14785
+            ],
+            "candidate": [
+              0.17227800000000001,
+              0.17146799999999998,
+              0.149396
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.15073,
+            "candidate": 0.17146799999999998
+          },
+          "ratio": 1.1375837590393418,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 2,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.147216,
+              0.153378,
+              0.147118
+            ],
+            "candidate": [
+              0.19239599999999998,
+              0.15012999999999999,
+              0.197698
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.147216,
+            "candidate": 0.19239599999999998
+          },
+          "ratio": 1.3068959895663512,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 3,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.14414,
+              0.144612,
+              0.167562
+            ],
+            "candidate": [
+              0.13863199999999998,
+              0.13933,
+              0.14955400000000002
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.144612,
+            "candidate": 0.13933
+          },
+          "ratio": 0.9634746770669103,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 4,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.14415799999999998,
+              0.145196,
+              0.141088
+            ],
+            "candidate": [
+              0.15525,
+              0.141674,
+              0.140134
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.14415799999999998,
+            "candidate": 0.141674
+          },
+          "ratio": 0.9827689063388783,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 5,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.14423,
+              0.14758000000000002,
+              0.14453000000000002
+            ],
+            "candidate": [
+              0.15571200000000002,
+              0.135982,
+              0.15452
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.14453000000000002,
+            "candidate": 0.15452
+          },
+          "ratio": 1.0691205977997646,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 6,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.139112,
+              0.13948,
+              0.153144
+            ],
+            "candidate": [
+              0.14915599999999998,
+              0.170764,
+              0.14831000000000003
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.13948,
+            "candidate": 0.14915599999999998
+          },
+          "ratio": 1.0693719529681673,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 7,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.136882,
+              0.13499799999999998,
+              0.14324
+            ],
+            "candidate": [
+              0.145192,
+              0.14657,
+              0.139238
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.136882,
+            "candidate": 0.145192
+          },
+          "ratio": 1.060709224003156,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 8,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.176352,
+              0.1386,
+              0.13797399999999999
+            ],
+            "candidate": [
+              0.14267,
+              0.13628400000000002,
+              0.132956
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.1386,
+            "candidate": 0.13628400000000002
+          },
+          "ratio": 0.9832900432900434,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        }
+      ],
+      "all_pairs": {
+        "count": 9,
+        "geomean": 1.051074871660958,
+        "range": [
+          0.932724290335809,
+          1.3068959895663512
+        ],
+        "above_one": 5
+      },
+      "strata": {
+        "phase": {
+          "initial_three": {
+            "count": 3,
+            "geomean": 1.1151310239568624,
+            "range": [
+              0.932724290335809,
+              1.3068959895663512
+            ],
+            "above_one": 2
+          },
+          "supplemental_six": {
+            "count": 6,
+            "geomean": 1.0204401334837854,
+            "range": [
+              0.9634746770669103,
+              1.0693719529681673
+            ],
+            "above_one": 3
+          }
+        },
+        "first_process": {
+          "baseline": {
+            "count": 5,
+            "geomean": 1.0472520764369901,
+            "range": [
+              0.932724290335809,
+              1.3068959895663512
+            ],
+            "above_one": 2
+          },
+          "candidate": {
+            "count": 4,
+            "geomean": 1.0558729950162775,
+            "range": [
+              0.9634746770669103,
+              1.1375837590393418
+            ],
+            "above_one": 3
+          }
+        },
+        "seed": {
+          "1": {
+            "count": 3,
+            "geomean": 0.9868264778501659,
+            "range": [
+              0.932724290335809,
+              1.0693719529681673
+            ],
+            "above_one": 1
+          },
+          "2": {
+            "count": 3,
+            "geomean": 1.0584663245858126,
+            "range": [
+              0.9827689063388783,
+              1.1375837590393418
+            ],
+            "above_one": 2
+          },
+          "3": {
+            "count": 3,
+            "geomean": 1.1116885208160587,
+            "range": [
+              0.9832900432900434,
+              1.3068959895663512
+            ],
+            "above_one": 2
+          }
+        }
+      }
+    },
+    "1000000/false/hashrope_candidate": {
+      "kind": "churn",
+      "cell": "1000000/false/hashrope_candidate",
+      "unit": "ms",
+      "pairs": [
+        {
+          "global_pair": 0,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.005255999999999999,
+              0.005662,
+              0.005896
+            ],
+            "candidate": [
+              0.0055720000000000006,
+              0.007064,
+              0.005448000000000001
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005662,
+            "candidate": 0.0055720000000000006
+          },
+          "ratio": 0.9841045566937479,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 1,
+          "phase": "initial_three",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.00572,
+              0.0055000000000000005,
+              0.006444000000000001
+            ],
+            "candidate": [
+              0.0057339999999999995,
+              0.0049700000000000005,
+              0.0063019999999999994
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.00572,
+            "candidate": 0.0057339999999999995
+          },
+          "ratio": 1.0024475524475522,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 2,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.005354,
+              0.005308,
+              0.005508000000000001
+            ],
+            "candidate": [
+              0.009826,
+              0.005429999999999999,
+              0.005982
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005354,
+            "candidate": 0.005982
+          },
+          "ratio": 1.1172954800149422,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 3,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.006624,
+              0.005472,
+              0.005138
+            ],
+            "candidate": [
+              0.0052959999999999995,
+              0.005921999999999999,
+              0.005268
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005472,
+            "candidate": 0.0052959999999999995
+          },
+          "ratio": 0.9678362573099414,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 4,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.0052239999999999995,
+              0.0059440000000000005,
+              0.005342
+            ],
+            "candidate": [
+              0.005425999999999999,
+              0.004962,
+              0.005242
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005342,
+            "candidate": 0.005242
+          },
+          "ratio": 0.9812804193186072,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 5,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.005806,
+              0.005337999999999999,
+              0.005798
+            ],
+            "candidate": [
+              0.0055720000000000006,
+              0.005072,
+              0.005180000000000001
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005798,
+            "candidate": 0.005180000000000001
+          },
+          "ratio": 0.8934115212142119,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 6,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.006134,
+              0.005370000000000001,
+              0.006587999999999999
+            ],
+            "candidate": [
+              0.005509999999999999,
+              0.0055000000000000005,
+              0.005134
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.006134,
+            "candidate": 0.0055000000000000005
+          },
+          "ratio": 0.8966416693837628,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 7,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.005502,
+              0.005117999999999999,
+              0.0050880000000000005
+            ],
+            "candidate": [
+              0.006182,
+              0.006866,
+              0.004946
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005117999999999999,
+            "candidate": 0.006182
+          },
+          "ratio": 1.207893708479875,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 8,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.005849999999999999,
+              0.005788,
+              0.005488
+            ],
+            "candidate": [
+              0.006614,
+              0.005342,
+              0.005166
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005788,
+            "candidate": 0.005342
+          },
+          "ratio": 0.9229440221147203,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        }
+      ],
+      "all_pairs": {
+        "count": 9,
+        "geomean": 0.99254212004974,
+        "range": [
+          0.8934115212142119,
+          1.207893708479875
+        ],
+        "above_one": 3
+      },
+      "strata": {
+        "phase": {
+          "initial_three": {
+            "count": 3,
+            "geomean": 1.0329761985749526,
+            "range": [
+              0.9841045566937479,
+              1.1172954800149422
+            ],
+            "above_one": 2
+          },
+          "supplemental_six": {
+            "count": 6,
+            "geomean": 0.9729225317722553,
+            "range": [
+              0.8934115212142119,
+              1.207893708479875
+            ],
+            "above_one": 1
+          }
+        },
+        "first_process": {
+          "baseline": {
+            "count": 5,
+            "geomean": 0.9775958275807858,
+            "range": [
+              0.8966416693837628,
+              1.1172954800149422
+            ],
+            "above_one": 1
+          },
+          "candidate": {
+            "count": 4,
+            "geomean": 1.0115467378483187,
+            "range": [
+              0.8934115212142119,
+              1.207893708479875
+            ],
+            "above_one": 2
+          }
+        },
+        "seed": {
+          "1": {
+            "count": 3,
+            "geomean": 0.9487548654888613,
+            "range": [
+              0.8966416693837628,
+              0.9841045566937479
+            ],
+            "above_one": 0
+          },
+          "2": {
+            "count": 3,
+            "geomean": 1.059159023752927,
+            "range": [
+              0.9812804193186072,
+              1.207893708479875
+            ],
+            "above_one": 2
+          },
+          "3": {
+            "count": 3,
+            "geomean": 0.9730421438741239,
+            "range": [
+              0.8934115212142119,
+              1.1172954800149422
+            ],
+            "above_one": 1
+          }
+        }
+      }
+    },
+    "1000000/false/ropey_exact": {
+      "kind": "churn",
+      "cell": "1000000/false/ropey_exact",
+      "unit": "ms",
+      "pairs": [
+        {
+          "global_pair": 0,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.11649599999999999,
+              0.10052399999999999,
+              0.122308
+            ],
+            "candidate": [
+              0.111394,
+              0.09976000000000002,
+              0.10552000000000002
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.11649599999999999,
+            "candidate": 0.10552000000000002
+          },
+          "ratio": 0.9057821727784647,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 1,
+          "phase": "initial_three",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.10629200000000001,
+              0.103416,
+              0.11343600000000001
+            ],
+            "candidate": [
+              0.10904399999999999,
+              0.12607800000000002,
+              0.12642
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.10629200000000001,
+            "candidate": 0.12607800000000002
+          },
+          "ratio": 1.1861475934218946,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 2,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.129114,
+              0.142638,
+              0.151264
+            ],
+            "candidate": [
+              0.296516,
+              0.290754,
+              0.17293200000000003
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.142638,
+            "candidate": 0.290754
+          },
+          "ratio": 2.038404913136752,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 3,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.129978,
+              0.121028,
+              0.122216
+            ],
+            "candidate": [
+              0.11538400000000001,
+              0.097486,
+              0.097204
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.122216,
+            "candidate": 0.097486
+          },
+          "ratio": 0.7976533350788767,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 4,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.10190400000000001,
+              0.103026,
+              0.103496
+            ],
+            "candidate": [
+              0.10905800000000002,
+              0.106148,
+              0.10192599999999999
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.103026,
+            "candidate": 0.106148
+          },
+          "ratio": 1.0303030303030303,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 5,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.108216,
+              0.107506,
+              0.108014
+            ],
+            "candidate": [
+              0.10342000000000001,
+              0.130654,
+              0.10539
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.108014,
+            "candidate": 0.10539
+          },
+          "ratio": 0.9757068528153757,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 6,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.10813400000000001,
+              0.10702,
+              0.10425599999999999
+            ],
+            "candidate": [
+              0.104756,
+              0.124482,
+              0.103934
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.10702,
+            "candidate": 0.104756
+          },
+          "ratio": 0.9788450756867875,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 7,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.10122999999999999,
+              0.10017399999999999,
+              0.11767200000000001
+            ],
+            "candidate": [
+              0.099908,
+              0.11991,
+              0.11793
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.10122999999999999,
+            "candidate": 0.11793
+          },
+          "ratio": 1.1649708584411735,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 8,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.10359399999999999,
+              0.102606,
+              0.099526
+            ],
+            "candidate": [
+              0.12014999999999999,
+              0.11526399999999999,
+              0.12106600000000001
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.102606,
+            "candidate": 0.12014999999999999
+          },
+          "ratio": 1.1709841529735103,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        }
+      ],
+      "all_pairs": {
+        "count": 9,
+        "geomean": 1.0993240368849253,
+        "range": [
+          0.7976533350788767,
+          2.038404913136752
+        ],
+        "above_one": 5
+      },
+      "strata": {
+        "phase": {
+          "initial_three": {
+            "count": 3,
+            "geomean": 1.2986266749849962,
+            "range": [
+              0.9057821727784647,
+              2.038404913136752
+            ],
+            "above_one": 2
+          },
+          "supplemental_six": {
+            "count": 6,
+            "geomean": 1.0114546754485427,
+            "range": [
+              0.7976533350788767,
+              1.1709841529735103
+            ],
+            "above_one": 3
+          }
+        },
+        "first_process": {
+          "baseline": {
+            "count": 5,
+            "geomean": 1.1687155872763992,
+            "range": [
+              0.9057821727784647,
+              2.038404913136752
+            ],
+            "above_one": 3
+          },
+          "candidate": {
+            "count": 4,
+            "geomean": 1.0183494509725914,
+            "range": [
+              0.7976533350788767,
+              1.1861475934218946
+            ],
+            "above_one": 2
+          }
+        },
+        "seed": {
+          "1": {
+            "count": 3,
+            "geomean": 0.8909444733309282,
+            "range": [
+              0.7976533350788767,
+              0.9788450756867875
+            ],
+            "above_one": 0
+          },
+          "2": {
+            "count": 3,
+            "geomean": 1.124966500960247,
+            "range": [
+              1.0303030303030303,
+              1.1861475934218946
+            ],
+            "above_one": 3
+          },
+          "3": {
+            "count": 3,
+            "geomean": 1.3255220099597749,
+            "range": [
+              0.9757068528153757,
+              2.038404913136752
+            ],
+            "above_one": 2
+          }
+        }
+      }
+    },
+    "1000000/false/ropey_rehash_candidate": {
+      "kind": "churn",
+      "cell": "1000000/false/ropey_rehash_candidate",
+      "unit": "ms",
+      "pairs": [
+        {
+          "global_pair": 0,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.43315,
+              0.41110800000000003,
+              0.6515740000000001
+            ],
+            "candidate": [
+              0.399448,
+              0.41694600000000004,
+              0.404354
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.43315,
+            "candidate": 0.404354
+          },
+          "ratio": 0.9335195659702182,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 1,
+          "phase": "initial_three",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.41950599999999993,
+              0.4199979999999999,
+              0.41796
+            ],
+            "candidate": [
+              0.44101599999999996,
+              0.428666,
+              0.524282
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.41950599999999993,
+            "candidate": 0.44101599999999996
+          },
+          "ratio": 1.0512745944038941,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 2,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.418646,
+              0.40312800000000004,
+              0.40860399999999997
+            ],
+            "candidate": [
+              0.440074,
+              0.501276,
+              0.426912
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.40860399999999997,
+            "candidate": 0.440074
+          },
+          "ratio": 1.077018335601218,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 3,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.389562,
+              0.400498,
+              0.41635
+            ],
+            "candidate": [
+              0.371118,
+              0.41300999999999993,
+              0.407072
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.400498,
+            "candidate": 0.407072
+          },
+          "ratio": 1.0164145638679842,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 4,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.40773200000000004,
+              0.392922,
+              0.391844
+            ],
+            "candidate": [
+              0.4053919999999999,
+              0.39077399999999995,
+              0.39116799999999996
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.392922,
+            "candidate": 0.39116799999999996
+          },
+          "ratio": 0.9955360096914908,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 5,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.405948,
+              0.42534,
+              0.42532800000000004
+            ],
+            "candidate": [
+              0.3839080000000001,
+              0.38020199999999993,
+              0.400564
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.42532800000000004,
+            "candidate": 0.3839080000000001
+          },
+          "ratio": 0.9026163337471317,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 6,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.401926,
+              0.43189999999999995,
+              0.40513
+            ],
+            "candidate": [
+              0.387018,
+              0.393868,
+              0.400894
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.40513,
+            "candidate": 0.393868
+          },
+          "ratio": 0.9722015155629058,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 7,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.38878799999999997,
+              0.38674,
+              0.42987
+            ],
+            "candidate": [
+              0.398198,
+              0.397434,
+              0.422688
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.38878799999999997,
+            "candidate": 0.398198
+          },
+          "ratio": 1.0242034219163143,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 8,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.385288,
+              0.37705000000000005,
+              0.45024200000000003
+            ],
+            "candidate": [
+              0.381868,
+              0.392408,
+              0.400306
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.385288,
+            "candidate": 0.392408
+          },
+          "ratio": 1.0184796827308402,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        }
+      ],
+      "all_pairs": {
+        "count": 9,
+        "geomean": 0.9976461091745324,
+        "range": [
+          0.9026163337471317,
+          1.077018335601218
+        ],
+        "above_one": 5
+      },
+      "strata": {
+        "phase": {
+          "initial_three": {
+            "count": 3,
+            "geomean": 1.0186404009631853,
+            "range": [
+              0.9335195659702182,
+              1.077018335601218
+            ],
+            "above_one": 2
+          },
+          "supplemental_six": {
+            "count": 6,
+            "geomean": 0.9873117855077431,
+            "range": [
+              0.9026163337471317,
+              1.0242034219163143
+            ],
+            "above_one": 3
+          }
+        },
+        "first_process": {
+          "baseline": {
+            "count": 5,
+            "geomean": 0.9982111849258374,
+            "range": [
+              0.9335195659702182,
+              1.077018335601218
+            ],
+            "above_one": 2
+          },
+          "candidate": {
+            "count": 4,
+            "geomean": 0.9969402142993884,
+            "range": [
+              0.9026163337471317,
+              1.0512745944038941
+            ],
+            "above_one": 3
+          }
+        },
+        "seed": {
+          "1": {
+            "count": 3,
+            "geomean": 0.9734572097258846,
+            "range": [
+              0.9335195659702182,
+              1.0164145638679842
+            ],
+            "above_one": 1
+          },
+          "2": {
+            "count": 3,
+            "geomean": 1.0234181664301698,
+            "range": [
+              0.9955360096914908,
+              1.0512745944038941
+            ],
+            "above_one": 2
+          },
+          "3": {
+            "count": 3,
+            "geomean": 0.9966887395431395,
+            "range": [
+              0.9026163337471317,
+              1.077018335601218
+            ],
+            "above_one": 2
+          }
+        }
+      }
+    },
+    "10000/false/hashrope_exact": {
+      "kind": "churn",
+      "cell": "10000/false/hashrope_exact",
+      "unit": "ms",
+      "pairs": [
+        {
+          "global_pair": 0,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.004522,
+              0.004432,
+              0.0045119999999999995
+            ],
+            "candidate": [
+              0.00458,
+              0.004456,
+              0.004642
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.0045119999999999995,
+            "candidate": 0.00458
+          },
+          "ratio": 1.0150709219858156,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 1,
+          "phase": "initial_three",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.00481,
+              0.00484,
+              0.004836
+            ],
+            "candidate": [
+              0.0057339999999999995,
+              0.0049180000000000005,
+              0.00496
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.004836,
+            "candidate": 0.00496
+          },
+          "ratio": 1.0256410256410255,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 2,
+          "phase": "initial_three",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.004836,
+              0.004466,
+              0.004922
+            ],
+            "candidate": [
+              0.008002,
+              0.0049819999999999994,
+              0.00501
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.004836,
+            "candidate": 0.00501
+          },
+          "ratio": 1.0359801488833746,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 3,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.005337999999999999,
+              0.005614,
+              0.004922
+            ],
+            "candidate": [
+              0.004598,
+              0.004554,
+              0.004446
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005337999999999999,
+            "candidate": 0.004554
+          },
+          "ratio": 0.8531285125515176,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 4,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.0045780000000000005,
+              0.004324,
+              0.004979999999999999
+            ],
+            "candidate": [
+              0.004598,
+              0.004598,
+              0.004293999999999999
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.0045780000000000005,
+            "candidate": 0.004598
+          },
+          "ratio": 1.0043687199650502,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 5,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.0050880000000000005,
+              0.005044,
+              0.004968
+            ],
+            "candidate": [
+              0.004598,
+              0.004376,
+              0.004626
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.005044,
+            "candidate": 0.004598
+          },
+          "ratio": 0.9115781126090404,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        },
+        {
+          "global_pair": 6,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 1,
+          "samples": {
+            "baseline": [
+              0.005084,
+              0.004876,
+              0.004902
+            ],
+            "candidate": [
+              0.005109999999999999,
+              0.00515,
+              0.004776
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.004902,
+            "candidate": 0.005109999999999999
+          },
+          "ratio": 1.0424316605467154,
+          "within_process_arm_order": [
+            "hashrope_candidate",
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact"
+          ]
+        },
+        {
+          "global_pair": 7,
+          "phase": "supplemental_six",
+          "first_process": "candidate",
+          "seed": 2,
+          "samples": {
+            "baseline": [
+              0.005308,
+              0.00443,
+              0.004704
+            ],
+            "candidate": [
+              0.004926000000000001,
+              0.004528,
+              0.004334
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.004704,
+            "candidate": 0.004528
+          },
+          "ratio": 0.9625850340136054,
+          "within_process_arm_order": [
+            "ropey_exact",
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate"
+          ]
+        },
+        {
+          "global_pair": 8,
+          "phase": "supplemental_six",
+          "first_process": "baseline",
+          "seed": 3,
+          "samples": {
+            "baseline": [
+              0.004710000000000001,
+              0.00463,
+              0.00451
+            ],
+            "candidate": [
+              0.004876,
+              0.004534,
+              0.004522
+            ]
+          },
+          "process_medians": {
+            "baseline": 0.00463,
+            "candidate": 0.004534
+          },
+          "ratio": 0.9792656587473003,
+          "within_process_arm_order": [
+            "ropey_rehash_candidate",
+            "hashrope_exact",
+            "hashrope_candidate",
+            "ropey_exact"
+          ]
+        }
+      ],
+      "all_pairs": {
+        "count": 9,
+        "geomean": 0.9792223741471154,
+        "range": [
+          0.8531285125515176,
+          1.0424316605467154
+        ],
+        "above_one": 5
+      },
+      "strata": {
+        "phase": {
+          "initial_three": {
+            "count": 3,
+            "geomean": 1.0255285020040716,
+            "range": [
+              1.0150709219858156,
+              1.0359801488833746
+            ],
+            "above_one": 3
+          },
+          "supplemental_six": {
+            "count": 6,
+            "geomean": 0.9568593932617061,
+            "range": [
+              0.8531285125515176,
+              1.0424316605467154
+            ],
+            "above_one": 2
+          }
+        },
+        "first_process": {
+          "baseline": {
+            "count": 5,
+            "geomean": 1.0151677754425794,
+            "range": [
+              0.9792656587473003,
+              1.0424316605467154
+            ],
+            "above_one": 4
+          },
+          "candidate": {
+            "count": 4,
+            "geomean": 0.9360751341452713,
+            "range": [
+              0.8531285125515176,
+              1.0256410256410255
+            ],
+            "above_one": 1
+          }
+        },
+        "seed": {
+          "1": {
+            "count": 3,
+            "geomean": 0.9664650328882318,
+            "range": [
+              0.8531285125515176,
+              1.0424316605467154
+            ],
+            "above_one": 2
+          },
+          "2": {
+            "count": 3,
+            "geomean": 0.9971853496100826,
+            "range": [
+              0.9625850340136054,
+              1.0256410256410255
+            ],
+            "above_one": 2
+          },
+          "3": {
+            "count": 3,
+            "geomean": 0.9742758760533131,
+            "range": [
+              0.9115781126090404,
+              1.0359801488833746
+            ],
+            "above_one": 1
+          }
+        }
+      }
+    }
+  },
+  "limits": [
+    "Two timing phases and repeated seeds are retained as groups, not independent workload draws.",
+    "Churn seed and within-process arm order are coupled; these strata cannot isolate input shape from arm position.",
+    "Microbenchmark has no random seed; pair index modulo3 is not a seed and is not analyzed as one.",
+    "Control variability is descriptive; it neither cancels a regression nor establishes noise."
+  ]
+}
