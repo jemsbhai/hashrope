@@ -1,0 +1,52 @@
+{
+  "kind": "micro",
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round3\\provenance.py": "00bb929f37968d45a0bda4bb0f979cb62480121b195241be7c8c5c1170182f99",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_python.py": "f257cf1079869d2b2eb9ee4e4b356d12f2877bb565c2895f8e53673e6245595e",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_rust.py": "f14e06ecf535bc075eff402b8c83b033215ea5402f8afb76e1b6f7825d510d84",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_rust.rs": "7f0fcf1c0c9da53767eb116973f92bf605e6c860fee80895c845e6f166e63a70",
+    "executed_driver": "598ee53aede16e40365277037965348383a2a20aad33f496c883af4ceefe4f6e"
+  },
+  "data_sha256": {},
+  "workload": {
+    "rounds": 3,
+    "samples_per_round": 7,
+    "exact_enabled_for_both": true
+  },
+  "python": "3.12.2",
+  "runtime": {
+    "python_executable": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "python_build": [
+      "tags/v3.12.2:6abddd9",
+      "Feb  6 2024 21:26:36"
+    ],
+    "python_implementation": "CPython",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "processor_identifier": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "environment": {
+      "PYTHONHASHSEED": null,
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "RUSTFLAGS": null,
+      "CARGO_ENCODED_RUSTFLAGS": null,
+      "CARGO_BUILD_TARGET": null,
+      "CARGO_PROFILE_RELEASE_OPT_LEVEL": null,
+      "CARGO_PROFILE_RELEASE_LTO": null,
+      "CARGO_PROFILE_RELEASE_CODEGEN_UNITS": null
+    },
+    "rustc_verbose": "rustc 1.94.0 (4a4ef493e 2026-03-02)\nbinary: rustc\ncommit-hash: 4a4ef493e3a1488c6e321570238084b38948f6db\ncommit-date: 2026-03-02\nhost: x86_64-pc-windows-msvc\nrelease: 1.94.0\nLLVM version: 21.1.8",
+    "cargo_version": "cargo 1.94.0 (85eff7c80 2026-01-15)"
+  },
+  "runtime_packages": {
+    "numpy": "2.0.2",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.1.0"
+  },
+  "core_archives": {
+    "baseline": "4c394e6adb99d6cd5f755e6fca139148a04777c2c468e75b715539710428f80d",
+    "optimized": "329348b883d786d73eae6baaf3842ff395c6b8dd3519adf09e803aa0612c3c4a"
+  },
+  "fingerprint": "491b2c0a95306fdb0e09230ca5214909519d4cc6a756875972f854689292c40e"
+}

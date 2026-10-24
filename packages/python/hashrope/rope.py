@@ -22,11 +22,13 @@ with structural sharing.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from math import gcd
 from typing import Optional
 
 from hashrope.polynomial_hash import (
     PolynomialHash,
+    HashProfile,
     phi,
     mersenne_mod,
     mersenne_mul,
@@ -44,6 +46,12 @@ ALPHA_DEN = 7
 
 # Type alias
 Node = Optional["Leaf | Internal | RepeatNode"]
+
+
+def _require_profile(node: Node, h: PolynomialHash) -> None:
+    """Check provenance in O(1); constructors preserve it throughout the tree."""
+    if node is not None and node.profile is not h.profile and node.profile != h.profile:
+        raise ValueError("Incompatible hash profile: rebuild the rope with the requested hasher")
 
 
 # ---------------------------------------------------------------------------
@@ -64,6 +72,7 @@ class Leaf:
     hash_val: int
     len: int
     weight: int
+    profile: HashProfile = field(compare=False, repr=False)
 
     def __init__(self, data: bytes, h: PolynomialHash) -> None:
         if len(data) == 0:
@@ -72,6 +81,7 @@ class Leaf:
         object.__setattr__(self, "len", len(data))
         object.__setattr__(self, "hash_val", h.hash(data))
         object.__setattr__(self, "weight", 1)
+        object.__setattr__(self, "profile", h.profile)
 
 
 @dataclass(frozen=True, slots=True)
@@ -89,6 +99,7 @@ class Internal:
     hash_val: int
     len: int
     weight: int
+    profile: HashProfile = field(compare=False, repr=False)
 
     def __init__(
         self,
@@ -96,6 +107,8 @@ class Internal:
         right: Leaf | Internal | RepeatNode,
         h: PolynomialHash,
     ) -> None:
+        _require_profile(left, h)
+        _require_profile(right, h)
         object.__setattr__(self, "left", left)
         object.__setattr__(self, "right", right)
         object.__setattr__(self, "len", left.len + right.len)
@@ -103,6 +116,7 @@ class Internal:
         # I3: hash = left.hash · x^(right.len) + right.hash
         hv = h.hash_concat(left.hash_val, right.len, right.hash_val)
         object.__setattr__(self, "hash_val", hv)
+        object.__setattr__(self, "profile", h.profile)
 
 
 @dataclass(frozen=True, slots=True)
@@ -120,6 +134,7 @@ class RepeatNode:
     hash_val: int
     len: int
     weight: int
+    profile: HashProfile = field(compare=False, repr=False)
 
     def __init__(
         self,
@@ -129,6 +144,7 @@ class RepeatNode:
     ) -> None:
         if reps < 2:
             raise ValueError(f"RepeatNode reps must be >= 2, got {reps}")
+        _require_profile(child, h)
         object.__setattr__(self, "child", child)
         object.__setattr__(self, "reps", reps)
         object.__setattr__(self, "len", child.len * reps)
@@ -138,6 +154,7 @@ class RepeatNode:
         phi_val = phi(reps, x_d, h.prime)
         hv = mersenne_mul(child.hash_val, phi_val, h.prime)
         object.__setattr__(self, "hash_val", hv)
+        object.__setattr__(self, "profile", h.profile)
 
 
 # ---------------------------------------------------------------------------
@@ -151,8 +168,198 @@ def rope_len(node: Node) -> int:
 
 
 def rope_hash(node: Node) -> int:
-    """Hash of the string represented by node."""
+    """Fingerprint of the represented string; equality of hashes is not proof of equality."""
     return 0 if node is None else node.hash_val
+
+
+def rope_equal(left: Node, right: Node) -> bool:
+    """Exact byte equality, independent of tree shape and hash profile.
+
+    Shared immutable ranges and proven-equal periodic spans are skipped.
+    Unshared content may require a linear scan. No expanded rope is allocated.
+    """
+    if left is right:
+        return True
+    if rope_len(left) != rope_len(right):
+        return False
+    # Also independent of custom hash implementations and historically accepted
+    # non-Mersenne moduli: exact comparison does not consult hash metadata.
+    return rope_lcp(left, right) == rope_len(left)
+
+
+def _normalize_range(
+    node: Leaf | Internal | RepeatNode, start: int, length: int,
+) -> tuple[Leaf | Internal | RepeatNode, int]:
+    """Descend through a containing child, keeping a virtual byte range."""
+    while True:
+        if isinstance(node, Internal):
+            boundary = node.left.len
+            if start >= boundary:
+                start -= boundary
+                node = node.right
+            elif start + length <= boundary:
+                node = node.left
+            else:
+                return node, start
+        elif isinstance(node, RepeatNode):
+            start %= node.child.len
+            if start + length <= node.child.len:
+                node = node.child
+            else:
+                return node, start
+        else:
+            return node, start
+
+
+def _leaf_lcp(left: bytes, a: int, right: bytes, b: int, length: int) -> int:
+    """Compare in native byte chunks, with bounded temporary slice storage."""
+    if left is right and a == b:
+        return length
+    matched = 0
+    while matched < length:
+        size = min(65536, length - matched)
+        l_chunk = left[a + matched:a + matched + size]
+        r_chunk = right[b + matched:b + matched + size]
+        if l_chunk != r_chunk:
+            # Keep early mismatches cheap. For a late mismatch, native byte
+            # comparisons avoid a Python loop over the entire matching prefix.
+            if l_chunk[0] != r_chunk[0]:
+                return matched
+            # Small offsets should not trigger probes over large slices.
+            # The bounded scalar loop is used only when this prefix differs.
+            if l_chunk[:64] != r_chunk[:64]:
+                for i in range(1, min(64, size)):
+                    if l_chunk[i] != r_chunk[i]:
+                        return matched + i
+            lo, hi = 64, size
+            # The first mismatch is in [lo, hi). Equal left halves are skipped
+            # exactly; unequal ones contain the first mismatch. The intervals
+            # halve, so all probes together scan/copy O(size) bytes, not
+            # O(size * log(size)). Temporary slices remain bounded by 64 KiB.
+            while hi - lo > 1:
+                mid = (lo + hi) // 2
+                if l_chunk[lo:mid] == r_chunk[lo:mid]:
+                    lo = mid
+                else:
+                    hi = mid
+            return matched + lo
+        matched += size
+    return length
+
+
+def rope_lcp(left: Node, right: Node) -> int:
+    """Exact longest common prefix length in bytes, across any hash profiles.
+
+    Walks virtual ranges without splitting or flattening the ropes. Identical
+    immutable ranges are skipped. Two periodic spans need comparison of only
+    p + q - gcd(p, q) bytes to prove equality throughout (Fine-Wilf), where p
+    and q are their periods. No fingerprints are used as equality evidence.
+
+    Independent equal inputs may require reading the entire common prefix,
+    plus traversal, cache and integer-arithmetic costs. There is no general
+    logarithmic bound for independently built inputs.
+    Auxiliary storage is the traversal stack, a per-call set of verified
+    non-leaf ranges (for shared DAGs), and bounded leaf buffers.
+    """
+    length = min(rope_len(left), rope_len(right))
+    if left is right or length == 0:
+        return length
+    return _range_lcp(left, 0, right, 0, length)
+
+
+def _check_range(node: Node, start: int, length: int) -> None:
+    if start < 0 or length < 0 or start > rope_len(node) or length > rope_len(node) - start:
+        raise ValueError("Comparison range is outside the rope")
+
+
+def rope_range_equal(
+    left: Node, left_start: int, right: Node, right_start: int, length: int,
+) -> bool:
+    """Exactly compare two byte ranges without splitting or rehashing.
+
+    Hash profiles may differ. Negative or out-of-bounds ranges raise ValueError,
+    including empty ranges whose start exceeds the rope's length.
+    """
+    return rope_range_lcp(left, left_start, right, right_start, length) == length
+
+
+def rope_range_lcp(
+    left: Node, left_start: int, right: Node, right_start: int, length: int,
+) -> int:
+    """Exact LCP of two length-byte ranges, relative to their starts.
+
+    Bounds are checked even for empty or identical ranges. The comparison has
+    the same sharing, repetition, and worst-case costs as rope_lcp.
+    """
+    _check_range(left, left_start, length)
+    _check_range(right, right_start, length)
+    if length == 0 or (left is right and left_start == right_start):
+        return length
+    return _range_lcp(left, left_start, right, right_start, length)
+
+
+def _range_lcp(
+    left: Node, left_start: int, right: Node, right_start: int, length: int,
+) -> int:
+
+    # Integer entries skip a periodic suffix only AFTER its witness compares
+    # equal. Range entries are processed left-to-right, so matched is the
+    # absolute offset of the first mismatch if any comparison fails.
+    pending = [(left, left_start, right, right_start, length)]
+    verified = set()
+    matched = 0
+    while pending:
+        task = pending.pop()
+        if isinstance(task, int):
+            matched += task
+            continue
+        if len(task) == 1:
+            verified.add(task[0])
+            continue
+        a_node, a_start, b_node, b_start, size = task
+        a_node, a_start = _normalize_range(a_node, a_start, size)
+        b_node, b_start = _normalize_range(b_node, b_start, size)
+        if a_node is b_node and a_start == b_start:
+            matched += size
+            continue
+        if isinstance(a_node, Leaf) and isinstance(b_node, Leaf):
+            common = _leaf_lcp(a_node.data, a_start, b_node.data, b_start, size)
+            matched += common
+            if common != size:
+                return matched
+            continue
+
+        key = (id(a_node), a_start, id(b_node), b_start, size)
+        if key in verified:
+            matched += size
+            continue
+        # Commit equality only after every child task has succeeded. This
+        # keeps independently constructed self-concatenation DAGs compressed.
+        pending.append((key,))
+
+        if isinstance(a_node, RepeatNode) and isinstance(b_node, RepeatNode):
+            p, q = a_node.child.len, b_node.child.len
+            witness = p + q - gcd(p, q)
+            if witness < size:
+                pending.append(size - witness)
+                pending.append((a_node, a_start, b_node, b_start, witness))
+                continue
+
+        # Prefer internal boundaries: cutting a Repeat at every copy before
+        # exposing the other tree's large shared/repeated child would expand it.
+        cut = size
+        if isinstance(a_node, Internal):
+            cut = min(cut, a_node.left.len - a_start)
+        if isinstance(b_node, Internal):
+            cut = min(cut, b_node.left.len - b_start)
+        if cut == size:
+            if isinstance(a_node, RepeatNode):
+                cut = min(cut, a_node.child.len - a_start)
+            if isinstance(b_node, RepeatNode):
+                cut = min(cut, b_node.child.len - b_start)
+        pending.append((a_node, a_start + cut, b_node, b_start + cut, size - cut))
+        pending.append((a_node, a_start, b_node, b_start, cut))
+    return matched
 
 
 def rope_height(node: Node) -> int:
@@ -300,6 +507,8 @@ def rope_concat(
     Returns a valid hash rope representing left's string ‖ right's string.
     Time: O(k · |h_L - h_R|).
     """
+    _require_profile(left, h)
+    _require_profile(right, h)
     if left is None:
         return right
     if right is None:
@@ -370,6 +579,7 @@ def rope_split(
     own may not be valid UTF-8. Character-boundary alignment is the
     caller's responsibility. See the byte-index contract in the README.
     """
+    _require_profile(node, h)
     if node is None:
         return None, None
     if pos <= 0:
@@ -466,6 +676,7 @@ def rope_repeat(
 
     Time: O(k · log q) for the Φ computation. O(1) new nodes.
     """
+    _require_profile(node, h)
     if q == 0:
         return None
     if q == 1:
@@ -492,6 +703,7 @@ def rope_substr_hash(
     start and length are byte offsets/counts (see the byte-index contract
     in the README).
     """
+    _require_profile(node, h)
     if node is None or length == 0:
         return 0
     return _hash_range(node, start, length, h)
@@ -626,10 +838,15 @@ def rope_from_bytes(data: bytes, h: PolynomialHash) -> Node:
 
 def validate_rope(node: Node, h: PolynomialHash | None = None) -> None:
     """
-    Validate all rope invariants (Definition 7). Raises AssertionError on violation.
+    Validate structure and profile consistency; does not recompute fingerprints.
+
+    Raises AssertionError on structural violations and ValueError if the supplied
+    hasher has an incompatible profile. This is not a content equality test.
     """
     if node is None:
         return
+    if h is not None:
+        _require_profile(node, h)
 
     if isinstance(node, Leaf):
         assert node.weight == 1, f"Leaf weight must be 1, got {node.weight}"
@@ -637,6 +854,7 @@ def validate_rope(node: Node, h: PolynomialHash | None = None) -> None:
         return
 
     if isinstance(node, Internal):
+        assert node.profile == node.left.profile == node.right.profile, "Internal profile mismatch"
         # I2
         assert node.len == node.left.len + node.right.len, "Internal len mismatch"
         # I4
@@ -657,6 +875,7 @@ def validate_rope(node: Node, h: PolynomialHash | None = None) -> None:
         return
 
     if isinstance(node, RepeatNode):
+        assert node.profile == node.child.profile, "RepeatNode profile mismatch"
         # I5
         assert node.len == node.child.len * node.reps, "RepeatNode len mismatch"
         # I7

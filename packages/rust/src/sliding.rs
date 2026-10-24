@@ -123,6 +123,7 @@ impl SlidingWindow {
     /// # Panics
     /// Panics if the total stream length exceeds `u64::MAX`.
     pub fn append_bytes(&mut self, data: &[u8]) {
+        self.arena.assert_hash_profile();
         if data.is_empty() {
             return;
         }
@@ -145,6 +146,7 @@ impl SlidingWindow {
     /// Panics if offset exceeds decoded length or window size, offset is zero
     /// for a nonempty copy, or the total stream length exceeds `u64::MAX`.
     pub fn append_copy(&mut self, offset: u64, length: u64) {
+        self.arena.assert_hash_profile();
         let win_len = self.window_len();
 
         assert!(

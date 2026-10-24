@@ -61,6 +61,7 @@ class SlidingWindow:
     __slots__ = (
         "h", "d_max", "m_max", "W",
         "h_prefix", "l_prefix", "r_window", "pos",
+        "_profile",
     )
 
     def __init__(
@@ -76,6 +77,7 @@ class SlidingWindow:
             raise ValueError(f"m_max must be >= 1, got {m_max}")
 
         self.h = PolynomialHash(prime=prime, base=base)
+        self._profile = self.h.profile
         self.d_max = d_max
         self.m_max = m_max
         self.W = d_max + m_max
@@ -91,11 +93,18 @@ class SlidingWindow:
         """Current window size in bytes."""
         return rope_len(self.r_window)
 
+    def _check_profile(self) -> None:
+        if self.h.profile != self._profile:
+            raise ValueError("Incompatible hash profile: create a new SlidingWindow")
+        if self.r_window is not None and self.r_window.profile != self._profile:
+            raise ValueError("Incompatible hash profile in sliding window rope")
+
     def current_hash(self) -> int:
         """
         Compute H(T[0..pos-1]) from sliding state via Theorem 1:
             H(T) = H_prefix * x^(window_len) + H(window)
         """
+        self._check_profile()
         wl = self.window_len
         wh = rope_hash(self.r_window) if self.r_window else 0
         return self.h.hash_concat(self.h_prefix, wl, wh)
@@ -117,6 +126,7 @@ class SlidingWindow:
         data : bytes
             One or more bytes to append.
         """
+        self._check_profile()
         if not data:
             return
         leaf = Leaf(data, self.h)
@@ -147,6 +157,7 @@ class SlidingWindow:
         ValueError
             If offset exceeds decoded length or window size.
         """
+        self._check_profile()
         win_len = self.window_len
 
         if offset > self.pos:

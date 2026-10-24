@@ -1,0 +1,41 @@
+{
+  "kind": "rust",
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\edit_compare.py": "f630ce4b02f9815a4a21f8949508c578234cbb15aabc304f472e08b85d0f0ff9",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\edit_compare.rs": "5e1db225b95ff3199801a8c23aafe39e5c58af5370613e867692b0a43378f756",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\edit_compare.Cargo.lock": "55d7ccdcc404ad7bbc906c25078410ba83657a9fecd6478fc4fb3149a46abff4",
+    "executed_driver": "c620f3323728ab9c91091b717ee0bfd4b90f3b3e2d7c5ead618768ce38b8ca71"
+  },
+  "data_sha256": {},
+  "workload": {
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "invocations": 3,
+    "samples": 3,
+    "cycles": 50,
+    "equal_fraction": 0.5,
+    "sizes": [
+      10000,
+      100000,
+      1000000
+    ],
+    "history": [
+      false,
+      true
+    ]
+  },
+  "python": "3.12.2",
+  "runtime_packages": {
+    "numpy": "2.0.2",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.1.0"
+  },
+  "core_archives": {
+    "baseline": "293c93ce8c6eb675f58bf2c88bdc1925465bed9c7ec2cb7f673299cebbb1f3bd",
+    "optimized": "3b1f225420b8f298e88de948d6a05c7aa8c1c51d7b02901712bdff56e5e516c3"
+  },
+  "fingerprint": "bf837d20ca2f27ef1ad197d463c949402654777350af1d4cd451f7381ddcaefc"
+}

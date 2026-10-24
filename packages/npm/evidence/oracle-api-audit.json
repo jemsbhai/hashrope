@@ -1,0 +1,139 @@
+{
+  "pythonVersion": "0.2.2",
+  "exportedNames": 21,
+  "mappings": {
+    "PolynomialHash": {
+      "js": "PolynomialHash",
+      "kind": "function"
+    },
+    "phi": {
+      "js": "phi",
+      "kind": "function"
+    },
+    "mersenne_mod": {
+      "js": "mersenneMod",
+      "kind": "function"
+    },
+    "mersenne_mul": {
+      "js": "mersenneMul",
+      "kind": "function"
+    },
+    "MERSENNE_61": {
+      "js": "MERSENNE_61",
+      "kind": "bigint"
+    },
+    "MERSENNE_127": {
+      "js": "MERSENNE_127",
+      "kind": "bigint"
+    },
+    "Leaf": {
+      "js": "Leaf",
+      "kind": "function"
+    },
+    "Internal": {
+      "js": "Internal",
+      "kind": "function"
+    },
+    "RepeatNode": {
+      "js": "RepeatNode",
+      "kind": "function"
+    },
+    "Node": {
+      "js": "Node",
+      "kind": "TypeScript type-only union; null is empty"
+    },
+    "rope_concat": {
+      "js": "ropeConcat",
+      "kind": "function"
+    },
+    "rope_split": {
+      "js": "ropeSplit",
+      "kind": "function"
+    },
+    "rope_repeat": {
+      "js": "ropeRepeat",
+      "kind": "function"
+    },
+    "rope_substr_hash": {
+      "js": "ropeSubstrHash",
+      "kind": "function"
+    },
+    "rope_len": {
+      "js": "ropeLen",
+      "kind": "function"
+    },
+    "rope_hash": {
+      "js": "ropeHash",
+      "kind": "function"
+    },
+    "rope_height": {
+      "js": "ropeHeight",
+      "kind": "function"
+    },
+    "rope_from_bytes": {
+      "js": "ropeFromBytes",
+      "kind": "function"
+    },
+    "rope_to_bytes": {
+      "js": "ropeToBytes",
+      "kind": "function"
+    },
+    "validate_rope": {
+      "js": "validateRope",
+      "kind": "function"
+    },
+    "SlidingWindow": {
+      "js": "SlidingWindow",
+      "kind": "function"
+    }
+  },
+  "publicMembers": {
+    "PolynomialHash": {
+      "base": "base",
+      "hash": "hash",
+      "hash_concat": "hashConcat",
+      "hash_overlap": "hashOverlap",
+      "hash_repeat": "hashRepeat",
+      "power": "power",
+      "prime": "prime"
+    },
+    "Leaf": {
+      "data": "data",
+      "hash_val": "hashVal",
+      "len": "len",
+      "weight": "weight"
+    },
+    "Internal": {
+      "hash_val": "hashVal",
+      "left": "left",
+      "len": "len",
+      "right": "right",
+      "weight": "weight"
+    },
+    "RepeatNode": {
+      "child": "child",
+      "hash_val": "hashVal",
+      "len": "len",
+      "reps": "reps",
+      "weight": "weight"
+    },
+    "SlidingWindow": {
+      "W": "W",
+      "append_bytes": "appendBytes",
+      "append_copy": "appendCopy",
+      "current_hash": "currentHash",
+      "d_max": "dMax",
+      "final_hash": "finalHash",
+      "h": "h",
+      "h_prefix": "hPrefix",
+      "l_prefix": "lPrefix",
+      "m_max": "mMax",
+      "pos": "pos",
+      "r_window": "rWindow",
+      "window_len": "windowLen"
+    }
+  },
+  "balanceConstantsChecked": true,
+  "versionsChecked": true,
+  "result": "all mapped exports and public members present"
+}

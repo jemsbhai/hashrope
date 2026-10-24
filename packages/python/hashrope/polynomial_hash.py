@@ -10,12 +10,26 @@ using bit-shift reduction (Lemma 14) to avoid expensive division.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 
 MERSENNE_61: int = (1 << 61) - 1  # 2^61 - 1
-MERSENNE_127: int = (1 << 127) - 1  # 2^127 - 1 (recommended for high security, Corollary 5)
+MERSENNE_127: int = (1 << 127) - 1  # Wider fingerprint; not a cryptographic hash.
+
+
+@dataclass(frozen=True, slots=True)
+class HashProfile:
+    """Immutable parameters for the byte-plus-one polynomial fingerprint.
+
+    Equal profiles are compatible even when their hashers have separate caches.
+    Hash collisions remain possible with every supported profile.
+    """
+
+    prime: int
+    base: int
 
 
 # ---------------------------------------------------------------------------
@@ -133,14 +147,30 @@ class PolynomialHash:
         The hash base x, chosen from {2, ..., p-1}.
     """
 
-    __slots__ = ("_p", "_x", "_power_cache")
+    __slots__ = ("_p", "_x", "_power_cache", "_profile")
+
+    def __setattr__(self, name: str, value: object) -> None:
+        if name in ("_p", "_x", "_profile") and hasattr(self, name):
+            raise AttributeError("Hash parameters are immutable; create a new PolynomialHash")
+        object.__setattr__(self, name, value)
+
+    def __delattr__(self, name: str) -> None:
+        if name in ("_p", "_x", "_profile"):
+            raise AttributeError("Hash parameters are immutable")
+        object.__delattr__(self, name)
 
     def __init__(self, prime: int = MERSENNE_61, base: int = 131) -> None:
         if base < 2 or base >= prime:
             raise ValueError(f"Base must be in [2, p-1], got {base}")
         self._p = prime
         self._x = base
+        self._profile = HashProfile(prime, base)
         self._power_cache: dict[int, int] = {0: 1, 1: base}
+
+    @property
+    def profile(self) -> HashProfile:
+        """The immutable parameters attached to nodes built by this hasher."""
+        return self._profile
 
     @property
     def prime(self) -> int:

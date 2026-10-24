@@ -1,0 +1,383 @@
+{
+  "statistic": "median of three process medians; each process is median of six within-process round medians, each from five batches. Min/max process and all-round ranges retained. No confidence/significance claim.",
+  "protocol": "six within-process rounds; fixture order rotated/reversed; each fixture has three AB and three BA arm orders; five batches per arm/round; equal repetitions; setup excluded; bounded warmup; no affinity/frequency control",
+  "node": "v24.22.1",
+  "cpu": "Intel(R) Core(TM) i9-14900HX",
+  "harness_sha256": "c7f76d98a6d9694d041831b10cdd6a7e42ac13648f3cf785eb9ccfe76117b314",
+  "baseline_runtime_sha256": {
+    "index.js": "2b73bc1bbb8be7304cdba1f0577d84dbff687622e3f3389fa9f490c639db43fb",
+    "nodes.js": "ce047b975fa0ded010b62649cbb746469751257721bbf93d70e09d5426672678",
+    "polynomial.js": "e5cad0af27109ac56eac95a8fd37acace4a708600078389b9be3d2726d668e90",
+    "rope.js": "500217761d7284b18db3b8300ebbc5adba4437ef1e6fa721b26b96586f0ba66f",
+    "sliding.js": "89690afaac048545192d4932609f9462afd046215e647d6e6870818b8f1d3897"
+  },
+  "candidate_runtime_sha256": {
+    "comparison.js": "96837f98795b43ce41c4787b9ba24a06262a1c56403d31a6834877b3f05c5952",
+    "index.js": "9ebdf13a39054a6ee9fda5fbc89c7add920ad01426acfe5c8bad357609147e7e",
+    "nodes.js": "e0c03cdabb166df4d9a01de2becd6b0ad784b47b7fc45d0c32d686d91e227380",
+    "polynomial.js": "a2ad4108a9753895b9503fcc3d758b6441d63f6f3232c6b8999c0e957777fc71",
+    "rope.js": "514e3437b8284257d678cd4c6fe77276ec3c98253a8ecaead638a332b8b194ba",
+    "sliding.js": "cf71af55448bd19dd7e9d99d380777af69609a647f05a7be881b91e8b7a42040"
+  },
+  "rows": [
+    {
+      "fixture": "hash_4096B",
+      "baseline_median_ns": 361360,
+      "candidate_median_ns": 359887.5,
+      "baseline_process_range_ns": [
+        343975,
+        369002.5
+      ],
+      "candidate_process_range_ns": [
+        339237.5,
+        366370
+      ],
+      "baseline_all_round_range_ns": [
+        336440,
+        394830
+      ],
+      "candidate_all_round_range_ns": [
+        329245,
+        377725
+      ],
+      "candidate_over_baseline": 0.9959251162275847,
+      "paired_process_ratios": [
+        0.9862271967439494,
+        0.9959251162275847,
+        0.9928659019925339
+      ]
+    },
+    {
+      "fixture": "construct_leaf_128B",
+      "baseline_median_ns": 12939.5,
+      "candidate_median_ns": 13189,
+      "baseline_process_range_ns": [
+        12682,
+        13172.5
+      ],
+      "candidate_process_range_ns": [
+        13093,
+        13190
+      ],
+      "baseline_all_round_range_ns": [
+        11915,
+        14386
+      ],
+      "candidate_all_round_range_ns": [
+        11761,
+        15293
+      ],
+      "candidate_over_baseline": 1.0192820433556165,
+      "paired_process_ratios": [
+        1.011862900421191,
+        1.0400567733795931,
+        1.0012526096033403
+      ]
+    },
+    {
+      "fixture": "concat_two_128B_warm",
+      "baseline_median_ns": 170.8,
+      "candidate_median_ns": 219.45,
+      "baseline_process_range_ns": [
+        169.45,
+        178.25
+      ],
+      "candidate_process_range_ns": [
+        214.89999999999998,
+        226.7
+      ],
+      "baseline_all_round_range_ns": [
+        133.3,
+        291.1
+      ],
+      "candidate_all_round_range_ns": [
+        173.4,
+        388.9
+      ],
+      "candidate_over_baseline": 1.2848360655737703,
+      "paired_process_ratios": [
+        1.2848360655737703,
+        1.2718092566619916,
+        1.2682207140749484
+      ]
+    },
+    {
+      "fixture": "split_64KiB_leaf_middle",
+      "baseline_median_ns": 5835550,
+      "candidate_median_ns": 5908975,
+      "baseline_process_range_ns": [
+        5662075,
+        6021200
+      ],
+      "candidate_process_range_ns": [
+        5679850,
+        6007075
+      ],
+      "baseline_all_round_range_ns": [
+        5588850,
+        6101800
+      ],
+      "candidate_all_round_range_ns": [
+        5564550,
+        6239150
+      ],
+      "candidate_over_baseline": 1.0125823615597502,
+      "paired_process_ratios": [
+        1.0031393084690683,
+        1.0125823615597502,
+        0.9976541221019066
+      ]
+    },
+    {
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "baseline_median_ns": 25524,
+      "candidate_median_ns": 25488,
+      "baseline_process_range_ns": [
+        25414.5,
+        25680.5
+      ],
+      "candidate_process_range_ns": [
+        25299.5,
+        27343.5
+      ],
+      "baseline_all_round_range_ns": [
+        23950,
+        27129
+      ],
+      "candidate_all_round_range_ns": [
+        24153,
+        28889
+      ],
+      "candidate_over_baseline": 0.998589562764457,
+      "paired_process_ratios": [
+        1.064757306127217,
+        1.0028920498140825,
+        0.9912043566839054
+      ]
+    },
+    {
+      "fixture": "repeat_metadata_100bit",
+      "baseline_median_ns": 14467,
+      "candidate_median_ns": 14430,
+      "baseline_process_range_ns": [
+        14343,
+        14795.5
+      ],
+      "candidate_process_range_ns": [
+        14325.5,
+        14465.5
+      ],
+      "baseline_all_round_range_ns": [
+        13675,
+        22926
+      ],
+      "candidate_all_round_range_ns": [
+        13837,
+        21455
+      ],
+      "candidate_over_baseline": 0.9974424552429667,
+      "paired_process_ratios": [
+        0.9987798926305514,
+        0.9776959210570781,
+        0.9974424552429667
+      ]
+    },
+    {
+      "fixture": "equal_independent_64KiB",
+      "baseline_median_ns": 36345.5,
+      "candidate_median_ns": 16875.5,
+      "baseline_process_range_ns": [
+        36080,
+        37248
+      ],
+      "candidate_process_range_ns": [
+        16874,
+        17356.5
+      ],
+      "baseline_all_round_range_ns": [
+        34912,
+        38564
+      ],
+      "candidate_all_round_range_ns": [
+        16047,
+        18069
+      ],
+      "candidate_over_baseline": 0.4643078235269841,
+      "paired_process_ratios": [
+        0.46772450110864744,
+        0.46426655294328045,
+        0.4659713273195876
+      ]
+    },
+    {
+      "fixture": "equal_late_mismatch_64KiB",
+      "baseline_median_ns": 88407,
+      "candidate_median_ns": 16480,
+      "baseline_process_range_ns": [
+        87119.5,
+        89157.5
+      ],
+      "candidate_process_range_ns": [
+        16410.5,
+        16861
+      ],
+      "baseline_all_round_range_ns": [
+        79891,
+        95352
+      ],
+      "candidate_all_round_range_ns": [
+        15550,
+        18395
+      ],
+      "candidate_over_baseline": 0.1864105783478684,
+      "paired_process_ratios": [
+        0.18916545664288706,
+        0.18562444150350085,
+        0.1891147688080083
+      ]
+    },
+    {
+      "fixture": "equal_early_mismatch_64KiB",
+      "baseline_median_ns": 41651.5,
+      "candidate_median_ns": 150.5,
+      "baseline_process_range_ns": [
+        41309,
+        42235.5
+      ],
+      "candidate_process_range_ns": [
+        142.5,
+        153.5
+      ],
+      "baseline_all_round_range_ns": [
+        33875,
+        44264
+      ],
+      "candidate_all_round_range_ns": [
+        81,
+        417
+      ],
+      "candidate_over_baseline": 0.003613315246749817,
+      "paired_process_ratios": [
+        0.003715897262097848,
+        0.0034212453333013217,
+        0.003563353103431947
+      ]
+    },
+    {
+      "fixture": "equal_shared_prefix_64KiB",
+      "baseline_median_ns": 89804,
+      "candidate_median_ns": 691,
+      "baseline_process_range_ns": [
+        88290.5,
+        91899
+      ],
+      "candidate_process_range_ns": [
+        658.5,
+        732
+      ],
+      "baseline_all_round_range_ns": [
+        86371,
+        110191
+      ],
+      "candidate_all_round_range_ns": [
+        381,
+        1418
+      ],
+      "candidate_over_baseline": 0.007694534764598459,
+      "paired_process_ratios": [
+        0.007826436592838415,
+        0.007965266216172101,
+        0.007332635517348893
+      ]
+    },
+    {
+      "fixture": "equal_same_root",
+      "baseline_median_ns": 4.0344999999999995,
+      "candidate_median_ns": 6.5825,
+      "baseline_process_range_ns": [
+        3.9755000000000003,
+        4.212
+      ],
+      "candidate_process_range_ns": [
+        6.022,
+        6.9030000000000005
+      ],
+      "baseline_all_round_range_ns": [
+        3.872,
+        6.012
+      ],
+      "candidate_all_round_range_ns": [
+        5.859,
+        11.057
+      ],
+      "candidate_over_baseline": 1.631552856611724,
+      "paired_process_ratios": [
+        1.4926260998884622,
+        1.638888888888889,
+        1.6557665702427367
+      ]
+    }
+  ],
+  "compressed_completion_by_process": [
+    [
+      {
+        "name": "equal_repeat_different_period_101bit",
+        "elapsed_ns": 106000,
+        "expected": "true",
+        "passed": true
+      },
+      {
+        "name": "lcp_repeat_shifted_range_101bit",
+        "elapsed_ns": 50900,
+        "expected": "2535301200456458802993406410749",
+        "passed": true
+      },
+      {
+        "name": "lcp_independent_dag_101bit",
+        "elapsed_ns": 185200,
+        "expected": "2535301200456458802993406410752",
+        "passed": true
+      }
+    ],
+    [
+      {
+        "name": "equal_repeat_different_period_101bit",
+        "elapsed_ns": 107400,
+        "expected": "true",
+        "passed": true
+      },
+      {
+        "name": "lcp_repeat_shifted_range_101bit",
+        "elapsed_ns": 52200,
+        "expected": "2535301200456458802993406410749",
+        "passed": true
+      },
+      {
+        "name": "lcp_independent_dag_101bit",
+        "elapsed_ns": 200100,
+        "expected": "2535301200456458802993406410752",
+        "passed": true
+      }
+    ],
+    [
+      {
+        "name": "equal_repeat_different_period_101bit",
+        "elapsed_ns": 154200,
+        "expected": "true",
+        "passed": true
+      },
+      {
+        "name": "lcp_repeat_shifted_range_101bit",
+        "elapsed_ns": 52500,
+        "expected": "2535301200456458802993406410749",
+        "passed": true
+      },
+      {
+        "name": "lcp_independent_dag_101bit",
+        "elapsed_ns": 219200,
+        "expected": "2535301200456458802993406410752",
+        "passed": true
+      }
+    ]
+  ]
+}

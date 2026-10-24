@@ -1,0 +1,29 @@
+{
+  "archive_sha256": "329348b883d786d73eae6baaf3842ff395c6b8dd3519adf09e803aa0612c3c4a",
+  "core_sha256": {
+    "packages/rust/src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+    "packages/rust/src/polynomial_hash.rs": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+    "packages/rust/src/rope.rs": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+    "packages/rust/src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+    "packages/python/hashrope/__init__.py": "5e8d8f4c07d50f0eaa7d24b504ed5240bdd4a05384e7123de6e582e36420bd90",
+    "packages/python/hashrope/polynomial_hash.py": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5",
+    "packages/python/hashrope/rope.py": "d1de00805fa37fe286dae50b87675c82aa2fb388b66c66329983d34440b6a4b2",
+    "packages/python/hashrope/sliding.py": "26599d0df3a7f0b50659a02d0ed96eae1b1fc88537db6f58f887ae0b6ecd928c"
+  },
+  "test_sha256": {
+    "packages/rust/tests/diag_substr_scaling.rs": "7daa599ebb2df649941ea1d0d586288624b1677410638cea387735de23d01335",
+    "packages/rust/tests/test_e1_throughput.rs": "629c702b8b83fe7eb6f3e6a3828029be947974c03685c1987997900abdea9da2",
+    "packages/rust/tests/test_e2_concat_split.rs": "625ad934b13d51ddd8a6406daa1205bb66ab17e09cd4c1e7cd38ea895a6fdfc2",
+    "packages/rust/tests/test_e3_repeat.rs": "ba59d534ebf82e1b1ae29c8a4918464f1aca02619983530376a21b70ffa97c60",
+    "packages/rust/tests/test_e4_phi.rs": "8d7b670d0c8608fb5019755b571cf5a096fbd092b0c8e31080a109bf49def37d",
+    "packages/rust/tests/test_e5_sliding.rs": "fc2e89b5512d25c1edf9e85acf19cc02d6d3ffdfff8f989220d4e546e27ac13f",
+    "packages/rust/tests/test_e6_memory.rs": "94c2268efabd86e520b554b9d154abb281e58b58df5764b81c64a102fb49545c",
+    "packages/rust/tests/test_e7_tree_height.rs": "555d4718124feca6d6438f01a335042f842a6a458b7a49decd1711993c6df828",
+    "packages/rust/tests/test_edit_optimization.rs": "9d9e228797983b4516b7246db5453006d96f7ef0900ded5eb6ab288dcf27dd48",
+    "packages/rust/tests/test_exact_comparison.rs": "d85a840e20212b53182d332bcc656814084f6ad5920ba06918d623c75d76002e",
+    "packages/rust/tests/test_exact_optimization.rs": "53683699edcbc59c2a944ec9963ccb22c7fa4f102813a0aaf3f7b0d3e4fa6f0a",
+    "packages/rust/tests/test_exact_optimization_round2.rs": "495f7d36a63ea595c634c562a39f80253394f597f0028c27874c1325ed2c3db0"
+  },
+  "snapshot_matches_working_core": true,
+  "snapshot_matches_working_tests": true
+}

@@ -1,0 +1,42 @@
+{
+  "kind": "bio",
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\bio_paired.py": "6657f0a7dfc27c1039f599cf6944eb20bc418c13bd8abe0396ebc769de87eef8",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\__init__.py": "2342391239efabd03b930d6e620f247b3637d13f11696a71e8c78136b463bc0b",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\cheminformatics\\__init__.py": "dc606ab9f1207abf5d73c554758a07990322e68834a0699a435988325a9ab8aa",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\cheminformatics\\compounds.py": "ab00ca91289a35679f5dbc8744c08f919236be0fc22e9eac59b1e937d9ddbb11",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\cheminformatics\\resistance.py": "cdabe56e4a5e2b6baa695723f2761f892f8c8cefcab6d7ff6303011a1357e660",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\__init__.py": "afa27a83647d313e21d4974ebdc9e10dec25005994cf4eb6da2ff31b87550df7",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\fasta.py": "7a668e7fabc6dbf632ccfdf407dd00818570348ded7dd563a250b9fb3696ca09",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\gene_diff.py": "25e5acfe8a4b20c508592b10efce929d9e71e5d6c8de9a64aabd8cfc59b4f6e7",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\mutation.py": "cfd29b3b04e3326537162c6ce42dcbafd8e686b7f51c8fac7293b0dfa444446d",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\region_query.py": "ce60abc07e82e90ddfe459c036b5abaff23517a533991d01fc419daf06df8567",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\repeats.py": "300ac2d7fd62d51d384e9231d5f665ec940acc859c410c88496ee7cd64fc61fe",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\proteomics\\__init__.py": "3f12babf86606d38c0a9497cc4ed6472bade9aac3dd7828fb5be70bda03f2427",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\proteomics\\trajectory.py": "04cb564fcd9225949a43248130887e9866e4d812aa8d3e9ee178e8c4e1a6765b",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\result_output.py": "e3eb1692f701db41eeb718affc6d776ff46c1f860095b863d0da1b323ac6045a",
+    "executed_driver": "c620f3323728ab9c91091b717ee0bfd4b90f3b3e2d7c5ead618768ce38b8ca71"
+  },
+  "data_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\data\\hiv1_hxb2.fa": "3d660cd824b3979393b6d4aa475f4c68e5931ba9467626a16ae2ebdb2c2f7a26",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\data\\hivdb_rt_expanded_aligned.fa": "0091bef9905ec1d2a01a3d63e71baf5055932d5093c6cee4f2d3943ce35a9270"
+  },
+  "workload": {
+    "patients": 2000,
+    "equal_controls": 16,
+    "within_process_paired_runs": 9,
+    "inner_repetitions": "original adaptive warmup method, recorded separately per workload/core",
+    "historical_consumer_commit": "206d1af783ca4c34626cfe1f9ce9a7bd7d4275cb"
+  },
+  "python": "3.12.2",
+  "runtime_packages": {
+    "numpy": "2.0.2",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.1.0"
+  },
+  "core_archives": {
+    "baseline": "293c93ce8c6eb675f58bf2c88bdc1925465bed9c7ec2cb7f673299cebbb1f3bd",
+    "optimized": "3b1f225420b8f298e88de948d6a05c7aa8c1c51d7b02901712bdff56e5e516c3"
+  },
+  "fingerprint": "5c5a13df72486b8e3e8ce2c0df847707a2c6892bd563d6363b91003e00ff1dfb"
+}

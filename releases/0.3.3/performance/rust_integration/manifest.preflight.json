@@ -1,0 +1,92 @@
+{
+  "frozen_utc": "2026-10-24T18:46:02.865692+00:00",
+  "reference_origin": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\optimized.zip",
+  "reference_archive_sha256": "87c37039a8f5529c734e4cfb0a0bf3ad007c223b00565524a6988604c227499c",
+  "candidate_root": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope",
+  "reference_label": "completed round-four optimized core",
+  "candidate_label": "Rust 0.3.3 upstream integration",
+  "archives": {
+    "reference.zip": "87c37039a8f5529c734e4cfb0a0bf3ad007c223b00565524a6988604c227499c",
+    "candidate.zip": "c3840808f4bb215d00024dd0d9f9a5b48ea8b60535648b9479fa5bd2eef37427",
+    "drivers.zip": "054c8f5edcdd00481c87d8762704f2b68cb36e99df42c10f998c2a481892dcf9"
+  },
+  "sources": {
+    "reference": {
+      "packages/python/hashrope/__init__.py": "5e8d8f4c07d50f0eaa7d24b504ed5240bdd4a05384e7123de6e582e36420bd90",
+      "packages/python/hashrope/polynomial_hash.py": "117e04309c947c1a1d6373a08463bb50a3262b91385ef07d5be362f815483bf5",
+      "packages/python/hashrope/rope.py": "d1de00805fa37fe286dae50b87675c82aa2fb388b66c66329983d34440b6a4b2",
+      "packages/python/hashrope/sliding.py": "26599d0df3a7f0b50659a02d0ed96eae1b1fc88537db6f58f887ae0b6ecd928c",
+      "packages/rust/Cargo.toml": "048343f7a634422df472c08809d6698800a34e07563203b2a19f4bc1bc0d85e1",
+      "packages/rust/README.md": "7ce28770a8d637533d03b935888117d1bda8b5df76e453a5ea30d27725920de7",
+      "packages/rust/src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+      "packages/rust/src/polynomial_hash.rs": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+      "packages/rust/src/rope.rs": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+      "packages/rust/src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+      "packages/rust/tests/diag_substr_scaling.rs": "7daa599ebb2df649941ea1d0d586288624b1677410638cea387735de23d01335",
+      "packages/rust/tests/test_e1_throughput.rs": "629c702b8b83fe7eb6f3e6a3828029be947974c03685c1987997900abdea9da2",
+      "packages/rust/tests/test_e2_concat_split.rs": "625ad934b13d51ddd8a6406daa1205bb66ab17e09cd4c1e7cd38ea895a6fdfc2",
+      "packages/rust/tests/test_e3_repeat.rs": "ba59d534ebf82e1b1ae29c8a4918464f1aca02619983530376a21b70ffa97c60",
+      "packages/rust/tests/test_e4_phi.rs": "8d7b670d0c8608fb5019755b571cf5a096fbd092b0c8e31080a109bf49def37d",
+      "packages/rust/tests/test_e5_sliding.rs": "fc2e89b5512d25c1edf9e85acf19cc02d6d3ffdfff8f989220d4e546e27ac13f",
+      "packages/rust/tests/test_e6_memory.rs": "94c2268efabd86e520b554b9d154abb281e58b58df5764b81c64a102fb49545c",
+      "packages/rust/tests/test_e7_tree_height.rs": "555d4718124feca6d6438f01a335042f842a6a458b7a49decd1711993c6df828",
+      "packages/rust/tests/test_edit_optimization.rs": "9d9e228797983b4516b7246db5453006d96f7ef0900ded5eb6ab288dcf27dd48",
+      "packages/rust/tests/test_exact_comparison.rs": "d85a840e20212b53182d332bcc656814084f6ad5920ba06918d623c75d76002e",
+      "packages/rust/tests/test_exact_optimization.rs": "53683699edcbc59c2a944ec9963ccb22c7fa4f102813a0aaf3f7b0d3e4fa6f0a",
+      "packages/rust/tests/test_exact_optimization_round2.rs": "495f7d36a63ea595c634c562a39f80253394f597f0028c27874c1325ed2c3db0"
+    },
+    "candidate": {
+      "packages/rust/Cargo.lock": "67c2149366d81eadf627bb43b9e322dab4a50838dd71f742155576ee22d105f9",
+      "packages/rust/Cargo.toml": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+      "packages/rust/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+      "packages/rust/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+      "packages/rust/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+      "packages/rust/src/rope.rs": "0121a5b8f6f7b521b51fcf0f6f6db85e4d0de8e6001385f4e65aa451b7a97f6c",
+      "packages/rust/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130"
+    }
+  },
+  "drivers": {
+    "run.py": "42888e7ba5c9ac9c649545514c782255833ac07f9af0db73ed7b4f2b5d6ebcdd",
+    "PLAN.md": "2c45a1c22d04740aa29d2623fbb128cf06576ff98a74fcaaca6e7912e6a52ced",
+    "workloads/bench_rust.py": "f14e06ecf535bc075eff402b8c83b033215ea5402f8afb76e1b6f7825d510d84",
+    "workloads/bench_rust.rs": "7f0fcf1c0c9da53767eb116973f92bf605e6c860fee80895c845e6f166e63a70",
+    "workloads/edit_compare.Cargo.lock": "55d7ccdcc404ad7bbc906c25078410ba83657a9fecd6478fc4fb3149a46abff4",
+    "workloads/edit_compare.py": "f630ce4b02f9815a4a21f8949508c578234cbb15aabc304f472e08b85d0f0ff9",
+    "workloads/edit_compare.rs": "5e1db225b95ff3199801a8c23aafe39e5c58af5370613e867692b0a43378f756"
+  },
+  "protocol": {
+    "micro_pairs": 3,
+    "micro_samples": 7,
+    "churn_pairs": 3,
+    "churn_samples": 3,
+    "order": [
+      [
+        "reference",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "reference"
+      ],
+      [
+        "reference",
+        "candidate"
+      ]
+    ],
+    "churn_seed_invocations": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "python_interleaving": false
+  }
+}

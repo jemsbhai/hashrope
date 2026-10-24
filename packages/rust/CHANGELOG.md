@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.3 — 2026-10-24
+
+- Add exact `Arena::equal` / `Arena::lcp`, cross-arena variants, and `rope_equal` / `rope_lcp` wrappers. They compare represented bytes across tree shapes and hash profiles, including lazy arenas, with shortcuts for shared ranges, repeats and previously verified ranges.
+- Preserve all default parameters and fingerprint values. Document the base-131 collision, the assumptions required by random-base probability bounds, and exact-comparison costs.
+- Guard against replacing an arena's hasher with different parameters through `hasher_mut`. Subsequent hashing, construction, editing and validation reject the changed profile; byte access and exact comparisons remain valid. Existing APIs retain their signatures.
+- Add collision/token regressions, byte-model comparison checks, huge repeat/shared-DAG tests, and profile replacement coverage.
+- Optimize exact comparisons with a bounded, allocation-free traversal for ordinary trees. Repeats and exhausted visit budgets resume in the verified-range engine without rescanning the proven prefix; obvious compressed DAGs use that engine directly. Node layout, constructors, fingerprint arithmetic and defaults are unchanged.
+- Add deterministic budget/fallback checks and adversarial tests for non-adjacent shared DAGs, huge compressed repeat periods, shifted ranges and near-`u64::MAX` lengths.
+- Reduce whole-query periods proven by nested repeats and identical-child concatenations before applying the exact periodic witness. Keep the general memoized traversal for nonperiodic DAGs and late mismatches; no fingerprint inference is used.
+- Add fixed-capacity iterative traversal for long cross-arena ranges, direct child traversal for small/shared ranges, and safe word-at-a-time mismatch localization. Frontier depth and work limits resume the exact fallback; arena/node layout and public signatures are unchanged.
+- Evaluate the existing default polynomial in eight-byte groups to reduce leaf rehashing costs, retaining the same base, modulus and fingerprint values. Accepted custom profiles keep the original per-byte arithmetic.
+- Remove redundant whole-leaf copies during splitting, lazy hash materialization and partial substring hashing. Split outputs, persistent roots, node layout and lazy behavior are preserved.
+- Add differential fingerprint tests against the legacy scalar arithmetic and frozen baseline edit traces, including custom profiles, lazy materialization and huge repeated ropes.
+
 ## 0.3.2 - 2026-10-08
 
 Compatible release within the existing `^0.3` dependency range.

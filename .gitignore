@@ -35,3 +35,9 @@ Cargo.lock
 .vscode/
 *.swp
 *.swo
+
+# Release staging and regenerable benchmark caches
+.release/
+benchmarks/**/.cache/
+benchmarks/**/*.npy
+releases/**/.cache/

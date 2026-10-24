@@ -1,0 +1,88 @@
+// Diagnostic candidate: fixed-stack paired frontier over ordinary ranges.
+#[derive(Clone, Copy)]
+struct ExactPart { range: RangeStart, length: u64 }
+struct ExactFrontier {
+    part: ExactPart,
+    stack: [ExactPart; 32],
+    depth: usize,
+}
+impl ExactFrontier {
+    fn new(range: RangeStart, length: u64) -> Self {
+        Self { part: ExactPart { range, length }, stack: [ExactPart { range: RangeStart { node: 0, offset: 0 }, length: 0 }; 32], depth: 0 }
+    }
+    fn expand(&mut self, arena: &Arena) -> bool {
+        let (left, right) = match arena.nodes[self.part.range.node as usize] {
+            NodeInner::Internal { left, right, .. } => (left, right),
+            _ => unreachable!(),
+        };
+        let left_len = arena.node_len(left);
+        if self.part.range.offset >= left_len {
+            self.part.range.node = right;
+            self.part.range.offset -= left_len;
+        } else {
+            let head = left_len - self.part.range.offset;
+            if self.part.length > head {
+                if self.depth == self.stack.len() { return false; }
+                self.stack[self.depth] = ExactPart { range: RangeStart { node: right, offset: 0 }, length: self.part.length - head };
+                self.depth += 1;
+                self.part.length = head;
+            }
+            self.part.range.node = left;
+        }
+        true
+    }
+    fn consume(&mut self, length: u64) {
+        if length == self.part.length {
+            if self.depth > 0 {
+                self.depth -= 1;
+                self.part = self.stack[self.depth];
+            } else {
+                self.part.length = 0;
+            }
+        } else {
+            self.part.range.offset += length;
+            self.part.length -= length;
+        }
+    }
+}
+
+impl FastComparison<'_> {
+    fn frontier_lcp(&mut self, a: RangeStart, b: RangeStart, length: u64) -> Result<u64, u64> {
+        let mut left = ExactFrontier::new(a, length);
+        let mut right = ExactFrontier::new(b, length);
+        let mut matched = 0;
+        while matched < length {
+            let a = left.part.range;
+            let b = right.part.range;
+            let common = left.part.length.min(right.part.length);
+            if self.same_arena && a.node == b.node && a.offset == b.offset {
+                left.consume(common);
+                right.consume(common);
+                matched += common;
+                continue;
+            }
+            self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+            self.visits_left = self.visits_left.checked_sub(1).ok_or(matched)?;
+            match (&self.left.nodes[a.node as usize], &self.right.nodes[b.node as usize]) {
+                (NodeInner::Leaf { data: x, .. }, NodeInner::Leaf { data: y, .. }) => {
+                    let x = &x[a.offset as usize..][..common as usize];
+                    let y = &y[b.offset as usize..][..common as usize];
+                    if x != y { return Ok(matched + first_different_byte(x, y) as u64); }
+                    left.consume(common);
+                    right.consume(common);
+                    matched += common;
+                }
+                (NodeInner::Repeat { .. }, _) | (_, NodeInner::Repeat { .. }) => return Err(matched),
+                (NodeInner::Internal { .. }, NodeInner::Internal { .. }) => {
+                    let left_len = left.part.length;
+                    let right_len = right.part.length;
+                    if left_len >= right_len && !left.expand(self.left) { return Err(matched); }
+                    if right_len >= left_len && !right.expand(self.right) { return Err(matched); }
+                }
+                (NodeInner::Internal { .. }, _) => if !left.expand(self.left) { return Err(matched); },
+                (_, NodeInner::Internal { .. }) => if !right.expand(self.right) { return Err(matched); },
+            }
+        }
+        Ok(length)
+    }
+}

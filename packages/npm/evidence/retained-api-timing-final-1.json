@@ -1,0 +1,2583 @@
+{
+  "protocol": "six within-process rounds; fixture order rotated/reversed; each fixture has three AB and three BA arm orders; five batches per arm/round; equal repetitions; setup excluded; bounded warmup; no affinity/frequency control",
+  "statistic": "median of six round medians, with min/max round medians; diagnostic only, not independent processes or confidence intervals",
+  "node": "v24.22.1",
+  "platform": "win32",
+  "architecture": "x64",
+  "cpu": "Intel(R) Core(TM) i9-14900HX",
+  "logical_cpus": 32,
+  "baseline_version": "0.2.2",
+  "candidate_version": "0.3.3",
+  "harness_sha256": "c7f76d98a6d9694d041831b10cdd6a7e42ac13648f3cf785eb9ccfe76117b314",
+  "baseline_runtime_sha256": {
+    "index.js": "2b73bc1bbb8be7304cdba1f0577d84dbff687622e3f3389fa9f490c639db43fb",
+    "nodes.js": "ce047b975fa0ded010b62649cbb746469751257721bbf93d70e09d5426672678",
+    "polynomial.js": "e5cad0af27109ac56eac95a8fd37acace4a708600078389b9be3d2726d668e90",
+    "rope.js": "500217761d7284b18db3b8300ebbc5adba4437ef1e6fa721b26b96586f0ba66f",
+    "sliding.js": "89690afaac048545192d4932609f9462afd046215e647d6e6870818b8f1d3897"
+  },
+  "candidate_runtime_sha256": {
+    "comparison.js": "96837f98795b43ce41c4787b9ba24a06262a1c56403d31a6834877b3f05c5952",
+    "index.js": "9ebdf13a39054a6ee9fda5fbc89c7add920ad01426acfe5c8bad357609147e7e",
+    "nodes.js": "e0c03cdabb166df4d9a01de2becd6b0ad784b47b7fc45d0c32d686d91e227380",
+    "polynomial.js": "a2ad4108a9753895b9503fcc3d758b6441d63f6f3232c6b8999c0e957777fc71",
+    "rope.js": "514e3437b8284257d678cd4c6fe77276ec3c98253a8ecaead638a332b8b194ba",
+    "sliding.js": "cf71af55448bd19dd7e9d99d380777af69609a647f05a7be881b91e8b7a42040"
+  },
+  "raw": [
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "hash_4096B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        377315,
+        372995,
+        370505,
+        354235,
+        365930
+      ],
+      "median_ns": 370505
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "hash_4096B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        364520,
+        357865,
+        368060,
+        346705,
+        360625
+      ],
+      "median_ns": 360625
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        15293,
+        13876,
+        13720,
+        16087,
+        15874
+      ],
+      "median_ns": 15293
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        14386,
+        13387,
+        13807,
+        14976,
+        14714
+      ],
+      "median_ns": 14386
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        445.5,
+        292.4,
+        232.7,
+        266.5,
+        200.8
+      ],
+      "median_ns": 266.5
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        742,
+        403.4,
+        329.6,
+        359.6,
+        297.8
+      ],
+      "median_ns": 359.6
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        6171050,
+        5906850,
+        5700400,
+        5847950,
+        5955800
+      ],
+      "median_ns": 5906850
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        6257750,
+        5796350,
+        5861550,
+        5991150,
+        5850600
+      ],
+      "median_ns": 5861550
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        28952,
+        27776,
+        26197,
+        22738,
+        23894
+      ],
+      "median_ns": 26197
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        24337,
+        25813,
+        24082,
+        24232,
+        26877
+      ],
+      "median_ns": 24337
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        22111,
+        20301,
+        20048,
+        22987,
+        15285
+      ],
+      "median_ns": 20301
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        20484,
+        19389,
+        20208,
+        20805,
+        15220
+      ],
+      "median_ns": 20208
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        65919,
+        41390,
+        34988,
+        37337,
+        35747
+      ],
+      "median_ns": 37337
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16511,
+        16482,
+        17608,
+        17250,
+        16034
+      ],
+      "median_ns": 16511
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        15806,
+        17583,
+        19381,
+        16746,
+        16096
+      ],
+      "median_ns": 16746
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        85880,
+        87312,
+        90887,
+        86125,
+        126786
+      ],
+      "median_ns": 87312
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        38079,
+        42879,
+        40383,
+        41247,
+        39503
+      ],
+      "median_ns": 40383
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        492,
+        803,
+        412,
+        392,
+        417
+      ],
+      "median_ns": 417
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        1437,
+        1279,
+        1418,
+        1311,
+        15191
+      ],
+      "median_ns": 1418
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        104089,
+        89281,
+        88613,
+        81357,
+        89416
+      ],
+      "median_ns": 89281
+    },
+    {
+      "round": 0,
+      "arm": "baseline",
+      "fixture": "equal_same_root",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        13.798,
+        10.607,
+        4.314,
+        4.644,
+        4.797
+      ],
+      "median_ns": 4.797
+    },
+    {
+      "round": 0,
+      "arm": "candidate",
+      "fixture": "equal_same_root",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        11.057,
+        11.288,
+        11.436,
+        7.68,
+        6.714
+      ],
+      "median_ns": 11.057
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "hash_4096B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        645395,
+        346975,
+        351215,
+        350430,
+        351850
+      ],
+      "median_ns": 351215
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "hash_4096B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        347570,
+        360700,
+        353500,
+        351080,
+        348115
+      ],
+      "median_ns": 351080
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "equal_same_root",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        6.064,
+        6.192,
+        6.056,
+        6.318,
+        6.377
+      ],
+      "median_ns": 6.192
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "equal_same_root",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        4.037,
+        4.009,
+        4.009,
+        4.008,
+        4.03
+      ],
+      "median_ns": 4.009
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        85907,
+        90066,
+        92904,
+        90730,
+        85045
+      ],
+      "median_ns": 90066
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        2298,
+        720,
+        687,
+        665,
+        2241
+      ],
+      "median_ns": 720
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        173,
+        148,
+        163,
+        136,
+        136
+      ],
+      "median_ns": 148
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        79771,
+        47470,
+        40735,
+        35412,
+        40067
+      ],
+      "median_ns": 40735
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        89636,
+        130826,
+        83270,
+        85756,
+        110679
+      ],
+      "median_ns": 89636
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        15414,
+        16732,
+        15536,
+        15678,
+        16249
+      ],
+      "median_ns": 15678
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16154,
+        16711,
+        17040,
+        17282,
+        16873
+      ],
+      "median_ns": 16873
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        36737,
+        34953,
+        35627,
+        35354,
+        35047
+      ],
+      "median_ns": 35354
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        42223,
+        14468,
+        13605,
+        13423,
+        13677
+      ],
+      "median_ns": 13677
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        14090,
+        13846,
+        14121,
+        13696,
+        13544
+      ],
+      "median_ns": 13846
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        28078,
+        25168,
+        29447,
+        25065,
+        23216
+      ],
+      "median_ns": 25168
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        25471,
+        28178,
+        23358,
+        24018,
+        24064
+      ],
+      "median_ns": 24064
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5749900,
+        5786600,
+        5875900,
+        5813450,
+        5775700
+      ],
+      "median_ns": 5786600
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5934950,
+        5707600,
+        5850400,
+        5735300,
+        5774900
+      ],
+      "median_ns": 5774900
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        263.5,
+        248,
+        238.8,
+        451.4,
+        377.2
+      ],
+      "median_ns": 263.5
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        277.2,
+        232.2,
+        241.2,
+        175.4,
+        228.8
+      ],
+      "median_ns": 232.2
+    },
+    {
+      "round": 1,
+      "arm": "baseline",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        12748,
+        12483,
+        14472,
+        13329,
+        14037
+      ],
+      "median_ns": 13329
+    },
+    {
+      "round": 1,
+      "arm": "candidate",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        14633,
+        12885,
+        13343,
+        13283,
+        13296
+      ],
+      "median_ns": 13296
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        203.6,
+        215,
+        206.9,
+        234.8,
+        176
+      ],
+      "median_ns": 206.9
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        256.8,
+        321.2,
+        396.6,
+        341.6,
+        232.2
+      ],
+      "median_ns": 321.2
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        6299850,
+        5966350,
+        5872150,
+        5876150,
+        6035750
+      ],
+      "median_ns": 5966350
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5874200,
+        5833900,
+        5809550,
+        5769750,
+        5729900
+      ],
+      "median_ns": 5809550
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        24962,
+        24215,
+        27085,
+        31527,
+        28645
+      ],
+      "median_ns": 27085
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        27749,
+        28706,
+        25707,
+        25808,
+        23633
+      ],
+      "median_ns": 25808
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16248,
+        15145,
+        14950,
+        14838,
+        15035
+      ],
+      "median_ns": 15035
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        15134,
+        15431,
+        14893,
+        14939,
+        14924
+      ],
+      "median_ns": 14939
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        38063,
+        38014,
+        38006,
+        38014,
+        38012
+      ],
+      "median_ns": 38014
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        17208,
+        17061,
+        16154,
+        15588,
+        16067
+      ],
+      "median_ns": 16154
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16213,
+        15767,
+        17343,
+        16403,
+        16498
+      ],
+      "median_ns": 16403
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        85317,
+        91113,
+        91901,
+        93383,
+        136530
+      ],
+      "median_ns": 91901
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        38417,
+        44264,
+        44457,
+        43091,
+        44577
+      ],
+      "median_ns": 44264
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        383,
+        338,
+        323,
+        326,
+        422
+      ],
+      "median_ns": 338
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        11465,
+        696,
+        675,
+        744,
+        921
+      ],
+      "median_ns": 744
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        121835,
+        95068,
+        93798,
+        90562,
+        95459
+      ],
+      "median_ns": 95068
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "equal_same_root",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        11.238,
+        10.03,
+        5.523,
+        5.213,
+        5.201
+      ],
+      "median_ns": 5.523
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "equal_same_root",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        7.719,
+        7.546,
+        7.492,
+        7.691,
+        7.43
+      ],
+      "median_ns": 7.546
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "hash_4096B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        626195,
+        401925,
+        349055,
+        345575,
+        371200
+      ],
+      "median_ns": 371200
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "hash_4096B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        360930,
+        366835,
+        346710,
+        338395,
+        361945
+      ],
+      "median_ns": 360930
+    },
+    {
+      "round": 2,
+      "arm": "candidate",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        21630,
+        13676,
+        13084,
+        13027,
+        12522
+      ],
+      "median_ns": 13084
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        12751,
+        13217,
+        12522,
+        12139,
+        12425
+      ],
+      "median_ns": 12522
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        175,
+        175.2,
+        170.1,
+        170.4,
+        220.6
+      ],
+      "median_ns": 175
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        140,
+        140.8,
+        133.3,
+        133.1,
+        133.2
+      ],
+      "median_ns": 133.3
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        12082,
+        13245,
+        12288,
+        12701,
+        13068
+      ],
+      "median_ns": 12701
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        13265,
+        12294,
+        12646,
+        12444,
+        12302
+      ],
+      "median_ns": 12444
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "hash_4096B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        341585,
+        357475,
+        352715,
+        361600,
+        364745
+      ],
+      "median_ns": 357475
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "hash_4096B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        357975,
+        353790,
+        342350,
+        338755,
+        340890
+      ],
+      "median_ns": 342350
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "equal_same_root",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        6.024,
+        6.237,
+        6.594,
+        7.114,
+        6.851
+      ],
+      "median_ns": 6.594
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "equal_same_root",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        4.432,
+        4.174,
+        4.124,
+        4.48,
+        4.121
+      ],
+      "median_ns": 4.174
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        93695,
+        89423,
+        92671,
+        88876,
+        95006
+      ],
+      "median_ns": 92671
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        750,
+        746,
+        572,
+        576,
+        1753
+      ],
+      "median_ns": 746
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        129,
+        173,
+        128,
+        159,
+        137
+      ],
+      "median_ns": 137
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        87781,
+        56384,
+        43042,
+        40830,
+        42491
+      ],
+      "median_ns": 43042
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        89285,
+        122524,
+        88423,
+        88742,
+        87092
+      ],
+      "median_ns": 88742
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        15715,
+        15469,
+        15435,
+        15673,
+        15786
+      ],
+      "median_ns": 15673
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16875,
+        16738,
+        18107,
+        16922,
+        16771
+      ],
+      "median_ns": 16875
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        35995,
+        34975,
+        35132,
+        34255,
+        34640
+      ],
+      "median_ns": 34975
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        17370,
+        33129,
+        14249,
+        13808,
+        14652
+      ],
+      "median_ns": 14652
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        13535,
+        14008,
+        14073,
+        13700,
+        14876
+      ],
+      "median_ns": 14008
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        25514,
+        34368,
+        29969,
+        22097,
+        26404
+      ],
+      "median_ns": 26404
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        22433,
+        26334,
+        26322,
+        21409,
+        25850
+      ],
+      "median_ns": 25850
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5913700,
+        5490350,
+        5529150,
+        5785500,
+        5646650
+      ],
+      "median_ns": 5646650
+    },
+    {
+      "round": 3,
+      "arm": "candidate",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5751550,
+        5860750,
+        5738600,
+        5894900,
+        5650350
+      ],
+      "median_ns": 5751550
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        28219,
+        22818,
+        26909,
+        24979,
+        22492
+      ],
+      "median_ns": 24979
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        24206,
+        22079,
+        25691,
+        29677,
+        22763
+      ],
+      "median_ns": 24206
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        15268,
+        14375,
+        14864,
+        15482,
+        13425
+      ],
+      "median_ns": 14864
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        14308,
+        13764,
+        15136,
+        13936,
+        15138
+      ],
+      "median_ns": 14308
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        36812,
+        34481,
+        35026,
+        34803,
+        35644
+      ],
+      "median_ns": 35026
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16634,
+        17445,
+        17694,
+        17402,
+        17366
+      ],
+      "median_ns": 17402
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16808,
+        17387,
+        17040,
+        17083,
+        16871
+      ],
+      "median_ns": 17040
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        85724,
+        87830,
+        99473,
+        86605,
+        84534
+      ],
+      "median_ns": 86605
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        38749,
+        40795,
+        86599,
+        43427,
+        42568
+      ],
+      "median_ns": 42568
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        174,
+        90,
+        93,
+        98,
+        93
+      ],
+      "median_ns": 93
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        519,
+        436,
+        450,
+        444,
+        443
+      ],
+      "median_ns": 444
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        91127,
+        90921,
+        132593,
+        82779,
+        91973
+      ],
+      "median_ns": 91127
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "equal_same_root",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        3.94,
+        4.247,
+        4.16,
+        3.856,
+        4.14
+      ],
+      "median_ns": 4.14
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "equal_same_root",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        6.691,
+        6.452,
+        6.056,
+        5.898,
+        6.01
+      ],
+      "median_ns": 6.056
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "hash_4096B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        437210,
+        335400,
+        356680,
+        353980,
+        359455
+      ],
+      "median_ns": 356680
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "hash_4096B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        358510,
+        359150,
+        355685,
+        365200,
+        361435
+      ],
+      "median_ns": 359150
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        13082,
+        12966,
+        13020,
+        12748,
+        12568
+      ],
+      "median_ns": 12966
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        12859,
+        12331,
+        12457,
+        12150,
+        12803
+      ],
+      "median_ns": 12457
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        152.9,
+        147.6,
+        145.6,
+        149.6,
+        153
+      ],
+      "median_ns": 149.6
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        200.2,
+        183.1,
+        189.3,
+        256,
+        189.9
+      ],
+      "median_ns": 189.9
+    },
+    {
+      "round": 4,
+      "arm": "candidate",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5927050,
+        5804900,
+        6133300,
+        5952000,
+        5976900
+      ],
+      "median_ns": 5952000
+    },
+    {
+      "round": 4,
+      "arm": "baseline",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5966250,
+        5986100,
+        5929250,
+        6753200,
+        5653800
+      ],
+      "median_ns": 5966250
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        24213,
+        28374,
+        26130,
+        25201,
+        26665
+      ],
+      "median_ns": 26130
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        23476,
+        26094,
+        24617,
+        24445,
+        24461
+      ],
+      "median_ns": 24461
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5767250,
+        5925450,
+        6036250,
+        6000650,
+        6038900
+      ],
+      "median_ns": 6000650
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "split_64KiB_leaf_middle",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 2,
+      "ns_per_call": [
+        5911100,
+        5902200,
+        5701450,
+        6008850,
+        6044550
+      ],
+      "median_ns": 5911100
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        191.5,
+        188.9,
+        184,
+        187,
+        242
+      ],
+      "median_ns": 188.9
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "concat_two_128B_warm",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 1000,
+      "ns_per_call": [
+        157.6,
+        149.2,
+        148.7,
+        148.6,
+        148.8
+      ],
+      "median_ns": 148.8
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        12935,
+        13398,
+        12663,
+        12647,
+        12627
+      ],
+      "median_ns": 12663
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "construct_leaf_128B",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        14366,
+        13459,
+        12601,
+        14063,
+        13285
+      ],
+      "median_ns": 13459
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "hash_4096B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        359615,
+        363035,
+        367575,
+        379545,
+        343705
+      ],
+      "median_ns": 363035
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "hash_4096B",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 20,
+      "ns_per_call": [
+        367530,
+        366040,
+        372910,
+        364975,
+        361155
+      ],
+      "median_ns": 366040
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "equal_same_root",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        6.861,
+        7.212,
+        7.323,
+        7.234,
+        6.359
+      ],
+      "median_ns": 7.212
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "equal_same_root",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100000,
+      "ns_per_call": [
+        4.248,
+        4.25,
+        4.342,
+        4.25,
+        4.487
+      ],
+      "median_ns": 4.25
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        113511,
+        110191,
+        105706,
+        92458,
+        139731
+      ],
+      "median_ns": 110191
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "equal_shared_prefix_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        521,
+        410,
+        435,
+        403,
+        409
+      ],
+      "median_ns": 410
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        121,
+        113,
+        107,
+        125,
+        108
+      ],
+      "median_ns": 113
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "equal_early_mismatch_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        35985,
+        41333,
+        40101,
+        40213,
+        39912
+      ],
+      "median_ns": 40101
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        118659,
+        86787,
+        85729,
+        88072,
+        91626
+      ],
+      "median_ns": 88072
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "equal_late_mismatch_64KiB",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16399,
+        15620,
+        16418,
+        19389,
+        18476
+      ],
+      "median_ns": 16418
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        18238,
+        18129,
+        17844,
+        17950,
+        18069
+      ],
+      "median_ns": 18069
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "equal_independent_64KiB",
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        38230,
+        37580,
+        37581,
+        36198,
+        35529
+      ],
+      "median_ns": 37580
+    },
+    {
+      "round": 5,
+      "arm": "baseline",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        16370,
+        53106,
+        16785,
+        15576,
+        14833
+      ],
+      "median_ns": 16370
+    },
+    {
+      "round": 5,
+      "arm": "candidate",
+      "fixture": "repeat_metadata_100bit",
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "repetitions": 100,
+      "ns_per_call": [
+        13068,
+        14067,
+        14341,
+        13047,
+        14875
+      ],
+      "median_ns": 14067
+    }
+  ],
+  "summary": [
+    {
+      "fixture": "hash_4096B",
+      "baseline_median_ns": 361360,
+      "candidate_median_ns": 359887.5,
+      "baseline_round_range_ns": [
+        342350,
+        371200
+      ],
+      "candidate_round_range_ns": [
+        351215,
+        363035
+      ],
+      "candidate_over_baseline": 0.9959251162275847
+    },
+    {
+      "fixture": "construct_leaf_128B",
+      "baseline_median_ns": 12682,
+      "candidate_median_ns": 13190,
+      "baseline_round_range_ns": [
+        12457,
+        14386
+      ],
+      "candidate_round_range_ns": [
+        12444,
+        15293
+      ],
+      "candidate_over_baseline": 1.0400567733795931
+    },
+    {
+      "fixture": "concat_two_128B_warm",
+      "baseline_median_ns": 178.25,
+      "candidate_median_ns": 226.7,
+      "baseline_round_range_ns": [
+        133.3,
+        266.5
+      ],
+      "candidate_round_range_ns": [
+        175,
+        359.6
+      ],
+      "candidate_over_baseline": 1.2718092566619916
+    },
+    {
+      "fixture": "split_64KiB_leaf_middle",
+      "baseline_median_ns": 5835550,
+      "candidate_median_ns": 5908975,
+      "baseline_round_range_ns": [
+        5646650,
+        6000650
+      ],
+      "candidate_round_range_ns": [
+        5751550,
+        5966350
+      ],
+      "candidate_over_baseline": 1.0125823615597502
+    },
+    {
+      "fixture": "substring_64B_in_64KiB_leaf",
+      "baseline_median_ns": 25414.5,
+      "candidate_median_ns": 25488,
+      "baseline_round_range_ns": [
+        24064,
+        27085
+      ],
+      "candidate_round_range_ns": [
+        24206,
+        26404
+      ],
+      "candidate_over_baseline": 1.0028920498140825
+    },
+    {
+      "fixture": "repeat_metadata_100bit",
+      "baseline_median_ns": 14795.5,
+      "candidate_median_ns": 14465.5,
+      "baseline_round_range_ns": [
+        13677,
+        20208
+      ],
+      "candidate_round_range_ns": [
+        13846,
+        20301
+      ],
+      "candidate_over_baseline": 0.9776959210570781
+    },
+    {
+      "fixture": "equal_independent_64KiB",
+      "baseline_median_ns": 36345.5,
+      "candidate_median_ns": 16874,
+      "baseline_round_range_ns": [
+        34975,
+        38014
+      ],
+      "candidate_round_range_ns": [
+        16154,
+        18069
+      ],
+      "candidate_over_baseline": 0.46426655294328045
+    },
+    {
+      "fixture": "equal_late_mismatch_64KiB",
+      "baseline_median_ns": 88407,
+      "candidate_median_ns": 16410.5,
+      "baseline_round_range_ns": [
+        86605,
+        91901
+      ],
+      "candidate_round_range_ns": [
+        15673,
+        17040
+      ],
+      "candidate_over_baseline": 0.18562444150350085
+    },
+    {
+      "fixture": "equal_early_mismatch_64KiB",
+      "baseline_median_ns": 41651.5,
+      "candidate_median_ns": 142.5,
+      "baseline_round_range_ns": [
+        40101,
+        44264
+      ],
+      "candidate_round_range_ns": [
+        93,
+        417
+      ],
+      "candidate_over_baseline": 0.0034212453333013217
+    },
+    {
+      "fixture": "equal_shared_prefix_64KiB",
+      "baseline_median_ns": 91899,
+      "candidate_median_ns": 732,
+      "baseline_round_range_ns": [
+        89281,
+        110191
+      ],
+      "candidate_round_range_ns": [
+        410,
+        1418
+      ],
+      "candidate_over_baseline": 0.007965266216172101
+    },
+    {
+      "fixture": "equal_same_root",
+      "baseline_median_ns": 4.212,
+      "candidate_median_ns": 6.9030000000000005,
+      "baseline_round_range_ns": [
+        4.009,
+        5.523
+      ],
+      "candidate_round_range_ns": [
+        6.056,
+        11.057
+      ],
+      "candidate_over_baseline": 1.638888888888889
+    }
+  ],
+  "compressed_completion": [
+    {
+      "name": "equal_repeat_different_period_101bit",
+      "elapsed_ns": 107400,
+      "expected": "true",
+      "passed": true
+    },
+    {
+      "name": "lcp_repeat_shifted_range_101bit",
+      "elapsed_ns": 52200,
+      "expected": "2535301200456458802993406410749",
+      "passed": true
+    },
+    {
+      "name": "lcp_independent_dag_101bit",
+      "elapsed_ns": 200100,
+      "expected": "2535301200456458802993406410752",
+      "passed": true
+    }
+  ],
+  "compressed_note": "one untimed-setup completion per case; no old-engine huge run because its traversal can expand logical content; these are finite completion observations, not comparative throughput or universal bounds",
+  "sink_type": "bigint"
+}

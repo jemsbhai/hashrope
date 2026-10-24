@@ -1,0 +1,50 @@
+{
+  "generated_utc": "2026-10-24T18:42:17.0528060Z",
+  "outcome": "pass",
+  "version": "0.3.3",
+  "checks": [
+    "cargo fmt --check (after formatting)",
+    "cargo clippy --all-features --all-targets -- -D warnings",
+    "RUSTDOCFLAGS=-D warnings cargo doc --all-features --no-deps",
+    "cargo build --lib --no-default-features --target wasm32-unknown-unknown",
+    "cargo build --lib --all-features --target wasm32-unknown-unknown",
+    "rustc wasm_numeric_probe.rs + node verify_wasm.cjs",
+    "cargo package --allow-dirty --no-default-features",
+    "cargo package --allow-dirty --all-features"
+  ],
+  "tests": {
+    "feature_library": 144,
+    "total_in_this_gate": 198,
+    "python_conformance": 6,
+    "doctests": 1,
+    "exact_and_edit_integrations": 47
+  },
+  "exclusions": [
+    "E3 10GB expansion and E5 throughput not run by this gate",
+    "No performance benchmarks",
+    "No publishing"
+  ],
+  "package_sha256": "fab8a9e50906a0bafd959455023048166cd4633a76dc587d9318848ae2e22974",
+  "source_sha256": {
+    "bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+    "rope.rs": "0121a5b8f6f7b521b51fcf0f6f6db85e4d0de8e6001385f4e65aa451b7a97f6c",
+    "sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130",
+    "polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+    "lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9"
+  },
+  "log_sha256": {
+    "rust-wasm-default.log": "4e20a2e9ae07eea89639b8dd7b52bf02c9dca9a3c55a790885c30997e553fc8e",
+    "rust-wasm-all-features.log": "3ffb1d4e50536c65c175fea9e4dc1a94454a52222719fe4ac85296975ce0a850",
+    "rust-doctests.log": "8aa55abcd36692b57e0b6d1804eae788d933d8d8ca532551e72434abd3ce10aa",
+    "rust-fmt-check.log": "ff7c768f72e10cbe6d60c85dd9afa53dd3114a54ebee0735c4ce244b5390b5d0",
+    "rust-package-all-features.log": "f7d40aa57baed426a3218bb4690c641d72c7594d148d6eb6666675e502045297",
+    "rust-feature-library-conformance.log": "60dd29cc7c573c35c79692f7459109cb9657c90d3fb2fc0517fdf4501a19259d",
+    "rust-package-default.log": "1a26da5e4e37b05982b3ecc62c677d22738c21c4bcb469561cff52f0ac312470",
+    "rust-wasm-probe-run.log": "8f68abd5d52353628340480e1af6dfc29955c435f4feed631c9041e1333faf6a",
+    "rust-fmt-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "rust-clippy.log": "9e9997e24236b114e50ad51be969dc3627ce855c5f66b29c2272fe6757dbe3e8",
+    "rust-wasm-probe-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "rust-exact-all-features.log": "600a587be1adeccd14db7af1db122619df8553f087a3ee6d471773e3804dff85",
+    "rust-doc.log": "58bb0a9d443f6f88b01af669a79a533dea46bf0fa52dbe858d59058e9b14a912"
+  }
+}

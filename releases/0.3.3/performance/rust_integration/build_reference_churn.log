@@ -1,0 +1,18 @@
+   Compiling str_indices v0.4.4
+   Compiling smallvec v1.16.4
+   Compiling hashrope v0.3.1 (C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\releases\0.3.3\performance\rust_integration\.cache\reference\hashrope\packages\rust)
+warning: method `rebalance` is never used
+   --> C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\releases\0.3.3\performance\rust_integration\.cache\reference\hashrope\packages\rust\src\rope.rs:539:8
+    |
+ 86 | impl Arena {
+    | ---------- method in this implementation
+...
+539 |     fn rebalance(&mut self, left: NodeId, right: NodeId) -> NodeId {
+    |        ^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+   Compiling ropey v1.6.1
+warning: `hashrope` (lib) generated 1 warning
+   Compiling exact-edit-comparison v0.0.0 (C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\releases\0.3.3\performance\rust_integration\.cache\build\reference_churn)
+    Finished `release` profile [optimized] target(s) in 2.92s

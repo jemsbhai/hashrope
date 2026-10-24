@@ -1,0 +1,64 @@
+{
+  "kind": "micro",
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\provenance.py": "02f8d699c0462179f438365de33ed7bb760ceafe0a318eb15f6280cdc2974872",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_python.py": "f257cf1079869d2b2eb9ee4e4b356d12f2877bb565c2895f8e53673e6245595e",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_rust.py": "f14e06ecf535bc075eff402b8c83b033215ea5402f8afb76e1b6f7825d510d84",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_rust.rs": "7f0fcf1c0c9da53767eb116973f92bf605e6c860fee80895c845e6f166e63a70",
+    "executed_driver": "1bcbbca62c1d2d76daf7117f2bc6bee1c2d39446c2f6b055c276f4b8360cd2bb"
+  },
+  "data_sha256": {},
+  "workload": {
+    "rounds": 3,
+    "samples_per_round": 7,
+    "exact_enabled_for_both": true
+  },
+  "python": "3.12.2",
+  "runtime": {
+    "python_executable": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "python_build": [
+      "tags/v3.12.2:6abddd9",
+      "Feb  6 2024 21:26:36"
+    ],
+    "python_implementation": "CPython",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "processor_identifier": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "environment": {
+      "PYTHONHASHSEED": null,
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "RUSTFLAGS": null,
+      "CARGO_ENCODED_RUSTFLAGS": null,
+      "CARGO_BUILD_TARGET": null,
+      "CARGO_PROFILE_RELEASE_OPT_LEVEL": null,
+      "CARGO_PROFILE_RELEASE_LTO": null,
+      "CARGO_PROFILE_RELEASE_CODEGEN_UNITS": null
+    },
+    "rustc_verbose": "rustc 1.94.0 (4a4ef493e 2026-03-02)\nbinary: rustc\ncommit-hash: 4a4ef493e3a1488c6e321570238084b38948f6db\ncommit-date: 2026-03-02\nhost: x86_64-pc-windows-msvc\nrelease: 1.94.0\nLLVM version: 21.1.8",
+    "cargo_version": "cargo 1.94.0 (85eff7c80 2026-01-15)"
+  },
+  "runtime_packages": {
+    "numpy": "2.0.2",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.1.0"
+  },
+  "study_mode": "retest_pre_round3_to_current",
+  "measurement_plan_sha256": "dd141de68deb3d771faf48826890a48c47d098d769b27c35db597a92eb9b0872",
+  "manifest_sha256": {
+    "baseline_manifest.json": "2c7137a140f3da1906bfe7c8c11cd3a49f2fe29db3836bef41ee1ebf89ec4c29",
+    "reference_manifest.json": "56c9a6dce5d03f716a45ef123a6925ad8f6193960b0943ac4a438384f77caad9",
+    "optimized_manifest.json": "d561898d5f3f756f11a41c11ca8c670e4ce808790ca15d9461765978a87eb755"
+  },
+  "core_archive_files": {
+    "baseline": "reference.zip",
+    "optimized": "optimized.zip"
+  },
+  "core_archives": {
+    "baseline": "4c394e6adb99d6cd5f755e6fca139148a04777c2c468e75b715539710428f80d",
+    "optimized": "87c37039a8f5529c734e4cfb0a0bf3ad007c223b00565524a6988604c227499c"
+  },
+  "preserved_working_baseline_sha256": "3047745ce88cb5b8a69c37009711d7a7662443ed4afd0eafec12f2f841af2a5b",
+  "fingerprint": "f58c4d5d393839bf9e46914422cb4bc6be8ce250ef4db2625ecedb475594fb1d"
+}

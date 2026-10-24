@@ -1,0 +1,137 @@
+{
+  "runtime": "rustc 1.94.0 (4a4ef493e 2026-03-02)\nbinary: rustc\ncommit-hash: 4a4ef493e3a1488c6e321570238084b38948f6db\ncommit-date: 2026-03-02\nhost: x86_64-pc-windows-msvc\nrelease: 1.94.0\nLLVM version: 21.1.8\n",
+  "harness_sha256": {
+    "compare_controlled.py": "f5c945d60b480a89a2173914bbd906e1eca26db5ed2a03b506553d7ffc837e2b",
+    "compare_controlled.rs": "072b4b5cba70cdb0c3782b38f2ba7ab4ad0b05c64acb3b2db34707affc8071d6"
+  },
+  "cores": {
+    "round2": {
+      "path": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round3\\.cache\\baseline\\hashrope\\packages\\rust",
+      "source_sha256": {
+        "src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+        "src/polynomial_hash.rs": "f54256ca7f1fdfb5e7bdbd7ca00598479a3563c70baa882e01f16ef79be505ef",
+        "src/rope.rs": "eb9401967c78b0e8eb55943fe457ef6adcdbc2a0a27755c4389fc786fcd1212a",
+        "src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+        "tests/diag_substr_scaling.rs": "7daa599ebb2df649941ea1d0d586288624b1677410638cea387735de23d01335",
+        "tests/test_e1_throughput.rs": "629c702b8b83fe7eb6f3e6a3828029be947974c03685c1987997900abdea9da2",
+        "tests/test_e2_concat_split.rs": "625ad934b13d51ddd8a6406daa1205bb66ab17e09cd4c1e7cd38ea895a6fdfc2",
+        "tests/test_e3_repeat.rs": "ba59d534ebf82e1b1ae29c8a4918464f1aca02619983530376a21b70ffa97c60",
+        "tests/test_e4_phi.rs": "8d7b670d0c8608fb5019755b571cf5a096fbd092b0c8e31080a109bf49def37d",
+        "tests/test_e5_sliding.rs": "fc2e89b5512d25c1edf9e85acf19cc02d6d3ffdfff8f989220d4e546e27ac13f",
+        "tests/test_e6_memory.rs": "94c2268efabd86e520b554b9d154abb281e58b58df5764b81c64a102fb49545c",
+        "tests/test_e7_tree_height.rs": "555d4718124feca6d6438f01a335042f842a6a458b7a49decd1711993c6df828",
+        "tests/test_exact_comparison.rs": "d85a840e20212b53182d332bcc656814084f6ad5920ba06918d623c75d76002e",
+        "tests/test_exact_optimization.rs": "53683699edcbc59c2a944ec9963ccb22c7fa4f102813a0aaf3f7b0d3e4fa6f0a",
+        "tests/test_exact_optimization_round2.rs": "495f7d36a63ea595c634c562a39f80253394f597f0028c27874c1325ed2c3db0"
+      },
+      "cargo_sha256": "048343f7a634422df472c08809d6698800a34e07563203b2a19f4bc1bc0d85e1"
+    },
+    "round3": {
+      "path": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\.cache\\baseline\\hashrope\\packages\\rust",
+      "source_sha256": {
+        "src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+        "src/polynomial_hash.rs": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+        "src/rope.rs": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+        "src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26",
+        "tests/diag_substr_scaling.rs": "7daa599ebb2df649941ea1d0d586288624b1677410638cea387735de23d01335",
+        "tests/test_e1_throughput.rs": "629c702b8b83fe7eb6f3e6a3828029be947974c03685c1987997900abdea9da2",
+        "tests/test_e2_concat_split.rs": "625ad934b13d51ddd8a6406daa1205bb66ab17e09cd4c1e7cd38ea895a6fdfc2",
+        "tests/test_e3_repeat.rs": "ba59d534ebf82e1b1ae29c8a4918464f1aca02619983530376a21b70ffa97c60",
+        "tests/test_e4_phi.rs": "8d7b670d0c8608fb5019755b571cf5a096fbd092b0c8e31080a109bf49def37d",
+        "tests/test_e5_sliding.rs": "fc2e89b5512d25c1edf9e85acf19cc02d6d3ffdfff8f989220d4e546e27ac13f",
+        "tests/test_e6_memory.rs": "94c2268efabd86e520b554b9d154abb281e58b58df5764b81c64a102fb49545c",
+        "tests/test_e7_tree_height.rs": "555d4718124feca6d6438f01a335042f842a6a458b7a49decd1711993c6df828",
+        "tests/test_edit_optimization.rs": "9d9e228797983b4516b7246db5453006d96f7ef0900ded5eb6ab288dcf27dd48",
+        "tests/test_exact_comparison.rs": "d85a840e20212b53182d332bcc656814084f6ad5920ba06918d623c75d76002e",
+        "tests/test_exact_optimization.rs": "53683699edcbc59c2a944ec9963ccb22c7fa4f102813a0aaf3f7b0d3e4fa6f0a",
+        "tests/test_exact_optimization_round2.rs": "495f7d36a63ea595c634c562a39f80253394f597f0028c27874c1325ed2c3db0"
+      },
+      "cargo_sha256": "048343f7a634422df472c08809d6698800a34e07563203b2a19f4bc1bc0d85e1"
+    }
+  },
+  "builds": {
+    "old_new": {
+      "mapping": {
+        "a": "round2",
+        "b": "round3"
+      },
+      "binary": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\.cache\\controlled_v2\\old_new\\target\\release\\hashrope-controlled-comparison.exe",
+      "binary_sha256": "6ae740ab42a78ee17a9d1e4d24903de0c638f4307db9d48580024e2ad01a2472",
+      "copied_core_sha256": {
+        "a": {
+          "src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+          "src/polynomial_hash.rs": "f54256ca7f1fdfb5e7bdbd7ca00598479a3563c70baa882e01f16ef79be505ef",
+          "src/rope.rs": "eb9401967c78b0e8eb55943fe457ef6adcdbc2a0a27755c4389fc786fcd1212a",
+          "src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26"
+        },
+        "b": {
+          "src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+          "src/polynomial_hash.rs": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+          "src/rope.rs": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+          "src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26"
+        }
+      },
+      "cargo_lock_sha256": "41a17aa20af77784b632ee864fca01dcea725eca8ee51b07c40e71ba8c8e792a"
+    },
+    "new_old": {
+      "mapping": {
+        "a": "round3",
+        "b": "round2"
+      },
+      "binary": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\.cache\\controlled_v2\\new_old\\target\\release\\hashrope-controlled-comparison.exe",
+      "binary_sha256": "6d65ef6e55e565ebbd32dcbd710305e4f37a38b5d5f953ebc752bed875b15ec0",
+      "copied_core_sha256": {
+        "a": {
+          "src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+          "src/polynomial_hash.rs": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+          "src/rope.rs": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+          "src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26"
+        },
+        "b": {
+          "src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+          "src/polynomial_hash.rs": "f54256ca7f1fdfb5e7bdbd7ca00598479a3563c70baa882e01f16ef79be505ef",
+          "src/rope.rs": "eb9401967c78b0e8eb55943fe457ef6adcdbc2a0a27755c4389fc786fcd1212a",
+          "src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26"
+        }
+      },
+      "cargo_lock_sha256": "41a17aa20af77784b632ee864fca01dcea725eca8ee51b07c40e71ba8c8e792a"
+    },
+    "same_same": {
+      "mapping": {
+        "a": "round3",
+        "b": "round3"
+      },
+      "binary": "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round4\\.cache\\controlled_v2\\same_same\\target\\release\\hashrope-controlled-comparison.exe",
+      "binary_sha256": "63215b8fdb5d27adfec693af01e06795070a570baffc7f3a0d0701601c809646",
+      "copied_core_sha256": {
+        "a": {
+          "src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+          "src/polynomial_hash.rs": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+          "src/rope.rs": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+          "src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26"
+        },
+        "b": {
+          "src/lib.rs": "51a15e646ebb48bfba1412d75a0ab592d7d637bd1524fcf74c57c04380f1c634",
+          "src/polynomial_hash.rs": "5cf3dbb650ae183523eec6293ac4951f2079129ba04c78e6106c57c555ecae79",
+          "src/rope.rs": "0eae07ab1c8c4563f64e5babfe017bf6731558c7ea397248c327327cd75ed468",
+          "src/sliding.rs": "c5f0a91a7139de5526ec207022d14776034727c04d8b1f5f6c0d63b2d913ac26"
+        }
+      },
+      "cargo_lock_sha256": "41a17aa20af77784b632ee864fca01dcea725eca8ee51b07c40e71ba8c8e792a"
+    }
+  },
+  "source_audit": {
+    "public_exact_apis": {
+      "identical": true,
+      "round2_sha256": "96e1e3cfb5c6e2786fba9eabf06f49e7b848be68b9fd136c24e1863b3e93583a",
+      "round3_sha256": "96e1e3cfb5c6e2786fba9eabf06f49e7b848be68b9fd136c24e1863b3e93583a",
+      "characters": 3138
+    },
+    "comparison_engine": {
+      "identical": true,
+      "round2_sha256": "90a366d1f5d2cc215f73027e5e6d1802d9e410a5e629e0709c8ad936ecaf1d7e",
+      "round3_sha256": "90a366d1f5d2cc215f73027e5e6d1802d9e410a5e629e0709c8ad936ecaf1d7e",
+      "characters": 22646
+    }
+  }
+}

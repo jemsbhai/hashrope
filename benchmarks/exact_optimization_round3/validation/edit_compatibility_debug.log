@@ -1,0 +1,26 @@
+   Compiling hashrope v0.3.1 (E:\data\code\claudecode\hashrope\packages\rust)
+warning: method `rebalance` is never used
+   --> src\rope.rs:539:8
+    |
+ 86 | impl Arena {
+    | ---------- method in this implementation
+...
+539 |     fn rebalance(&mut self, left: NodeId, right: NodeId) -> NodeId {
+    |        ^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `hashrope` (lib) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.16s
+     Running tests\test_edit_optimization.rs (packages\rust\target\debug\deps\test_edit_optimization-b37227ae25b3cd66.exe)
+
+running 6 tests
+test identity_empty_and_clamped_edit_edges_keep_their_behavior ... ok
+test accepted_custom_profile_retains_structure_sensitive_legacy_hashes ... ok
+test reduction_matches_frozen_scalar_for_full_u128_domain_boundaries ... ok
+test editing_preserves_baseline_fingerprints_nodes_and_lazy_materialization ... ok
+test default_hash_long_buffers_and_maximum_block_carries_match_scalar ... ok
+test hash_matches_frozen_scalar_arithmetic_at_all_block_boundaries ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.35s
+

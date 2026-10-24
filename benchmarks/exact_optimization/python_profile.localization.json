@@ -1,0 +1,489 @@
+{
+  "baseline_sha256": "1c051da9ec56c9fd3e1799ee99db8608a5e470f6099d54ea7058a38de875744c",
+  "optimized_sha256": "bbd9e95df2d30352e376e90ce2c74357c7db1b1c1b4fae76638e36f6117f01bc",
+  "repetitions": 100,
+  "samples": 7,
+  "note": "Isolated diagnostic timings, not final consumer benchmark evidence.",
+  "cases": [
+    {
+      "length": 4096,
+      "position": 0,
+      "baseline_us": 0.364,
+      "baseline_samples_us": [
+        0.385,
+        0.356,
+        0.354,
+        0.35,
+        0.371,
+        0.364,
+        0.367
+      ],
+      "optimized_us": 0.216,
+      "optimized_samples_us": [
+        0.227,
+        0.217,
+        0.217,
+        0.215,
+        0.216,
+        0.216,
+        0.216
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 1,
+      "baseline_us": 0.388,
+      "baseline_samples_us": [
+        0.393,
+        0.385,
+        0.446,
+        0.387,
+        0.389,
+        0.385,
+        0.388
+      ],
+      "optimized_us": 0.396,
+      "optimized_samples_us": [
+        0.411,
+        0.395,
+        0.396,
+        0.398,
+        0.395,
+        0.397,
+        0.396
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 2,
+      "baseline_us": 0.414,
+      "baseline_samples_us": [
+        0.418,
+        0.413,
+        0.409,
+        0.412,
+        0.414,
+        0.419,
+        0.458
+      ],
+      "optimized_us": 0.47,
+      "optimized_samples_us": [
+        0.593,
+        0.467,
+        0.462,
+        0.473,
+        0.463,
+        0.47,
+        0.472
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 8,
+      "baseline_us": 0.638,
+      "baseline_samples_us": [
+        0.652,
+        0.638,
+        0.646,
+        0.628,
+        0.593,
+        0.644,
+        0.616
+      ],
+      "optimized_us": 0.538,
+      "optimized_samples_us": [
+        0.545,
+        0.537,
+        0.539,
+        0.538,
+        0.537,
+        0.536,
+        0.598
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 15,
+      "baseline_us": 0.838,
+      "baseline_samples_us": [
+        0.88,
+        0.832,
+        0.837,
+        0.838,
+        0.824,
+        0.926,
+        0.842
+      ],
+      "optimized_us": 0.682,
+      "optimized_samples_us": [
+        0.773,
+        0.699,
+        0.684,
+        0.674,
+        0.682,
+        0.677,
+        0.678
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 16,
+      "baseline_us": 0.788,
+      "baseline_samples_us": [
+        0.793,
+        0.787,
+        0.787,
+        0.788,
+        0.788,
+        0.792,
+        0.794
+      ],
+      "optimized_us": 0.707,
+      "optimized_samples_us": [
+        0.707,
+        0.708,
+        0.692,
+        0.697,
+        0.709,
+        0.731,
+        0.687
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 63,
+      "baseline_us": 1.962,
+      "baseline_samples_us": [
+        1.964,
+        1.962,
+        1.956,
+        1.961,
+        2.11,
+        2.133,
+        1.954
+      ],
+      "optimized_us": 1.553,
+      "optimized_samples_us": [
+        1.553,
+        1.547,
+        1.546,
+        1.57,
+        1.557,
+        1.657,
+        1.55
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 64,
+      "baseline_us": 1.955,
+      "baseline_samples_us": [
+        1.964,
+        1.955,
+        1.955,
+        1.956,
+        1.966,
+        1.952,
+        1.949
+      ],
+      "optimized_us": 1.697,
+      "optimized_samples_us": [
+        1.627,
+        1.864,
+        2.2,
+        1.701,
+        1.65,
+        1.561,
+        1.697
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 2048,
+      "baseline_us": 59.284,
+      "baseline_samples_us": [
+        58.994,
+        57.915,
+        59.551,
+        59.284,
+        58.708,
+        59.545,
+        60.574
+      ],
+      "optimized_us": 1.808,
+      "optimized_samples_us": [
+        2.047,
+        2.007,
+        1.928,
+        1.808,
+        1.717,
+        1.729,
+        1.729
+      ]
+    },
+    {
+      "length": 4096,
+      "position": 4095,
+      "baseline_us": 121.721,
+      "baseline_samples_us": [
+        121.721,
+        120.536,
+        119.302,
+        122.108,
+        121.66,
+        124.513,
+        122.175
+      ],
+      "optimized_us": 1.859,
+      "optimized_samples_us": [
+        1.859,
+        1.769,
+        1.774,
+        1.764,
+        2.199,
+        1.999,
+        2.001
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 0,
+      "baseline_us": 0.363,
+      "baseline_samples_us": [
+        0.376,
+        0.362,
+        0.363,
+        0.374,
+        0.362,
+        0.361,
+        0.365
+      ],
+      "optimized_us": 0.217,
+      "optimized_samples_us": [
+        0.222,
+        0.217,
+        0.215,
+        0.217,
+        0.218,
+        0.216,
+        0.217
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 1,
+      "baseline_us": 0.398,
+      "baseline_samples_us": [
+        0.408,
+        0.398,
+        0.396,
+        0.4,
+        0.398,
+        0.396,
+        0.423
+      ],
+      "optimized_us": 0.44,
+      "optimized_samples_us": [
+        0.449,
+        0.439,
+        0.44,
+        0.439,
+        0.441,
+        0.441,
+        0.44
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 2,
+      "baseline_us": 0.454,
+      "baseline_samples_us": [
+        2.49,
+        0.462,
+        0.451,
+        0.456,
+        0.453,
+        0.454,
+        0.443
+      ],
+      "optimized_us": 0.417,
+      "optimized_samples_us": [
+        0.468,
+        0.415,
+        0.415,
+        0.418,
+        0.417,
+        0.414,
+        0.418
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 8,
+      "baseline_us": 0.58,
+      "baseline_samples_us": [
+        0.676,
+        0.579,
+        0.583,
+        0.579,
+        0.583,
+        0.58,
+        0.577
+      ],
+      "optimized_us": 0.544,
+      "optimized_samples_us": [
+        0.55,
+        0.544,
+        0.545,
+        0.537,
+        0.573,
+        0.539,
+        0.537
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 15,
+      "baseline_us": 0.767,
+      "baseline_samples_us": [
+        0.765,
+        0.774,
+        0.777,
+        0.758,
+        0.767,
+        0.771,
+        0.764
+      ],
+      "optimized_us": 0.684,
+      "optimized_samples_us": [
+        0.684,
+        0.674,
+        0.677,
+        0.674,
+        1.717,
+        0.731,
+        0.769
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 16,
+      "baseline_us": 0.856,
+      "baseline_samples_us": [
+        0.986,
+        0.865,
+        0.789,
+        0.778,
+        0.817,
+        0.856,
+        0.861
+      ],
+      "optimized_us": 0.75,
+      "optimized_samples_us": [
+        0.754,
+        0.75,
+        0.747,
+        0.751,
+        0.749,
+        0.749,
+        0.752
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 63,
+      "baseline_us": 2.011,
+      "baseline_samples_us": [
+        2.137,
+        3.394,
+        2.208,
+        2.011,
+        2.009,
+        1.954,
+        1.946
+      ],
+      "optimized_us": 1.614,
+      "optimized_samples_us": [
+        1.523,
+        1.513,
+        1.516,
+        1.688,
+        1.702,
+        1.697,
+        1.614
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 64,
+      "baseline_us": 2.161,
+      "baseline_samples_us": [
+        2.378,
+        2.252,
+        2.159,
+        2.09,
+        2.15,
+        2.161,
+        2.168
+      ],
+      "optimized_us": 4.091,
+      "optimized_samples_us": [
+        4.423,
+        4.07,
+        4.089,
+        4.091,
+        4.085,
+        4.154,
+        4.4
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 32768,
+      "baseline_us": 986.887,
+      "baseline_samples_us": [
+        977.634,
+        986.887,
+        970.887,
+        995.957,
+        989.968,
+        985.564,
+        1056.366
+      ],
+      "optimized_us": 6.925,
+      "optimized_samples_us": [
+        7.265,
+        7.097,
+        7.084,
+        6.925,
+        6.645,
+        6.646,
+        6.613
+      ]
+    },
+    {
+      "length": 65536,
+      "position": 65535,
+      "baseline_us": 1979.246,
+      "baseline_samples_us": [
+        2041.627,
+        1975.988,
+        1981.752,
+        1972.856,
+        1999.441,
+        1964.001,
+        1979.246
+      ],
+      "optimized_us": 7.18,
+      "optimized_samples_us": [
+        7.891,
+        7.218,
+        7.151,
+        7.048,
+        6.932,
+        7.232,
+        7.18
+      ]
+    }
+  ]
+}

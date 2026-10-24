@@ -1,4 +1,4 @@
-"""Release gate for the hashrope Python package.
+r"""Release gate for the hashrope Python package.
 
 Run this against the FRESHLY BUILT WHEEL installed in a scratch venv
 BEFORE `twine upload`, and again AFTER publishing against the real
@@ -16,7 +16,11 @@ import sys
 import time
 
 import hashrope
-from hashrope import PolynomialHash, rope_concat, rope_from_bytes, rope_substr_hash
+from hashrope import (
+    Leaf, MERSENNE_127, PolynomialHash, rope_concat, rope_equal,
+    rope_from_bytes, rope_lcp, rope_range_equal, rope_range_lcp,
+    rope_repeat, rope_substr_hash,
+)
 
 CHUNK = 4096
 N = 500_000
@@ -38,10 +42,35 @@ def build(data: bytes, h: PolynomialHash):
 def main() -> int:
     print(f"hashrope {hashrope.__version__} "
           f"loaded from: {os.path.dirname(hashrope.__file__)}")
+    if hashrope.__version__ != "0.3.3":
+        raise AssertionError("release gate requires hashrope 0.3.3")
+
+    # Installed-artifact checks: collisions must remain compatible but cannot
+    # decide exact equality, including ranges and independent hash profiles.
+    h = PolynomialHash()
+    left, right = Leaf(b"\x00\x83*", h), Leaf(b"\x01\x00*", h)
+    assert left.hash_val == right.hash_val
+    assert not rope_equal(left, right) and rope_lcp(left, right) == 0
+    assert not rope_range_equal(left, 0, right, 0, 3)
+    assert rope_range_lcp(left, 0, right, 0, 3) == 0
+    wide = PolynomialHash(prime=MERSENNE_127, base=257)
+    assert rope_equal(left, Leaf(left.data, wide))
+    try:
+        rope_concat(left, Leaf(b"!", wide), h)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("mixed-profile concatenation was accepted")
+    # These comparisons must complete symbolically; no trillion-byte buffers.
+    a = rope_repeat(Leaf(b"ab", h), 10**12, h)
+    b = rope_repeat(Leaf(b"abab", h), 5 * 10**11, h)
+    assert rope_equal(a, b) and rope_lcp(a, b) == 2 * 10**12
+    assert rope_range_equal(a, 1, b, 1, 2 * 10**12 - 1)
+    print("gate 0 OK: exact collision/range/profile and symbolic-repeat checks")
 
     rng = random.Random(20260610)
     h = PolynomialHash()
-    data = os.urandom(N)
+    data = rng.randbytes(N)
     rope = build(data, h)
 
     # Gate 1 -- correctness: substring hashes match the byte-level oracle.

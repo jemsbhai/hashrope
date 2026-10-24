@@ -1,0 +1,289 @@
+{
+  "method": "Controlled DAG diagnostics, never instrumentation in production.\n\nThe bypass ablation removes only the ordinary-tree dispatch. Counter builds\nexplain work; their instrumented times are not performance estimates.\n",
+  "variants": [
+    {
+      "label": "bypass_dispatch",
+      "instrumented": false,
+      "source_sha256": "e853de51be083f55e99acc707c06fd4315900818833a86e08b081748af5caad8",
+      "rows": [
+        {
+          "fixture": "doubling_2TiB",
+          "median_us": 1.58575,
+          "samples_us": [
+            1.50375,
+            1.51535,
+            1.54295,
+            1.5552000000000001,
+            1.58575,
+            1.59455,
+            1.6300999999999999,
+            1.6647,
+            1.8124
+          ],
+          "allocations": 7,
+          "allocated_bytes": 2672,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "doubling_shifted",
+          "median_us": 6.544099999999999,
+          "samples_us": [
+            6.3252,
+            6.373600000000001,
+            6.446350000000001,
+            6.5276,
+            6.544099999999999,
+            6.5682,
+            6.6119,
+            6.6475,
+            6.8686
+          ],
+          "allocations": 12,
+          "allocated_bytes": 4512,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "doubling_late_mismatch",
+          "median_us": 2.99235,
+          "samples_us": [
+            2.92435,
+            2.9576,
+            2.96585,
+            2.98815,
+            2.99235,
+            3.06175,
+            3.07315,
+            3.07565,
+            3.2767
+          ],
+          "allocations": 7,
+          "allocated_bytes": 2672,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "repeat_2TiB",
+          "median_us": 0.0987,
+          "samples_us": [
+            0.09625,
+            0.09625,
+            0.0963,
+            0.09634999999999999,
+            0.0987,
+            0.0988,
+            0.10205,
+            0.10344999999999999,
+            0.1078
+          ],
+          "allocations": 1,
+          "allocated_bytes": 368,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "nonperiodic_shared_DAG",
+          "median_us": 4.221100000000001,
+          "samples_us": [
+            4.0995,
+            4.12275,
+            4.1253,
+            4.2188,
+            4.221100000000001,
+            4.2257,
+            4.27095,
+            4.2741999999999996,
+            4.2783999999999995
+          ],
+          "allocations": 12,
+          "allocated_bytes": 4512,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        }
+      ]
+    },
+    {
+      "label": "bypass_dispatch",
+      "instrumented": true,
+      "source_sha256": "40a5b2464f67bf8dbf8175fb251effbcc1618054fc622e5baa87574f866a48ce",
+      "rows": [
+        {
+          "fixture": "doubling_2TiB",
+          "median_us": 3.5475,
+          "samples_us": [
+            3.5135499999999995,
+            3.5139,
+            3.51695,
+            3.54435,
+            3.5475,
+            3.562,
+            3.6226,
+            3.65685,
+            3.7465
+          ],
+          "allocations": 7,
+          "allocated_bytes": 2672,
+          "counters": {
+            "lcp_calls": 41,
+            "normalize_visits": 404,
+            "memo_lookups": 81,
+            "memo_hits": 40,
+            "memo_inserts": 42,
+            "leaf_pairs": 1,
+            "leaf_bytes": 2,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "doubling_shifted",
+          "median_us": 13.07785,
+          "samples_us": [
+            12.5888,
+            12.6309,
+            12.84185,
+            13.00895,
+            13.07785,
+            13.11925,
+            13.157,
+            13.169550000000001,
+            13.18225
+          ],
+          "allocations": 12,
+          "allocated_bytes": 4512,
+          "counters": {
+            "lcp_calls": 150,
+            "normalize_visits": 1498,
+            "memo_lookups": 299,
+            "memo_hits": 148,
+            "memo_inserts": 152,
+            "leaf_pairs": 2,
+            "leaf_bytes": 3,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "doubling_late_mismatch",
+          "median_us": 6.9772,
+          "samples_us": [
+            6.627,
+            6.6891,
+            6.72345,
+            6.73955,
+            6.9772,
+            6.9956499999999995,
+            6.996650000000001,
+            7.000850000000001,
+            7.05075
+          ],
+          "allocations": 7,
+          "allocated_bytes": 2672,
+          "counters": {
+            "lcp_calls": 81,
+            "normalize_visits": 803,
+            "memo_lookups": 161,
+            "memo_hits": 78,
+            "memo_inserts": 82,
+            "leaf_pairs": 3,
+            "leaf_bytes": 4,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "repeat_2TiB",
+          "median_us": 0.20965,
+          "samples_us": [
+            0.2039,
+            0.2041,
+            0.20525,
+            0.20525,
+            0.20965,
+            0.22285,
+            0.22455,
+            0.2255,
+            0.2258
+          ],
+          "allocations": 1,
+          "allocated_bytes": 368,
+          "counters": {
+            "lcp_calls": 3,
+            "normalize_visits": 17,
+            "memo_lookups": 4,
+            "memo_hits": 0,
+            "memo_inserts": 6,
+            "leaf_pairs": 2,
+            "leaf_bytes": 4,
+            "periodic_witnesses": 1
+          }
+        },
+        {
+          "fixture": "nonperiodic_shared_DAG",
+          "median_us": 8.6276,
+          "samples_us": [
+            8.456850000000001,
+            8.559700000000001,
+            8.577200000000001,
+            8.5854,
+            8.6276,
+            8.63535,
+            8.7674,
+            9.000050000000002,
+            9.038350000000001
+          ],
+          "allocations": 12,
+          "allocated_bytes": 4512,
+          "counters": {
+            "lcp_calls": 97,
+            "normalize_visits": 964,
+            "memo_lookups": 193,
+            "memo_hits": 95,
+            "memo_inserts": 99,
+            "leaf_pairs": 2,
+            "leaf_bytes": 4,
+            "periodic_witnesses": 0
+          }
+        }
+      ]
+    }
+  ]
+}

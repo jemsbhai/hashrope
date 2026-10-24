@@ -1,0 +1,179 @@
+
+independent_2MiB_equal_4KiB_leaves: 100 queries, expected=2097152
+         1994801 function calls in 0.426 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.191    0.002    0.425    0.004 rope.py:294(_range_lcp)
+   204600    0.066    0.000    0.095    0.000 rope.py:190(_normalize_range)
+   971600    0.062    0.000    0.062    0.000 {built-in method builtins.isinstance}
+    51200    0.032    0.000    0.038    0.000 rope.py:214(_leaf_lcp)
+   153500    0.019    0.000    0.019    0.000 {built-in method builtins.min}
+   153400    0.014    0.000    0.014    0.000 {method 'pop' of 'list' objects}
+   153300    0.013    0.000    0.013    0.000 {method 'append' of 'list' objects}
+   153400    0.011    0.000    0.011    0.000 {built-in method builtins.len}
+   102200    0.009    0.000    0.009    0.000 {built-in method builtins.id}
+    51100    0.007    0.000    0.007    0.000 {method 'add' of 'set' objects}
+      100    0.001    0.000    0.426    0.004 rope.py:244(rope_lcp)
+      100    0.000    0.000    0.426    0.004 python_profile.py:64(<lambda>)
+      200    0.000    0.000    0.000    0.000 rope.py:165(rope_len)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+independent_2MiB_late_mismatch: 100 queries, expected=2097151
+         1991201 function calls in 0.431 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.194    0.002    0.430    0.004 rope.py:294(_range_lcp)
+   204600    0.066    0.000    0.096    0.000 rope.py:190(_normalize_range)
+   970700    0.063    0.000    0.063    0.000 {built-in method builtins.isinstance}
+    51200    0.033    0.000    0.039    0.000 rope.py:214(_leaf_lcp)
+   153500    0.019    0.000    0.019    0.000 {built-in method builtins.min}
+   152500    0.014    0.000    0.014    0.000 {method 'pop' of 'list' objects}
+   153300    0.014    0.000    0.014    0.000 {method 'append' of 'list' objects}
+   152500    0.011    0.000    0.011    0.000 {built-in method builtins.len}
+   102200    0.009    0.000    0.009    0.000 {built-in method builtins.id}
+    50200    0.006    0.000    0.006    0.000 {method 'add' of 'set' objects}
+      100    0.002    0.000    0.431    0.004 rope.py:244(rope_lcp)
+      100    0.000    0.000    0.431    0.004 python_profile.py:65(<lambda>)
+      200    0.000    0.000    0.000    0.000 rope.py:165(rope_len)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+shared_2MiB_late_edit: 100 queries, expected=2097151
+         31701 function calls in 0.006 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.003    0.000    0.006    0.000 rope.py:294(_range_lcp)
+     4200    0.001    0.000    0.002    0.000 rope.py:190(_normalize_range)
+    15400    0.001    0.000    0.001    0.000 {built-in method builtins.isinstance}
+     2200    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+     3000    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+     2100    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+     2000    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+     2100    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+      200    0.000    0.000    0.000    0.000 rope.py:214(_leaf_lcp)
+      100    0.000    0.000    0.006    0.000 rope.py:244(rope_lcp)
+      100    0.000    0.000    0.006    0.000 python_profile.py:66(<lambda>)
+      200    0.000    0.000    0.000    0.000 rope.py:165(rope_len)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+independent_shifted_equal_ranges: 100 queries, expected=2097152
+         3943601 function calls in 0.857 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.390    0.004    0.853    0.009 rope.py:294(_range_lcp)
+   409800    0.131    0.000    0.190    0.000 rope.py:190(_normalize_range)
+  1919700    0.125    0.000    0.125    0.000 {built-in method builtins.isinstance}
+   102500    0.065    0.000    0.078    0.000 rope.py:214(_leaf_lcp)
+   281600    0.036    0.000    0.036    0.000 {built-in method builtins.min}
+   307300    0.027    0.000    0.027    0.000 {method 'pop' of 'list' objects}
+   307200    0.027    0.000    0.027    0.000 {method 'append' of 'list' objects}
+   307400    0.021    0.000    0.021    0.000 {built-in method builtins.len}
+   204800    0.018    0.000    0.018    0.000 {built-in method builtins.id}
+   102400    0.012    0.000    0.012    0.000 {method 'add' of 'set' objects}
+      100    0.004    0.000    0.856    0.009 rope.py:279(rope_range_lcp)
+      200    0.000    0.000    0.000    0.000 rope.py:263(_check_range)
+      100    0.000    0.000    0.857    0.009 python_profile.py:67(<lambda>)
+      400    0.000    0.000    0.000    0.000 rope.py:165(rope_len)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+64KiB_leaf_last_byte_mismatch: 100 queries, expected=65535
+         1901 function calls in 0.001 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.001    0.000    0.001    0.000 rope.py:214(_leaf_lcp)
+      100    0.000    0.000    0.001    0.000 rope.py:294(_range_lcp)
+      100    0.000    0.000    0.001    0.000 rope.py:244(rope_lcp)
+      700    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+      200    0.000    0.000    0.000    0.000 rope.py:190(_normalize_range)
+      200    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+      100    0.000    0.000    0.001    0.000 python_profile.py:69(<lambda>)
+      200    0.000    0.000    0.000    0.000 rope.py:165(rope_len)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+      100    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+      100    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+
+
+
+64KiB_leaf_first_byte_mismatch: 100 queries, expected=0
+         1901 function calls in 0.000 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.000    0.000    0.000    0.000 rope.py:294(_range_lcp)
+      100    0.000    0.000    0.000    0.000 rope.py:244(rope_lcp)
+      200    0.000    0.000    0.000    0.000 rope.py:190(_normalize_range)
+      700    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+      100    0.000    0.000    0.000    0.000 rope.py:214(_leaf_lcp)
+      200    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+      100    0.000    0.000    0.000    0.000 python_profile.py:70(<lambda>)
+      200    0.000    0.000    0.000    0.000 rope.py:165(rope_len)
+      100    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+      100    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+
+
+
+independent_trillion_repeats: 100 queries, expected=3000000000000
+         8801 function calls in 0.002 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.001    0.000    0.001    0.000 rope.py:294(_range_lcp)
+     4300    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+      800    0.000    0.000    0.000    0.000 rope.py:190(_normalize_range)
+      100    0.000    0.000    0.002    0.000 rope.py:244(rope_lcp)
+      700    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+      600    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+      200    0.000    0.000    0.000    0.000 rope.py:214(_leaf_lcp)
+      400    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+      600    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+      400    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+      200    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+      100    0.000    0.000    0.002    0.000 python_profile.py:71(<lambda>)
+      200    0.000    0.000    0.000    0.000 rope.py:165(rope_len)
+      100    0.000    0.000    0.000    0.000 {built-in method math.gcd}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+independent_self_concat_DAG: 100 queries, expected=3298534883328
+         146201 function calls in 0.029 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100    0.014    0.000    0.029    0.000 rope.py:294(_range_lcp)
+    16200    0.005    0.000    0.006    0.000 rope.py:190(_normalize_range)
+    65000    0.004    0.000    0.004    0.000 {built-in method builtins.isinstance}
+    15800    0.001    0.000    0.001    0.000 {built-in method builtins.id}
+    12100    0.001    0.000    0.001    0.000 {method 'pop' of 'list' objects}
+    12000    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+     8300    0.001    0.000    0.001    0.000 {built-in method builtins.min}
+    12100    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+     4000    0.001    0.000    0.001    0.000 {method 'add' of 'set' objects}
+      100    0.000    0.000    0.029    0.000 rope.py:244(rope_lcp)
+      200    0.000    0.000    0.000    0.000 rope.py:214(_leaf_lcp)
+      100    0.000    0.000    0.029    0.000 python_profile.py:72(<lambda>)
+      200    0.000    0.000    0.000    0.000 rope.py:165(rope_len)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+

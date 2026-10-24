@@ -1,0 +1,79 @@
+   Compiling hashrope v0.3.3 (C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\packages\rust)
+    Finished `release` profile [optimized] target(s) in 2.54s
+     Running tests\test_bigint_exact_comparison.rs (target\release\deps\test_bigint_exact_comparison-38c2260a32203eb4.exe)
+
+running 12 tests
+test cross_profile_and_cross_arena_ids_are_not_identity ... ok
+test empty_and_identity_shortcuts_still_check_wide_bounds ... ok
+test sliding_profile_replacement_cannot_corrupt_prefix_or_window ... ok
+test profile_replacement_fails_before_metadata_or_structure_changes ... ok
+test different_shapes_and_all_small_ranges_match_plain_bytes ... ok
+test thousand_bit_repeats_and_shifted_ranges_remain_symbolic ... ok
+test default_byte_and_token_collisions_do_not_decide_equality ... ok
+test periodic_witness_checks_its_last_byte_and_independent_phases ... ok
+test unequal_leaf_word_and_tail_positions_and_offsets_are_exact ... ok
+test repeat_against_internal_and_huge_late_edit_do_not_expand ... ok
+test independent_self_concat_dags_and_partial_ranges_keep_wide_lengths ... ok
+test deep_split_dags_use_heap_frames_and_verified_ranges ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running tests\test_edit_optimization.rs (target\release\deps\test_edit_optimization-9ea797901744443a.exe)
+
+running 7 tests
+test zero_modulus_preserves_published_rejection - should panic ... ok
+test accepted_custom_profile_retains_structure_sensitive_published_hashes ... ok
+test identity_empty_and_clamped_edit_edges_keep_their_behavior ... ok
+test reduction_matches_frozen_scalar_for_full_u128_domain_boundaries ... ok
+test editing_preserves_baseline_fingerprints_nodes_and_lazy_materialization ... ok
+test default_hash_long_buffers_and_maximum_block_carries_match_scalar ... ok
+test hash_matches_frozen_scalar_arithmetic_at_all_block_boundaries ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+
+     Running tests\test_exact_comparison.rs (target\release\deps\test_exact_comparison-bdae2b83e197d5fc.exe)
+
+running 13 tests
+test collisions_and_encoded_tokens_are_not_equal ... ok
+test cross_arena_identity_and_profile_do_not_determine_content ... ok
+test exact_ranges_validate_bounds_and_compare_phases_without_nodes ... ok
+test hash_profile_replacement_is_detected_before_composition ... ok
+test huge_repeats_compare_symbolically_across_patterns_shapes_and_profiles ... ok
+test periodic_comparison_checks_the_last_byte_of_its_witness ... ok
+test maximum_u64_lengths_remain_exact_without_materialization ... ok
+test sliding_hash_profile_replacement_is_rejected_before_state_changes ... ok
+test independent_shapes_and_prefix_lengths_match_bytes ... ok
+test huge_repeats_split_across_internal_nodes_and_shifted_phases ... ok
+test shared_edited_prefix_skips_immutable_ranges ... ok
+test independently_allocated_shared_dags_use_verified_range_cache ... ok
+test nested_repeats_and_period_offsets_match_an_independent_byte_model ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\test_exact_optimization.rs (target\release\deps\test_exact_optimization-1293b8077b4f8a9f.exe)
+
+running 5 tests
+test symbolic_ranges_near_u64_limit_do_not_wrap_offsets_or_bounds ... ok
+test huge_nonadjacent_shared_dags_and_shifted_ranges_remain_compressed ... ok
+test huge_repeat_witnesses_can_themselves_be_independent_shared_dags ... ok
+test same_identity_fast_paths_still_reject_invalid_ranges ... ok
+test seeded_independent_shared_and_range_comparisons_match_bytes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests\test_exact_optimization_round2.rs (target\release\deps\test_exact_optimization_round2-ab249056a7a390e9.exe)
+
+running 10 tests
+test direct_child_traversal_can_fall_back_after_a_nonzero_prefix ... ok
+test accepted_custom_profile_hash_inequality_does_not_reject_equal_bytes ... ok
+test equal_fingerprints_do_not_define_structural_periods ... ok
+test structurally_periodic_witness_checks_its_last_byte ... ok
+test doubled_dags_keep_nonzero_phases_and_cross_profile_ranges_exact ... ok
+test late_edit_breaks_only_the_edited_dag_range ... ok
+test compressed_leaf_mismatch_localization_matches_the_plain_byte_oracle ... ok
+test uneven_child_boundaries_and_clipped_ranges_match_byte_oracles ... ok
+test long_uneven_frontiers_keep_clipped_ranges_and_late_mismatches_exact ... ok
+test every_leaf_mismatch_position_and_bit_has_the_correct_byte_index ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+

@@ -1,0 +1,60 @@
+{
+  "kind": "bio",
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round3\\provenance.py": "00bb929f37968d45a0bda4bb0f979cb62480121b195241be7c8c5c1170182f99",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\bio_paired.py": "6657f0a7dfc27c1039f599cf6944eb20bc418c13bd8abe0396ebc769de87eef8",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\__init__.py": "2342391239efabd03b930d6e620f247b3637d13f11696a71e8c78136b463bc0b",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\cheminformatics\\__init__.py": "dc606ab9f1207abf5d73c554758a07990322e68834a0699a435988325a9ab8aa",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\cheminformatics\\compounds.py": "ab00ca91289a35679f5dbc8744c08f919236be0fc22e9eac59b1e937d9ddbb11",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\cheminformatics\\resistance.py": "cdabe56e4a5e2b6baa695723f2761f892f8c8cefcab6d7ff6303011a1357e660",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\__init__.py": "afa27a83647d313e21d4974ebdc9e10dec25005994cf4eb6da2ff31b87550df7",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\fasta.py": "7a668e7fabc6dbf632ccfdf407dd00818570348ded7dd563a250b9fb3696ca09",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\gene_diff.py": "25e5acfe8a4b20c508592b10efce929d9e71e5d6c8de9a64aabd8cfc59b4f6e7",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\mutation.py": "cfd29b3b04e3326537162c6ce42dcbafd8e686b7f51c8fac7293b0dfa444446d",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\region_query.py": "ce60abc07e82e90ddfe459c036b5abaff23517a533991d01fc419daf06df8567",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\genomics\\repeats.py": "300ac2d7fd62d51d384e9231d5f665ec940acc859c410c88496ee7cd64fc61fe",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\proteomics\\__init__.py": "3f12babf86606d38c0a9497cc4ed6472bade9aac3dd7828fb5be70bda03f2427",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\proteomics\\trajectory.py": "04cb564fcd9225949a43248130887e9866e4d812aa8d3e9ee178e8c4e1a6765b",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\src\\hashrope_bio\\result_output.py": "e3eb1692f701db41eeb718affc6d776ff46c1f860095b863d0da1b323ac6045a",
+    "executed_driver": "598ee53aede16e40365277037965348383a2a20aad33f496c883af4ceefe4f6e"
+  },
+  "data_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\data\\hiv1_hxb2.fa": "3d660cd824b3979393b6d4aa475f4c68e5931ba9467626a16ae2ebdb2c2f7a26",
+    "E:\\data\\code\\claudecode\\hashrope\\usecases\\computational-biology\\code\\data\\hivdb_rt_expanded_aligned.fa": "0091bef9905ec1d2a01a3d63e71baf5055932d5093c6cee4f2d3943ce35a9270"
+  },
+  "workload": {
+    "patients": 2000,
+    "equal_controls": 16,
+    "within_process_paired_runs": 9,
+    "inner_repetitions": "original adaptive warmup method, recorded separately per workload/core",
+    "historical_consumer_commit": "206d1af783ca4c34626cfe1f9ce9a7bd7d4275cb"
+  },
+  "python": "3.12.2",
+  "runtime": {
+    "python_executable": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "python_build": [
+      "tags/v3.12.2:6abddd9",
+      "Feb  6 2024 21:26:36"
+    ],
+    "python_implementation": "CPython",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "processor_identifier": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "environment": {
+      "PYTHONHASHSEED": null,
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null
+    }
+  },
+  "runtime_packages": {
+    "numpy": "2.0.2",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.1.0"
+  },
+  "core_archives": {
+    "baseline": "4c394e6adb99d6cd5f755e6fca139148a04777c2c468e75b715539710428f80d",
+    "optimized": "329348b883d786d73eae6baaf3842ff395c6b8dd3519adf09e803aa0612c3c4a"
+  },
+  "fingerprint": "608f8b64b1ef9f2e00e4420fff7087f7d07b2ef70c0be5d3f3b42e8cbb1fa918"
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "micro",
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_python.py": "f257cf1079869d2b2eb9ee4e4b356d12f2877bb565c2895f8e53673e6245595e",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_rust.py": "f14e06ecf535bc075eff402b8c83b033215ea5402f8afb76e1b6f7825d510d84",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\comparison_safety\\bench_rust.rs": "7f0fcf1c0c9da53767eb116973f92bf605e6c860fee80895c845e6f166e63a70",
+    "executed_driver": "c620f3323728ab9c91091b717ee0bfd4b90f3b3e2d7c5ead618768ce38b8ca71"
+  },
+  "data_sha256": {},
+  "workload": {
+    "rounds": 3,
+    "samples_per_round": 7,
+    "exact_enabled_for_both": true
+  },
+  "python": "3.12.2",
+  "runtime_packages": {
+    "numpy": "2.0.2",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.1.0"
+  },
+  "core_archives": {
+    "baseline": "293c93ce8c6eb675f58bf2c88bdc1925465bed9c7ec2cb7f673299cebbb1f3bd",
+    "optimized": "3b1f225420b8f298e88de948d6a05c7aa8c1c51d7b02901712bdff56e5e516c3"
+  },
+  "fingerprint": "544749f48f7531ed9d83a46ab921f5886cae296571146b2b0b11e5717dcfb984"
+}

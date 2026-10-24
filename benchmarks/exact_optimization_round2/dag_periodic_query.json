@@ -1,0 +1,289 @@
+{
+  "method": "Controlled DAG diagnostics, never instrumentation in production.\n\nThe bypass ablation removes only the ordinary-tree dispatch. Counter builds\nexplain work; their instrumented times are not performance estimates.\n",
+  "variants": [
+    {
+      "label": "periodic_query",
+      "instrumented": false,
+      "source_sha256": "d1dbf454d2f31a26dd4a0f25ec59b0e9b71b889893e72a0e495d467f7c45367e",
+      "rows": [
+        {
+          "fixture": "doubling_2TiB",
+          "median_us": 0.33945,
+          "samples_us": [
+            0.30465,
+            0.3148,
+            0.33344999999999997,
+            0.33914999999999995,
+            0.33945,
+            0.34135,
+            0.36939999999999995,
+            0.3805,
+            0.40145
+          ],
+          "allocations": 1,
+          "allocated_bytes": 368,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "doubling_shifted",
+          "median_us": 0.33225,
+          "samples_us": [
+            0.29055000000000003,
+            0.31839999999999996,
+            0.32039999999999996,
+            0.328,
+            0.33225,
+            0.35695,
+            0.36975,
+            0.37065,
+            0.3734
+          ],
+          "allocations": 1,
+          "allocated_bytes": 368,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "doubling_late_mismatch",
+          "median_us": 2.96225,
+          "samples_us": [
+            2.9182,
+            2.93035,
+            2.93625,
+            2.9562999999999997,
+            2.96225,
+            2.98545,
+            3.00315,
+            3.02575,
+            3.1806
+          ],
+          "allocations": 7,
+          "allocated_bytes": 2672,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "repeat_2TiB",
+          "median_us": 0.07675,
+          "samples_us": [
+            0.0765,
+            0.07669999999999999,
+            0.07675,
+            0.07675,
+            0.07675,
+            0.07675,
+            0.07684999999999999,
+            0.07690000000000001,
+            0.0795
+          ],
+          "allocations": 1,
+          "allocated_bytes": 368,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "nonperiodic_shared_DAG",
+          "median_us": 4.1719,
+          "samples_us": [
+            4.04505,
+            4.1593,
+            4.1651,
+            4.1713000000000005,
+            4.1719,
+            4.175599999999999,
+            4.20125,
+            4.2096,
+            4.38815
+          ],
+          "allocations": 12,
+          "allocated_bytes": 4512,
+          "counters": {
+            "lcp_calls": 0,
+            "normalize_visits": 0,
+            "memo_lookups": 0,
+            "memo_hits": 0,
+            "memo_inserts": 0,
+            "leaf_pairs": 0,
+            "leaf_bytes": 0,
+            "periodic_witnesses": 0
+          }
+        }
+      ]
+    },
+    {
+      "label": "periodic_query",
+      "instrumented": true,
+      "source_sha256": "720eb60af211151c370e0b9cc874468c275ea7135250c1209586985f4f1b8773",
+      "rows": [
+        {
+          "fixture": "doubling_2TiB",
+          "median_us": 0.49235,
+          "samples_us": [
+            0.4878,
+            0.48845,
+            0.48985,
+            0.49184999999999995,
+            0.49235,
+            0.49265,
+            0.49299999999999994,
+            0.49465000000000003,
+            0.5345
+          ],
+          "allocations": 1,
+          "allocated_bytes": 368,
+          "counters": {
+            "lcp_calls": 1,
+            "normalize_visits": 84,
+            "memo_lookups": 1,
+            "memo_hits": 0,
+            "memo_inserts": 2,
+            "leaf_pairs": 1,
+            "leaf_bytes": 2,
+            "periodic_witnesses": 1
+          }
+        },
+        {
+          "fixture": "doubling_shifted",
+          "median_us": 0.58825,
+          "samples_us": [
+            0.5721499999999999,
+            0.5731,
+            0.5811499999999999,
+            0.5841000000000001,
+            0.58825,
+            0.594,
+            0.597,
+            0.61575,
+            0.6166999999999999
+          ],
+          "allocations": 1,
+          "allocated_bytes": 368,
+          "counters": {
+            "lcp_calls": 2,
+            "normalize_visits": 92,
+            "memo_lookups": 3,
+            "memo_hits": 0,
+            "memo_inserts": 4,
+            "leaf_pairs": 2,
+            "leaf_bytes": 2,
+            "periodic_witnesses": 1
+          }
+        },
+        {
+          "fixture": "doubling_late_mismatch",
+          "median_us": 6.8773,
+          "samples_us": [
+            6.6768,
+            6.69005,
+            6.76915,
+            6.8411,
+            6.8773,
+            6.90485,
+            6.938599999999999,
+            6.985049999999999,
+            7.12575
+          ],
+          "allocations": 7,
+          "allocated_bytes": 2672,
+          "counters": {
+            "lcp_calls": 81,
+            "normalize_visits": 803,
+            "memo_lookups": 161,
+            "memo_hits": 78,
+            "memo_inserts": 82,
+            "leaf_pairs": 3,
+            "leaf_bytes": 4,
+            "periodic_witnesses": 0
+          }
+        },
+        {
+          "fixture": "repeat_2TiB",
+          "median_us": 0.1775,
+          "samples_us": [
+            0.16295,
+            0.16465,
+            0.17215,
+            0.17535,
+            0.1775,
+            0.17755,
+            0.17895000000000003,
+            0.17925,
+            0.18059999999999998
+          ],
+          "allocations": 1,
+          "allocated_bytes": 368,
+          "counters": {
+            "lcp_calls": 2,
+            "normalize_visits": 13,
+            "memo_lookups": 3,
+            "memo_hits": 0,
+            "memo_inserts": 4,
+            "leaf_pairs": 2,
+            "leaf_bytes": 4,
+            "periodic_witnesses": 1
+          }
+        },
+        {
+          "fixture": "nonperiodic_shared_DAG",
+          "median_us": 9.1285,
+          "samples_us": [
+            8.787049999999999,
+            8.86125,
+            8.922799999999999,
+            9.1266,
+            9.1285,
+            9.217799999999999,
+            9.24755,
+            9.455150000000001,
+            9.5335
+          ],
+          "allocations": 12,
+          "allocated_bytes": 4512,
+          "counters": {
+            "lcp_calls": 97,
+            "normalize_visits": 964,
+            "memo_lookups": 193,
+            "memo_hits": 95,
+            "memo_inserts": 99,
+            "leaf_pairs": 2,
+            "leaf_bytes": 4,
+            "periodic_witnesses": 0
+          }
+        }
+      ]
+    }
+  ]
+}

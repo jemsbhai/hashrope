@@ -7,11 +7,13 @@ Run (PowerShell, from repo root):
 Expected behavior:
   * PRE-patch (v0.2.1): test_complexity_bytes_hashed_bound FAILS immediately —
     the implementation re-hashes every byte in the queried range instead of
-    reading stored node hashes. (test_lcp_exact also passes pre-patch but is
-    very slow, ~minutes; the complexity guard is the fast red/green signal.)
+    reading stored node hashes. The complexity guard is the red/green signal.
   * POST-patch: all tests pass in seconds.
 
 Seeds are fixed for full determinism (no wall-clock assertions).
+
+The LCP regression uses the exact comparison API introduced after v0.2.2;
+hash-only binary search cannot guarantee exact divergence on arbitrary inputs.
 """
 import os
 import random
@@ -22,6 +24,7 @@ from hashrope import (
     PolynomialHash,
     rope_concat,
     rope_from_bytes,
+    rope_lcp,
     rope_repeat,
     rope_split,
     rope_substr_hash,
@@ -138,7 +141,7 @@ def test_complexity_bytes_hashed_bound(env):
 
 
 def test_lcp_exact(env):
-    """Binary search over prefix hashes recovers the exact divergence byte."""
+    """Exact comparison finds divergence while reusing persistent subtrees."""
     h, data, rope = env
     rng = random.Random(SEED + 4)
 
@@ -148,16 +151,6 @@ def test_lcp_exact(env):
         mid = rope_from_bytes(bytes([(data[idx] + 1) % 256]), h)
         return rope_concat(rope_concat(left, mid, h), tail, h)
 
-    def lcp(a, b):
-        lo, hi = 0, min(a.len, b.len)
-        while lo < hi:
-            m = (lo + hi + 1) // 2
-            if rope_substr_hash(a, 0, m, h) == rope_substr_hash(b, 0, m, h):
-                lo = m
-            else:
-                hi = m - 1
-        return lo
-
     for _ in range(15):
         d = rng.randint(0, len(data) - 2)
-        assert lcp(rope, replace_byte(rope, d)) == d
+        assert rope_lcp(rope, replace_byte(rope, d)) == d

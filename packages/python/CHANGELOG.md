@@ -1,6 +1,40 @@
 # Changelog
 
-## Unreleased
+## 0.3.3 — 2026-10-24
+
+**Exact content comparisons and hash-profile provenance; fingerprint values and
+defaults are unchanged.**
+
+- Added `rope_equal(left, right)` and `rope_lcp(left, right)`. They compare actual
+  bytes across tree shapes and profiles, skipping shared immutable ranges,
+  memoizing verified DAG ranges, and proving equal repeated spans from a bounded
+  periodic witness. They never flatten the rope; independent equal inputs may
+  still require linear work.
+- Added checked `rope_range_equal` and `rope_range_lcp` APIs so consumers can
+  verify substring matches without splitting, flattening, or rehashing.
+- Optimized exact leaf mismatch localization: a short prefix check handles
+  early differences, and native byte comparisons narrow the first unequal
+  interval for late differences. Probe work remains linear in a bounded chunk;
+  live temporary byte-slice payload totals at most 192 KiB, excluding object
+  headers and traversal/cache storage. Tree traversal, periodic proofs,
+  DAG memoization, fingerprints, and node layout are unchanged. Diagnostic
+  profiles are recorded under `benchmarks/exact_optimization/python_profile.*`.
+- Added immutable `HashProfile(prime, base)` and a shared profile reference per
+  node. Node construction, combination, splitting, repetition, and substring
+  hashing reject mismatched profiles with `ValueError`, including no-op paths.
+  Hash parameters cannot be reassigned; matching parameters in separate hashers
+  remain compatible. Sliding windows reject incompatible hasher replacement.
+- `validate_rope` now checks profile consistency and documents that it does not
+  recompute fingerprints. Node `==` retains its prior structural semantics.
+- Added regressions for the default two-byte collision under both moduli, the
+  three-byte LCP failure, four-byte token encoding, mixed profiles, different
+  shapes, enormous repeats, independent shared DAGs, and byte-oracle checks.
+  Existing LCP regression now uses the exact API.
+- Node serialization was not a versioned format; rebuild legacy serialized
+  nodes that lack profile provenance. Persisted fingerprint values remain valid
+  for their original profile.
+- Reproducible before/after timing and memory measurements are recorded in
+  `benchmarks/comparison_safety/README.md`. No base or modulus defaults changed.
 
 **Docs only: the byte-index contract is now stated explicitly.** README
 gains a "Byte-index contract" section; `rope_split`, `rope_substr_hash`,

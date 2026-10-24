@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "pythonVersion": "0.2.2",
+  "wheel": {
+    "filename": "hashrope-0.2.2-py3-none-any.whl",
+    "sha256": "710112e3aa14a991918a15331c1f418ce9d1c9d93c34a9da09e22be33c68a2d2",
+    "source": "https://pypi.org/project/hashrope/0.2.2/"
+  },
+  "importOrigins": {
+    "hashrope": "E:/data/code/claudecode/hashrope-js/oracle/hashrope-0.2.2-py3-none-any.whl/hashrope/__init__.py",
+    "hashrope.rope": "E:/data/code/claudecode/hashrope-js/oracle/hashrope-0.2.2-py3-none-any.whl/hashrope/rope.py",
+    "hashrope.polynomial_hash": "E:/data/code/claudecode/hashrope-js/oracle/hashrope-0.2.2-py3-none-any.whl/hashrope/polynomial_hash.py",
+    "hashrope.sliding": "E:/data/code/claudecode/hashrope-js/oracle/hashrope-0.2.2-py3-none-any.whl/hashrope/sliding.py"
+  },
+  "sourceSha256": {
+    "hashrope/__init__.py": "93b9edb670de17512f4ce847f245360ca3ece7979b2f2bd5d50f892d180d5880",
+    "hashrope/polynomial_hash.py": "5b8e4fae590ae0e262fdaed01dd4ce30566a62f4cd26b2eac635c8dd121d8c37",
+    "hashrope/rope.py": "55127ade6945778f0073e5d78ae8ae00c1a73d829ecb665bb1d1265b528415a4",
+    "hashrope/sliding.py": "5682a99b1bf297b52acc230a81068c1a2f0f96dd25e84b9b32a1eee1328eff9f"
+  },
+  "pythonExports": [
+    "PolynomialHash",
+    "phi",
+    "mersenne_mod",
+    "mersenne_mul",
+    "MERSENNE_61",
+    "MERSENNE_127",
+    "Leaf",
+    "Internal",
+    "RepeatNode",
+    "Node",
+    "rope_concat",
+    "rope_split",
+    "rope_repeat",
+    "rope_substr_hash",
+    "rope_len",
+    "rope_hash",
+    "rope_height",
+    "rope_from_bytes",
+    "rope_to_bytes",
+    "validate_rope",
+    "SlidingWindow"
+  ],
+  "classPublicMembers": {
+    "PolynomialHash": [
+      "base",
+      "hash",
+      "hash_concat",
+      "hash_overlap",
+      "hash_repeat",
+      "power",
+      "prime"
+    ],
+    "Leaf": [
+      "data",
+      "hash_val",
+      "len",
+      "weight"
+    ],
+    "Internal": [
+      "hash_val",
+      "left",
+      "len",
+      "right",
+      "weight"
+    ],
+    "RepeatNode": [
+      "child",
+      "hash_val",
+      "len",
+      "reps",
+      "weight"
+    ],
+    "SlidingWindow": [
+      "W",
+      "append_bytes",
+      "append_copy",
+      "current_hash",
+      "d_max",
+      "final_hash",
+      "h",
+      "h_prefix",
+      "l_prefix",
+      "m_max",
+      "pos",
+      "r_window",
+      "window_len"
+    ]
+  },
+  "balanceConstants": {
+    "ALPHA_NUM": 2,
+    "ALPHA_DEN": 7
+  },
+  "seed": 20261023,
+  "corpus": {
+    "filename": "oracle.json",
+    "sha256": "86236a83fedc35934a12b29246be82990b1a90f80d7159b8f5b0b34e2cf1e7ea",
+    "records": 27564,
+    "kinds": {
+      "concatHash": 180,
+      "constructorError": 5,
+      "hash": 155,
+      "mod": 110,
+      "mul": 440,
+      "nodeError": 7,
+      "overlapHash": 180,
+      "phi": 595,
+      "power": 60,
+      "repeatHash": 180,
+      "rope": 176,
+      "sliding": 520,
+      "slidingEdge": 16,
+      "split": 4672,
+      "substr": 20259,
+      "validate": 4,
+      "windowConstructorError": 5
+    },
+    "errors": 42
+  },
+  "exclusions": [
+    "Nonpositive-modulus folding can fail to terminate and is intentionally not invoked.",
+    "Python-specific duck types, object hashes/repr, reflection and resource exhaustion are not numerical oracle contracts."
+  ],
+  "licenseSha256": "1bcc51d764dbde88194eccf368431d3906337396694af2076e24e6d1b3c86290"
+}

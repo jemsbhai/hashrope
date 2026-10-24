@@ -1,0 +1,75 @@
+{
+  "kind": "extended",
+  "source_sha256": {
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\exact_optimization_round2\\provenance.py": "00bb929f37968d45a0bda4bb0f979cb62480121b195241be7c8c5c1170182f99",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\competitive_extended.py": "e097487a2fa1922eb22f5ed3fa643f862e248f18fe8b076980765a150db37542",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\src\\realpairs.py": "56b32b212dd7ce4320793b8dfca955e3de423fdda9d540db6fe1d7e69701e5b7",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\src\\lcp.py": "6bb689961a740ea32e8522bcd131b753cf518dc8e6f0a2d9293e199af18b76e5",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\src\\competitive.py": "e87a69ad95c2d8eec3c8b9c5f22b93bd3bc609329e1877c6b80e49ea6628e36a",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\src\\flatten.py": "d23239f142de9f76a163ea4fc86072bab70432e5bf2891c52e237d5f92146152",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\scripts\\exp017_bench.py": "9539254b2fe4cd14489464649c04b2e0afc680050eb425d9ba6432d411f315ab",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\third_party\\sglang_radix_cache\\radix_cache.py": "42749c7cf0f3cbf42066dd273360730c8fe10e2a21983a49f102a500702ca71c",
+    "executed_driver": "56da4f647bc220e1e9f067c7b18f391df366920e7cda425784d7c0d83e74d20a"
+  },
+  "data_sha256": {
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\data\\canonical\\sharegpt_sample.jsonl": "c636b0c4b86860ebc8d82a36403d9b2242259f14be87a2f5420951fcb1760afd",
+    "E:\\data\\code\\claudecode\\hashropeictaipaper\\data\\canonical\\lmsys_sample.jsonl": "060e13d73417171add43f30f32ac7760b285c899fcd61c6c29251ef9821804b6",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\paper_results\\tokens_s42.npy": "3b60e11c06b58116c24b425ae986f8e44c8111355c50e7488d1240aaf15a2c94",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\paper_results\\tokens_s43.npy": "a1a7b71df8baed49d99dfa40d33df1811b0bbe3adea0a954dbdc855f84a1171b",
+    "E:\\data\\code\\claudecode\\hashrope\\benchmarks\\consumer_exactness\\paper_results\\tokens_s44.npy": "d51eb64f040d35da20043ed3cc85abf249e8e05c7c8a7f5580a84bb8ff6c802b"
+  },
+  "workload": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "invocations": 3,
+    "reps": 5,
+    "real_pairs_per_dataset": 200,
+    "k_grid": {
+      "64000": [
+        1,
+        10,
+        100
+      ],
+      "512000": [
+        1,
+        10
+      ]
+    },
+    "timed_arm_order": [
+      "radix",
+      "exact",
+      "numpy"
+    ]
+  },
+  "python": "3.12.2",
+  "runtime": {
+    "python_executable": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "python_build": [
+      "tags/v3.12.2:6abddd9",
+      "Feb  6 2024 21:26:36"
+    ],
+    "python_implementation": "CPython",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "processor_identifier": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "environment": {
+      "PYTHONHASHSEED": null,
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null
+    }
+  },
+  "runtime_packages": {
+    "numpy": "2.0.2",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.1.0"
+  },
+  "core_archives": {
+    "baseline": "0c9e212c3828d29772365c5345393acff26611c9a86cd51ecbfc0748714671ac",
+    "optimized": "11d618187e557f145bf5f8ca556b68581478775bd44da28a18581086ef4bcd10"
+  },
+  "fingerprint": "53eb3be3cbd3c5c64df9e2581844ef3d80c8a3742bc45a2a49df1198ccd18553"
+}
