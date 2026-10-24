@@ -1,0 +1,79 @@
+{
+  "verified_utc": "2026-10-24T19:06:35.307056+00:00",
+  "reviewed_precommit_core_sha256": "b9159ef8c3fcb668203b8e8561aa9202e9acf757a074dbdb82e1e62e28ebc136",
+  "published_core_sha256": "f830cd18595989dadcb9b8d39c10a3807c54b3f89bfd1f8355b63badfc9a88f1",
+  "local_actual_upload_core_sha256": "f830cd18595989dadcb9b8d39c10a3807c54b3f89bfd1f8355b63badfc9a88f1",
+  "published_bio_sha256": "45a1c594d2a13ff3fdab1efe896821da6f29687e474e316362a5fdfea9ef2e45",
+  "local_actual_upload_bio_sha256": "45a1c594d2a13ff3fdab1efe896821da6f29687e474e316362a5fdfea9ef2e45",
+  "core_member_count": 39,
+  "changed_core_members": [
+    "hashrope-0.3.3/.cargo_vcs_info.json"
+  ],
+  "vcs_info_before": {
+    "git": {
+      "sha1": "bd8f9ca5c73e3c80507089cdda204f922869cbc0",
+      "dirty": true
+    },
+    "path_in_vcs": "packages/rust"
+  },
+  "vcs_info_published": {
+    "git": {
+      "sha1": "3dda4b5940335785976442c16e8743934fef8092"
+    },
+    "path_in_vcs": "packages/rust"
+  },
+  "all_other_core_members_byte_identical": true,
+  "published_core_and_bio_archive_bytes_match_actual_local_uploads": true,
+  "core_published_member_sha256": {
+    "hashrope-0.3.3/.cargo_vcs_info.json": "0adabfa33f7ff2745dfc3b030c864d1e89e4d607a1b7db420637718b810d4b32",
+    "hashrope-0.3.3/BALANCE_TERMINATION_PROOF.md": "aeaf4336eb8327f72c3d7fbf0d183972dc06d06cd21e3ad20c102981605cfce4",
+    "hashrope-0.3.3/CHANGELOG.md": "10d5ab846266f446ef843f4e0fbc7b8827c949e638341481579e527ec921277a",
+    "hashrope-0.3.3/Cargo.lock": "67c2149366d81eadf627bb43b9e322dab4a50838dd71f742155576ee22d105f9",
+    "hashrope-0.3.3/Cargo.toml": "306ec1ee16940e1d17d9db29773de5e68affb473876ff7605a306a9be04e876e",
+    "hashrope-0.3.3/Cargo.toml.orig": "0e5f4ea05dbef3c1f7f6a2f980cf528ac5c19337f5a52347e0554c14e555e457",
+    "hashrope-0.3.3/DOWNSTREAM_TESTING.md": "1f2234b122124a26bd84b94866502453b679c44f99344670baaadc6fd6689f1a",
+    "hashrope-0.3.3/LICENSE": "e5d92acd7169c47f6f839405337fa96c8bf5009cc249b29d3014f3cd3b49e007",
+    "hashrope-0.3.3/PARITY.md": "46b9fa2bd7f5010073fdb352e4907c4c4ab65243b8daa30ccc66d4f7b7d78331",
+    "hashrope-0.3.3/README.md": "a87355a02ca28fec9d7ef3f07c2fffefaed204f440a6e8a6fdd0da84bc039ff8",
+    "hashrope-0.3.3/VALIDATION.md": "9ddc03923a8567b7de25f10595f1a782d62d23262bc0b2dd4a28b0a44279cc05",
+    "hashrope-0.3.3/benches/benchmarks.rs": "d38386954270df40478f1432af4e50f20771ca9f563fce622417200f74ded4d4",
+    "hashrope-0.3.3/scripts/generate_python_vectors.py": "1c1b666715b151014dfdead9487352bb4f617c224ccd9addf57c03dc26293e53",
+    "hashrope-0.3.3/scripts/verify_downstream.py": "e6d4628280863ef7142b5a6ea6abc73302eccebf3fce0cbad837de992fed591d",
+    "hashrope-0.3.3/scripts/verify_pollard_fixture.py": "a1543fd26890222094baeb96d2a1d8f589f583c6df41b9d7dbf0d77875bdcff6",
+    "hashrope-0.3.3/scripts/verify_wasm.cjs": "ff4952d270a183e97e38d17e6c75e7601c6b8e5a9df592c6b1e781b8fb430380",
+    "hashrope-0.3.3/scripts/wasm_numeric_probe.rs": "53ecf672418628f5ddf8bd146bdf867594b4ef8f657f1ce582f2b7459486c3e1",
+    "hashrope-0.3.3/src/bigint.rs": "58bc36514629b90806c4d72940f84dcb83f14fc36792d630c3a1b07b361548f4",
+    "hashrope-0.3.3/src/lib.rs": "caf729a5c1ce483139a0c79406415d73c5e2a178eaae22e30df7786801a432f9",
+    "hashrope-0.3.3/src/polynomial_hash.rs": "af8bab3b7fe8f9a1821b2289b9b9ddffcdcef5659d213a4de78a5423603feeba",
+    "hashrope-0.3.3/src/rope.rs": "0121a5b8f6f7b521b51fcf0f6f6db85e4d0de8e6001385f4e65aa451b7a97f6c",
+    "hashrope-0.3.3/src/sliding.rs": "b70e516c65da519f2c8cabf0b0818adb7aca95090147085667ad5a2c048e5130",
+    "hashrope-0.3.3/tests/diag_substr_scaling.rs": "f5b11f35033194ee099ad540dd127f26d9c038c6c59e32c90c3215522270331f",
+    "hashrope-0.3.3/tests/downstream_contracts.rs": "91c8a090db08c2700046c778fdad16abe88d47f9cafbf3d957c4a4f34795d98f",
+    "hashrope-0.3.3/tests/fixtures/pollard-1.6.0-hashrope-0.2.2.jsonl": "45174ce9b17341c5bd9efb800a403308d148ce799b60862896341c248a37e623",
+    "hashrope-0.3.3/tests/fixtures/python-0.2.2.json": "4dee4bc115f6f2419ef15a8da8c2b6d15e51e28f027b29f25d877aa5e485220a",
+    "hashrope-0.3.3/tests/python_conformance.rs": "d94f90b3e29af8aae6381e250419bfb127239238a66383379ff85cdad8de785d",
+    "hashrope-0.3.3/tests/test_bigint_exact_comparison.rs": "109f1de5d46f606dd501e58ebebd0b91f7b00135f5ae713845fba167144a0457",
+    "hashrope-0.3.3/tests/test_e1_throughput.rs": "b0e4cf80961d9ba10861e441c5047abd59ccdf1bd91f27199f26f37ed8432d01",
+    "hashrope-0.3.3/tests/test_e2_concat_split.rs": "f9492c3f987bb79227ed9a49318c76b9d961a2bd0297b5e13948cb564273cb5c",
+    "hashrope-0.3.3/tests/test_e3_repeat.rs": "74ca6502c64bebef5a15fcc8a4eef69c89ac018322b539c7a2f73ef82b25c746",
+    "hashrope-0.3.3/tests/test_e4_phi.rs": "6f8aa34790f3746803aec117d3cd5e118fd9d5ebfc04d951e342fbb70b9fa8c1",
+    "hashrope-0.3.3/tests/test_e5_sliding.rs": "0b8c538abb2680dbf6112fd2a235b8daa834b9dd256ea93a6d4e49662a899715",
+    "hashrope-0.3.3/tests/test_e6_memory.rs": "135d34d099ee4cbd8a26533bea65b0c6dba3db2b14af5285ebe8b468d27a1a69",
+    "hashrope-0.3.3/tests/test_e7_tree_height.rs": "fc3ca39c38109c4aee3525846c922b88f9c82b3be5f4dc5ae3637cbe0a1f00d1",
+    "hashrope-0.3.3/tests/test_edit_optimization.rs": "b9ac3ac068a08e764f3c222ac1e9eecf0f332688df7e6c8776bf7cbcbe00cf2d",
+    "hashrope-0.3.3/tests/test_exact_comparison.rs": "62664c6e5130801a3512faff732f850ed5309a2bac95e8d310b23c977a0881fa",
+    "hashrope-0.3.3/tests/test_exact_optimization.rs": "d861662df0c815b9bea5b6807c0f11c775f9931ccdae42d66b57e2657b6e2f44",
+    "hashrope-0.3.3/tests/test_exact_optimization_round2.rs": "a8928bb6beddfa5650f25ca17c7e9b60a2c71e381545d33d58c06b152798f3bf"
+  },
+  "test_results": {
+    "default": {
+      "passed": 5,
+      "failed": 0
+    },
+    "bigint": {
+      "passed": 7,
+      "failed": 0
+    }
+  },
+  "registry_only": true
+}

@@ -1,0 +1,29 @@
+
+running 7 tests
+test tests::default_byte_and_token_collisions_are_exact ... ok
+test tests::biology_ignores_profile_differences_for_equal_content ... ok
+test tests::biology_detects_colliding_gene_exon_and_codon ... ok
+test tests::cross_profile_ranges_repeats_and_bounds ... ok
+test tests::changed_profile_is_rejected_without_blocking_exact_bytes ... ok
+test tests::bigint_default_fingerprint_collision_is_not_equality ... ok
+test tests::bigint_huge_repeats_ranges_and_profile_guards ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+--- stderr ---
+   Compiling autocfg v1.5.1
+   Compiling num-traits v0.2.19
+   Compiling num-integer v0.1.47
+   Compiling num-bigint v0.4.8
+   Compiling hashrope v0.3.3
+   Compiling hashrope-bio v0.3.3
+   Compiling hashrope-registry-release-smoke v0.0.0 (C:\Users\User\AppData\Local\Temp\hashrope-public-registry-033-90pbxxnu\consumer)
+    Finished `release` profile [optimized] target(s) in 5.97s
+     Running unittests src\lib.rs (C:\Users\User\AppData\Local\Temp\hashrope-public-registry-033-90pbxxnu\target\release\deps\hashrope_registry_release_smoke-46b79708361de467.exe)
+   Doc-tests hashrope_registry_release_smoke

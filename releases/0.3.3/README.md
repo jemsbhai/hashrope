@@ -1,7 +1,8 @@
 # Synchronized 0.3.3 release
 
-Release preparation is in progress. This record does not assert registry
-publication until the package-specific public verification is recorded below.
+All six packages were published at version **0.3.3** on 2026-10-24. Public
+downloads match the reviewed artifacts, and fresh registry consumer checks pass
+for every package. The three source repositories are pushed and tagged `v0.3.3`.
 
 | Registry / package | Prior published version | Target |
 | --- | --- | --- |
@@ -62,7 +63,7 @@ compares against published 0.2.2. After optimizing the byte-exact leaf scan, equ
 Profile-checked concatenation adds about 0.05 microseconds. Full samples, source
 identities, the rejected scalar implementation, and limits are retained.
 
-## Candidate validation
+## Release validation
 
 - Built Python core and biology wheels/sdists. Installed-wheel tests: **244
   passed**. Installed collision/range/profile/symbolic-repeat release gate passed;
@@ -85,13 +86,50 @@ identities, the rejected scalar implementation, and limits are retained.
 - Java: **10,618 library tests**, **3 installed-JAR consumer tests**, and **26
   packaging/validator tests** passed. Published fixture bytes are unchanged.
   Its retained hash/construction/split/sliding timings are close to published
-  0.2.2, with observed variation and no zero-overhead claim. See the Java
-  repository's `evidence/release-0.3.3/EFFICIENCY.md` for the six-pair diagnostic.
-- Final packaged consumers, signing and registry verification are recorded
-  below as they complete.
+  0.2.2, with observed variation and no zero-overhead claim. See the
+  [Java six-pair diagnostic](https://github.com/jemsbhai/hashrope-java/blob/main/evidence/release-0.3.3/EFFICIENCY.md).
+- npm's final packed consumers pass on both tested Node versions, including real
+  Chrome. Java's signed bundle passes all 24 file checks and four signature
+  checks. Fresh public registry checks are recorded below.
+
+All **14 CI jobs passed**: Python installed wheels on 3.10/3.13; npm source and
+packed consumers on Node 20/24; Rust on Linux/macOS/Windows, published reference
+fixtures, wasm32 and downstream compatibility; Java on 17/24. Unlike the focused
+local Rust gate, the CI native jobs ran the complete release suite including
+E3/E5. See [CI identities and results](validation/ci.json).
 
 ## Publication
 
-Pending. Version numbers, built artifacts, credentials or upload attempts are
-not evidence of public availability. Each package requires fresh registry
-resolution and an installed-artifact smoke check after publication.
+| Package | Public verification |
+| --- | --- |
+| [Python core](https://pypi.org/project/hashrope/0.3.3/) | Passed: both public distributions match reviewed hashes; fresh PyPI install, exact API gate and combined 244-test suite. |
+| [Python biology](https://pypi.org/project/hashrope-bio/0.3.3/) | Passed: both public distributions match reviewed hashes; fresh PyPI install and combined 244-test suite. |
+| [Rust core](https://crates.io/crates/hashrope/0.3.3) | Passed: uploaded archive checksum, empty-cache registry resolution, exact/profile/range and bigint tests. |
+| [Rust biology](https://crates.io/crates/hashrope-bio/0.3.3) | Passed: uploaded archive checksum, empty-cache registry resolution and exact consumer tests. |
+| [npm core](https://www.npmjs.com/package/hashrope/v/0.3.3) | Passed: canonical tarball checksum, normal empty-cache registry installation, all 53 installed files, ESM/CJS exact/profile/compressed smoke tests. |
+| [Java core](https://central.sonatype.com/artifact/io.github.jemsbhai/hashrope/0.3.3) | Passed: all 24 public files match signed bundle, four signatures verify, empty-cache Central-only Maven resolution and all three consumer tests pass. |
+
+Python evidence: [public checks](validation/python-public-install.json),
+[installed tests](validation/python-public-install.log), and
+[reviewed artifacts](validation/python-artifacts.json).
+Rust evidence: [registry consumer audit](validation/rust-public-registry/README.md).
+The uploaded core crate differs from the earlier precommit package only in
+`.cargo_vcs_info.json`: it records the clean release commit. Every other archive
+member, including production source, tests, docs and manifests, is identical.
+
+npm evidence: [normal public install](validation/npm-normal-public-install.json)
+and [public archive verification](validation/npm-public-registry.json).
+Java evidence: [public Central audit](https://github.com/jemsbhai/hashrope-java/tree/main/evidence/release-0.3.3/public-central).
+Initial CDN propagation failures and verification-parser corrections are retained;
+they are not omitted or represented as passing attempts.
+
+## Published source
+
+| Repository | Source tag | Reviewed release commit |
+| --- | --- | --- |
+| Core Python/Rust/npm | [v0.3.3](https://github.com/jemsbhai/hashrope/tree/v0.3.3) | `3dda4b5940335785976442c16e8743934fef8092` (merged as `4e2836841748fbc902fb3c9975a87a3a37b7f0af`) |
+| Python/Rust biology | [v0.3.3](https://github.com/jemsbhai/hashrope-bio/tree/v0.3.3) | `3d81bc84ea1417837102fafc09407e3079e60651` |
+| Java | [v0.3.3](https://github.com/jemsbhai/hashrope-java/tree/v0.3.3) | `ddef675f51c30c725bf36a4cfe1877aa19ad4409` (merged as `bcb06158a27f6896248e8cacc136b03c78f6d952`) |
+
+Later documentation-only commits add public verification records; package source
+and fingerprints remain the tested, published release contents.

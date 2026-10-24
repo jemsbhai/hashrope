@@ -1,0 +1,71 @@
+{
+  "status": "public artifacts match reviewed builds; fresh registry installation and 244 tests passed",
+  "version": "0.3.3",
+  "artifacts": [
+    {
+      "package": "hashrope",
+      "filename": "hashrope-0.3.3-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/c5/97/fcf5e286c77a8ac07c3d75fc875806a119ae17843675b626126413303e71/hashrope-0.3.3-py3-none-any.whl",
+      "sha256": "d864e6f15f8fc29d3f9fe2fc838c3597658bcf287693a223e41eaa81c30ce6ec",
+      "bytes": 21214
+    },
+    {
+      "package": "hashrope",
+      "filename": "hashrope-0.3.3.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/b3/16/c72867d48849cb2b03cdb89b2671e2f8c520bc50a7f40b4d0b55d7063291/hashrope-0.3.3.tar.gz",
+      "sha256": "e8f6a76989d9cbbdf9dc63a24c656f83780fadb3f78b76b27e13f7011175f972",
+      "bytes": 39163
+    },
+    {
+      "package": "hashrope-bio",
+      "filename": "hashrope_bio-0.3.3-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/bb/fd/8d655d5575dfafa65b4d57490093015cf73bf4233c00e865a0398bfad627/hashrope_bio-0.3.3-py3-none-any.whl",
+      "sha256": "a4d5574eba030260e74aaf78693013a3264b4655a22db018b91d0d5514a6055e",
+      "bytes": 19987
+    },
+    {
+      "package": "hashrope-bio",
+      "filename": "hashrope_bio-0.3.3.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/dc/75/97b796da02c438caa8f12df24bf3601a97d4e1be10f64a2452e2560f8d32/hashrope_bio-0.3.3.tar.gz",
+      "sha256": "028fb28a7f14207b05ed01f92856d174d425c95c3b8d85dcc2b58b69542640df",
+      "bytes": 21224
+    }
+  ],
+  "commands": [
+    [
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\public-python\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "--no-cache-dir",
+      "--index-url",
+      "https://pypi.org/simple",
+      "hashrope==0.3.3",
+      "hashrope-bio==0.3.3",
+      "pytest"
+    ],
+    [
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\public-python\\Scripts\\python.exe",
+      "-I",
+      "-c",
+      "import hashrope,hashrope_bio,sys; from pathlib import Path; assert hashrope.__version__==hashrope_bio.__version__=='0.3.3'; assert all(Path(m.__file__).resolve().is_relative_to(Path(sys.prefix).resolve()) for m in (hashrope,hashrope_bio)); print(hashrope.__file__,hashrope_bio.__file__)"
+    ],
+    [
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\public-python\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\python\\scripts\\verify_release.py"
+    ],
+    [
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\public-python\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "--import-mode=importlib",
+      "--rootdir",
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\public-python",
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\python\\tests",
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\usecases\\computational-biology\\code\\tests",
+      "-q"
+    ]
+  ]
+}

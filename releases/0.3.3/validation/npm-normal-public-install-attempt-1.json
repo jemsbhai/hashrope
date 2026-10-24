@@ -1,0 +1,37 @@
+{
+  "startedAt": "2026-10-24T19:10:05.448Z",
+  "node": "v20.11.1",
+  "verifierSha256": "1a565ed5ee6742d5a99ded6310e40f21a7cdf795edcbb2b8d8edc716fabd61f4",
+  "command": [
+    "node",
+    "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+    "install",
+    "hashrope@0.3.3",
+    "--ignore-scripts",
+    "--registry=https://registry.npmjs.org/",
+    "--cache",
+    "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\npm-normal-install-rGkrbT\\empty-cache",
+    "--userconfig",
+    "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\npm-normal-install-rGkrbT\\empty.npmrc",
+    "--no-audit",
+    "--no-fund",
+    "--package-lock=false",
+    "--fetch-retries=0",
+    "--loglevel=http"
+  ],
+  "emptyCacheBeforeInstall": true,
+  "passed": true,
+  "install": {
+    "exitCode": 0,
+    "stdout": "\nadded 1 package in 691ms\n",
+    "stderr": "npm http fetch GET 200 https://registry.npmjs.org/npm 225ms (cache miss)\nnpm http fetch GET 200 https://registry.npmjs.org/hashrope 211ms (cache miss)\nnpm http fetch GET 200 https://registry.npmjs.org/hashrope/-/hashrope-0.3.3.tgz 159ms (cache miss)\nnpm notice \nnpm notice New major version of npm available! 10.2.4 -> 12.2.1\nnpm notice Changelog: <https://github.com/npm/cli/releases/tag/v12.2.1>\nnpm notice Run `npm install -g npm@12.2.1` to update!\nnpm notice \n"
+  },
+  "downloadedTarballSha256": "a6e279f45a3665c6f5366a317affadf5ee4a54f41e8b6de2c2f7dc55dd29bc1c",
+  "installedFilesVerified": 53,
+  "smoke": {
+    "exitCode": 0,
+    "stdout": "PASS normal registry install: ESM/CJS exact, collision, profile, compressed range\n",
+    "stderr": ""
+  },
+  "finishedAt": "2026-10-24T19:10:06.462Z"
+}

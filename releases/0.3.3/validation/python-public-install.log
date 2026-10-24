@@ -1,0 +1,43 @@
+Collecting hashrope==0.3.3
+  Downloading hashrope-0.3.3-py3-none-any.whl.metadata (13 kB)
+Collecting hashrope-bio==0.3.3
+  Downloading hashrope_bio-0.3.3-py3-none-any.whl.metadata (6.6 kB)
+Collecting pytest
+  Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Collecting colorama>=0.4 (from pytest)
+  Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Collecting iniconfig>=1.0.1 (from pytest)
+  Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+Collecting packaging>=22 (from pytest)
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pluggy<2,>=1.5 (from pytest)
+  Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+Collecting pygments>=2.7.2 (from pytest)
+  Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+Downloading hashrope-0.3.3-py3-none-any.whl (21 kB)
+Downloading hashrope_bio-0.3.3-py3-none-any.whl (19 kB)
+Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+   ---------------------------------------- 386.5/386.5 kB 6.0 MB/s eta 0:00:00
+Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+   ---------------------------------------- 130.0/130.0 kB 8.0 MB/s eta 0:00:00
+Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+   ---------------------------------------- 1.3/1.3 MB 9.9 MB/s eta 0:00:00
+Installing collected packages: pygments, pluggy, packaging, iniconfig, hashrope, colorama, pytest, hashrope-bio
+Successfully installed colorama-0.4.6 hashrope-0.3.3 hashrope-bio-0.3.3 iniconfig-2.3.1 packaging-26.3 pluggy-1.7.0 pygments-2.21.0 pytest-9.1.1
+
+[notice] A new release of pip is available: 24.0 -> 26.2.2
+[notice] To update, run: C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\.release\public-python\Scripts\python.exe -m pip install --upgrade pip
+C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\.release\public-python\Lib\site-packages\hashrope\__init__.py C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\.release\public-python\Lib\site-packages\hashrope_bio\__init__.py
+hashrope 0.3.3 loaded from: C:\Users\User\.codex\worktrees\release-correctness-parity\hashrope\.release\public-python\Lib\site-packages\hashrope
+gate 0 OK: exact collision/range/profile and symbolic-repeat checks
+gate 1 OK: 50/50 random ranges match byte oracle
+gate 2: half-range substr_hash p50 = 0.034 ms (budget 50 ms)
+OK: release gate passed
+........................................................................ [ 29%]
+........................................................................ [ 59%]
+........................................................................ [ 88%]
+............................                                             [100%]
+244 passed in 28.53s
