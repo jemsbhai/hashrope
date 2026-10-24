@@ -6,17 +6,17 @@ concat optimizations. Python, JavaScript/TypeScript, Java and biology algorithms
 retain their 0.3.3 behavior; their version and dependency metadata advance to
 keep the release family aligned. The rejected round-seven join trial is excluded.
 
-Publication is pending the final release checks. The registry table below is
-updated only after upload and independent public-download verification.
+The final release checks and all 14 CI jobs passed. Publication and independent
+public-download verification are recorded below as each registry completes.
 
 | Registry / package | Version | Publication and public verification |
 |---|---|---|
-| PyPI `hashrope` | 0.3.4 | Pending |
-| crates.io `hashrope` | 0.3.4 | Pending |
-| npm `hashrope` | 0.3.4 | Pending |
+| [PyPI `hashrope`](https://pypi.org/project/hashrope/0.3.4/) | 0.3.4 | Published; both public distribution hashes, fresh PyPI install, exact API gate and all 244 combined tests passed. |
+| [crates.io `hashrope`](https://crates.io/crates/hashrope/0.3.4) | 0.3.4 | Published; exact public archive hash and fresh registry-only consumer checks passed. |
+| [npm `hashrope`](https://www.npmjs.com/package/hashrope/v/0.3.4) | 0.3.4 | Published; canonical archive, all 53 installed files and fresh ESM/CJS consumer checks passed. |
 | Maven Central `io.github.jemsbhai:hashrope` | 0.3.4 | Pending |
-| PyPI `hashrope-bio` | 0.3.4 | Pending |
-| crates.io `hashrope-bio` | 0.3.4 | Pending |
+| [PyPI `hashrope-bio`](https://pypi.org/project/hashrope-bio/0.3.4/) | 0.3.4 | Published; both public distribution hashes, fresh PyPI install and all 244 combined tests passed. |
+| [crates.io `hashrope-bio`](https://crates.io/crates/hashrope-bio/0.3.4) | 0.3.4 | Published; exact public archive hash and fresh registry-only consumer checks passed. |
 
 ## Correctness and compatibility
 
@@ -105,9 +105,52 @@ correctly failed; that attempt is retained in [rust](validation/rust/). The
 complete final gate was repeated with the settled lockfile and passes both
 command and source-identity checks. No failed evidence is discarded.
 
-Platform CI, clean artifact verification, source commits and public checks are
-recorded as the remaining release gates finish. Historical benchmark sources
-and raw results remain unchanged.
+All **14 CI jobs passed** on the reviewed release commits: Rust native and
+biology on Linux/macOS/Windows, wasm32 execution and published reference
+fixtures; Python installed wheels on 3.10/3.13; npm source and packed consumers
+on Node 20/24; Java on 17/24. The native Rust jobs ran the complete release suite,
+including E3/E5. See [CI identities and results](validation/ci.json).
+
+Historical benchmark sources and raw results remain unchanged.
+
+## Public verification and source
+
+Both Python packages' public wheels and sdists match the reviewed artifacts.
+A normal version-pinned PyPI installation into a fresh environment passed
+dependency checks, module-origin/version assertions, the exact API release gate
+and all 244 combined tests. See [public installation evidence](validation/python-public-install.json)
+and [test log](validation/python-public-install.log). Initial metadata and index
+propagation failures remain recorded; they were retried with unchanged
+verification logic and new empty environments, without republishing.
+
+Rust's clean package and publication dry-run checks passed before upload. Both
+public crate archives match the reviewed clean artifacts byte for byte. A fresh
+Cargo home resolved both exact 0.3.4 versions solely from crates.io; five default
+and seven all-feature consumer tests passed. See the
+[Rust public-registry audit](validation/rust-public-registry/README.md).
+
+npm's canonical public archive matches the reviewed tarball. A normal registry
+install with empty cache and blank user/global configuration passed all 53 file
+checks and ESM/CJS exact/profile/compressed-input checks. See
+[public verification](../../packages/npm/evidence/release-0.3.4/public-attempt-2/verification.json).
+The initial metadata 404 from registry propagation is retained as
+[attempt one](../../packages/npm/evidence/release-0.3.4/public-attempt-1/verification.json).
+
+All three source PRs are merged. Tags identify the reviewed source commits;
+later documentation-only commits add publication evidence without changing
+package runtime contents.
+
+| Repository | Source tag | Reviewed release commit | Merge commit |
+|---|---|---|---|
+| Core Python/Rust/npm | [v0.3.4](https://github.com/jemsbhai/hashrope/tree/v0.3.4) | `3f730fc13ff882822d91d3277736f7bde12d487c` | `b2a4c83792f54ba9fd12f0979aba8e353b8cc061` |
+| Python/Rust biology | [v0.3.4](https://github.com/jemsbhai/hashrope-bio/tree/v0.3.4) | `8e07e641af532849a629bbb595c18afcfd7ab6ab` | `f48e3540fc1e569cbf06e26db756ec3020332f96` |
+| Java | [v0.3.4](https://github.com/jemsbhai/hashrope-java/tree/v0.3.4) | `82e771bdae1f6293f7328bc4ee488e6317abe8c0` | `aa0708905ee629654a4d38654146cf3a8b1d7b42` |
+
+The [source release record](validation/source-release.json) records the exact
+heads protected by each merge request. The independent
+[Rust publication audit](validation/rust-publication-independent-review.json)
+confirms artifact, log and tag identities, and lists the few LF/CRLF-only
+differences between validated Windows checkout files and tagged Git blobs.
 
 The [0.3.3 release record](../0.3.3/README.md) preserves the earlier publication
 and validation history. It is not substituted for the checks of these 0.3.4

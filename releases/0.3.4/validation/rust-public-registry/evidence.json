@@ -1,0 +1,98 @@
+{
+  "directory": "C:\\Users\\User\\AppData\\Local\\Temp\\hashrope-public-registry-034-tc15rjks",
+  "cargo": "C:\\Users\\User\\.cargo\\bin\\cargo.EXE",
+  "commands": [
+    {
+      "arguments": [
+        "metadata",
+        "--format-version",
+        "1",
+        "--all-features"
+      ],
+      "returncode": 0,
+      "log": "metadata.log",
+      "sha256": "38f69f280d4e761f2f646be8b655d6c746635ec73b1dc0f1dd02f9dbeb127f65"
+    },
+    {
+      "arguments": [
+        "test",
+        "--locked",
+        "--release",
+        "--no-default-features"
+      ],
+      "returncode": 0,
+      "log": "default-tests.log",
+      "sha256": "63c3578c23aa9b1050d078bba5a32722723b08286ee4a7b12a6bc12a3d6b8173"
+    },
+    {
+      "arguments": [
+        "test",
+        "--locked",
+        "--release",
+        "--all-features"
+      ],
+      "returncode": 0,
+      "log": "bigint-tests.log",
+      "sha256": "fa35ab89e2475bf87d622445c1b16fe599bb44d00e387f2548f10c1902d5dfb3"
+    },
+    {
+      "arguments": [
+        "tree",
+        "--locked",
+        "--all-features"
+      ],
+      "returncode": 0,
+      "log": "dependency-tree.log",
+      "sha256": "3373a2809c7d32776be9565578b696c34e4be3c15b9318c6ea915ee03b5a22ed"
+    }
+  ],
+  "consumer_sha256": {
+    "Cargo.toml": "ed9b1f102e2ebb69711a0810efbed4fd07b6bb77f8db99905eeb9d6228bd17d5",
+    "src/lib.rs": "83b2e2c3be78cc1c7f2eff93ad556cb69e23d6c9310b9f4927a7d73892d17617",
+    "verify.py": "da69f2bcd7228c3f7cc297f0f165a9c82f6f01af0085b92ce703bb83b0832f3d"
+  },
+  "registry_packages": [
+    {
+      "name": "autocfg",
+      "version": "1.5.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "manifest_path": "C:\\Users\\User\\AppData\\Local\\Temp\\hashrope-public-registry-034-tc15rjks\\cargo-home\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\autocfg-1.5.1\\Cargo.toml"
+    },
+    {
+      "name": "hashrope",
+      "version": "0.3.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "manifest_path": "C:\\Users\\User\\AppData\\Local\\Temp\\hashrope-public-registry-034-tc15rjks\\cargo-home\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\hashrope-0.3.4\\Cargo.toml"
+    },
+    {
+      "name": "hashrope-bio",
+      "version": "0.3.4",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "manifest_path": "C:\\Users\\User\\AppData\\Local\\Temp\\hashrope-public-registry-034-tc15rjks\\cargo-home\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\hashrope-bio-0.3.4\\Cargo.toml"
+    },
+    {
+      "name": "num-bigint",
+      "version": "0.4.8",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "manifest_path": "C:\\Users\\User\\AppData\\Local\\Temp\\hashrope-public-registry-034-tc15rjks\\cargo-home\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\num-bigint-0.4.8\\Cargo.toml"
+    },
+    {
+      "name": "num-integer",
+      "version": "0.1.47",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "manifest_path": "C:\\Users\\User\\AppData\\Local\\Temp\\hashrope-public-registry-034-tc15rjks\\cargo-home\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\num-integer-0.1.47\\Cargo.toml"
+    },
+    {
+      "name": "num-traits",
+      "version": "0.2.19",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "manifest_path": "C:\\Users\\User\\AppData\\Local\\Temp\\hashrope-public-registry-034-tc15rjks\\cargo-home\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\num-traits-0.2.19\\Cargo.toml"
+    }
+  ],
+  "crate_sha256": {
+    "hashrope": "2c9b71b750b9f9bdf9ec291bb5a5d614e7a6df1d1f39d13f10f9f171864053a3",
+    "hashrope-bio": "beeae45eafa54b6e2856bd66839c4521159a1ac0e88f890290c3a2317a406e11"
+  },
+  "passed": true,
+  "cargo_lock_sha256": "61bf84ee9c8062ef91d1b9e2536a9a5a790ff8e3ca7b3f3d10d2ca7579e41e49"
+}

@@ -25,4 +25,16 @@ python scripts/verify-release.py
 
 `node` was `C:/Program Files/nodejs/node.exe` (20.11.1); Node 24.22.1 was the retained official runtime at `E:/data/code/claudecode/hashrope-js/.scratch/runtimes/node-v24.22.1-win-x64/node.exe`. The compiler and bundler remain pinned to TypeScript 5.9.3 and esbuild 0.28.2. Tests ran on Windows; these are finite checks, not certification of every browser or platform.
 
-Publication is a separate coordinated release step. Publish only the inspected tarball after checking its SHA-256, then verify the public registry artifact and a fresh registry consumer. The local gate does not assert publication.
+## Public publication and verification
+
+The reviewed tarball was published after all 14 coordinated CI jobs passed and all three source pull requests merged. npm reports publication at **2026-10-24 21:28:08.961 UTC**, and the public `latest` tag is **0.3.4**. `publication.json` records the successful command, frozen artifact hash and release gate; external security-key authentication completed without recording its challenge URL or credentials.
+
+The first public check received a metadata HTTP 404 during registry propagation; its failed report remains in `public-attempt-1/verification.json`. After bounded backoff, `public-attempt-2/verification.json` passed:
+
+- Canonical version metadata and tarball URLs returned HTTP 200, without a cache-bypass URL.
+- The public archive matched the reviewed SHA-256 above and registry SHA-512 integrity.
+- A normal `npm install hashrope@0.3.4` used an initially empty cache, blank user/global configuration files and no npm token environment. Registry metadata and tarball were cache misses.
+- Downloaded cache bytes and all 53 installed payload hashes matched the reviewed archive.
+- Installed ESM and CommonJS passed version, collision, profile, bounds, huge Repeat/range/DAG, legacy custom-profile and late-mismatch checks.
+
+`public-index.json` independently records the public version's publication time and `latest` tag. The reproducible read-only verifier is `verify-public.mjs`; it requires a new report directory for each run. These public checks ran on Node 20.11.1; the full prepublication packed-package suites above ran on both Node 20.11.1 and 24.22.1 against the byte-identical artifact. No package runtime or artifact was changed after validation.

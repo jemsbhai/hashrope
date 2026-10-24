@@ -1,0 +1,56 @@
+{
+  "startedAt": "2026-10-24T21:28:33.178Z",
+  "version": "0.3.4",
+  "node": "v20.11.1",
+  "verifierSha256": "63f1c958639564199b940578df1c86d649ec606cb20c21e1426c797741874de2",
+  "expectedSha256": "be10002475ccdb22738ff4430380130f30176a60d01a37eae71d4cae5b9ac580",
+  "metadataUrl": "https://registry.npmjs.org/hashrope/0.3.4",
+  "tarballUrl": "https://registry.npmjs.org/hashrope/-/hashrope-0.3.4.tgz",
+  "scratch": "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\npm\\.scratch\\public-0.3.4-XtRHXg",
+  "passed": true,
+  "metadataStatus": 200,
+  "registryIntegrity": "sha512-MjQfKvphM+HTPliKgMLZObNjJ0KZmjRfO8+tovpNoXmNwtQe1HF6r7LA7j1rlWjGVdcuhZtWkMvmKT43xTvWUA==",
+  "canonicalTarballStatus": 200,
+  "responseHeaders": {
+    "date": "Sat, 24 Oct 2026 21:28:33 GMT",
+    "age": null,
+    "cf-cache-status": "HIT",
+    "content-length": "68195"
+  },
+  "canonicalTarballSha256": "be10002475ccdb22738ff4430380130f30176a60d01a37eae71d4cae5b9ac580",
+  "installCommand": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+    "install",
+    "hashrope@0.3.4",
+    "--ignore-scripts",
+    "--registry=https://registry.npmjs.org/",
+    "--cache",
+    "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\npm\\.scratch\\public-0.3.4-XtRHXg\\empty-cache",
+    "--userconfig",
+    "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\npm\\.scratch\\public-0.3.4-XtRHXg\\empty-user.npmrc",
+    "--globalconfig",
+    "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\packages\\npm\\.scratch\\public-0.3.4-XtRHXg\\empty-global.npmrc",
+    "--no-audit",
+    "--no-fund",
+    "--package-lock=false",
+    "--fetch-retries=0",
+    "--update-notifier=false",
+    "--loglevel=http"
+  ],
+  "emptyCacheBeforeInstall": true,
+  "install": {
+    "exitCode": 0,
+    "stdout": "\nadded 1 package in 1s\n",
+    "stderr": "npm http fetch GET 200 https://registry.npmjs.org/hashrope 229ms (cache miss)\nnpm http fetch GET 200 https://registry.npmjs.org/hashrope/-/hashrope-0.3.4.tgz 93ms (cache miss)\n"
+  },
+  "installedDownloadSha256": "be10002475ccdb22738ff4430380130f30176a60d01a37eae71d4cae5b9ac580",
+  "installedFilesVerified": 53,
+  "consumerSourceSha256": "29ee3cd799e28491672a923a7ea7dc2029654d48a3731295d3082dd5192acd0c",
+  "consumer": {
+    "exitCode": 0,
+    "stdout": "PASS public registry ESM/CJS: version, collision, profile, bounds, compressed ranges/DAGs, legacy custom profile and late mismatch\n",
+    "stderr": ""
+  },
+  "finishedAt": "2026-10-24T21:28:35.253Z"
+}

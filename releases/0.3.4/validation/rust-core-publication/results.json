@@ -1,0 +1,44 @@
+{
+  "package": "hashrope",
+  "version": "0.3.4",
+  "started_utc": "2026-10-24T21:26:03.780052+00:00",
+  "source_commit": "3f730fc13ff882822d91d3277736f7bde12d487c",
+  "commands": [
+    {
+      "arguments": [
+        "cargo",
+        "package",
+        "--all-features"
+      ],
+      "returncode": 0,
+      "log": "package.log",
+      "sha256": "049aaaad07325aae9192d0db01841bc6af48cd2e709c5a09180005accc9ace67"
+    },
+    {
+      "arguments": [
+        "cargo",
+        "publish",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "log": "dry-run.log",
+      "sha256": "083179d254d0b9ea119a7872cea1338c25ba0d8e86bdb506d73b91dee1886cf9"
+    },
+    {
+      "arguments": [
+        "cargo",
+        "publish"
+      ],
+      "returncode": 0,
+      "log": "publish.log",
+      "sha256": "0c347a2e35f8b27fe862fafb67f3bbec28dc8ffc9195063fef7b25649bd92a26"
+    }
+  ],
+  "published": true,
+  "reviewed_archive_sha256": "2c9b71b750b9f9bdf9ec291bb5a5d614e7a6df1d1f39d13f10f9f171864053a3",
+  "upload_archive_sha256": "2c9b71b750b9f9bdf9ec291bb5a5d614e7a6df1d1f39d13f10f9f171864053a3",
+  "public_url": "https://static.crates.io/crates/hashrope/hashrope-0.3.4.crate",
+  "public_archive_sha256": "2c9b71b750b9f9bdf9ec291bb5a5d614e7a6df1d1f39d13f10f9f171864053a3",
+  "public_archive_matches_reviewed": true,
+  "finished_utc": "2026-10-24T21:26:12.097809+00:00"
+}

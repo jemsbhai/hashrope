@@ -1,0 +1,62 @@
+{
+  "started_utc": "2026-10-24T21:26:15.484289+00:00",
+  "version": "0.3.4",
+  "registry_prechecks": [
+    {
+      "package": "hashrope",
+      "url": "https://pypi.org/pypi/hashrope/0.3.4/json",
+      "status": 404
+    },
+    {
+      "package": "hashrope-bio",
+      "url": "https://pypi.org/pypi/hashrope-bio/0.3.4/json",
+      "status": 404
+    }
+  ],
+  "artifacts_reverified": true,
+  "commands": [
+    {
+      "package": "hashrope",
+      "arguments": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-m",
+        "twine",
+        "upload",
+        "--non-interactive",
+        "--repository",
+        "pypi",
+        "--disable-progress-bar",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope-0.3.4-py3-none-any.whl",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope-0.3.4.tar.gz"
+      ],
+      "returncode": 0,
+      "log": "hashrope-publish.log",
+      "log_sha256": "146a357a3107de7e847c5115a612e7888700a1ba540994715daa57e095c8d5ce"
+    },
+    {
+      "package": "hashrope-bio",
+      "arguments": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-m",
+        "twine",
+        "upload",
+        "--non-interactive",
+        "--repository",
+        "pypi",
+        "--disable-progress-bar",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope_bio-0.3.4-py3-none-any.whl",
+        "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\python-dist\\hashrope_bio-0.3.4.tar.gz"
+      ],
+      "returncode": 0,
+      "log": "hashrope-bio-publish.log",
+      "log_sha256": "36ccda86e5b7f878e8623689376dc20da131075ebc9323dca646e05a86a87eef"
+    }
+  ],
+  "publication": "both packages published and independently verified from public PyPI",
+  "core_merge": "b2a4c83792f54ba9fd12f0979aba8e353b8cc061",
+  "biology_merge": "f48e3540fc1e569cbf06e26db756ec3020332f96",
+  "finished_utc": "2026-10-24T21:26:27.177697+00:00",
+  "public_verification": "python-public-install.json",
+  "public_verification_sha256": "2f0de66dd613b2136b664282248d3f2780e0c8e58c90716244219291111122d1",
+  "public_attempt_lineage": "python-public-lineage.json"
+}

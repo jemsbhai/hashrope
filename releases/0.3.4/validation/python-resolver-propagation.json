@@ -1,0 +1,44 @@
+[
+  {
+    "time_utc": "2026-10-24T21:30:00.095991+00:00",
+    "attempt": 1,
+    "package": "hashrope",
+    "command": [
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\public-python-final\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "--isolated",
+      "index",
+      "versions",
+      "hashrope",
+      "--no-cache-dir",
+      "--index-url",
+      "https://pypi.org/simple"
+    ],
+    "returncode": 0,
+    "contains_0_3_4": true,
+    "log": "python-index-resolver-1-hashrope.log",
+    "log_sha256": "ede964f626e3917407e05186b321e4b022b73d2de9a49f7bc558f777b462ad19"
+  },
+  {
+    "time_utc": "2026-10-24T21:30:02.095573+00:00",
+    "attempt": 1,
+    "package": "hashrope-bio",
+    "command": [
+      "C:\\Users\\User\\.codex\\worktrees\\release-correctness-parity\\hashrope\\.release\\0.3.4\\public-python-final\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "--isolated",
+      "index",
+      "versions",
+      "hashrope-bio",
+      "--no-cache-dir",
+      "--index-url",
+      "https://pypi.org/simple"
+    ],
+    "returncode": 0,
+    "contains_0_3_4": true,
+    "log": "python-index-resolver-1-hashrope-bio.log",
+    "log_sha256": "3b4c86131c950074c7a9568afd241c6fcb9edfa63778af45d2e577bf38a6fd2e"
+  }
+]
